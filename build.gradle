@@ -1,0 +1,32 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.17'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'hmm'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '11'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // 스프링부트 기본설치
+	implementation 'org.springframework.boot:spring-boot-starter-web' // 스프링부트 기본설치
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'	//mybatis
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'	//jsp
+	implementation 'javax.servlet:jstl'	//jstl
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'	//mariadb
+	compileOnly 'org.projectlombok:lombok'	//lombok
+	annotationProcessor 'org.projectlombok:lombok'	//lombok
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // 스프링부트 기본설치
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
