@@ -3,6 +3,8 @@
 <mapper namespace="hmm.itam.mapper.MemberMapper">
     <select id="getMemberList" resultType="hmm.itam.vo.MemberVo">
         SELECT *
-        FROM Member1
+        FROM member1
+        LEFT JOIN tgate_db
+        ON member1.member_id=tgate_db.tgate_member_i
     </select>
 </mapper>

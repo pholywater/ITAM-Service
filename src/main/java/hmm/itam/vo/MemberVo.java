@@ -10,4 +10,6 @@ public class MemberVo {
     private String member_status;
     private String member_etc1;
     private String member_etc2;
+    private String tgate_member_email;
+    private String tgate_member_department;
 }
