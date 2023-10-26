@@ -10,8 +10,12 @@
                 <th>이름</th>
                 <th>직급</th>
                 <th>직원상태</th>
+                <!--
                 <th>비고1</th>
                 <th>비고2</th>
+                -->
+                <th>email</th>
+                <th>부서</th>
             </tr>
             </thead>
             <tbody>
@@ -20,8 +24,12 @@
                 <td th:text="${u.member_name}"></td>
                 <td th:text="${u.member_rank}"></td>
                 <td th:text="${u.member_status}"></td>
+               <!--
                 <td th:text="${u.member_etc1}"></td>
                 <td th:text="${u.member_etc2}"></td>
+               -->
+                <td th:text="${u.tgate_member_email}"></td>
+                <td th:text="${u.tgate_member_department}"></td>
             </tr>
             </tbody>
         </table>
