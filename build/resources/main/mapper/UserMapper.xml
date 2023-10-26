@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="hmm.itam.mapper.UserMapper">	<!-- mapper 인터페이스가 위치하는 경로 -->
-    <select id="getUserList" resultType="hmm.itam.vo.UserVo">	<!-- id: mapper 인터페이스에서 선언한 메서드 이름과 같아야 한다. resultType: VO 클래스가 위치하는 경로 -->
-        SELECT *
-        FROM User
-    </select>
-</mapper>
