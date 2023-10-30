@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hmm.itam.mapper.UserMapper">
+    <!--로그인 회원 리스트 정상 확인-->
     <select id="getUserList" resultType="hmm.itam.vo.UserVo">
         SELECT *
-        FROM Login
+        FROM User
     </select>
+
+    <!--로그인 화면-->
     <select id="getUserByHmm_id" resultType="hmm.itam.vo.UserVo">
         SELECT *
-        FROM Login
+        FROM User
         WHERE hmm_id = #{hmm_id}
     </select>
 
-    <!--회원가입-->
+    <!--회원가입  정상 확인-->
     <insert id="insertUser" parameterType="hmm.itam.vo.UserVo">
-        INSERT INTO Login
+        INSERT INTO User
         (
         hmm_id,
         name,
@@ -29,9 +32,10 @@
         )
     </insert>
 
+    <!--로그인 후 홈 화면 처리-->
     <select id="getUserById" resultType="hmm.itam.vo.UserVo">
         SELECT *
-        FROM Login
+        FROM User
         WHERE id = #{id}
     </select>
 
