@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hmm.itam.mapper.UserMapper">
+    <select id="getUserList" resultType="hmm.itam.vo.UserVo">
+        SELECT *
+        FROM Login
+    </select>
+    <select id="getUserByHmm_id" resultType="hmm.itam.vo.UserVo">
+        SELECT *
+        FROM Login
+        WHERE hmm_id = #{hmm_id}
+    </select>
+
+    <!--회원가입-->
+    <insert id="insertUser" parameterType="hmm.itam.vo.UserVo">
+        INSERT INTO Login
+        (
+        hmm_id,
+        name,
+        department,
+        password
+        )
+        VALUES
+        (
+        #{hmm_id},
+        #{name},
+        #{department},
+        #{password}
+        )
+    </insert>
+
+    <select id="getUserById" resultType="hmm.itam.vo.UserVo">
+        SELECT *
+        FROM Login
+        WHERE id = #{id}
+    </select>
+
+</mapper>
