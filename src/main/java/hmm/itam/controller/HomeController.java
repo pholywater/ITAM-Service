@@ -17,12 +17,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(HttpSession session, Model model) {
-        Long id = (Long) session.getAttribute("userId");
-        if (id != null) {
-            UserVo userVo = userService.getUserById(id);
+        Long idx = (Long) session.getAttribute("userId");
+        if (idx != null) {
+            UserVo userVo = userService.getUserById(idx);
             model.addAttribute("user", userVo);
             return "home";
         }
-        return "redirect:/login";
+        return "redirect:/login"; // 정상 작동
     }
 }

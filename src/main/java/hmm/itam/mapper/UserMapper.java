@@ -11,7 +11,7 @@ public interface UserMapper {
 
     void insertUser(UserVo userVo); // 로그인 사용자 등록
 
-    UserVo getUserByHmm_id(String hmm_id); // 로그인 화면(ID 체크)
+    UserVo getUserByHmm_id(String hmm_id); // 로그인 화면(ID, pw 체크)
 
     UserVo getUserById(Long id); //
 

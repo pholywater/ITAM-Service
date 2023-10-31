@@ -1,16 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <form action="/login" method="post">
+    <form action="login" method="post">
     <h2>로그인</h2>
     <div>
-        <input type="text" name="hmm_id" placeholder="HMM 아이디 입력"/>
+        <label for="hmm_id">아이디</label>
+        <input type="text" id="hmm_id" name="hmm_id" placeholder="HMM 아이디 입력"/>
     </div>
     <div>
-        <input type="password" name="password" placeholder="Password"/>
+        <label for="password">패스워드</label>
+        <input type="password" id="password" name="password"  placeholder="Password"/>
     </div>
         <button type="submit">로그인</button>
         <button type="button" onclick="location.href='signup'">회원가입</button>
     </form>
+
+    <div th:text="${hmm_id}">아이디</div>
+    <div th:text="${password}">패스워드</div>
+
 </body>
 </html>
