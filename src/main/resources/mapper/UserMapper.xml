@@ -7,12 +7,6 @@
         FROM User
     </select>
 
-    <!--로그인 화면-->
-    <select id="getUserByHmm_id" resultType="hmm.itam.vo.UserVo">
-        SELECT *
-        FROM User
-        WHERE hmm_id = #{hmm_id}
-    </select>
 
     <!--회원가입  정상 확인-->
     <insert id="insertUser" parameterType="hmm.itam.vo.UserVo">
@@ -32,11 +26,18 @@
         )
     </insert>
 
+    <!--로그인 화면-->
+    <select id="getUserByHmm_id" resultType="hmm.itam.vo.UserVo">
+        SELECT *
+        FROM User
+        WHERE hmm_id = #{hmm_id}
+    </select>
+
     <!--로그인 후 홈 화면 처리-->
     <select id="getUserById" resultType="hmm.itam.vo.UserVo">
         SELECT *
         FROM User
-        WHERE id = #{id}
+        WHERE idx = #{idx}
     </select>
 
 </mapper>

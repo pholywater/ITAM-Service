@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,7 +24,6 @@ public class UserController {
         model.addAttribute("list", userList);
         return "userList"; // 실제 HTML 경로
     }
-
 
     @GetMapping("/signup") // 회원가입 화면
     public String toSignupPage() {
@@ -52,9 +52,15 @@ public class UserController {
         return "login"; // 로그인되지 않은 상태
     }
 
-    @PostMapping("/login") // 로그인 후 화면
+    @PostMapping("/login") // 아이디 패스워드 입력 후
     public String login(String hmm_id, String password, HttpSession session) {
         Long id = userService.login(hmm_id, password);
+
+        System.out.println("controll.check.hmm_id :"+ hmm_id);
+        System.out.println("controll.check.password :"+ password);
+        System.out.println("controll.check.getidx :"+ id);
+        System.out.println("controll.check.httpsession :"+ session);
+
         if (id == null) { // 로그인 실패
             return "redirect:/login";
         }

@@ -19,8 +19,14 @@ public class UserService {
 
     public Long login(String hmm_id, String password) {
         UserVo userVo = userMapper.getUserByHmm_id(hmm_id);
-        if (userVo.getPassword().equals(password)) {
-            return userVo.getId();
+
+        System.out.println("service.check.hmm_id :"+ hmm_id);
+        System.out.println("service.check.password :"+ password);
+        System.out.println("service.check.vo.password :"+ userVo.getPassword());
+        System.out.println("service.check.getidx :"+ userVo.getIdx());
+
+        if (userVo.getPassword().equals(password)){
+            return userVo.getIdx();
         }
         return null;
     }
