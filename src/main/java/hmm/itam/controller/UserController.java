@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.WeakHashMap;
 
 @Controller
 public class UserController {
@@ -32,7 +33,7 @@ public class UserController {
 
     @PostMapping("/signup") // 회원가입 입력 처리
     public String signup(UserVo userVo) {
-        try{
+        try {
             userService.signup(userVo);
         } catch (DuplicateKeyException e) {
             return "redirect:/signup?error_code=-1";
@@ -46,7 +47,7 @@ public class UserController {
     @GetMapping("/login") // 로그인 화면
     public String toLoginPage(HttpSession session) { // 로그인 페이지
         Long id = (Long) session.getAttribute("userid");
-        if (id != null){ // 로그인 된 상태
+        if (id != null) { // 로그인 된 상태
             return "redirect:/";
         }
         return "login"; // 로그인되지 않은 상태
@@ -55,11 +56,12 @@ public class UserController {
     @PostMapping("/login") // 아이디 패스워드 입력 후
     public String login(String hmm_id, String password, HttpSession session) {
         Long id = userService.login(hmm_id, password);
-
-        System.out.println("controll.check.hmm_id :"+ hmm_id);
-        System.out.println("controll.check.password :"+ password);
-        System.out.println("controll.check.getidx :"+ id);
-        System.out.println("controll.check.httpsession :"+ session);
+/*
+        System.out.println("controll.check.hmm_id :" + hmm_id);
+        System.out.println("controll.check.password :" + password);
+        System.out.println("controll.check.getidx :" + id);
+        System.out.println("controll.check.httpsession :" + session);
+*/
 
         if (id == null) { // 로그인 실패
             return "redirect:/login";
@@ -68,4 +70,35 @@ public class UserController {
         return "redirect:/"; // 로그인 후 홈 화면
     }
 
+    @GetMapping("/update")
+    public String toUpdatePage(HttpSession session, Model model) {
+        Long id = (Long) session.getAttribute("userId");
+        UserVo userVo = userService.getUserById(id);
+        model.addAttribute("user", userVo);
+        return "update";
+    }
+
+    @PostMapping("/update")
+    public String modifyInfo(HttpSession session, UserVo userVo) {
+        Long id = (Long) session.getAttribute("userId");
+        userVo.setIdx(id);
+        userService.modifyInfo(userVo);
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @PostMapping("/delete")
+    public String delete(HttpSession session) {
+        Long id = (Long) session.getAttribute("userId");
+        if (id != null) {
+            userService.withdraw(id);
+        }
+        session.invalidate();
+        return "redirect:/";
+    }
 }
