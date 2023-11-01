@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hmm.itam.mapper.UserMapper">
-    <!--로그인 회원 리스트 정상 확인-->
+    <!--로그인 가능 사용자 리스트 * 가져오기-->
     <select id="getUserList" resultType="hmm.itam.vo.UserVo">
         SELECT *
         FROM User
     </select>
 
 
-    <!--회원가입  정상 확인-->
+    <!--회원가입 db 정보 추가 처리-->
     <insert id="insertUser" parameterType="hmm.itam.vo.UserVo">
         INSERT INTO User
         (
@@ -26,18 +26,35 @@
         )
     </insert>
 
-    <!--로그인 화면-->
+    <!--로그인 인증 시 사용자 정보 가져오기-->
     <select id="getUserByHmm_id" resultType="hmm.itam.vo.UserVo">
         SELECT *
         FROM User
         WHERE hmm_id = #{hmm_id}
     </select>
 
-    <!--로그인 후 홈 화면 처리-->
+    <!--로그인 인증 후 홈 화면에서 idx 값을 통한 사용자 정보 뷰-->
     <select id="getUserById" resultType="hmm.itam.vo.UserVo">
         SELECT *
         FROM User
         WHERE idx = #{idx}
     </select>
 
+    <!--회원정보 수정-->
+    <update id="updateUser" parameterType="hmm.itam.vo.UserVo">
+        UPDATE User
+        SET
+        name = #{name},
+        hmm_id = #{hmm_id},
+        department = #{department},
+        password = #{password}
+        WHERE idx = #{idx}
+    </update>
+
+    <!--탈퇴하기-->
+    <delete id="deleteUser">
+        DELETE
+        FROM User
+        WHERE idx = #{idx}
+    </delete>
 </mapper>
