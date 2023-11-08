@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="itam">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/update.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/AssetMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/assetList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" afterDir="false" />
@@ -18,10 +23,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/UserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,16 +89,16 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/study/itam/src/main/resources/templates",
+    "last_opened_file_path": "C:/study/itam/src/main/resources/mapper",
     "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\study\itam\src\main\resources\templates" />
-      <recent name="C:\study\itam\src\main\resources\templates\login" />
       <recent name="C:\study\itam\src\main\resources\mapper" />
       <recent name="C:\study\itam\src\main\resources\templates\itam" />
+      <recent name="C:\study\itam\src\main\resources\templates" />
+      <recent name="C:\study\itam\src\main\resources\templates\login" />
       <recent name="C:\study\itam\src\main\resources\templates\user" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -105,8 +107,9 @@
       <recent name="C:\study\itam\src\main\resources\templates\User" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="hmm.itam.mapper" />
+      <recent name="hmm.itam.controller" />
       <recent name="hmm.itam.service" />
+      <recent name="hmm.itam.mapper" />
       <recent name="hmm.itam.vo" />
     </key>
   </component>
@@ -313,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698738938421</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="itam">
+      <option name="closed" value="true" />
+      <created>1698823845121</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1698823845121</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -349,6 +360,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.sql.SQLSyntaxErrorException" package="java.sql" />
+          <option name="timeStamp" value="3" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

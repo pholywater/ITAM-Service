@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hmm.itam.mapper.AssetMapper">
+    <select id="getAssetList" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_status
+        LEFT JOIN hmm_member
+        ON asset_status.status_member_id=hmm_member.member_id
+
+        LEFT JOIN tgate_db
+        ON hmm_member.member_id=tgate_db.tgate_member_id
+
+        LEFT JOIN asset_information
+        ON asset_status.status_asset_mumber=asset_information.asset_number
+
+        LEFT JOIN asset_model
+        ON asset_information.asset_model_name=asset_model.model_name
+
+        order by
+        asset_status.status_type desc,
+        tgate_db.tgate_member_department,
+        hmm_member.member_id,
+        asset_status.status_asset_usage
+
+    </select>
+</mapper>

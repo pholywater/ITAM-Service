@@ -15,10 +15,11 @@
     </div>
         <button type="submit" id="login" >로그인</button>
         <button type="button" onclick="location.href='signup'">회원가입</button>
+        <button type="button" onclick="location.href='memberList'">멤버리스트</button>
+        <button type="button" onclick="location.href='assetList'">자산리스트</button>
     </form>
 
-    <div th:text="${hmm_id}">아이디</div>
-    <div th:text="${password}">패스워드</div>
+    <a href="assetList">자산리스트</a>
 
 </body>
 </html>
