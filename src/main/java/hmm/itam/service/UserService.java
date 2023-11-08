@@ -21,7 +21,14 @@ public class UserService {
 
     /*메인 로그인 화면 처리*/
     public Long login(String hmm_id, String password) {
+
         UserVo userVo = userMapper.getUserByHmm_id(hmm_id);
+
+        /* NullPointerException 처리(ID, PW 불일치 및 없음) */
+        if (userVo == null){
+            return null;
+        }
+
         if (userVo.getPassword().equals(password)){
             return userVo.getIdx();
 /*

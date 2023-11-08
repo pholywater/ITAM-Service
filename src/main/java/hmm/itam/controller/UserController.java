@@ -62,7 +62,6 @@ public class UserController {
         System.out.println("controll.check.getidx :" + id);
         System.out.println("controll.check.httpsession :" + session);
 */
-
         if (id == null) { // 로그인 실패
             return "redirect:/login";
         }
