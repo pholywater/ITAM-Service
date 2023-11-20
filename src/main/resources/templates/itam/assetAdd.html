@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Asset Add</title>
+</head>
+<body>
+    <h2>자산등록</h2>
+    <form action="/assetAdd" method="post">
+        <div>
+            <input type="text" name="asset_number" placeholder="자산 고유번호 입력"/>
+        </div>
+        <div>
+            <input type="text" name="asset_model_name" placeholder="모델명 입력"/>
+        </div>
+        <div>
+            <input type="text" name="asset_serial_number" placeholder="장비 시리얼 입력"/>
+        </div>
+        <div>
+            <input type="text" name="asset_arrival_date" placeholder="도입일 입력"/>
+        </div>
+        <div>
+            <input type="text" name="status_type" placeholder="장비 입출고 상태(입고,출고,신규,기타)"/>
+        </div>
+        <div>
+            <input type="text" name="status_member_id" placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
+        </div>
+        <div>
+            <input type="text" name="status_asset_status" placeholder="장비 상태(양호,고장)"/>
+        </div>
+        <button type="submit">자산 등록</button>
+    </form>
+</body>
+</html>

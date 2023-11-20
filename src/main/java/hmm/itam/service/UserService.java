@@ -19,7 +19,7 @@ public class UserService {
         return userMapper.getUserList();
     }
 
-    /*메인 로그인 화면 처리*/
+    /*메인 로그인 화면 아이디, 패스워드 확인 처리 작업*/
     public Long login(String hmm_id, String password) {
 
         UserVo userVo = userMapper.getUserByHmm_id(hmm_id);
