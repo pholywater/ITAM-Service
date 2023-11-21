@@ -42,7 +42,7 @@ public class AssetController {
             e.printStackTrace();
             return "redirect:/assetadd?error_code=-99";
         }
-        return "redirect:/itam/assetResult"; // 자산 등록 후 보여질 화면
+        return "redirect:assetResult"; // 자산 등록 후 보여질 화면
     }
     @GetMapping("/assetResult") // 자산 등록 후 화면
     public String assetResult() {
