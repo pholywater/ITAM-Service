@@ -20,8 +20,9 @@ public class AssetService {
     /*장비 정보 등록*/
     public void assetAdd(AssetVo assetVo){
         AssetMapper.insertAsset(assetVo);
-        AssetMapper.insertStatus(assetVo);
+       /* AssetMapper.insertModel(assetVo);*/
     }
+
 
     /*홈 화면 정보 확인*/
     public AssetVo getAssetByNumber(String asset_number) {

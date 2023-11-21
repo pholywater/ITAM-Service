@@ -5,6 +5,9 @@ import lombok.Data;
 @Data
 public class AssetVo {
     private Long idx;
+    private Long addId;
+    public Long getAddId(){return addId;}
+    public void setAddId(Long addId){ this.addId=addId;}
     private String status_type;
     private String status_asset_status;
     private String status_asset_number;

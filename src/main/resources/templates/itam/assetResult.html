@@ -2,5 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <h2>자산 등록 완료</h2>
+
+</tr>
+<h2>자산 등록 정보</h2>
+<span>관리번호 :</span>
+<h3 th:text="${addId}"> 관리번호</h3>
+
+<span>관리번호 :</span>
+<h3 th:text="${asset_number}"> 관리번호</h3>
+<!--<span>모델명 :</span>
+<h3 th:text="${addId.asset_model_name}">모델명 : </h3>
+<span>시리얼 : </span>
+<span th:text="${addId.asset_serial_number}">시리얼</span>-->
 </body>
 </html>

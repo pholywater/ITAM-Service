@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        자산 리스트 보여주기
+        <table>
+            <thead><tr>
+                <th>처리 일시</th>
+                <th>요청 일시</th>
+                <th>자산구분</th>
+                <th>입출고</th>
+                <th>요청자</th>
+                <th>작업자</th>
+                <th>사번</th>
+                <th>장비,소모품 번호</th>
+                <th>요청 내용</th>
+                <th>비고 내용</th>
+<!--                <th>스펙1</th>-->
+<!--                <th>스펙2</th>-->
+<!--                <th>스펙3</th>-->
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u:${list}">
+                <td th:text="${u.history_completion_date}"></td>
+                <td th:text="${u.history_request_date}"></td>
+                <td th:text="${u.history_asset_type}"></td>
+                <td th:text="${u.history_type}"></td>
+                <td th:text="${u.history_requester}"></td>
+                <td th:text="${u.history_worker}"></td>
+                <td th:text="${u.history_member_id}"></td>
+                <td th:text="${u.history_asset_number}"></td>
+                <td th:text="${u.history_request_details}"></td>
+                <td th:text="${u.history_reqeust_etc}"></td>
+<!--                <td th:text="${u.history_spec1}"></td>-->
+<!--                <td th:text="${u.history_spec2}"></td>-->
+<!--                <td th:text="${u.history_spec3}"></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

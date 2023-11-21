@@ -9,9 +9,8 @@ import java.util.List;
 public interface AssetMapper {
     List<AssetVo> getAssetList();
 
-    void insertAsset(AssetVo assetVo); // 자산 등록
-    void insertStatus(AssetVo assetVo); // 자산 등록
-
+    void insertAsset(AssetVo assetVo); // 장비 등록
+    void insertModel(AssetVo assetVo); // 신규 납품 모델 등록
     AssetVo getAssetByNumber(String asset_number);
 
 }
