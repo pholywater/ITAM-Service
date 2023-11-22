@@ -58,26 +58,15 @@
         )
     </insert>
 
-    <insert id="insertHistory" parameterType="hmm.itam.vo.AssetVo">
-        INSERT INTO Asset_history
-        (
-        history_completion_date, history_request_date, history_asset_type, history_type,
-        history_requester, history_worker, history_member_id, history_asset_number,
-        history_request_details, history_reqeust_etc, history_spec1,
-        history_spec2, history_spec3
-        )
-        VALUES
-        (
-        #{history_completion_date}, #{history_request_date}, #{history_asset_type}, #{history_type},
-        #{history_requester}, #{history_worker}, #{history_member_id}, #{history_asset_number},
-        #{history_request_details}, #{history_reqeust_etc}, #{history_spec1},
-        #{history_spec2}, #{history_spec3}
-        )
-    </insert>
-
-    <select id="getAssetByNumber" resultType="hmm.itam.vo.AssetVo">
+    <select id="getAssetByID" resultType="hmm.itam.vo.AssetVo">
         SELECT *
-        FROM Asset_information
+        FROM Asset_info
+        WHERE idx = #{idx}
+    </select>
+
+    <select id="getAssetByAssetnumber" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM Asset_info
         WHERE asset_number = #{asset_number}
     </select>
 

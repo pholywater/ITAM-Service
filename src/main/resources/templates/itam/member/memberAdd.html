@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Member Add</title>
+</head>
+<body>
+    <h2>신규 직원 추가 입력</h2>
+    <form action="/memberAdd" method="post">
+        <div>
+            <input type="text" name="member_id" placeholder="사원번호"/>
+        </div>
+        <div>
+            <input type="text" name="member_name" placeholder="이름"/>
+        </div>
+        <div>
+            <input type="text" name="member_rank" placeholder="직급"/>
+        </div>
+        <div>
+            <input type="text" name="member_work" placeholder="직책"/>
+        </div>
+        <div>
+            <input type="text" name="member_working_status" placeholder="근무상태"/>
+        </div>
+        <div>
+            <input type="text" name="member_etc1" placeholder="비고1"/>
+        </div>
+        <div>
+            <input type="text" name="member_etc2" placeholder="비고2"/>
+        </div>
+
+        <button type="submit">신규직원 등록</button>
+    </form>
+</body>
+</html>
