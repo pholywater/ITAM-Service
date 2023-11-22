@@ -21,13 +21,13 @@ public class HistoryController {
     public String getHistoryList(Model model) {
         List<HistoryVo> historyList = HistoryService.getHistoryList();
         model.addAttribute("list", historyList);
-        return "itam/historyList"; // 실제 HTML 경로
+        return "itam/history/historyList"; // 실제 HTML 경로
     }
 
     @GetMapping("/historyAdd") // 자산 등록 화면
     public String toHistoryaddPage()
     {
-        return "/itam/historyAdd";
+        return "/itam/history/historyAdd";
     }
 
     @PostMapping("/historyAdd") // 자산 등록 입력 처리
@@ -44,7 +44,7 @@ public class HistoryController {
     }
     @GetMapping("/historyResult") // 자산 등록 후 화면
     public String historyResult() {
-        return "/itam/historyResult";
+        return "/itam/history/historyResult";
     }
 
 

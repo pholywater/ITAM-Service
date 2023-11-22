@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/signup") // 회원가입 화면
     public String toSignupPage() {
-        return "signup";
+        return "/login/signup";
     }
 
     @PostMapping("/signup") // 회원가입 입력 처리
@@ -41,7 +41,7 @@ public class UserController {
             e.printStackTrace();
             return "redirect:/signup?error_code=-99";
         }
-        return "redirect:/login"; // 회원가입 후 보여질 화면
+        return "redirect:login"; // 회원가입 후 보여질 화면
     }
 
     @GetMapping("/login") // 로그인 화면
@@ -50,7 +50,7 @@ public class UserController {
         if (id != null) { // 로그인 된 상태
             return "redirect:/";
         }
-        return "login"; // 로그인되지 않은 상태
+        return "/login/login"; // 로그인되지 않은 상태
     }
 
     @PostMapping("/login") // 아이디 패스워드 입력 후
@@ -63,7 +63,7 @@ public class UserController {
         System.out.println("controll.check.httpsession :" + session);
 */
         if (id == null) { // 로그인 실패
-            return "redirect:/login";
+            return "redirect:login";
         }
         session.setAttribute("userId", id);
         return "redirect:/"; // 로그인 후 홈 화면
@@ -74,7 +74,7 @@ public class UserController {
         Long id = (Long) session.getAttribute("userId");
         UserVo userVo = userService.getUserById(id);
         model.addAttribute("user", userVo);
-        return "update";
+        return "/login/update";
     }
 
     @PostMapping("/update")

@@ -23,13 +23,13 @@ public class AssetController {
     public String getAssetList(Model model) {
         List<AssetVo> assetList = AssetService.getAssetList();
         model.addAttribute("list", assetList);
-        return "itam/assetList"; // 실제 HTML 경로
+        return "itam/asset/assetList"; // 실제 HTML 경로
     }
 
     @GetMapping("/assetAdd") // 자산 등록 화면
     public String toAssetaddPage()
     {
-        return "/itam/assetAdd";
+        return "/itam/asset/assetAdd";
     }
 
     @PostMapping("/assetAdd") // 자산 등록 입력 처리
@@ -46,7 +46,7 @@ public class AssetController {
     }
     @GetMapping("/assetResult") // 자산 등록 후 화면
     public String assetResult() {
-        return "/itam/assetResult";
+        return "/itam/asset/assetResult";
     }
 
 
