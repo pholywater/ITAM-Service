@@ -16,7 +16,7 @@
         )
         VALUES
         (
-        #{member_id}, #{member_name}, #{member_rank}, #{member_work}, #{member_status},
+        #{member_id}, #{member_name}, #{member_rank}, #{member_work}, #{member_working_status},
         #{member_etc1}, #{member_etc2}
         )
     </insert>

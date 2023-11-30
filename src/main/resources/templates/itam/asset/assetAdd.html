@@ -2,32 +2,99 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Asset Add</title>
+    <style>
+        .box{
+            display:inline-block; /* default값 inline */
+            width:200px; /* display가 block일때만 지정가능 */
+        }
+    </style>
 </head>
 <body>
-    <h2>자산등록</h2>
+    <h2>장비 등록</h2>
     <form action="/assetAdd" method="post">
         <div>
+            <span class="box">관리번호 : </span>
             <input type="text" name="asset_number" placeholder="자산 고유번호 입력"/>
         </div>
+        <hr>
         <div>
-            <input type="text" name="asset_model_name" placeholder="모델명 입력"/>
+            <span class="box">입출고 상태 : </span>
+            <input type="text" name="status_type" placeholder="입출고 상태(입고, 출고)"/>
         </div>
         <div>
-            <input type="text" name="asset_serial_number" placeholder="장비 시리얼 입력"/>
+            <span class="box">장비 상태 : </span>
+            <input type="text" name="status_asset_status" placeholder="장비 상태(양호, 불량)"/>
         </div>
         <div>
-            <input type="text" name="asset_arrival_date" placeholder="도입일 입력"/>
-        </div>
-        <div>
-            <input type="text" name="status_type" placeholder="장비 입출고 상태(입고,출고,신규,기타)"/>
-        </div>
-        <div>
+            <span class="box">장비 소유자 사번 : </span>
             <input type="text" name="status_member_id" placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
         </div>
         <div>
-            <input type="text" name="status_asset_status" placeholder="장비 상태(양호,고장)"/>
+            <span class="box">지급 용도 : </span>
+            <input type="text" name="status_asset_usage" placeholder="지급 용도"/>
+        </div>
+        <div>
+            <span class="box">장비 지급 기간 : </span>
+            <input type="text" name="asset_duration" placeholder="장비 지급 기간"/>
+        </div>
+        <div>
+            <span class="box">모델 코드 : </span>
+            <input type="text" name="asset_model_code" placeholder="모델 코드 입력"/>
+        </div>
+        <div>
+            <span class="box">모델명 : </span>
+            <input type="text" name="asset_model_name" placeholder="모델명 입력"/>
+        </div>
+        <div>
+            <span class="box">시리얼 : </span>
+            <input type="text" name="asset_serial_number" placeholder="장비 시리얼 입력"/>
+        </div>
+        <div>
+            <span class="box">유선 MAC Address : </span>
+            <input type="text" name="asset_wired_mac_address" placeholder="유선 MAC Address"/>
+        </div>
+        <div>
+            <span class="box">무선 MAC Address : </span>
+            <input type="text" name="asset_wireless_mac_address" placeholder="무선 MAC Address"/>
+        </div>
+        <div>
+            <span class="box">Storage 용량 : </span>
+            <input type="text" name="status_asset_spec1" placeholder="Storage 용량"/>
+        </div>
+        <div>
+            <span class="box">Memory 용량 : </span>
+            <input type="text" name="status_asset_spec2" placeholder="Memory 용량"/>
+        </div>
+        <div>
+            <span class="box">장비 도입일 : </span>
+            <input type="date" name="asset_arrival_date" placeholder="장비 도입일" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"/>
+        </div>
+        <div>
+            <span class="box">장비 지급일 : </span>
+            <input type="date" name="asset_payment_date" placeholder="장비 지급일" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"/>
+        </div>
+        <div>
+            <span class="box">최초지급 사번 : </span>
+            <input type="text" name="asset_payment_member_id" placeholder="최초지급 사번"/>
+        </div>
+        <div>
+            <span class="box">최초지급 이름 : </span>
+            <input type="text" name="asset_payment_member_name" placeholder="최초지급 이름"/>
+        </div>
+        <div>
+            <span class="box">최초지급 직급 : </span>
+            <input type="text" name="asset_payment_member_rank" placeholder="최초지급 직급/">
+        </div>
+        <div>
+            <span class="box">최초지급 부서 : </span>
+            <input type="text" name="asset_payment_department" placeholder="최초지급 부서"/>
+        </div>
+        <div>
+            <span class="box">최초지급 내용 : </span>
+            <input type="text" name="asset_payment_details" placeholder="최초지급 내용"/>
         </div>
         <button type="submit">자산 등록</button>
+        <button type="submit" formaction="assetLogout" formmethod="post">로그아웃</button>
     </form>
 </body>
 </html>
