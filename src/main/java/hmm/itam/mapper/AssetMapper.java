@@ -8,11 +8,11 @@ import java.util.List;
 @Mapper
 public interface AssetMapper {
     List<AssetVo> getAssetList();
-    AssetVo getAssetById(Long id); // 장비 검색
-    AssetVo getAssetByAssetnumber(String asset_number); // 관리번호로 검색
+    AssetVo getAssetByAsset_number(String asset_number); // 관리번호로 검색
 
     void insertAsset(AssetVo assetVo); // 장비 등록
 
+    void updateAsset(AssetVo assetVo); // 장비 정보 수정
 
-
+    void deleteAsset(AssetVo assetVo); // 장비 삭제
 }

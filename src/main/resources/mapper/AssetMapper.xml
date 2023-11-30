@@ -31,17 +31,69 @@
 
     </select>
 
-    <!--장비 추가 정보 추가 처리-->
-    <insert id="insertAsset" parameterType="hmm.itam.vo.AssetVo" useGeneratedKeys="true" keyProperty="addId">
+    <!--장비 추가 정보 추가 처리--><!-- useGeneratedKeys="true" keyProperty="addId"-->
+    <insert id="insertAsset" parameterType="hmm.itam.vo.AssetVo">
         INSERT INTO Asset_info
         (
-        asset_number, asset_model_name, asset_serial_number, asset_arrival_date,
-        status_type, status_member_id, status_asset_status
+        asset_number,
+        asset_model_code,
+        asset_model_name,
+        asset_serial_number,
+        asset_billing_date,
+        asset_arrival_date,
+        asset_payment_date,
+        asset_payment_member_id,
+        asset_payment_department,
+        asset_payment_member_name,
+        asset_payment_member_rank,
+        asset_payment_details,
+        asset_wired_mac_address,
+        asset_wireless_mac_address,
+
+        status_type,
+        status_asset_status,
+        status_member_id,
+        status_asset_usage,
+        status_asset_etc1,
+        status_asset_spec1,
+        status_asset_spec2,
+        status_asset_spec3,
+        status_asset_due_diligence,
+        status_asset_etc2,
+        asset_duration,
+        asset_repair_history,
+        asset_last_update_date
         )
         VALUES
         (
-        #{asset_number}, #{asset_model_name}, #{asset_serial_number}, #{asset_arrival_date},
-        #{status_type}, #{status_member_id}, #{status_asset_status}
+        #{asset_number},
+        #{asset_model_code},
+        #{asset_model_name},
+        #{asset_serial_number},
+        #{asset_billing_date},
+        #{asset_arrival_date},
+        #{asset_payment_date},
+        #{asset_payment_member_id},
+        #{asset_payment_department},
+        #{asset_payment_member_name},
+        #{asset_payment_member_rank},
+        #{asset_payment_details},
+        #{asset_wired_mac_address},
+        #{asset_wireless_mac_address},
+
+        #{status_type},
+        #{status_asset_status},
+        #{status_member_id},
+        #{status_asset_usage},
+        #{status_asset_etc1},
+        #{status_asset_spec1},
+        #{status_asset_spec2},
+        #{status_asset_spec3},
+        #{status_asset_due_diligence},
+        #{status_asset_etc2},
+        #{asset_duration},
+        #{asset_repair_history},
+        #{asset_last_update_date}
         )
     </insert>
 
@@ -58,18 +110,81 @@
         )
     </insert>
 
-    <select id="getAssetByID" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM Asset_info
-        WHERE idx = #{idx}
-    </select>
-
-    <select id="getAssetByAssetnumber" resultType="hmm.itam.vo.AssetVo">
+    <!--장비정보 조회(관리번호)-->
+    <select id="getAssetByAsset_number" resultType="hmm.itam.vo.AssetVo">
         SELECT *
         FROM Asset_info
         WHERE asset_number = #{asset_number}
     </select>
 
+    <!--장비정보 조회, 수정, 삭제 시 키값-->
+    <select id="getAssetByIdx" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM Asset_info
+        WHERE idx = #{idx}
+    </select>
+
+
+    <!--장비정보 수정-->
+    <update id="updateAsset" parameterType="hmm.itam.vo.AssetVo">
+        UPDATE Asset_info
+        SET
+        asset_number = #{asset_number},
+        asset_model_code = #{asset_model_code},
+        asset_model_name = #{asset_model_name},
+        asset_serial_number = #{asset_serial_number},
+        asset_billing_date = #{asset_billing_date},
+        asset_arrival_date = #{asset_arrival_date},
+        asset_payment_date = #{asset_payment_date},
+        asset_payment_member_id = #{asset_payment_member_id},
+        asset_payment_department = #{asset_payment_department},
+        asset_payment_member_name = #{asset_payment_member_name},
+        asset_payment_member_rank = #{asset_payment_member_rank},
+        asset_payment_details = #{asset_payment_details},
+        asset_wired_mac_address = #{asset_wired_mac_address},
+        asset_wireless_mac_address = #{asset_wireless_mac_address},
+
+        status_type = #{status_type},
+        status_asset_status = #{status_asset_status},
+        status_member_id = #{status_member_id},
+        status_asset_usage = #{status_asset_usage},
+        status_asset_etc1 = #{status_asset_etc1},
+        status_asset_spec1 = #{status_asset_spec1},
+        status_asset_spec2 = #{status_asset_spec2},
+        status_asset_spec3 = #{status_asset_spec3},
+        status_asset_due_diligence = #{status_asset_due_diligence},
+        status_asset_etc2 = #{status_asset_etc2},
+        asset_duration = #{asset_duration},
+        asset_repair_history = #{asset_repair_history},
+        asset_last_update_date = #{asset_last_update_date}
+
+        WHERE asset_number = #{asset_number}
+    </update>
+
+    <update id="updateModel" parameterType="hmm.itam.vo.AssetVo">
+        UPDATE Asset_model
+        SET
+        model_code = #{model_code},
+        model_type = #{model_type},
+        model_manufacturer = #{model_manufacturer},
+        model_size = #{model_size},
+        model_spec1 = #{model_spec1},
+        model_spec2 = #{model_spec2},
+        model_spec3 = #{model_spec3},
+        model_spec4 = #{model_spec4},
+        model_spec5 = #{model_spec5},
+        model_spec6 = #{model_spec6},
+        model_replaycement_type = #{model_replaycement_type}
+
+        WHERE model_code = #{model_code}
+    </update>
+
+
+    <delete id="deleteAsset">
+        DELETE
+        FROM Asset_info
+        WHERE asset_number = #{asset_number}
+    </delete>
 
 
 </mapper>
