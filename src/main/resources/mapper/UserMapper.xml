@@ -14,6 +14,7 @@
         (
         hmm_id,
         name,
+        isMale,
         department,
         password
         )
@@ -21,6 +22,7 @@
         (
         #{hmm_id},
         #{name},
+        #{isMale},
         #{department},
         #{password}
         )

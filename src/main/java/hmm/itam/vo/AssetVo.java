@@ -49,5 +49,7 @@ public class AssetVo {
     private String member_status;
     private String tgate_member_email;
 
+    private Boolean open;
+
 
 }

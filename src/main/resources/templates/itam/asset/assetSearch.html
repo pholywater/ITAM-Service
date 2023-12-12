@@ -5,13 +5,13 @@
 </head>
 <body>
     <h2>자산 조회</h2>
-    <form action="/assetSearch" method="post">
+    <form action="/assetSearch" th:object="${assetVo}" method="post">
         <div>
-            <input type="text" name="asset_number" placeholder="자산 고유번호 입력"/>
+            <input type="text" th:field="*{asset_number}"  placeholder="자산 고유번호 입력"/>
         </div>
 
-        <button type="submit">자산 조회</button>
-        <button type="button" onclick="location.href='assetUpdate'" formaction="get">수정하기</button>
+        <button type="submit" formaction="assetSearch" formmethod="post">자산 조회</button>
+        <button type="submit" formaction="assetUpdate" formmethod="post">수정하기</button>
     </form>
 
 
