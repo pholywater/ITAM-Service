@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/signup") // 회원가입 화면
-    public String toSignupPage() {
+    public String toSignupPage(UserVo userVo) {
         return "/login/signup";
     }
 

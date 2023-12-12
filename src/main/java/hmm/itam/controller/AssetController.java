@@ -28,7 +28,8 @@ public class AssetController {
     }
 
     @GetMapping("/assetAdd") // 자산 등록 화면
-    public String toAssetaddPage() {
+    public String toAssetaddPage(AssetVo assetVo) {
+
         return "/itam/asset/assetAdd";
     }
 
@@ -46,21 +47,16 @@ public class AssetController {
         return "itam/asset/assetResult"; // 자산 등록 후 보여질 화면
     }
 
-    @GetMapping("/assetResult") // 자산 등록 후 화면
-    public String assetResult() {
-        return "/itam/asset/assetResult";
-    }
-
     @GetMapping("/assetSearch") // 자산 등록 후 화면
-    public String SearchPage() {
+    public String SearchPage(AssetVo assetVo) {
         return "/itam/asset/assetSearch";
     }
 
     @PostMapping("/assetSearch") // 자산 내역 검색 및 수정 화면
-    public String assetSearch(String asset_number, Model model){
-        AssetVo assetVo = AssetService.assetSearch(asset_number);
-        model.addAttribute("asset", assetVo);
-        return "itam/asset/assetResult"; // 실제 HTML 경로
+    public String assetSearch(AssetVo assetVo, String asset_number, Model model){
+        AssetVo assetSearch = AssetService.assetSearch(asset_number);
+        model.addAttribute("asset", assetSearch);
+        return "itam/asset/assetResult"; //
     }
 
     @PostMapping("/assetUpdate") // 자산 수정 및 이후 수정 후 화면 처리
