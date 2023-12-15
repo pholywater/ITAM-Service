@@ -4,7 +4,7 @@
 </head>
 <body>
     <form action="/login" method="post">
-    <h2>로그인</h2>
+    <h2>로그인 page</h2>
     <div>
         <label for="hmmId">아이디</label>
         <input type="text" id="hmmId" name="hmmId" placeholder="HMM 아이디 입력" />
@@ -14,18 +14,28 @@
         <input type="password" id="password" name="password"  placeholder="Password"/>
     </div>
         <button type="submit" id="login" >로그인</button>
-        <button type="button" onclick="location.href='signup'">회원가입</button>
-        <button type="button" onclick="location.href='userList'">로그인 회원리스트</button>
         <br/> <br/>
+        <button type="button" onclick="location.href='signup'">회원가입</button>
+        <button type="button" onclick="location.href='userList'">로그인 가능 회원리스트</button>
+        <br/> <br/>
+
+        <hr>
+        <h2>HMM 멤버 page</h2>
         <button type="button" onclick="location.href='memberList'">HMM 멤버리스트</button>
         <button type="button" onclick="location.href='memberAdd'">HMM 멤버추가</button>
         <br/> <br/>
-        <button type="button" onclick="location.href='assetSearch'">HMM 자산 조회</button>
+
+        <hr>
+        <h2>HMM 자산 page</h2>
         <button type="button" onclick="location.href='assetList'">HMM 자산리스트</button>
+        <button type="button" onclick="location.href='assetSearch'">HMM 자산 조회</button>
         <button type="button" onclick="location.href='assetAdd'">HMM 자산추가</button>
         <br/> <br/>
-        <button type="button" onclick="location.href='historyList'">HMM 자산 입출고 내역</button>
-        <button type="button" onclick="location.href='historyAdd'">HMM 자산 입출고 입력</button>
+
+        <hr>
+        <h2>HMM 자산 입출고 page</h2>
+        <button type="button" onclick="location.href='historyList'">HMM 자산 입출고 리스트</button>
+        <button type="button" onclick="location.href='historyAdd'">HMM 자산 입출고 추가</button>
     </form>
 
 </body>
