@@ -3,33 +3,33 @@
 <mapper namespace="hmm.itam.mapper.HistoryMapper">
     <select id="getHistoryList" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
-        FROM assetHistory
+        FROM asset_history
 
         LEFT JOIN hmmMember
-        ON assetHistory.historyMemberId=hmmMember.memberId
+        ON asset_history.history_member_id=hmm_member.member_id
 
         LEFT JOIN tgateDb
-        ON hmmMember.memberId=tgateDb.tgateMemberId
+        ON hmm_member.member_id=tgate_db.tgate_member_id
 
         LEFT JOIN assetInfo
-        ON assetHistory.historyAssetNumber=assetInfo.assetNumber
+        ON asset_history.history_asset_number=asset_info.asset_number
 
         LEFT JOIN asset_model
-        ON assetInfo.assetModelName=assetModel.modelName
+        ON asset_info.asset_model_name=asset_model.model_name
 
         order by
-        assetHistory.historyCompletionDate DESC,
-        assetHistory.historyMemberId
+        asset_history.history_completion_date DESC,
+        asset_history.history_member_id
 
     </select>
 
     <insert id="insertHistory" parameterType="hmm.itam.vo.HistoryVo">
-        INSERT INTO assetHistory
+        INSERT INTO asset_history
         (
-        historyCompletionDate, historyRequestDate, historyAssetType, historyType,
-        historyRequester, historyWorker, historyMemberId, historyAssetNumber,
-        historyRequestDetails, historyReqeustEtc, historySpec1,
-        historySpec2, historySpec3
+        history_completion_date, history_request_date, history_asset_type, history_type,
+        history_requester, history_worker, history_member_id, history_asset_number,
+        history_request_details, history_reqeust_etc, history_spec_1,
+        history_spec_2, history_spec_3
         )
         VALUES
         (

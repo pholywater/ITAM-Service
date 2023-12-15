@@ -66,34 +66,34 @@
         )
         VALUES
         (
-        #{asset_number},
-        #{asset_model_code},
-        #{asset_model_name},
-        #{asset_serial_number},
-        #{asset_billing_date},
-        #{asset_arrival_date},
-        #{asset_payment_date},
-        #{asset_payment_member_id},
-        #{asset_payment_department},
-        #{asset_payment_member_name},
-        #{asset_payment_member_rank},
-        #{asset_payment_details},
-        #{asset_wired_mac_address},
-        #{asset_wireless_mac_address},
+        #{assetNumber},
+        #{assetModelCode},
+        #{assetModelName},
+        #{assetSerialNumber},
+        #{assetBillingDate},
+        #{assetArrivalDate},
+        #{assetPaymentDate},
+        #{assetPaymentMemberId},
+        #{assetPaymentDepartment},
+        #{assetPaymentMemberName},
+        #{assetPaymentMemberRank},
+        #{assetPaymentDetails},
+        #{assetWiredMacAddress},
+        #{assetWirelessMacAddress},
 
-        #{status_type},
-        #{status_asset_status},
-        #{status_member_id},
-        #{status_asset_usage},
-        #{status_asset_etc_1},
-        #{status_asset_spec_1},
-        #{status_asset_spec_2},
-        #{status_asset_spec_3},
-        #{status_asset_due_diligence},
-        #{status_asset_etc_2},
-        #{asset_duration},
-        #{asset_repair_history},
-        #{asset_last_update_date}
+        #{statusType},
+        #{statusAssetStatus},
+        #{statusMemberId},
+        #{statusAssetUsage},
+        #{statusAssetEtc1},
+        #{statusAssetSpec1},
+        #{statusAssetSpec2},
+        #{statusAssetSpec3},
+        #{statusAssetDueDiligence},
+        #{statusAssetEtc2},
+        #{assetDuration},
+        #{assetRepairHistory},
+        #{assetLastUpdateDate}
         )
     </insert>
 
@@ -105,8 +105,8 @@
         )
         VALUES
         (
-        #{model_code}, #{model_name}, #{model_type}, #{model_manufacturer}, #{model_size}, #{model_spec_1},
-        #{model_spec_2}, #{model_spec_4}, #{model_spec_5}, #{model_spec_6}, #{model_replaycement_type}
+        #{modelCode}, #{modelName}, #{modelType}, #{modelManufacturer}, #{modelSize}, #{modelSpec1},
+        #{modelSpec2}, #{modelSpec4}, #{modelSpec5}, #{modelSpec6}, #{modelReplaycementType}
         )
     </insert>
 
@@ -114,7 +114,7 @@
     <select id="getAssetByAssetNumber" resultType="hmm.itam.vo.AssetVo">
         SELECT *
         FROM asset_info
-        WHERE asset_number = #{asset_number}
+        WHERE asset_number = #{assetNumber}
     </select>
 
     <!--장비정보 조회, 수정, 삭제 시 키값-->
@@ -129,61 +129,61 @@
     <update id="updateAsset" parameterType="hmm.itam.vo.AssetVo">
         UPDATE Asset_info
         SET
-        asset_number = #{asset_number},
-        asset_model_code = #{asset_model_code},
-        asset_model_name = #{asset_model_name},
-        asset_serial_number = #{asset_serial_number},
-        asset_billing_date = #{asset_billing_date},
-        asset_arrival_date = #{asset_arrival_date},
-        asset_payment_date = #{asset_payment_date},
-        asset_payment_member_id = #{asset_payment_member_id},
-        asset_payment_department = #{asset_payment_department},
-        asset_payment_member_name = #{asset_payment_member_name},
-        asset_payment_member_rank = #{asset_payment_member_rank},
-        asset_payment_details = #{asset_payment_details},
-        asset_wired_mac_address = #{asset_wired_mac_address},
-        asset_wireless_mac_address = #{asset_wireless_mac_address},
+        asset_number = #{assetNumber},
+        asset_model_code = #{assetModelCode},
+        asset_model_name = #{assetModelName},
+        asset_serial_number = #{assetSerialNumber},
+        asset_billing_date = #{assetBillingDate},
+        asset_arrival_date = #{assetArrivalDate},
+        asset_payment_date = #{assetPaymentDate},
+        asset_payment_member_id = #{assetPaymentMemberId},
+        asset_payment_department = #{assetPaymentDepartment},
+        asset_payment_member_name = #{assetPaymentMemberName},
+        asset_payment_member_rank = #{assetPaymentMemberRank},
+        asset_payment_details = #{assetPaymentDetails},
+        asset_wired_mac_address = #{assetWiredMacAddress},
+        asset_wireless_mac_address = #{assetWirelessMacAddress},
 
-        status_type = #{status_type},
-        status_asset_status = #{status_asset_status},
-        status_member_id = #{status_member_id},
-        status_asset_usage = #{status_asset_usage},
-        status_asset_etc1 = #{status_asset_etc1},
-        status_asset_spec1 = #{status_asset_spec1},
-        status_asset_spec2 = #{status_asset_spec2},
-        status_asset_spec3 = #{status_asset_spec3},
-        status_asset_due_diligence = #{status_asset_due_diligence},
-        status_asset_etc2 = #{status_asset_etc2},
-        asset_duration = #{asset_duration},
-        asset_repair_history = #{asset_repair_history},
-        asset_last_update_date = #{asset_last_update_date}
+        status_type = #{statusType},
+        status_asset_status = #{statusAssetStatus},
+        status_member_id = #{statusMemberId},
+        status_asset_usage = #{statusAssetUsage},
+        status_asset_etc1 = #{statusAssetEtc1},
+        status_asset_spec1 = #{statusAssetSpec1},
+        status_asset_spec2 = #{statusAssetSpec2},
+        status_asset_spec3 = #{statusAssetSpec3},
+        status_asset_due_diligence = #{statusAssetDueDiligence},
+        status_asset_etc2 = #{statusAssetEtc2},
+        asset_duration = #{assetDuration},
+        asset_repair_history = #{assetRepairHistory},
+        asset_last_update_date = #{assetLastUpdateDate}
 
-        WHERE asset_number = #{asset_number}
+        WHERE asset_number = #{assetNumber}
     </update>
 
     <update id="updateModel" parameterType="hmm.itam.vo.AssetVo">
         UPDATE Asset_model
         SET
-        model_code = #{model_code},
-        model_type = #{model_type},
-        model_manufacturer = #{model_manufacturer},
-        model_size = #{model_size},
-        model_spec1 = #{model_spec1},
-        model_spec2 = #{model_spec2},
-        model_spec3 = #{model_spec3},
-        model_spec4 = #{model_spec4},
-        model_spec5 = #{model_spec5},
-        model_spec6 = #{model_spec6},
-        model_replaycement_type = #{model_replaycement_type}
+        model_code = #{modelCode},
+        model_type = #{modelType},
+        model_manufacturer = #{modelManufacturer},
+        model_size = #{modelSize},
+        model_spec1 = #{modelSpec1},
+        model_spec2 = #{modelSpec2},
+        model_spec3 = #{modelSpec3},
+        model_spec4 = #{modelSpec4},
+        model_spec5 = #{modelSpec5},
+        model_spec6 = #{modelSpec6},
+        model_replaycement_type = #{modelReplaycementType}
 
-        WHERE model_code = #{model_code}
+        WHERE model_code = #{modelCode}
     </update>
 
 
     <delete id="deleteAsset">
         DELETE
         FROM Asset_info
-        WHERE asset_number = #{asset_number}
+        WHERE asset_number = #{assetNumber}
     </delete>
 
 

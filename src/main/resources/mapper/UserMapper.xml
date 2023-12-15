@@ -12,7 +12,7 @@
     <insert id="insertUser" parameterType="hmm.itam.vo.UserVo">
         INSERT INTO User
         (
-        hmmId,
+        hmm_id,
         name,
         isMale,
         department,
@@ -32,7 +32,7 @@
     <select id="getUserByHmmId" resultType="hmm.itam.vo.UserVo">
         SELECT *
         FROM User
-        WHERE hmmId = #{hmmId}
+        WHERE hmm_id = #{hmmId}
     </select>
 
     <!--로그인 인증 후 홈 화면에서 idx 값을 통한 사용자 정보 뷰-->
@@ -47,7 +47,7 @@
         UPDATE User
         SET
         name = #{name},
-        hmmId = #{hmmId},
+        hmm_id = #{hmmId},
         department = #{department},
         password = #{password}
         WHERE idx = #{idx}

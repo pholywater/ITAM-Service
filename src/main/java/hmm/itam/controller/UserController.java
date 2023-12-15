@@ -23,7 +23,7 @@ public class UserController {
     public String getUserList(Model model) {
         List<UserVo> userList = userService.getUserList();
         model.addAttribute("list", userList);
-        return "userList"; // 실제 HTML 경로
+        return "login/userList"; // 실제 HTML 경로
     }
 
     @GetMapping("/signup") // 회원가입 화면
@@ -57,7 +57,7 @@ public class UserController {
     public String login(String hmmId, String password, HttpSession session) {
         Long id = userService.login(hmmId, password);
 /*
-        System.out.println("controll.check.hmm_id :" + hmm_id);
+        System.out.println("controll.check.hmmId :" + hmmId);
         System.out.println("controll.check.password :" + password);
         System.out.println("controll.check.getidx :" + id);
         System.out.println("controll.check.httpsession :" + session);
