@@ -10,26 +10,18 @@
                 <th>이름</th>
                 <th>직급</th>
                 <th>직원상태</th>
-                <!--
-                <th>비고1</th>
-                <th>비고2</th>
-                -->
                 <th>email</th>
                 <th>부서</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="u:${list}">
-                <td th:text="${u.member_id}"></td>
-                <td th:text="${u.member_name}"></td>
-                <td th:text="${u.member_rank}"></td>
-                <td th:text="${u.member_working_status}"></td>
-               <!--
-                <td th:text="${u.member_etc1}"></td>
-                <td th:text="${u.member_etc2}"></td>
-               -->
-                <td th:text="${u.tgate_member_email}"></td>
-                <td th:text="${u.tgate_member_department}"></td>
+                <td th:text="${u.memberId}"></td>
+                <td th:text="${u.memberName}"></td>
+                <td th:text="${u.memberRank}"></td>
+                <td th:text="${u.memberWorkingStatus}"></td>
+                <td th:text="${u.tgateMemberEmail}"></td>
+                <td th:text="${u.tgateMemberDepartment}"></td>
             </tr>
             </tbody>
         </table>

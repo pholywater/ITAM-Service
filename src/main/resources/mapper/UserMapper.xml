@@ -12,7 +12,7 @@
     <insert id="insertUser" parameterType="hmm.itam.vo.UserVo">
         INSERT INTO User
         (
-        hmm_id,
+        hmmId,
         name,
         isMale,
         department,
@@ -20,7 +20,7 @@
         )
         VALUES
         (
-        #{hmm_id},
+        #{hmmId},
         #{name},
         #{isMale},
         #{department},
@@ -29,10 +29,10 @@
     </insert>
 
     <!--로그인 인증 시 사용자 정보 가져오기-->
-    <select id="getUserByHmm_id" resultType="hmm.itam.vo.UserVo">
+    <select id="getUserByHmmId" resultType="hmm.itam.vo.UserVo">
         SELECT *
         FROM User
-        WHERE hmm_id = #{hmm_id}
+        WHERE hmmId = #{hmmId}
     </select>
 
     <!--로그인 인증 후 홈 화면에서 idx 값을 통한 사용자 정보 뷰-->
@@ -47,7 +47,7 @@
         UPDATE User
         SET
         name = #{name},
-        hmm_id = #{hmm_id},
+        hmmId = #{hmmId},
         department = #{department},
         password = #{password}
         WHERE idx = #{idx}

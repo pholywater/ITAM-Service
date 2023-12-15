@@ -7,8 +7,8 @@
     <h2>회원가입</h2>
     <form action="/signup" th:object="${userVo}" method="post">
     <div>
-        <label th:for="hmm_id">사번 : </label>
-        <input type="text" th:field="*{hmm_id}" placeholder="HMM 아이디 입력"/>
+        <label th:for="hmmId">사번 : </label>
+        <input type="text" th:field="*{hmmId}" placeholder="HMM 아이디 입력"/>
     </div>
     <div>
         <label th:for="name">이름 : </label>

@@ -3,21 +3,21 @@
 <mapper namespace="hmm.itam.mapper.MemberMapper">
     <select id="getMemberList" resultType="hmm.itam.vo.MemberVo">
         SELECT *
-        FROM hmm_member
-        LEFT JOIN tgate_db
-        ON hmm_member.member_id=tgate_db.tgate_member_id
+        FROM hmmMember
+        LEFT JOIN tgateDb
+        ON hmmMember.memberId=tgateDb.tgateMemberId
     </select>
 
     <insert id="insertMember" parameterType="hmm.itam.vo.MemberVo">
         INSERT INTO hmm_member
         (
-        member_id, member_name, member_rank, member_work, member_working_status,
-        member_etc1, member_etc2
+        memberId, memberName, memberRank, memberWork, memberWorkingStatus,
+        memberEtc1, memberEtc2
         )
         VALUES
         (
-        #{member_id}, #{member_name}, #{member_rank}, #{member_work}, #{member_working_status},
-        #{member_etc1}, #{member_etc2}
+        #{memberId}, #{memberName}, #{memberRank}, #{memberWork}, #{memberWorkingStatus},
+        #{memberEtc1}, #{memberEtc2}
         )
     </insert>
 </mapper>
