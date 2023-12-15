@@ -3,7 +3,7 @@
 <body>
     반복 출력 화면 테스트
     <tr th:each="u:${user}">
-        <td th:text="${hmm_id}">아이디 : </td>
+        <td th:text="${hmmId}">아이디 : </td>
         <td th:text="${u.name}">이름 : </td>
         <td th:text="${u.department}">부서 : </td>
     </tr>
@@ -11,7 +11,7 @@
     <h2>로그인 사용자 정보</h2>
     <h2 th:text="${user.name}"> 사용자 이름 리스트</h2>
     <p>아이디 :</p>
-    <p th:text="${user.hmm_id}">아이디 : </p>
+    <p th:text="${user.hmmId}">아이디 : </p>
     <span>비밀번호 : </span>
     <span th:text="${user.password}">비밀번호 : ${password}</span>
     <div>부서 : </div>

@@ -3,16 +3,16 @@
 <mapper namespace="hmm.itam.mapper.MemberMapper">
     <select id="getMemberList" resultType="hmm.itam.vo.MemberVo">
         SELECT *
-        FROM hmmMember
-        LEFT JOIN tgateDb
-        ON hmmMember.memberId=tgateDb.tgateMemberId
+        FROM hmm_member
+        LEFT JOIN tgate_db
+        ON hmm_member.member_id=tgate_db.tgate_member_id
     </select>
 
     <insert id="insertMember" parameterType="hmm.itam.vo.MemberVo">
         INSERT INTO hmm_member
         (
-        memberId, memberName, memberRank, memberWork, memberWorkingStatus,
-        memberEtc1, memberEtc2
+        member_id, member_name, member_rank, member_work, member_working_status,
+        member_etc_1, member_etc_2
         )
         VALUES
         (
