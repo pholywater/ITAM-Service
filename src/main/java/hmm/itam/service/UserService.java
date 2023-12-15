@@ -20,9 +20,9 @@ public class UserService {
     }
 
     /*메인 로그인 화면 아이디, 패스워드 확인 처리 작업*/
-    public Long login(String hmm_id, String password) {
+    public Long login(String hmmId, String password) {
 
-        UserVo userVo = userMapper.getUserByHmm_id(hmm_id);
+        UserVo userVo = userMapper.getUserByHmmId(hmmId);
 
         /* NullPointerException 처리(ID, PW 불일치 및 없음) */
         if (userVo == null){
@@ -32,7 +32,7 @@ public class UserService {
         if (userVo.getPassword().equals(password)){
             return userVo.getIdx();
 /*
-        System.out.println("service.check.hmm_id :"+ hmm_id);
+        System.out.println("service.check.hmmId :"+ hmm_id);
         System.out.println("service.check.password :"+ password);
         System.out.println("service.check.vo.password :"+ userVo.getPassword());
         System.out.println("service.check.getIdx :"+ userVo.getIdx());

@@ -46,7 +46,7 @@ public class UserController {
 
     @GetMapping("/login") // 로그인 화면
     public String toLoginPage(HttpSession session) { // 로그인 페이지
-        Long id = (Long) session.getAttribute("userid");
+        Long id = (Long) session.getAttribute("userId");
         if (id != null) { // 로그인 된 상태
             return "redirect:/";
         }
@@ -54,8 +54,8 @@ public class UserController {
     }
 
     @PostMapping("/login") // 아이디 패스워드 입력 후
-    public String login(String hmm_id, String password, HttpSession session) {
-        Long id = userService.login(hmm_id, password);
+    public String login(String hmmId, String password, HttpSession session) {
+        Long id = userService.login(hmmId, password);
 /*
         System.out.println("controll.check.hmm_id :" + hmm_id);
         System.out.println("controll.check.password :" + password);
