@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="HeaderFragment">
+
+<body class="p-0 m-0 border-0 bd-example m-0 border-0">
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080">
+            <img src="/img/logoWhite.png" width="90" height="35">
+        </a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul
+                    class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+                    style="--bs-scroll-height: 100px"
+            >
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://localhost:8080">Home</a>
+                </li>
+                <!--<li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>-->
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        Login Info
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="userList">로그인 맴버 조회</a></li>
+                        <li><a class="dropdown-item" href="signup">로그인 회원 등록</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        Asset Info
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="assetSearch">HMM 자산 조회</a></li>
+                        <li><a class="dropdown-item" href="assetList">HMM 자산 리스트</a></li>
+                        <li><a class="dropdown-item" href="assetAdd">HMM 자산 등록</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Link</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search" >
+                <input
+                        class="form-control me-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                />
+                <button class="btn btn-outline-success" type="submit">
+                    Search
+                </button>
+            </form>
+            <form action="logout" method="post">
+                <button type="submit" class="btn btn-outline-primary ms-1">
+                    로그아웃
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

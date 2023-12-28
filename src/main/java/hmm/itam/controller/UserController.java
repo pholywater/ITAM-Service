@@ -7,6 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/login") // 로그인 화면
-    public String toLoginPage(HttpSession session) { // 로그인 페이지
+    public String toLoginPage(HttpSession session, UserVo userVo) { // 로그인 페이지
         Long id = (Long) session.getAttribute("userId");
         if (id != null) { // 로그인 된 상태
             return "redirect:/";
@@ -54,7 +55,7 @@ public class UserController {
     }
 
     @PostMapping("/login") // 아이디 패스워드 입력 후
-    public String login(String hmmId, String password, HttpSession session) {
+    public String login(String hmmId, String password, HttpSession session, UserVo userVo) {
         Long id = userService.login(hmmId, password);
 /*
         System.out.println("controll.check.hmmId :" + hmmId);
@@ -68,6 +69,7 @@ public class UserController {
         session.setAttribute("userId", id);
         return "redirect:/"; // 로그인 후 홈 화면
     }
+
 
     @GetMapping("/update")
     public String toUpdatePage(HttpSession session, Model model) {

@@ -3,6 +3,7 @@
 <mapper namespace="hmm.itam.mapper.AssetMapper">
     <select id="getAssetList" resultType="hmm.itam.vo.AssetVo">
         SELECT *
+
         FROM asset_info
 
         LEFT JOIN hmm_member
@@ -31,6 +32,8 @@
 
     </select>
 
+
+
     <!--장비 추가 정보 추가 처리--><!-- useGeneratedKeys="true" keyProperty="addId"-->
     <insert id="insertAsset" parameterType="hmm.itam.vo.AssetVo">
         INSERT INTO asset_info
@@ -54,12 +57,12 @@
         status_asset_status,
         status_member_id,
         status_asset_usage,
-        status_asset_etc_1,
-        status_asset_spec_1,
-        status_asset_spec_2,
-        status_asset_spec_3,
+        status_asset_etc1,
+        status_asset_spec1,
+        status_asset_spec2,
+        status_asset_spec3,
         status_asset_due_diligence,
-        status_asset_etc_2,
+        status_asset_etc2,
         asset_duration,
         asset_repair_history,
         asset_last_update_date
@@ -100,8 +103,8 @@
     <insert id="insertModel" parameterType="hmm.itam.vo.AssetVo">
         INSERT INTO Asset_model
         (
-        model_code, model_name, model_type, model_manufacturer, model_size, model_spec_1,
-        model_spec_2, model_spec_4, model_spec_5, model_spec_6, model_replaycement_type
+        model_code, model_name, model_type, model_manufacturer, model_size, model_spec1,
+        model_spec2, model_spec4, model_spec5, model_spec6, model_replaycement_type
         )
         VALUES
         (
