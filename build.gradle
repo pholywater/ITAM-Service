@@ -23,6 +23,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'	//lombok
 	annotationProcessor 'org.projectlombok:lombok'	//lombok
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // 스프링부트 기본설치
+	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
+	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.3.0'
+
 }
 
 tasks.named('test') {

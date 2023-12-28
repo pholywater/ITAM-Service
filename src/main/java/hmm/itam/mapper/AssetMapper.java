@@ -7,7 +7,9 @@ import java.util.List;
 
 @Mapper
 public interface AssetMapper {
+
     List<AssetVo> getAssetList();
+
     AssetVo getAssetByAssetNumber(String assetNumber); // 관리번호로 검색
 
     void insertAsset(AssetVo assetVo); // 장비 등록

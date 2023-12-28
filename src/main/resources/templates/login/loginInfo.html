@@ -5,10 +5,11 @@
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
 <head>
-    <title>로그인 정보 페이지 </title>
+<title>로그인 정보 페이지 </title>
 </head>
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
-<div>
+
+<div >
     <div class="d-flex justify-content-center"><h1>이곳에 메인 화면</h1>
     </div>
 
@@ -36,5 +37,10 @@
         <button type="submit">탈퇴하기</button>
     </form>
 </div>
+
+
+<!--Footer 영역을 참조합니다.-->
+<footer th:replace="common/fragments/footer :: FooterFragment"></footer>
+
 </body>
 </html>

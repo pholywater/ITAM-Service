@@ -1,18 +1,24 @@
 package hmm.itam.vo;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 
 @Data
 public class AssetVo {
+    private String assetNum;
     private int idx;
     private String assetNumber;
     private String assetModelCode;
     private String assetModelName;
     private String assetSerialNumber;
     private String assetBillingDate;
-    private String assetArrivalDate;
-    private String assetPaymentDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date assetArrivalDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date assetPaymentDate;
     private String assetPaymentMemberId;
     private String assetPaymentDepartment;
     private String assetPaymentMemberName;
@@ -49,9 +55,4 @@ public class AssetVo {
     private String memberRank;
     private String memberStatus;
     private String tgateMemberEmail;
-
-    private Boolean open;
-
-
-
 }

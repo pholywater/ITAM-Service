@@ -1,5 +1,6 @@
 package hmm.itam.controller;
 
+
 import hmm.itam.dto.StatusAssetStatus;
 import hmm.itam.dto.StatusAssetUsage;
 import hmm.itam.dto.StatusType;
@@ -9,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpSession;
+import java.awt.print.Pageable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,19 +37,27 @@ public class AssetController {
 
     @GetMapping("/assetAdd") // 자산 등록 화면
     public String toAssetAddPage(AssetVo assetVo) {
-
         return "/itam/asset/assetAdd";
     }
 
     @PostMapping("/assetAdd") // 자산 등록 입력 처리
-    public String assetAdd(AssetVo assetVo, Model model) {
+    public String assetAdd(AssetVo assetVo, String assetNumber, Model model) {
+        if (assetNumber == null || assetNumber.isEmpty() || assetNumber.isBlank()) {
+            System.out.println("NullPointerException err : " + assetNumber); // null 값 입력 확인
+            System.out.println("assetNumber.isEmpty() : " + assetNumber.isEmpty()); // "" 빈 값 입력
+            System.out.println("assetNumber.isBlank() : " + assetNumber.isBlank()); // "   "공백 입력 체크
+            return "redirect:/assetAdd"; // null & 빈 값 처리 반환
+        }
         try {
             AssetService.assetAdd(assetVo);
+            System.out.println("controll.check.assetNumber.addComplete:" + assetNumber);
         } catch (DuplicateKeyException e) {
-            return "redirect:/assetadd?error_code=-1";
+            System.out.println("DuplicateKeyException err : " + assetNumber); // 중복값 입력 확인
+            return "redirect:/assetAdd"; // 장비 추가 중복값 처리 반환
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/assetadd?error_code=-99";
+            System.out.println("Exception err" + assetNumber); // 중복값 입력 확인
+            return "redirect:/assetAdd"; // assetadd?error_code=-99";
         }
         model.addAttribute("asset", assetVo);
         return "itam/asset/assetResult"; // 자산 등록 후 보여질 화면
@@ -59,6 +71,9 @@ public class AssetController {
     @PostMapping("/assetSearch") // 자산 내역 검색 및 수정 화면
     public String searchResult(AssetVo assetVo, String assetNumber, Model model){
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
+        if (assetNum == null) { // 관리번호 일치 항목 없을 경우 에러 처리
+            return "redirect:assetSearch";
+        }
         model.addAttribute("asset", assetNum);
         return "itam/asset/assetResult"; //
     }
@@ -87,12 +102,12 @@ public class AssetController {
         return "itam/asset/assetUpdate";
     }
 
-    @PostMapping("/assetUpdateResult") // 자산 내역 검색 및 수정 화면
+    @PostMapping("/assetUpdateResult") // 자산 내역 검색 및 수정 후 결과 화면
     public String modifyInfo(AssetVo assetVo, String assetNumber, Model model){
         AssetService.modifyInfo(assetVo);
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
         model.addAttribute("asset", assetNum);
-        return "itam/asset/assetResult"; //
+        return "itam/asset/assetResult";
     }
 
     @PostMapping("/assetLogout")

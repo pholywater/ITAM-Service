@@ -5,6 +5,7 @@ import hmm.itam.vo.AssetVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -12,16 +13,16 @@ public class AssetService {
     @Autowired
     private AssetMapper AssetMapper;
 
+
     public List<AssetVo> getAssetList() {
 
         return AssetMapper.getAssetList();
     }
 
-    /*장비 정보 등록*/
-    public void assetAdd(AssetVo assetVo){
-        AssetMapper.insertAsset(assetVo);
 
-    }
+
+    /*장비 정보 등록*/
+    public void assetAdd(AssetVo assetVo){AssetMapper.insertAsset(assetVo);}
 
 
     /*장비 조회 1*/
