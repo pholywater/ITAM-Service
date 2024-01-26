@@ -59,9 +59,31 @@
                         Asset Info
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="assetSearch">HMM 자산 조회</a></li>
-                        <li><a class="dropdown-item" href="assetList">HMM 자산 리스트</a></li>
                         <li><a class="dropdown-item" href="assetAdd">HMM 자산 등록</a></li>
+                        <li><a class="dropdown-item" href="assetSearch">HMM 자산 조회</a></li>
+                        <li><a class="dropdown-item" href="assetList">HMM 자산 리스트(전체)</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#">신규 모델 등록</a></li>
+                        <li><a class="dropdown-item" href="#">모델 현황 조회</a></li>
+                        <li>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        History Info
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="historyAdd">자산 입출고 등록</a></li>
+                        <li><a class="dropdown-item" href="historySearch">자산 입출고 조회</a></li>
+                        <li><a class="dropdown-item" href="historyList">자산 입출고 내역</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
                             <a class="dropdown-item" href="#">Something else here</a>
@@ -72,12 +94,14 @@
                     <a class="nav-link disabled" aria-disabled="true">Link</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search" >
+            <form class="d-flex" role="search" th:action="@{/memberSearch}" method="post">
                 <input
                         class="form-control me-2"
                         type="search"
                         placeholder="Search"
                         aria-label="Search"
+                        id="search"
+                        name="search"
                 />
                 <button class="btn btn-outline-success" type="submit">
                     Search
@@ -85,7 +109,7 @@
             </form>
             <form action="logout" method="post">
                 <button type="submit" class="btn btn-outline-primary ms-1">
-                    로그아웃
+                    logout
                 </button>
             </form>
         </div>

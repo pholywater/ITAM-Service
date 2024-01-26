@@ -24,6 +24,11 @@ public class AssetService {
     /*장비 정보 등록*/
     public void assetAdd(AssetVo assetVo){AssetMapper.insertAsset(assetVo);}
 
+    /*멤버 장비 사용 정보 조회*/
+    public List<AssetVo> memberSearch(String statusMemberId) {
+        return AssetMapper.searchByMember(statusMemberId);
+    }
+
 
     /*장비 조회 1*/
     public AssetVo assetSearch(String assetNumber) {

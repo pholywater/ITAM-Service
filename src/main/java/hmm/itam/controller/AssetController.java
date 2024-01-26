@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpSession;
 import java.awt.print.Pageable;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,18 @@ public class AssetController {
         List<AssetVo> assetList = AssetService.getAssetList();
         model.addAttribute("list", assetList);
         return "itam/asset/assetList"; // 실제 HTML 경로
+    }
+
+    @PostMapping("/memberSearch") // 자산 내역 사용자 이름 목록 검색
+    public String memberSearch(AssetVo assetVo, String search, Model model){
+        List<AssetVo> memberSearch = AssetService.memberSearch(search);
+
+        if (memberSearch == null) { // 사용자 이름 일치 항목 없을 경우 에러 처리
+            return "redirect:/";
+        }
+        System.out.println(memberSearch);
+        model.addAttribute("list", memberSearch);
+        return "itam/asset/memberSearch"; //
     }
 
     @GetMapping("/assetAdd") // 자산 등록 화면
