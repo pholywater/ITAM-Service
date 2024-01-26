@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hmm.itam.mapper.AssetMapper">
+    <sql id="asset_info">
+        asset_number,
+        asset_model_code,
+        asset_model_name,
+        asset_serial_number,
+        asset_billing_date,
+        asset_arrival_date,
+        asset_payment_date,
+        asset_payment_member_id,
+        asset_payment_department,
+        asset_payment_member_name,
+        asset_payment_member_rank,
+        asset_payment_details,
+        asset_wired_mac_address,
+        asset_wireless_mac_address,
+
+        status_type,
+        status_asset_status,
+        status_member_id,
+        status_asset_usage,
+        status_asset_etc1,
+        status_asset_spec1,
+        status_asset_spec2,
+        status_asset_spec3,
+        status_asset_due_diligence,
+        status_asset_etc2,
+        asset_duration,
+        asset_repair_history,
+        asset_last_update_date
+    </sql>
+
     <select id="getAssetList" resultType="hmm.itam.vo.AssetVo">
         SELECT *
 
@@ -38,34 +69,7 @@
     <insert id="insertAsset" parameterType="hmm.itam.vo.AssetVo">
         INSERT INTO asset_info
         (
-        asset_number,
-        asset_model_code,
-        asset_model_name,
-        asset_serial_number,
-        asset_billing_date,
-        asset_arrival_date,
-        asset_payment_date,
-        asset_payment_member_id,
-        asset_payment_department,
-        asset_payment_member_name,
-        asset_payment_member_rank,
-        asset_payment_details,
-        asset_wired_mac_address,
-        asset_wireless_mac_address,
-
-        status_type,
-        status_asset_status,
-        status_member_id,
-        status_asset_usage,
-        status_asset_etc1,
-        status_asset_spec1,
-        status_asset_spec2,
-        status_asset_spec3,
-        status_asset_due_diligence,
-        status_asset_etc2,
-        asset_duration,
-        asset_repair_history,
-        asset_last_update_date
+        <include refid="asset_info" />
         )
         VALUES
         (
@@ -113,10 +117,49 @@
         )
     </insert>
 
+    <!--메인 화면 우측 상단 이름 검색-->
+    <select id="searchByMember" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_info
+
+        LEFT JOIN hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+
+        LEFT JOIN tgate_db
+        ON hmm_member.member_id=tgate_db.tgate_member_id
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        LEFT JOIN orderby_rank
+        ON hmm_member.member_rank=orderby_rank.member_rank
+
+        LEFT JOIN orderby_asset
+        ON asset_info.status_type=orderby_asset.asset_status
+
+        WHERE
+        member_name LIKE CONCAT('%' #{search} '%') OR
+        member_id LIKE CONCAT('%' #{search} '%') OR
+        asset_number LIKE CONCAT('%' #{search} '%') OR
+        model_name LIKE CONCAT('%' #{search} '%')
+
+        order by
+        orderby_asset.asset_grant,
+        orderby_rank.member_grant,
+        hmm_member.member_id,
+        asset_info.status_asset_usage DESC,
+        tgate_db.tgate_member_department
+
+        <!--WHERE member_name LIKE CONCAT('%' #{search} '%')-->
+    </select>
+
     <!--장비정보 조회(관리번호)-->
     <select id="getAssetByAssetNumber" resultType="hmm.itam.vo.AssetVo">
         SELECT *
         FROM asset_info
+        LEFT JOIN hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+
         WHERE asset_number = #{assetNumber}
     </select>
 

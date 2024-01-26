@@ -8,33 +8,20 @@
     <title>로그인 정보 페이지 </title>
 </head>
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
-<div>
-    <div class="d-flex justify-content-center"><h1>이곳에 메인 화면</h1>
+<div class="container">
+    <div class="d-flex justify-content-center"><h1>이곳에 메인 첫 화면 만드는 중</h1>
     </div>
 
-    <tr th:each="u:${user}">
-        <td th:text="${hmmId}">아이디 :</td>
-        <td th:text="${u.name}">이름 :</td>
-        <td th:text="${u.department}">부서 :</td>
-    </tr>
+    <div style="text-align:right;">
+    <span th:text="${user.department}"></span><span>부서의 </span>
+    <span th:text="${user.name}">사용자 이름 리스트</span><span>님께서 로그인 중입니다.</span>
+        <button type="button" onclick="location.href='update'" class="btn btn-outline-success">Update</button>
+    </div>
 
-    <h3>로그인 사용자 정보</h3>
-    <h2 th:text="${user.name}">사용자 이름 리스트</h2>
-    <p>아이디 :</p>
-    <p th:text="${user.hmmId}">아이디 :</p>
-    <span>비밀번호 : </span>
-    <span th:text="${user.password}">비밀번호 : ${password}</span>
-    <div>부서 :</div>
-    <div th:text="${user.department}"></div>
 
-    <button type="button" onclick="location.href='update'">수정하기</button>
-    <form action="logout" method="post">
-        <button type="submit">로그아웃</button>
-    </form>
 
-    <form action="delete" method="post">
-        <button type="submit">탈퇴하기</button>
-    </form>
+
+
 </div>
 </body>
 </html>

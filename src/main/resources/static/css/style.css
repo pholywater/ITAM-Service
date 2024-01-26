@@ -1,0 +1,73 @@
+.navbar {
+  position: fixed; /*navbar 상단 고정*/
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 75px;
+  padding: 1rem;
+  color: white;
+  background: teal;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.container{
+    margin: 0 auto;
+    padding-top: 75px; /*navbar 컨텐츠 가려짐 패딩*/
+    height : auto;
+	min-height: calc(100vh - 2rem); /* footer 높이를 빼준다. */
+	align : center;
+}
+
+.footer{
+    border: solid 0px blue;
+    height: 2rem ;
+    text-align: center;
+}
+
+table{
+    margin: 0 auto;
+}
+
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom-: 1px solid #C1C3D1;
+  color:#666B85;
+  padding:2px;
+  font-size:17px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+  text-align: center;
+}
+
+th {
+  color:#D5DDE5;;
+  background:#1E1930;
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:17px;
+  font-weight: 100;
+  padding:10px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+  text-align: center;
+}
+
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+
+tr:nth-child(odd):hover td {
+  background:#4E5066;
+}
+
+tr:hover td {
+  background:#4E5066;
+  color:#FFFFFF;
+  border-top: 1px solid #22262e;
+}
