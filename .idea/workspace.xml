@@ -5,9 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="itam">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/memberSearch.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/test_memberSearch.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/util/OutputPagination.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/datatables/dataTables.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/datatables/jszip-3.10.1/datatables.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/pagination/pageresource1.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/pagination/pageresource2.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/pagination/pageresource3.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/pagination/pagination.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/fold_test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/jquery/jquery-3.7.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/datatables/dataTables.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/datatables/jszip-3.10.1/datatables.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/datatables/pdfmake-0.2.7/pdfmake.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/datatables/pdfmake-0.2.7/vfs_fonts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/loading/loading.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/pagination/pageresorce1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/pagination/pageresorce2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/pagination/pageresorce3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/pagination/pageresorce4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/pagination/pagination.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" afterDir="false" />
@@ -19,17 +36,28 @@
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/AssetMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/AssetMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/config.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/config.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/footer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetAdd.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login/update.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login/update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetResult.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetResult.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/memberSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/memberSearch.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyResult.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyResult.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login/userList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login/userList.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,10 +90,13 @@
       <list>
         <option value="Interface" />
         <option value="Enum" />
-        <option value="HTML File" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -97,7 +128,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main23.12.15&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/study/itam/src/main/resources/templates/itam/asset&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -106,17 +137,17 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\study\itam\src\main\resources\templates\itam\asset" />
-      <recent name="C:\study\itam\src\main\resources\templates\common\layouts" />
-      <recent name="C:\study\itam\src\main\resources\templates\common\fragments" />
-      <recent name="C:\study\itam\src\main\resources\templates\common\layout" />
-      <recent name="C:\study\itam\src\main\resources\templates\itam" />
+      <recent name="C:\study\itam\src\main\resources\static\js\loaging" />
+      <recent name="C:\study\itam\src\main\resources\static\css" />
+      <recent name="C:\study\itam\src\main\resources\static\js" />
+      <recent name="C:\study\itam\src\main\resources\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\study\itam\src\main\resources\static\js\datatables\b-print-2.4.2" />
+      <recent name="C:\study\itam\src\main\resources\static\js\datatables\jszip-3.10.1" />
+      <recent name="C:\study\itam\src\main\resources\static\js\datatables" />
       <recent name="C:\study\itam\src\main\resources\templates" />
-      <recent name="C:\study\itam\src\main\resources\templates\common\fragments" />
-      <recent name="C:\study\itam\src\main\resources\templates\common" />
-      <recent name="C:\study\itam\src\main\resources\static\img" />
-      <recent name="C:\study\itam\src\main\resources\static" />
+      <recent name="C:\study\itam\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="hmm.itam.dto" />
@@ -425,7 +456,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703731818758</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="itam">
+      <option name="closed" value="true" />
+      <created>1706245696602</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1706245696602</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

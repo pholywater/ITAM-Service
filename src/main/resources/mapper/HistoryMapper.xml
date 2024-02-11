@@ -28,8 +28,8 @@
         (
         history_completion_date, history_request_date, history_asset_type, history_type,
         history_requester, history_worker, history_member_id, history_asset_number,
-        history_request_details, history_reqeust_etc, history_spec_1,
-        history_spec_2, history_spec_3
+        history_request_details, history_reqeust_etc, history_spec1,
+        history_spec2, history_spec3
         )
         VALUES
         (
@@ -40,6 +40,33 @@
         )
     </insert>
 
+    <select id="getHistoryAssetNumber" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM asset_history
+
+        LEFT JOIN hmm_member
+        ON asset_history.history_member_id=hmm_member.member_id
+
+        LEFT JOIN tgate_db
+        ON hmm_member.member_id=tgate_db.tgate_member_id
+
+        LEFT JOIN asset_info
+        ON asset_history.history_asset_number=asset_info.asset_number
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        WHERE
+        history_asset_number = #{historyAssetNumber}
+
+        order by
+        asset_history.idx DESC,
+        asset_history.history_completion_date DESC,
+        asset_history.history_member_id
+
+
+
+    </select>
 
 
 </mapper>

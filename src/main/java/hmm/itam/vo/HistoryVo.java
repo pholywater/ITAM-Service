@@ -1,11 +1,17 @@
 package hmm.itam.vo;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+
 
 @Data
 public class HistoryVo {
-    private String historyCompletionDate;
-    private String historyRequestDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date historyCompletionDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date historyRequestDate;
     private String historyAssetType;
     private String historyType;
     private String historyRequester;

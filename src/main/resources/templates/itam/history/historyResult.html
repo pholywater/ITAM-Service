@@ -2,5 +2,136 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <h2>입출고 내역 등록 완료</h2>
+</body><!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content"
+>
+<head>
+    <title>History Add</title>
+</head>
+
+<body>
+<div class="container">
+    <div>
+        <table>
+            <h4>최근 장비 입출고, 사용자 변경 이력 현황</h4>
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>처리 일시</th>
+                <th>요청 일시</th>
+                <th>자산구분</th>
+                <th>입출고</th>
+                <th>요청자</th>
+                <th>작업자</th>
+                <th>사번</th>
+                <th>장비,소모품 번호</th>
+                <th>요청 내용</th>
+                <th>비고 내용</th>
+                <th>스펙1</th>
+                <th>스펙2</th>
+                <th>스펙3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u, stat :${list}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${#dates.format(u.historyCompletionDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(u.historyRequestDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${u.historyAssetType}"></td>
+                <td th:text="${u.historyType}"></td>
+                <td th:text="${u.historyRequester}"></td>
+                <td th:text="${u.historyWorker}"></td>
+                <td th:text="${u.historyMemberId}"></td>
+                <td th:text="${u.historyAssetNumber}"></td>
+                <td th:text="${u.historyRequestDetails}"></td>
+                <td th:text="${u.historyReqeustEtc}"></td>
+                <td th:text="${u.historySpec1}"></td>
+                <td th:text="${u.historySpec2}"></td>
+                <td th:text="${u.historySpec3}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div>
+        <form th:action="@{/historyAdd}" th:object="${historyVo}" method="post">
+            <div class="row align-items-start">
+                <div class="col">
+                    <h3>필수 입력 정보</h3>
+                    <div class="form-floating">
+                        <input type="text" class="form-control is-invalid mb-1" th:field="*{historyMemberId}"  />
+                        <label th:for="historyMemberId">사번(실 사용자) : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control is-invalid mb-1" th:field="*{historyAssetNumber}"  />
+                        <label th:for="historyAssetNumber">장비,소모품 번호 : </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">입출고 및 자산 변동사항 등록</button>
+                </div>
+
+                <div class="col">
+                    <h3>요청 내용</h3>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequester}"  />
+                        <label th:for="historyRequester">요청자 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"  />
+                        <label th:for="historyRequestDate">요청 일시 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyAssetType}"  />
+                        <label th:for="historyAssetType">장비,소모품(구분) : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequestDetails}"  />
+                        <label th:for="historyRequestDetails">요청 내용 : </label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <h3>작업 정보</h3>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyWorker}"  />
+                        <label th:for="historyWorker">작업자 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1" th:field="*{historyCompletionDate}"  />
+                        <label th:for="historyCompletionDate">처리 일시 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyType}"  />
+                        <label th:for="historyType">입고,출고,변경 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyReqeustEtc}"  />
+                        <label th:for="historyReqeustEtc">비고 내용 : </label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <h3>기타 변경</h3>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historySpec1}"  />
+                        <label th:for="historySpec1">스펙1 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historySpec2}"  />
+                        <label th:for="historySpec2">스펙2 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historySpec3}"  />
+                        <label th:for="historySpec3">스펙3 : </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
+</html>
 </html>

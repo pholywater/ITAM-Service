@@ -55,4 +55,5 @@ public class AssetVo {
     private String memberRank;
     private String memberStatus;
     private String tgateMemberEmail;
+    private String tgateMemberDepartment;
 }

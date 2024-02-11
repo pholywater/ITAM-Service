@@ -6,6 +6,58 @@
       layout:fragment="Content">
 <body>
 <div class="container">
+
+    <div class="panel">
+        <div class="body">
+            <div class="input-group">
+                <label for="searchBox">ITAM 자산관리 Service 사용자 리스트</label>
+                <input type="search" id="searchBox" placeholder="Filtrar...">
+            </div>
+        </div>
+    </div>
+    <table >
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>사원번호</th>
+            <th>이름</th>
+            <th>성별</th>
+            <th>부서</th>
+        </tr>
+        </thead>
+        <tbody class="myTable table hover">
+        <tr th:each="u, stat :${list}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${u.hmmId}"></td>
+            <td th:text="${u.name}"></td>
+            <td th:text="${u.isMale}"></td>
+            <td th:text="${u.department}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+
+    let options = {
+        numberPerPage:5, //Cantidad de datos por pagina
+        goBar:true, //Barra donde puedes digitar el numero de la pagina al que quiere ir
+        pageCounter:true, //Contador de paginas, en cual estas, de cuantas paginas
+    };
+
+    let filterOptions = {
+        el:'#searchBox' //Caja de texto para filtrar, puede ser una clase o un ID
+    };
+
+    paginate.init('.myTable',options,filterOptions);
+</script>
+</body>
+</html>
+
+
+<!--
+
+<body>
+<div class="container">
     <div>
         <h2>로그인 가능한 사용자 리스트</h2>
         <table>
@@ -29,6 +81,6 @@
             </tbody>
         </table>
     </div>
-</div> <!-- /container -->
+</div>
 </body>
-</html>
+</html> -->

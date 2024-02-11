@@ -52,6 +52,7 @@
         LEFT JOIN orderby_asset
         ON asset_info.status_type=orderby_asset.asset_status
 
+        WHERE status_type = '출고'
 
         order by
         orderby_asset.asset_grant,
@@ -59,6 +60,9 @@
         hmm_member.member_id,
         asset_info.status_asset_usage DESC,
         tgate_db.tgate_member_department
+
+        <!--LIMIT 0,100-->
+
 
 
     </select>

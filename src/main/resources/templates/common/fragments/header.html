@@ -23,9 +23,9 @@
                     class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
                     style="--bs-scroll-height: 100px"
             >
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="http://localhost:8080">Home</a>
-                </li>
+                </li>-->
                 <!--<li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
                 </li>-->
@@ -40,8 +40,9 @@
                         Login Info
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="userList">로그인 맴버 조회</a></li>
                         <li><a class="dropdown-item" href="signup">로그인 회원 등록</a></li>
+                        <li><a class="dropdown-item" href="userList">로그인 맴버 조회</a></li>
+                        <li><a class="dropdown-item" href="update">로그인 맴버 수정</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
                             <a class="dropdown-item" href="#">Something else here</a>
@@ -100,6 +101,7 @@
                         type="search"
                         placeholder="Search"
                         aria-label="Search"
+                        size="10"
                         id="search"
                         name="search"
                 />
@@ -115,5 +117,6 @@
         </div>
     </div>
 </nav>
+
 </body>
 </html>
