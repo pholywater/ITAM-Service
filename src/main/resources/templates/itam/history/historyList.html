@@ -1,11 +1,21 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content">
 <body>
-<div class="container">
+<head>
+
+    <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
+
+</head>
+<div id="myDiv" class="container-fluid" style="padding-top:76px;">
     <div>
-        자산 리스트 보여주기
-        <table>
-            <thead><tr>
+        <table id="myTable" class="display">
+            <thead>
+            <tr>
+                <th>No.</th>
                 <th>처리 일시</th>
                 <th>요청 일시</th>
                 <th>자산구분</th>
@@ -16,16 +26,17 @@
                 <th>장비,소모품 번호</th>
                 <th>요청 내용</th>
                 <th>비고 내용</th>
-<!--                <th>스펙1</th>-->
-<!--                <th>스펙2</th>-->
-<!--                <th>스펙3</th>-->
+                <th>스펙1</th>
+                <th>스펙2</th>
+                <th>스펙3</th>
 
             </tr>
             </thead>
             <tbody>
-            <tr th:each="u:${list}">
-                <td th:text="${u.historyCompletionDate}"></td>
-                <td th:text="${u.historyRequestDate}"></td>
+            <tr th:each="u, stat :${list}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${#dates.format(u.historyCompletionDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(u.historyRequestDate, 'yyyy-MM-dd')}"></td>
                 <td th:text="${u.historyAssetType}"></td>
                 <td th:text="${u.historyType}"></td>
                 <td th:text="${u.historyRequester}"></td>
@@ -34,13 +45,28 @@
                 <td th:text="${u.historyAssetNumber}"></td>
                 <td th:text="${u.historyRequestDetails}"></td>
                 <td th:text="${u.historyReqeustEtc}"></td>
-<!--                <td th:text="${u.historySpec1}"></td>-->
-<!--                <td th:text="${u.historySpec2}"></td>-->
-<!--                <td th:text="${u.historySpec3}"></td>-->
+                <td th:text="${u.historySpec1}"></td>
+                <td th:text="${u.historySpec2}"></td>
+                <td th:text="${u.historySpec3}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div> <!-- /container -->
+<script src="jquery/jquery-3.7.1.min.js"></script>
+<script src="js/datatables/dataTables.js"></script>
+<script>
+    $(document).ready( function () {
+    document.getElementById("myDiv").style.display = "block";
+    $('#myTable').DataTable();
+    ('#myTable').DataTable({
+    dom: 'Bfrtip',
+    buttons: [
+            'copy','csv','excel','pdf','print'
+            ]
+    });
+
+} );
+</script>
 </body>
 </html>

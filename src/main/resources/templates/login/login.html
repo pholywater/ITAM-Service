@@ -13,7 +13,7 @@
     </div>
     <h2 class="h3 mt-1 mb-1 fw-normal text-center">ITAM Service</h2>
     <form th:action="@{/login}" th:object="${userVo}" method="post">
-        <input type="text" th:field="*{hmmId}" class="form-control mb-2" placeholder="Portal ID" />
+        <input type="text" th:field="*{hmmId}" class="form-control mb-2" placeholder="Portal ID" autofocus/>
         <input type="password" th:field="*{password}" class="form-control mb-2"  placeholder="Portal PW"/>
         <div class="d-flex justify-content-center">
             <button type="submit" class="form-control btn btn-primary me-1 mb-2">로그인</button>

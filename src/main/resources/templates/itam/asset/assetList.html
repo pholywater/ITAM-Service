@@ -4,11 +4,68 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
+<head>
+
+    <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
+
+</head>
 <body>
-<div class="container">
+<div id="myDiv" class="container-fluid" style="padding-top:75px;">
+    <table id="myTable" class="display">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>구분</th>
+            <th>장비상태</th>
+            <th>사원번호</th>
+            <th>이름</th>
+            <th>직급</th>
+            <th>직원상태</th>
+            <th>용도</th>
+            <th>장비번호</th>
+            <th>타입</th>
+            <th>제조사</th>
+            <th>모델명</th>
+            <th>지급일</th>
+            <th>email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u, stat :${list}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${u.statusType}"></td>
+            <td th:text="${u.statusAssetStatus}"></td>
+            <td th:text="${u.memberId}"></td>
+            <td th:text="${u.memberName}"></td>
+            <td th:text="${u.memberRank}"></td>
+            <td th:text="${u.memberStatus}"></td>
+            <td th:text="${u.statusAssetUsage}"></td>
+            <td th:text="${u.assetNumber}"></td>
+            <td th:text="${u.modelType}"></td>
+            <td th:text="${u.modelManufacturer}"></td>
+            <td th:text="${u.assetModelName}"></td>
+            <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${u.tgateMemberEmail}"></td>
+        </tr>
+        </tbody>
+        <!--<tfoot>
+        <tr>
+            <td colspan="5" class="text-center">Data retrieved from <a href="http://www.infoplease.com/ipa/A0855611.html" target="_blank">infoplease</a> and <a href="http://www.worldometers.info/world-population/population-by-country/" target="_blank">worldometers</a>.</td>
+        </tr>
+        </tfoot>-->
+    </table>
+</div>
+<!--<div class="container">
     <div>
-        자산 리스트 보여주기
-        <table>
+        <div class="panel">
+            <div class="body">
+                <div class="input-group">
+                    <label for="searchBox">HMM 자산 리스트</label>
+                    <input type="search" id="searchBox" placeholder="Filtrar">
+                </div>
+            </div>
+        </div>
+        <table class="myTable table hover">
             <thead>
             <tr>
                 <th>No.</th>
@@ -45,6 +102,34 @@
             </tbody>
         </table>
     </div>
-</div> <!-- /container -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>--> <!-- /container -->
+<script src="jquery/jquery-3.7.1.min.js"></script>
+<script src="js/datatables/dataTables.js"></script>
+<!--<script>
+    $(window).load(function(){
+        $('#loader').delay(3000).fadeOut();
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("myDiv").style.display = "block";
+    });
+</script>-->
+<script>
+    $(document).ready( function () {
+    document.getElementById("myDiv").style.display = "block";
+    $('#myTable').DataTable();
+} );
+</script>
 </body>
 </html>

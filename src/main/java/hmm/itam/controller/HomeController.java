@@ -15,6 +15,12 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("index")
+    public String index() {
+        return "index";
+    }
+
+
     @GetMapping("/")
     public String home(HttpSession session, Model model) {
         Long idx = (Long) session.getAttribute("userId");

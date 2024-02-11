@@ -7,8 +7,15 @@
 <body>
 <div class="container">
     <div>
-        <h5>상단 Search 조회 리스트 보여주기</h5>
-        <table>
+        <div class="panel">
+            <div class="body">
+                <div class="input-group">
+                    <label for="searchBox">Navbar Search 조회</label>
+                    <input type="search" id="searchBox" placeholder="Filtrar">
+                </div>
+            </div>
+        </div>
+        <table class="myTable table hover">
             <thead>
             <tr>
                 <th>No.</th>
@@ -46,5 +53,18 @@
         </table>
     </div>
 </div> <!-- /container -->
+<script>
+    let options = {
+        numberPerPage:10, //Cantidad de datos por pagina
+        goBar:true, //Barra donde puedes digitar el numero de la pagina al que quiere ir
+        pageCounter:true, //Contador de paginas, en cual estas, de cuantas paginas
+    };
+
+    let filterOptions = {
+        el:'#searchBox' //Caja de texto para filtrar, puede ser una clase o un ID
+    };
+
+    paginate.init('.myTable',options,filterOptions);
+</script>
 </body>
 </html>

@@ -22,6 +22,9 @@ public class HistoryService {
         HistoryMapper.insertHistory(historyVo);
         /* AssetMapper.insertModel(assetVo);*/
     }
+    public List<HistoryVo> historyAddResult(String historyAssetNumber) {
 
+        return HistoryMapper.getHistoryAssetNumber(historyAssetNumber);
+    }
 
 }
