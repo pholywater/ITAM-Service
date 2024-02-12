@@ -16,9 +16,9 @@
 
 .container{
     margin: 0 auto;
-    padding-top: 75px; /*navbar 컨텐츠 가려짐 패딩*/
+    /*padding-top: 75px; *//*navbar 컨텐츠 가려짐 패딩*/
     height : auto;
-	min-height: calc(100vh - 2rem); /* footer 높이를 빼준다. */
+	/*min-height: calc(100vh - 2rem); *//* footer 높이를 빼준다. */
 	align : center;
 	position : relative;
 	z-index : 1 ;
@@ -26,9 +26,8 @@
 
 .container-fluid{
     margin: 0 auto;
-    padding-top: 175px; /*navbar 컨텐츠 가려짐 패딩*/
     height : auto;
-	min-height: calc(100vh - 2rem); /* footer 높이를 빼준다. */
+    /*min-height: calc(100vh - 2rem);  footer 높이를 빼준다. */
 	align : center;
 	position : relative;
 	z-index : 1 ;
@@ -87,38 +86,17 @@ tr:hover td {
   border-top: 1px solid #22262e;
 }
 
-
-
-
 input, .form-control{
 margin-bottom : 1px;
 }
 
-#loader {
-          position: fixed;
-          left: 50%;
-          top: 50%;
-          z-index: 1;
-          width: 120px;
-          height: 120px;
-          margin: -76px 0 0 -76px;
-          border: 16px solid #f3f3f3;
-          border-radius: 50%;
-          border-top: 16px solid #3498db;
-          -webkit-animation: spin 2s linear infinite;
-          animation: spin 2s linear infinite;
-        }
-
-        @-webkit-keyframes spin {
-          0% { -webkit-transform: rotate(0deg); }
-          100% { -webkit-transform: rotate(360deg); }
-        }
-
-        @keyframes spin {
-          0% { transform:translate(50%,50%) rotate(0deg); }
-          100% { transform:translate(50%,50%) rotate(360deg); }
-        }
 #myDiv {
        display: none;
-       padding-top: 75px; /*navbar 컨텐츠 가려짐 패딩*/
+       padding-top: 77px; /*navbar 컨텐츠 가려짐 패딩*/
+       min-height: calc(100vh - 2rem)
+        }
+
+#myDiv1 {
+       padding-top: 77px; /*navbar 컨텐츠 가려짐 패딩*/
+       min-height: calc(100vh - 2rem)
         }
