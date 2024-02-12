@@ -8,119 +8,131 @@
     <title>Asset Search</title>
 </head>
 <body>
-
-<div class="container">
-    <form th:action="@{/assetSearch}" th:object="${assetVo}" method="post" >  <!--action="/assetUpdate"-->
+<div id="myDiv1" class="container">
+    <hr>
+    <form th:action="@{/assetSearch}" th:object="${assetVo}" method="post">  <!--action="/assetUpdate"-->
         <div class="row align-items-start">
             <div class="col">
-                <hr>
                 <h3>장비 조회</h3>
-
                 <div class="form-floating">
-                    <input type="text"  class="form-control is-invalid mb-1" th:field="*{assetNumber}" placeholder="자산 고유번호 입력"/>
+                    <input type="text" class="form-control is-invalid mb-1" th:field="*{assetNumber}"
+                           placeholder="자산 고유번호 입력"/>
                     <label th:for="assetNumber">관리번호</label>
-                    <button type="submit" class="btn btn-info mb-1" formaction="assetSearch" formmethod="post">장비조회</button>
+                    <button type="submit" class="btn btn-info mb-1" formaction="assetSearch" formmethod="post">장비조회
+                    </button>
                     <!--<button type="submit" class="btn btn-success mb-1" formaction="assetUpdateResult" formmethod="post">수정하기</button>
                     <button type="submit" class="btn btn-danger mb-1" formaction="assetDelete" formmethod="post">삭제하기</button>-->
                 </div>
             </div>
             <div class="col">
-                <hr>
                 <h3>장비 상태 정보</h3>
                 <!-- radio button-->
                 <div class="">
-                    <label class="form-check-label" >입출고 상태</label>
+                    <label class="form-check-label">입출고 상태</label>
                     <span th:each="type : ${statusType}" class="form-check">
-                    <input type="radio" class="form-check-input" th:field="*{statusType}" th:value="${type.name()}" >
-                    <label class="form-check-label" th:for="${#ids.prev('statusType')}" th:text="${type.description}" ></label>
+                    <input type="radio" class="form-check-input" th:field="*{statusType}" th:value="${type.name()}">
+                    <label class="form-check-label" th:for="${#ids.prev('statusType')}"
+                           th:text="${type.description}"></label>
                 </span>
                 </div>
 
                 <div class="">
-                    <label class="form-check-label" >장비 상태</label>
+                    <label class="form-check-label">장비 상태</label>
                     <span th:each="type : ${statusAssetStatus}" class="form-check">
-                    <input type="radio" class="form-check-input" th:field="*{statusAssetStatus}" th:value="${type.name()}" >
-                    <label class="form-check-label" th:for="${#ids.prev('statusAssetStatus')}" th:text="${type.description}" ></label>
+                    <input type="radio" class="form-check-input" th:field="*{statusAssetStatus}"
+                           th:value="${type.name()}">
+                    <label class="form-check-label" th:for="${#ids.prev('statusAssetStatus')}"
+                           th:text="${type.description}"></label>
                 </span>
                 </div>
                 <div class="">
-                    <label class="form-check-label" >지급 용도</label>
+                    <label class="form-check-label">지급 용도</label>
                     <span th:each="type : ${statusAssetUsage}" class="form-check">
-                    <input type="radio" class="form-check-input" th:field="*{statusAssetUsage}" th:value="${type.name()}" >
-                    <label class="form-check-label" th:for="${#ids.prev('statusAssetUsage')}" th:text="${type.description}" ></label>
+                    <input type="radio" class="form-check-input" th:field="*{statusAssetUsage}"
+                           th:value="${type.name()}">
+                    <label class="form-check-label" th:for="${#ids.prev('statusAssetUsage')}"
+                           th:text="${type.description}"></label>
                 </span>
                 </div>
             </div>
             <div class="col">
-                <hr>
                 <h3>장비 사용자 정보</h3>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{statusMemberId}" placeholder="장비 소유자 입력(HMMxxxx,신규장비)" />
+                    <input type="text" class="form-control mb-1" th:field="*{statusMemberId}"
+                           placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
                     <label class="form-check-label" th:for="statusMemberId">장비 소유자 사번</label>
                 </div>
 
             </div>
             <div class="col">
-                <hr>
                 <h3>장비 스펙 정보</h3>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetModelCode}" placeholder="모델 코드 입력" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetModelCode}" placeholder="모델 코드 입력"/>
                     <label th:for="assetModelCode">모델 코드 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetModelName}" placeholder="모델명 입력" />
-                    <label th:for="assetModelName" >모델명 : </label>
+                    <input type="text" class="form-control mb-1" th:field="*{assetModelName}" placeholder="모델명 입력"/>
+                    <label th:for="assetModelName">모델명 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetSerialNumber}" placeholder="장비 시리얼 입력" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetSerialNumber}"
+                           placeholder="장비 시리얼 입력"/>
                     <label th:for="assetSerialNumber">시리얼 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetWiredMacAddress}" placeholder="유선 MAC Address" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetWiredMacAddress}"
+                           placeholder="유선 MAC Address"/>
                     <label th:for="assetWiredMacAddress">유선 MAC Address : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetWirelessMacAddress}" placeholder="무선 MAC Address" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetWirelessMacAddress}"
+                           placeholder="무선 MAC Address"/>
                     <label th:for="assetWirelessMacAddress">무선 MAC Address : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec1}" placeholder="Storage 용량" />
+                    <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec1}"
+                           placeholder="Storage 용량"/>
                     <label th:for="statusAssetSpec1">Storage 용량 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec2}" placeholder="Memory 용량" />
+                    <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec2}"
+                           placeholder="Memory 용량"/>
                     <label th:for="statusAssetSpec2">Memory 용량 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="date" class="form-control mb-1" th:field="*{assetArrivalDate}" />
+                    <input type="date" class="form-control mb-1" th:field="*{assetArrivalDate}"/>
                     <label th:for="assetArrivalDate">도입일 : </label>
                 </div>
             </div>
             <div class="col">
-                <hr>
                 <h3>최초 지급 내역</h3>
                 <div class="form-floating">
-                    <input type="date" class="form-control mb-1" th:field="*{assetPaymentDate}" />
+                    <input type="date" class="form-control mb-1" th:field="*{assetPaymentDate}"/>
                     <label th:for="assetPaymentDate">지급일 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberId}" placeholder="최초지급 사번" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberId}"
+                           placeholder="최초지급 사번"/>
                     <label th:for="assetPaymentMemberId">최초지급 사번 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberName}" placeholder="최초지급 이름" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberName}"
+                           placeholder="최초지급 이름"/>
                     <label th:for="assetPaymentMemberName">최초지급 이름 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberRank}" placeholder="최초지급 직급" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberRank}"
+                           placeholder="최초지급 직급"/>
                     <label th:for="assetPaymentMemberRank">최초지급 직급 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentDepartment}" placeholder="최초지급 부서" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentDepartment}"
+                           placeholder="최초지급 부서"/>
                     <label th:for="assetPaymentDepartment">최초지급 부서 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentDetails}" placeholder="최초지급 내용" />
+                    <input type="text" class="form-control mb-1" th:field="*{assetPaymentDetails}"
+                           placeholder="최초지급 내용"/>
                     <label th:for="assetPaymentDetails">최초지급 내용 : </label>
                 </div>
             </div>

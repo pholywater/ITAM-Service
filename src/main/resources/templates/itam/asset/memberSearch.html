@@ -5,66 +5,57 @@
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
 <body>
-<div class="container">
-    <div>
-        <div class="panel">
-            <div class="body">
-                <div class="input-group">
-                    <label for="searchBox">Navbar Search 조회</label>
-                    <input type="search" id="searchBox" placeholder="Filtrar">
-                </div>
-            </div>
-        </div>
-        <table class="myTable table hover">
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>구분</th>
-                <th>장비상태</th>
-                <th>사원번호</th>
-                <th>이름</th>
-                <th>직급</th>
-                <th>직원상태</th>
-                <th>용도</th>
-                <th>장비번호</th>
-                <th>타입</th>
-                <th>제조사</th>
-                <th>모델명</th>
-                <th>email</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="u, stat :${list}">
-                <td th:text="${stat.count}"></td>
-                <td th:text="${u.statusType}"></td>
-                <td th:text="${u.statusAssetStatus}"></td>
-                <td th:text="${u.memberId}"></td>
-                <td th:text="${u.memberName}"></td>
-                <td th:text="${u.memberRank}"></td>
-                <td th:text="${u.memberStatus}"></td>
-                <td th:text="${u.statusAssetUsage}"></td>
-                <td th:text="${u.assetNumber}"></td>
-                <td th:text="${u.modelType}"></td>
-                <td th:text="${u.modelManufacturer}"></td>
-                <td th:text="${u.assetModelName}"></td>
-                <td th:text="${u.tgateMemberEmail}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
+    <script src="js/datatables/exportTableToExcel.js"></script>
+</head>
+<div id="myDiv" class="container-fluid">
+    <button onclick="exportTableToExcel('myTable', 'members-data')">Export To Excel</button>
+    <table id="myTable" class="display">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>구분</th>
+            <th>장비상태</th>
+            <th>사원번호</th>
+            <th>이름</th>
+            <th>직급</th>
+            <th>직원상태</th>
+            <th>용도</th>
+            <th>장비번호</th>
+            <th>타입</th>
+            <th>제조사</th>
+            <th>모델명</th>
+            <th>email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u, stat :${list}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${u.statusType}"></td>
+            <td th:text="${u.statusAssetStatus}"></td>
+            <td th:text="${u.memberId}"></td>
+            <td th:text="${u.memberName}"></td>
+            <td th:text="${u.memberRank}"></td>
+            <td th:text="${u.memberStatus}"></td>
+            <td th:text="${u.statusAssetUsage}"></td>
+            <td th:text="${u.assetNumber}"></td>
+            <td th:text="${u.modelType}"></td>
+            <td th:text="${u.modelManufacturer}"></td>
+            <td th:text="${u.assetModelName}"></td>
+            <td th:text="${u.tgateMemberEmail}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div> <!-- /container -->
+<script src="jquery/jquery-3.7.1.min.js"></script>
+<script src="js/datatables/dataTables.js"></script>
+
 <script>
-    let options = {
-        numberPerPage:10, //Cantidad de datos por pagina
-        goBar:true, //Barra donde puedes digitar el numero de la pagina al que quiere ir
-        pageCounter:true, //Contador de paginas, en cual estas, de cuantas paginas
-    };
-
-    let filterOptions = {
-        el:'#searchBox' //Caja de texto para filtrar, puede ser una clase o un ID
-    };
-
-    paginate.init('.myTable',options,filterOptions);
+    $(document).ready( function () {
+    document.getElementById("myDiv").style.display = "block";
+    $('#myTable').DataTable();
+} );
 </script>
 </body>
 </html>

@@ -5,12 +5,12 @@
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
 <head>
-
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
-
+    <script src="js/datatables/exportTableToExcel.js"></script>
 </head>
 <body>
-<div id="myDiv" class="container-fluid" style="padding-top:75px;">
+<div id="myDiv" class="container-fluid">
+    <button onclick="exportTableToExcel('myTable', 'members-data')">Export To Excel</button>
     <table id="myTable" class="display">
         <thead>
         <tr>
@@ -118,13 +118,6 @@
 </div>--> <!-- /container -->
 <script src="jquery/jquery-3.7.1.min.js"></script>
 <script src="js/datatables/dataTables.js"></script>
-<!--<script>
-    $(window).load(function(){
-        $('#loader').delay(3000).fadeOut();
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("myDiv").style.display = "block";
-    });
-</script>-->
 <script>
     $(document).ready( function () {
     document.getElementById("myDiv").style.display = "block";
