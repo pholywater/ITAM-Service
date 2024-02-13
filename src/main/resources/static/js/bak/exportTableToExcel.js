@@ -1,4 +1,7 @@
 function exportTableToExcel(tableID, filename = ''){
+        exportOptions: {
+          columns: ':visible'
+        }
         var downloadLink;
         var dataType = 'application/vnd.ms-excel';
         var tableSelect = document.getElementById(tableID);

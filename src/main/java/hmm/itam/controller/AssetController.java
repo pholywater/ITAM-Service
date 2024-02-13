@@ -32,12 +32,13 @@ public class AssetController {
     @GetMapping("/assetList") // 웹 URL 매핑
     public String getAssetList(Model model) {
         List<AssetVo> assetList = AssetService.getAssetList();
+        System.out.println(assetList);
         model.addAttribute("list", assetList);
         return "itam/asset/assetList"; // 실제 HTML 경로
     }
 
     @PostMapping("/memberSearch") // 자산 내역 사용자 이름 목록 검색
-    public String memberSearch(AssetVo assetVo, String search, Model model){
+    public String memberSearch(AssetVo assetVo, String search, Model model) {
         List<AssetVo> memberSearch = AssetService.memberSearch(search);
 
         if (memberSearch == null) { // 사용자 이름 일치 항목 없을 경우 에러 처리
@@ -82,7 +83,7 @@ public class AssetController {
     }
 
     @PostMapping("/assetSearch") // 자산 내역 검색 및 수정 화면
-    public String searchResult(AssetVo assetVo, String assetNumber, Model model){
+    public String searchResult(AssetVo assetVo, String assetNumber, Model model) {
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
         if (assetNum == null) { // 관리번호 일치 항목 없을 경우 에러 처리
             return "redirect:assetSearch";
@@ -108,7 +109,7 @@ public class AssetController {
 
 
     @PostMapping("/assetUpdate") // 자산 수정 및 이후 수정 후 화면 처리
-    public String updatePage(AssetVo assetVo,String asset_number, Model model) {
+    public String updatePage(AssetVo assetVo, String asset_number, Model model) {
         /*AssetService.modifyInfo(assetVo);*/
         AssetVo asset = AssetService.assetSearch(asset_number);
         model.addAttribute("asset", assetVo);  // 수정 후 변경 내역 다시 보기 위한 값 가져오기
@@ -116,7 +117,7 @@ public class AssetController {
     }
 
     @PostMapping("/assetUpdateResult") // 자산 내역 검색 및 수정 후 결과 화면
-    public String modifyInfo(AssetVo assetVo, String assetNumber, Model model){
+    public String modifyInfo(AssetVo assetVo, String assetNumber, Model model) {
         AssetService.modifyInfo(assetVo);
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
         model.addAttribute("asset", assetNum);
@@ -134,6 +135,6 @@ public class AssetController {
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
         model.addAttribute("asset", assetNum);
         AssetService.withdraw(assetNum);
-        return "itam/asset/assetResult";
+        return "redirect:assetSearch";
     }
 }

@@ -4289,6 +4289,9 @@
 	 *  @param {object} oSettings dataTables settings object
 	 *  @memberof DataTable#oApi
 	 */
+
+    /*상단 필터 서치 생성*/
+
 	function _fnFeatureHtmlFilter ( settings )
 	{
 		var classes = settings.oClasses;
@@ -4297,6 +4300,7 @@
 		var previousSearch = settings.oPreviousSearch;
 		var features = settings.aanFeatures;
 		var input = '<input type="search" class="'+classes.sFilterInput+'"/>';
+
 
 		var str = language.sSearch;
 		str = str.match(/_INPUT_/) ?
@@ -10530,7 +10534,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+		"aLengthMenu": [[5, 10, 25, 50, 100, 300, -1], [5, 10, 25, 50, 100, 300, "All"]],
 
 
 		/**
@@ -11536,7 +11540,7 @@
 		 *      } );
 		 *    } )
 		 */
-		"iDisplayLength": 5, // Show enties
+		"iDisplayLength": 10, // 기본 불러올 줄 Show enties
 
 
 		/**

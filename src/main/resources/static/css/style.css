@@ -92,11 +92,11 @@ margin-bottom : 1px;
 
 #myDiv {
        display: none;
-       padding-top: 77px; /*navbar 컨텐츠 가려짐 패딩*/
+       padding-top: 78px; /*navbar 컨텐츠 가려짐 패딩*/
        min-height: calc(100vh - 2rem)
         }
 
 #myDiv1 {
-       padding-top: 77px; /*navbar 컨텐츠 가려짐 패딩*/
+       padding-top: 78px; /*navbar 컨텐츠 가려짐 패딩*/
        min-height: calc(100vh - 2rem)
         }

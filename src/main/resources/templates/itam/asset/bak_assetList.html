@@ -4,30 +4,28 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
-<body>
 <head>
-    <title>ITAM Asset Search</title>
-
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
     <!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
-    <link rel="stylesheet" type="text/css"
-          href="css/datatables/responsive.dataTables.min.css"/>
+    <!--<link rel="stylesheet" type="text/css"
+          href="css/datatables/responsive.dataTables.min.css"/>-->
 
-    <link rel="stylesheet" type="text/css" href="css/datatables/jquery.dataTables.min-1.13.7.css"/>
-    <link rel="stylesheet" type="text/css" href="css/datatables/buttons.dataTables.min-2.4.2.css"/>
-    <script src="jquery/jquery-3.7.0.js"></script>
-    <script src="js/datatables/dataTables-1.13.7.js"></script>
-    <script src="js/datatables/dataTables.buttons.min.js"></script>
-    <script src="js/datatables/jszip.min-3.10.1.js"></script>
-    <script src="js/datatables/pdfmake.min-0.1.53.js"></script>
-    <script src="js/datatables/vfs_fonts-0.1.53.js"></script>
-    <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
-    <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
+
+    <script src="js/datatables/exportTableToExcel.js"></script>
 </head>
+<body>
+
+
 <div id="myDiv" class="container-fluid">
-    <table id="myTable" class="display">
+    <div style="text-align:right; padding-bottom:3px;">
+        <button class="btn btn-success" onclick="exportTableToExcel('myTable', 'asset-data')">
+            Export To Excel
+        </button>
+    </div>
+    <table id="myTable" class="display nowrap dataTable dtr-column collapsed" style="width:100%">
         <thead>
         <tr>
+            <!--<th></th>-->
             <th>No.</th>
             <th>구분</th>
             <th>장비상태</th>
@@ -40,11 +38,13 @@
             <th>타입</th>
             <th>제조사</th>
             <th>모델명</th>
+            <th>지급일</th>
             <th>email</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="u, stat :${list}">
+            <!--<td></td>-->
             <td th:text="${stat.count}"></td>
             <td th:text="${u.statusType}"></td>
             <td th:text="${u.statusAssetStatus}"></td>
@@ -57,43 +57,48 @@
             <td th:text="${u.modelType}"></td>
             <td th:text="${u.modelManufacturer}"></td>
             <td th:text="${u.assetModelName}"></td>
+            <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${u.tgateMemberEmail}"></td>
         </tr>
         </tbody>
-    </table>
-</div> <!-- /container -->
+        <tfoot>
 
-<script src="js/datatables/dataTables.responsive.min.js"></script>
+        </tfoot>
+    </table>
+</div><!-- /container -->
+<script src="jquery/jquery-3.7.1.min.js"></script>
+<script src="js/datatables/dataTables.js"></script>
+
+
+<!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
+<!--<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>-->
+<!--<script src="js/datatables/dataTables.responsive.min.js"></script>-->
 
 
 <script>
-    $(document).ready(function() {
+    $(document).ready( function () {
     document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {
-        dom: 'Bfrtip',
-        lengthMenu: [
-            [ 5, 10, 25, 50, 100, -1 ],
-            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
-        ],
-        iDisplayLength : 10,
-        buttons: [
-            'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        columnDefs: [
-            {
-            className: 'dtr-control',
-            orderable: false,
-            targets: 0
-            }
-        ],
-        order: [1, 'asc'],
-        responsive: {
-                details: {
-                type: 'column'
-            }
-            }
+    $('#myTable').DataTable();
     } );
-} );
 </script>
+<!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
+<!--<script>
+    new DataTable('#myTable', {
+    columnDefs: [
+    {
+    className: 'dtr-control',
+    orderable: false,
+    targets: 0
+    }
+    ],
+    order: [1, 'asc'],
+    responsive: {
+    details: {
+    type: 'column'
+    }
+    }
+    });
+</script>-->
+
 </body>
 </html>

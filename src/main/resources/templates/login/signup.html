@@ -8,17 +8,17 @@
     <title>Sign Up</title>
 </head>
 <body>
-<div class="container">
+<div id="myDiv1" class="container">
     <h2>회원가입</h2>
     <form action="/signup" th:object="${userVo}" method="post">
-    <div>
-        <label th:for="hmmId">사번 : </label>
-        <input type="text" th:field="*{hmmId}" placeholder="HMM 아이디 입력"/>
-    </div>
-    <div>
-        <label th:for="name">이름 : </label>
-        <input type="text" th:field="*{name}" placeholder="이름 입력"/>
-    </div>
+        <div>
+            <label th:for="hmmId">사번 : </label>
+            <input type="text" th:field="*{hmmId}" placeholder="HMM 아이디 입력"/>
+        </div>
+        <div>
+            <label th:for="name">이름 : </label>
+            <input type="text" th:field="*{name}" placeholder="이름 입력"/>
+        </div>
         <div>&lt;성별&gt;</div>
         <div>
             <label th:for="isMale">남성</label>
@@ -26,14 +26,14 @@
             <label th:for="isMale">여성</label>
             <input type="radio" th:field="*{isMale}" value="female"/>
         </div>
-    <div>
-        <label th:for="department">부서 : </label>
-        <input type="text" th:field="*{department}" placeholder="부서 입력"/>
-    </div>
-    <div>
-        <label th:for="password">비번 : </label>
-        <input type="password" th:field="*{password}" placeholder="Password"/>
-    </div>
+        <div>
+            <label th:for="department">부서 : </label>
+            <input type="text" th:field="*{department}" placeholder="부서 입력"/>
+        </div>
+        <div>
+            <label th:for="password">비번 : </label>
+            <input type="password" th:field="*{password}" placeholder="Password"/>
+        </div>
         <button type="submit">회원가입</button>
     </form>
 </div>

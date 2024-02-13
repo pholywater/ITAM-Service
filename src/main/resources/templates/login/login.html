@@ -3,50 +3,29 @@
 <head>
     <title>ITAM Login Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
 </head>
 <body class="p-0 m-0">
-<div class="container p-3 position-absolute top-50 start-50 translate-middle bg-secondary-subtle rounded-3" style="width: 400px">
+<div class="container p-3 position-absolute top-50 start-50 translate-middle bg-secondary-subtle rounded-3"
+     style="width: 400px">
     <div class="d-flex justify-content-center">
-        <img src="/img/logoLogin.png" width="130" height="57" >
+        <img src="/img/logoLogin.png" width="130" height="57">
     </div>
     <h2 class="h3 mt-1 mb-1 fw-normal text-center">ITAM Service</h2>
     <form th:action="@{/login}" th:object="${userVo}" method="post">
         <input type="text" th:field="*{hmmId}" class="form-control mb-2" placeholder="Portal ID" autofocus/>
-        <input type="password" th:field="*{password}" class="form-control mb-2"  placeholder="Portal PW"/>
+        <input type="password" th:field="*{password}" class="form-control mb-2" placeholder="Portal PW"/>
         <div class="d-flex justify-content-center">
             <button type="submit" class="form-control btn btn-primary me-1 mb-2">로그인</button>
-            <button type="button" onclick="location.href='signup'" class="form-control btn btn-success ms-1 mb-2" >회원 가입</button>
+            <button type="button" onclick="location.href='signup'" class="form-control btn btn-success ms-1 mb-2">회원
+                가입
+            </button>
         </div>
     </form>
 </div>
-
 </body>
-
-<!--
-<br/> <br/>
-<button type="button" onclick="location.href='signup'">회원 가입</button>
-<button type="button" onclick="location.href='userList'">로그인 회원 리스트</button>
-<br/> <br/>
-
-<hr>
-<h2>HMM ITAM 멤버 page</h2>
-<button type="button" onclick="location.href='memberList'">HMM 멤버 리스트</button>
-<button type="button" onclick="location.href='memberAdd'">HMM 멤버 등록</button>
-<br/> <br/>
-
-<hr>
-<h2>HMM ITAM 자산 page</h2>
-<button type="button" onclick="location.href='assetList'">HMM 자산 리스트</button>
-<button type="button" onclick="location.href='assetSearch'">HMM 자산 조회</button>
-<br/> <br/>
-<button type="button" onclick="location.href='assetAdd'">HMM 자산 최초 등록</button>
-<br/> <br/>
-
-<hr>
-<h2>HMM ITAM 자산 입출고 page</h2>
-<button type="button" onclick="location.href='historyList'">HMM 자산 입출고 리스트</button>
-<button type="button" onclick="location.href='historyAdd'">HMM 자산 입출고 등록</button>-->
-
 </html>
