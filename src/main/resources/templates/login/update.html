@@ -8,25 +8,25 @@
     <title>Sign Up</title>
 </head>
 <body>
-<div class="container">
+<div id="myDiv1" class="container">
     <h2>사용자 정보 수정</h2>
     <form action="/update" method="post">
-    <div>
-        <input type="text" name="hmmId" th:value="${user.hmmId}"/>
-    </div>
-    <div>
-        <input type="text" name="name" th:value="${user.name}"/>
-    </div>
-    <div>
-        <input type="text" name="department" th:value="${user.department}"/>
-    </div>
-    <div>
-        <input type="password" name="password" th:value="${user.password}"/>
-    </div>
+        <div>
+            <input type="text" name="hmmId" th:value="${user.hmmId}"/>
+        </div>
+        <div>
+            <input type="text" name="name" th:value="${user.name}"/>
+        </div>
+        <div>
+            <input type="text" name="department" th:value="${user.department}"/>
+        </div>
+        <div>
+            <input type="password" name="password" th:value="${user.password}"/>
+        </div>
         <button type="submit">수정하기</button>
     </form>
     <form action="delete" method="post">
-        <button type="submit"  class="btn btn-outline-primary">탈퇴하기</button>
+        <button type="submit" class="btn btn-outline-primary">탈퇴하기</button>
     </form>
 </div>
 </body>

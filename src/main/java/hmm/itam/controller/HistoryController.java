@@ -26,15 +26,14 @@ public class HistoryController {
     }
 
     @GetMapping("/historyAdd") // 자산 등록 화면
-    public String toHistoryaddPage(HistoryVo historyVo)
-    {
+    public String toHistoryaddPage(HistoryVo historyVo) {
         return "/itam/history/historyAdd";
     }
 
     @PostMapping("/historyAdd") // 자산 입출고 관련 이력 입력 처리 // null 관련 처리 추가 해야함.
     public String historyadd(HistoryVo historyVo, String historyAssetNumber, String historyMemberId, Model model) {
         if (historyAssetNumber == null || historyAssetNumber.isEmpty() || historyAssetNumber.isBlank() ||
-            historyMemberId == null || historyMemberId.isEmpty() || historyMemberId.isBlank()) {
+                historyMemberId == null || historyMemberId.isEmpty() || historyMemberId.isBlank()) {
             System.out.println("NullPointerException historyAssetNumber err : " + historyAssetNumber); // null 값 입력 확인
             System.out.println("NullPointerException historyMemberId err : " + historyMemberId); // null 값 입력 확인
             System.out.println("assetNumber.isEmpty() : " + historyAssetNumber.isEmpty()); // "" 빈 값 입력
@@ -55,12 +54,13 @@ public class HistoryController {
             e.printStackTrace();
             return "redirect:/historyadd?error_code=-99";
         }*/
-        return "itam/history/historyResult"; // 자산 등록 후 보여질 화면
+        return "itam/history/historyAdd"; // 자산 등록 후 보여질 화면
     }
-    @GetMapping("/historySearch") // 자산 등록 후 화면
+
+/*    @GetMapping("/historySearch") // 자산 등록 후 화면
     public String historySearch(HistoryVo historyVo, Model model, String historyAssetNumber) {
-        return "/itam/history/historyResult";
-    }
+        return "/itam/history/historyList";
+    }*/
 
 
 }
