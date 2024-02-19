@@ -8,34 +8,41 @@
     <title>Sign Up</title>
 </head>
 <body>
-<div id="myDiv1" class="container">
-    <h2>회원가입</h2>
+<div id="myDiv1" class="container mt-30 pt-30 bg-secondary-subtle rounded-3"
+     style="width:600px; ">
+
+    <h2 class="h3 mt-10 mb-2 fw-normal text-center">회원가입</h2>
     <form action="/signup" th:object="${userVo}" method="post">
-        <div>
-            <label th:for="hmmId">사번 : </label>
-            <input type="text" th:field="*{hmmId}" placeholder="HMM 아이디 입력"/>
+        <div class="form-floating">
+            <input type="text" class="form-control mb-1" th:field="*{hmmId}" placeholder="HMM 아이디 입력"/>
+            <label th:for="hmmId">사번 :</label>
         </div>
-        <div>
+        <div class="form-floating">
+            <input type="text" class="form-control mb-1" th:field="*{name}" placeholder="이름 입력"/>
             <label th:for="name">이름 : </label>
-            <input type="text" th:field="*{name}" placeholder="이름 입력"/>
         </div>
-        <div>&lt;성별&gt;</div>
-        <div>
-            <label th:for="isMale">남성</label>
-            <input type="radio" th:field="*{isMale}" value="male"/>
-            <label th:for="isMale">여성</label>
-            <input type="radio" th:field="*{isMale}" value="female"/>
+
+        <h3 class="h5 mt-1 mb-1 fw-normal text-left">성별</h3>
+        <div class="form-floating">
+            <span class="form-check">
+                <input type="radio" class="form-check-input" th:field="*{isMale}" value="male"/>
+                <label class="form-check-label" th:for="isMale">남성</label></span>
+            <span class="form-check">
+                <input type="radio" class="form-check-input" th:field="*{isMale}" value="female"/>
+                <label class="form-check-label" th:for="isMale">여성</label></span>
         </div>
-        <div>
-            <label th:for="department">부서 : </label>
-            <input type="text" th:field="*{department}" placeholder="부서 입력"/>
+        <div class="form-floating">
+            <input type="text" class="form-control mb-1" th:field="*{department}" placeholder="부서 입력"/>
+            <label th:for="department">부서 :</label>
         </div>
-        <div>
-            <label th:for="password">비번 : </label>
-            <input type="password" th:field="*{password}" placeholder="Password"/>
+        <div class="form-floating">
+            <input type="password" class="form-control mb-1" th:field="*{password}" placeholder="Password"/>
+            <label th:for="password">비밀번호 : </label>
         </div>
-        <button type="submit">회원가입</button>
+
+        <button class="btn btn-primary" type="submit">회원가입</button>
     </form>
+
 </div>
 </body>
 </html>

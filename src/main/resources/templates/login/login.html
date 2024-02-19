@@ -1,7 +1,9 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>ITAM Login Page</title>
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -9,22 +11,31 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
 </head>
-<body class="p-0 m-0">
-<div class="container p-3 position-absolute top-50 start-50 translate-middle bg-secondary-subtle rounded-3"
-     style="width: 400px">
-    <div class="d-flex justify-content-center">
-        <img src="/img/logoLogin.png" width="130" height="57">
+<body class="p-0 m-0 bg-secondary-subtle bg-opacity-10">
+<div class="container p-3 position-absolute top-50 start-50 translate-middle"
+     style="width:350px;">
+    <div class="d-flex justify-content-center mb-4">
+        <img src="/img/logoLogin.png" width="150" height="63">
     </div>
-    <h2 class="h3 mt-1 mb-1 fw-normal text-center">ITAM Service</h2>
+    <h2 class="h1 mt-1 mb-4 fw-normal text-center">ITAM Service</h2>
     <form th:action="@{/login}" th:object="${userVo}" method="post">
-        <input type="text" th:field="*{hmmId}" class="form-control mb-2" placeholder="Portal ID" autofocus/>
-        <input type="password" th:field="*{password}" class="form-control mb-2" placeholder="Portal PW"/>
+        <div class="form-floating">
+            <input type="text" class="form-control mb-1 bg-primary bg-opacity-10 border border-secondary-subtle "
+                   th:field="*{hmmId}"/>
+            <label class="form-check-label" th:for="hmmId">Portal ID</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control mb-2 bg-primary bg-opacity-10 border border-secondary-subtle"
+                   th:field="*{password}"/>
+            <label class="form-check-label" th:for="password">Portal PW</label>
+        </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="form-control btn btn-primary me-1 mb-2">로그인</button>
             <button type="button" onclick="location.href='signup'" class="form-control btn btn-success ms-1 mb-2">회원
                 가입
             </button>
         </div>
+        <h2 class="h6 mt-5 mb-5 fw-normal text-center">현대디지텍코어(주)</h2>
     </form>
 </div>
 </body>
