@@ -1,29 +1,22 @@
 package hmm.itam.controller;
 
 
-import hmm.itam.dto.StatusAssetStatus;
-import hmm.itam.dto.StatusAssetUsage;
-import hmm.itam.dto.StatusType;
+import hmm.itam.dto.*;
 import hmm.itam.service.AssetService;
 import hmm.itam.vo.AssetVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.awt.print.Pageable;
-import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
+@Slf4j
 public class AssetController {
 
     @Autowired
@@ -37,16 +30,41 @@ public class AssetController {
         return "itam/asset/assetList"; // 실제 HTML 경로
     }
 
-    @PostMapping("/memberSearch") // 자산 내역 사용자 이름 목록 검색
-    public String memberSearch(AssetVo assetVo, String search, Model model) {
-        List<AssetVo> memberSearch = AssetService.memberSearch(search);
+    @ResponseBody // data로 받아오는 선언
+    @GetMapping("/assets")
+    public PageDto getAssetList(int draw, int length, int start) {
+        log.info("js에서 받아오는 draw 값 {} ", draw);
+        log.info("js에서 받아오는 start 값 {} ", start);
+        log.info("js에서 받아오는 length 값 {} ", length);
+        PageDto rs = new PageDto();
+        rs.setDraw(draw);
+        rs.setStart(start);
+        rs.setLength(length);
+        return AssetService.findAssetByPagination(rs);
+    }
 
-        if (memberSearch == null) { // 사용자 이름 일치 항목 없을 경우 에러 처리
+    @GetMapping("/headerSearch") // 해더 드롭다운 href 간편 조회
+    public String HeaderSearch(HeaderSearchDto headerSearchDto, Model model) {
+        String searchDto = String.valueOf(headerSearchDto);
+        //List<AssetVo> assetList = AssetService.assetHeaderSearch(headerSearchDto);
+        log.info("매개변수 테스트 {}", headerSearchDto.getStatusType());
+        log.info("매개변수 테스트 {}", headerSearchDto.getStatusAssetUsage());
+        //PageDto pageDto = new PageDto<AssetVo>();
+        //pageDto.setData(assetList);
+        model.addAttribute("list", new ArrayList<>());
+        return "itam/asset/assetList"; // 실제 HTML 경로
+    }
+
+    @PostMapping("/navbarSearch") // Navbar 우측 검색
+    public String navHeaderSearch(AssetVo assetVo, String navSearch, Model model) {
+        List<AssetVo> navbarSearch = AssetService.navbarSearch(navSearch);
+        log.info("검색어 : {}", navSearch);
+        if (navbarSearch == null) { // 일치 항목 없을 경우 에러 처리
             return "redirect:/";
         }
-        System.out.println(memberSearch);
-        model.addAttribute("list", memberSearch);
-        return "itam/asset/memberSearch"; //
+        System.out.println(navbarSearch);
+        model.addAttribute("list", navbarSearch);
+        return "itam/asset/navbarSearch"; //
     }
 
     @GetMapping("/assetAdd") // 자산 등록 화면

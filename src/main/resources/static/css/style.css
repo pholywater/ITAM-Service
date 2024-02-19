@@ -48,6 +48,7 @@ table{
     weight : 100%;
 }
 
+
 tr {
   border-top: 1px solid #C1C3D1;
   border-bottom-: 1px solid #C1C3D1;
@@ -66,7 +67,7 @@ th {
   font-size:14px;
   font-weight: 100;
   padding:10px;
-  text-align:left;
+  text-align:center;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   vertical-align:middle;
   text-align: center;
@@ -91,9 +92,9 @@ margin-bottom : 1px;
 }
 
 #myDiv {
-       display: none;
-       padding-top: 78px; /*navbar 컨텐츠 가려짐 패딩*/
-       min-height: calc(100vh - 2rem)
+        display: none; /*로딩 되는 동안 화면 가렸다가 js에서 block css 처리*/
+        padding-top: 78px; /*navbar 컨텐츠 가려짐 패딩*/
+        min-height: calc(100vh - 2rem)
         }
 
 #myDiv1 {

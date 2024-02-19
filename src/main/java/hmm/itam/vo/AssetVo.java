@@ -1,5 +1,6 @@
 package hmm.itam.vo;
 
+import hmm.itam.dto.HeaderSearchDto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,6 +9,8 @@ import java.util.Date;
 
 @Data
 public class AssetVo {
+    private String headerSearch;
+    private String HeaderSearchDto;
     private String assetNum;
     private int idx;
     private String assetNumber;
@@ -56,4 +59,7 @@ public class AssetVo {
     private String memberStatus;
     private String tgateMemberEmail;
     private String tgateMemberDepartment;
+
+    public static class getAssetPaymentDate extends Date {
+    }
 }
