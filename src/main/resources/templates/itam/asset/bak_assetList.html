@@ -6,22 +6,13 @@
       layout:fragment="Content">
 <head>
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
-    <!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
-    <!--<link rel="stylesheet" type="text/css"
-          href="css/datatables/responsive.dataTables.min.css"/>-->
 
 
-    <script src="js/datatables/exportTableToExcel.js"></script>
 </head>
 <body>
 
 
 <div id="myDiv" class="container-fluid">
-    <div style="text-align:right; padding-bottom:3px;">
-        <button class="btn btn-success" onclick="exportTableToExcel('myTable', 'asset-data')">
-            Export To Excel
-        </button>
-    </div>
     <table id="myTable" class="display nowrap dataTable dtr-column collapsed" style="width:100%">
         <thead>
         <tr>
@@ -39,7 +30,6 @@
             <th>제조사</th>
             <th>모델명</th>
             <th>지급일</th>
-            <th>email</th>
         </tr>
         </thead>
         <tbody>
@@ -58,7 +48,7 @@
             <td th:text="${u.modelManufacturer}"></td>
             <td th:text="${u.assetModelName}"></td>
             <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${u.tgateMemberEmail}"></td>
+
         </tr>
         </tbody>
         <tfoot>
@@ -66,39 +56,16 @@
         </tfoot>
     </table>
 </div><!-- /container -->
-<script src="jquery/jquery-3.7.1.min.js"></script>
-<script src="js/datatables/dataTables.js"></script>
-
-
-<!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
-<!--<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>-->
-<!--<script src="js/datatables/dataTables.responsive.min.js"></script>-->
+<script src="jquery/jquery-3.7.0.js"></script>
+<script src="js/datatables/dataTables-1.13.7.js"></script>
 
 
 <script>
     $(document).ready( function () {
     document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable();
-    } );
-</script>
-<!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
-<!--<script>
-    new DataTable('#myTable', {
-    columnDefs: [
-    {
-    className: 'dtr-control',
-    orderable: false,
-    targets: 0
-    }
-    ],
-    order: [1, 'asc'],
-    responsive: {
-    details: {
-    type: 'column'
-    }
-    }
     });
-</script>-->
+</script>
+
 
 </body>
 </html>

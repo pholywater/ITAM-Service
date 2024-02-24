@@ -1,5 +1,6 @@
 package hmm.itam.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,8 @@ public class PageDto<T> {
     private int recordsTotal;
     private int recordsFiltered;
     private int rowNo;
-
+    private String navSearch;
+    private String search;
 
     private List<T> data;
 }

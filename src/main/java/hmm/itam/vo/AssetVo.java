@@ -10,6 +10,9 @@ import java.util.Date;
 @Data
 public class AssetVo {
     private String headerSearch;
+    private String navbarSearch;
+    private String navSearch;
+    private String navSelectBox;
     private String HeaderSearchDto;
     private String assetNum;
     private int idx;

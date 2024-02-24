@@ -33,7 +33,6 @@
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
 </head>
 <body>
-
 <div id="myDiv" class="container-fluid">
     <table id="myTable" class="display nowrap" style="width:100%">
         <thead>
@@ -52,27 +51,7 @@
             <th>장비상태</th>
         </tr>
         </thead>
-        <!--<tbody>
-        <tr th:each="u, stat :${list}">
-            &lt;!&ndash;<td></td>&ndash;&gt;
-            <td th:text="${stat.count}"></td>
 
-            <td th:text="${u.memberId}"></td>
-            <td th:text="${u.memberName}"></td>
-            <td th:text="${u.memberRank}"></td>
-
-            <td th:text="${u.assetNumber}"></td>
-            <td th:text="${u.modelType}"></td>
-            <td th:text="${u.modelManufacturer}"></td>
-            <td th:text="${u.assetModelName}"></td>
-            <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
-
-            <td th:text="${u.statusType}"></td>
-            <td th:text="${u.statusAssetStatus}"></td>
-            <td th:text="${u.statusAssetUsage}"></td>
-
-        </tr>
-        </tbody>-->
         <tfoot>
         </tfoot>
     </table>
@@ -85,39 +64,39 @@
         document.getElementById("myDiv").style.display = "block";
 
         $('#myTable').DataTable( {
-               searching: false,
+               searching: true , // 우측 상단 서치박스 활성화
                processing: true,
                search: {
-                         return: true
+                         return: true // 엔터 키 검색
                          },
+
                serverSide: true,
                ajax: {
-                    url: '/assets',
-                    type: 'GET'
-                    },
-
-
+                        url: '/assets',
+                        type: 'POST'
+                     },
                scrollCollapse: true,
                scrollY: '700px',
                dom: 'Bfrtip',
 
-                lengthMenu: [
+               lengthMenu: [
                                 [ 5, 10, 25, 50, 100, -1 ],
                                 [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
                             ],
-                iDisplayLength : 10,
-                buttons: [
+               iDisplayLength : 10,
+               buttons: [
                            'pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'
                          ],
-                columnDefs: [
+               columnDefs: [
                                 {
                                 className: 'dtr-control',
-                                orderable: false,
-                                targets: 0
+                                orderable: false
+
                                 }
                             ],
-                order: [1, 'asc'],
-                responsive: {
+               order: [5, 'asc'], // 작동 안함
+               colReorder: true,
+               responsive: {
                                details: {
                                            type: 'column'
                                         }
