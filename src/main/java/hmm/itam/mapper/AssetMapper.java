@@ -1,6 +1,7 @@
 package hmm.itam.mapper;
 
 import hmm.itam.dto.HeaderSearchDto;
+import hmm.itam.dto.PageDto;
 import hmm.itam.vo.AssetVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,15 +13,14 @@ public interface AssetMapper {
     List<AssetVo> getAssetList();
 
     /*List<AssetVo> assetHeaderSearch(String statusType, String statusAssetUsage);*/
-    List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto);
+    //AssetVo assetHeaderSearch(HeaderSearchDto headerSearchDto);
+    //List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto);
 
-    List<AssetVo> findAssetByPagination(int startNo, int length);
+    List<AssetVo> findAssetByPagination(int startNo, int length, String navSearch);
 
+    int countTotalAsset(String navSearch);
 
-    int countTotalAsset();
-
-
-    List<AssetVo> searchByNavbar(String statusMemberId); // NavbarSearch 메인 화면 우측 상단 검색
+    List<AssetVo> searchByNavbar(String navSearch); // NavbarSearch 메인 화면 우측 상단 검색
 
 
     AssetVo getAssetByAssetNumber(String assetNumber); // 관리번호로 검색

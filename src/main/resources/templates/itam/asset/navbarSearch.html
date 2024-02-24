@@ -71,6 +71,8 @@
         search: {
                     return: true
                 },
+        scrollCollapse: true,
+        scrollY: '700px',
         dom: 'Bfrtip',
         lengthMenu: [
             [ 5, 10, 25, 50, 100, -1 ],
@@ -83,11 +85,10 @@
         columnDefs: [
             {
             className: 'dtr-control',
-            orderable: false,
-            targets: 0
+            orderable: false
             }
         ],
-        order: [1, 'asc'],
+        order: [0, 'asc'],
         responsive: {
                 details: {
                 type: 'column'

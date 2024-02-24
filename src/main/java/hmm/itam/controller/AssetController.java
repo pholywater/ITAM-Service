@@ -1,6 +1,5 @@
 package hmm.itam.controller;
 
-
 import hmm.itam.dto.*;
 import hmm.itam.service.AssetService;
 import hmm.itam.vo.AssetVo;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,41 +20,74 @@ public class AssetController {
     @Autowired
     private AssetService AssetService;
 
-    @GetMapping("/assetList") // 웹 URL 매핑
+    @GetMapping("/assetList") // Service 처리로 변경(24.02) 미사용
     public String getAssetList(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetList();
-        System.out.println(assetList);
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList"; // 실제 HTML 경로
+        //List<AssetVo> assetList = AssetService.getAssetList();
+        //System.out.println(assetList);
+        //model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
     }
 
-    @ResponseBody // data로 받아오는 선언
-    @GetMapping("/assets")
-    public PageDto getAssetList(int draw, int length, int start) {
-        log.info("js에서 받아오는 draw 값 {} ", draw);
-        log.info("js에서 받아오는 start 값 {} ", start);
-        log.info("js에서 받아오는 length 값 {} ", length);
+
+    @GetMapping("/headerSearch") // 해더 드롭다운 href Server-Side 검색
+    public String HeaderSearch(HttpSession session, String navSearch, Model model) {
+        session.setAttribute("navSearch", navSearch);
+        //model.addAttribute("Searh", "navSearch");
+        //String navSearch = headerSearchDto.getNavSearch();
+        //List<AssetVo> navSearchList = AssetService.navbarSearch(navSearch);
+
+        if (navSearch == "null") {
+            return "redirect:/";
+        }
+        log.info("드롭다운 해더 검색어 NavSearch Controller 체크 : {}", navSearch);
+
+        return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출
+    }
+
+
+    @ResponseBody // Data로 받아오는 선언
+    @PostMapping("/assets") // js ajax 호출로 Data로 들어갈 PageDto 값 정의
+    public PageDto getAsset(int draw, int length, int start, String sSearch, HttpSession session) {
+        String navSearch = (String) session.getAttribute("navSearch");
+        //String searchValue = Request["search[value]"];
+        //String search = Request.Form.GetValues("search[value]").FirstOrDefault();
+        //String search = Request.QueryString["(search[value])"];
+        //String search = (String) session.getAttribute("search[value]");
+        //String search = Request.Form.GetValues("search[value]")[0];
+        //String navSearch = (String) headerSearchDto.getNavSearch();
+        String search = navSearch;
+
+        log.info("ajax: '/assets' 실행 후 js에서 받아오는 draw 값 {} ", draw);
+        log.info("ajax: '/assets' 실행 후 js에서 받아오는 start 값 {} ", start);
+        log.info("ajax: '/assets' 실행 후 js에서 받아오는 length 값 {} ", length);
+        log.info("ajax: '/assets' 실행 후 js에서 받아오는 search 값 {} ", search);
+        log.info("getNavSearch 값 {} ", navSearch);
+
         PageDto rs = new PageDto();
+
         rs.setDraw(draw);
         rs.setStart(start);
         rs.setLength(length);
+        rs.setSearch(search);
+        rs.setNavSearch(navSearch);
+
+
         return AssetService.findAssetByPagination(rs);
     }
 
-    @GetMapping("/headerSearch") // 해더 드롭다운 href 간편 조회
-    public String HeaderSearch(HeaderSearchDto headerSearchDto, Model model) {
-        String searchDto = String.valueOf(headerSearchDto);
-        //List<AssetVo> assetList = AssetService.assetHeaderSearch(headerSearchDto);
-        log.info("매개변수 테스트 {}", headerSearchDto.getStatusType());
-        log.info("매개변수 테스트 {}", headerSearchDto.getStatusAssetUsage());
-        //PageDto pageDto = new PageDto<AssetVo>();
-        //pageDto.setData(assetList);
-        model.addAttribute("list", new ArrayList<>());
-        return "itam/asset/assetList"; // 실제 HTML 경로
+    @GetMapping("/navbarSearch") // Navbar 우측 Get 클라이언트 검색
+    public String navGetSearch(AssetVo assetVo, String navbarSearch, Model model) {
+        List<AssetVo> navbarGetSearch = AssetService.navbarSearch(navbarSearch);
+        log.info("검색어 : {}", navbarSearch);
+        if (navbarGetSearch == null) { // 일치 항목 없을 경우 에러 처리
+            return "redirect:/";
+        }
+        model.addAttribute("list", navbarGetSearch);
+        return "itam/asset/navbarSearch"; //
     }
 
-    @PostMapping("/navbarSearch") // Navbar 우측 검색
-    public String navHeaderSearch(AssetVo assetVo, String navSearch, Model model) {
+    @PostMapping("/navbarSearch") // Navbar 우측 "Post" 검색(현재 미사용)
+    public String navHeaderSearch(String navSearch, Model model) {
         List<AssetVo> navbarSearch = AssetService.navbarSearch(navSearch);
         log.info("검색어 : {}", navSearch);
         if (navbarSearch == null) { // 일치 항목 없을 경우 에러 처리

@@ -9,12 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
-import java.text.DateFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,75 +19,82 @@ import java.util.List;
 public class AssetService {
     @Autowired
     private AssetMapper AssetMapper;
+    private HeaderSearchDto HeaderSearchDto;
 
+    public List<AssetVo> assetHeaderSearch(String navbarSearch) {
+        return AssetMapper.searchByNavbar(navbarSearch);
+    }
 
     public List<AssetVo> getAssetList() {
 
         return AssetMapper.getAssetList();
     }
 
-    public List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto) {
-        return AssetMapper.assetHeaderSearch(headerSearchDto);
+    /*NavbarSearch 메인 화면 우측 상단 클라이언트 검색*/
+    public List<AssetVo> navbarSearch(String navbarSearch) {
+        return AssetMapper.searchByNavbar(navbarSearch);
     }
 
-
+    /*DataTables Server-side 조회 설정*/
     public PageDto<List<String>> findAssetByPagination(PageDto pageDto) {
-        pageDto.setRecordsTotal(AssetMapper.countTotalAsset());
-        pageDto.setRecordsFiltered(pageDto.getRecordsTotal());
-        log.info("Draw - 숫자 : {}", pageDto.getDraw());
-        log.info("사용자한테 받은 페이지 Start : {}", pageDto.getStart());
-        int startNo = (pageDto.getStart());
+        int startNo = pageDto.getStart();
         int length = pageDto.getLength();
         int rowNo = pageDto.getStart();
+        String navSearch = pageDto.getNavSearch();
+        pageDto.setRecordsTotal(AssetMapper.countTotalAsset(navSearch));
+        pageDto.setRecordsFiltered(pageDto.getRecordsTotal());
+
+        log.info("Draw 받은 숫자 : {}", pageDto.getDraw());
+        log.info("사용자한테 받은 페이지 Start : {}", pageDto.getStart());
+        log.info("디비에 넘기기 위해 계산한 시작 번호 startNo : {}", startNo);
+        log.info("디비에 넘기는 검색 조건 navSearch : {}", pageDto.getNavSearch());
+        //log.info("디비로 넘길 SearchBox search[value] 값: {}", pageDto.getSearch());
+
         List<AssetVo> data = new ArrayList<>();
         if (length == -1) {
             //전체
             //TODO 전체 조회 쿼리 명시
-            data = AssetMapper.findAssetByPagination(0, pageDto.getRecordsTotal());
+            data = AssetMapper.findAssetByPagination(0, pageDto.getRecordsTotal(), navSearch);
         } else {
             //페이징
-            data = AssetMapper.findAssetByPagination(startNo, length);
+            data = AssetMapper.findAssetByPagination(startNo, length, navSearch);
         }
-        log.info("디비에 넘기기 위해 계산한 시작 번호 : {}", startNo);
+
         List<List<String>> result = new ArrayList<>();
         for (AssetVo assetVo : data) {
             List<String> list = new ArrayList<>();
             rowNo = rowNo + 1;
             list.add(String.valueOf(rowNo));
-            list.add(assetVo.getStatusType());
-            list.add(assetVo.getStatusAssetStatus());
             list.add(assetVo.getMemberId());
             list.add(assetVo.getMemberName());
             list.add(assetVo.getMemberRank());
-            list.add(assetVo.getStatusAssetUsage());
             list.add(assetVo.getAssetNumber());
             list.add(assetVo.getModelType());
             list.add(assetVo.getModelManufacturer());
             list.add(assetVo.getAssetModelName());
-
             Date date = new AssetVo.getAssetPaymentDate();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String AssetPaymentDate = simpleDateFormat.format(date);
             list.add(AssetPaymentDate); // format 변경 해야함.
-
+            list.add(assetVo.getStatusType());
+            list.add(assetVo.getStatusAssetUsage());
+            list.add(assetVo.getStatusAssetStatus());
             result.add(list);
         }
         pageDto.setData(result);
-        //log.info("디비로 부터 받은 값: {}", data);
+        log.info("디비로 부터 받은 값: {}", data);
         log.info("값 변환 후: {}", result);
         return pageDto;
+    }
+
+    public HeaderSearchDto HeaderSearchDto(String navSearch) {
+        return HeaderSearchDto;
     }
 
     /*장비 정보 등록*/
     public void assetAdd(AssetVo assetVo) {
         AssetMapper.insertAsset(assetVo);
     }
-
-    /*멤버 장비 사용 정보 조회*/
-    public List<AssetVo> navbarSearch(String statusMemberId) {
-        return AssetMapper.searchByNavbar(statusMemberId);
-    }
-
 
     /*장비 조회 1*/
     public AssetVo assetSearch(String assetNumber) {
@@ -107,6 +110,54 @@ public class AssetService {
     public void withdraw(AssetVo assetVo) {
         AssetMapper.deleteAsset(assetVo);
     }
+
+
+    /* public List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto, PageDto pageDto, String navSearch) {
+        pageDto.setRecordsTotal(AssetMapper.countTotalAsset(navSearch));
+        pageDto.setRecordsFiltered(pageDto.getRecordsTotal());
+        int startNo = (pageDto.getStart());
+        int length = pageDto.getLength();
+        int rowNo = pageDto.getStart();
+        log.info("Draw 받은 숫자 : {}", pageDto.getDraw());
+        log.info("사용자한테 받은 페이지 Start : {}", pageDto.getStart());
+        log.info("디비에 넘기기 위해 계산한 시작 번호 startNo : {}", startNo);
+        List<AssetVo> data = new ArrayList<>();
+        if (length == -1) {
+            //전체
+            //TODO 전체 조회 쿼리 명시
+            data = AssetMapper.findAssetByPagination(0, pageDto.getRecordsTotal(), navSearch);
+        } else {
+            //페이징
+            data = AssetMapper.findAssetByPagination(startNo, length, navSearch);
+        }
+
+        List<List<String>> result = new ArrayList<>();
+        for (AssetVo assetVo : data) {
+            List<String> list = new ArrayList<>();
+            rowNo = rowNo + 1;
+            list.add(String.valueOf(rowNo));
+            list.add(assetVo.getMemberId());
+            list.add(assetVo.getMemberName());
+            list.add(assetVo.getMemberRank());
+            list.add(assetVo.getAssetNumber());
+            list.add(assetVo.getModelType());
+            list.add(assetVo.getModelManufacturer());
+            list.add(assetVo.getAssetModelName());
+            Date date = new AssetVo.getAssetPaymentDate();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String AssetPaymentDate = simpleDateFormat.format(date);
+            list.add(AssetPaymentDate); // format 변경 해야함.
+            list.add(assetVo.getStatusType());
+            list.add(assetVo.getStatusAssetUsage());
+            list.add(assetVo.getStatusAssetStatus());
+            result.add(list);
+        }
+        pageDto.setData(result);
+        log.info("디비로 부터 받은 값: {}", data);
+        log.info("값 변환 후: {}", result);
+        return data;
+    }
+*/
 
 
 }
