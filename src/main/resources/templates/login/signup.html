@@ -22,15 +22,15 @@
             <label th:for="name">이름 : </label>
         </div>
 
-        <h3 class="h5 mt-1 mb-1 fw-normal text-left">성별</h3>
-        <div class="form-floating">
-            <span class="form-check">
-                <input type="radio" class="form-check-input" th:field="*{isMale}" value="male"/>
-                <label class="form-check-label" th:for="isMale">남성</label></span>
-            <span class="form-check">
-                <input type="radio" class="form-check-input" th:field="*{isMale}" value="female"/>
-                <label class="form-check-label" th:for="isMale">여성</label></span>
-        </div>
+        <!-- <h3 class="h5 mt-1 mb-1 fw-normal text-left">성별</h3>
+         <div class="form-floating">
+             <span class="form-check">
+                 <input type="radio" class="form-check-input" th:field="*{isMale}" value="male"/>
+                 <label class="form-check-label" th:for="isMale">남성</label></span>
+             <span class="form-check">
+                 <input type="radio" class="form-check-input" th:field="*{isMale}" value="female"/>
+                 <label class="form-check-label" th:for="isMale">여성</label></span>
+         </div>-->
         <div class="form-floating">
             <input type="text" class="form-control mb-1" th:field="*{department}" placeholder="부서 입력"/>
             <label th:for="department">부서 :</label>

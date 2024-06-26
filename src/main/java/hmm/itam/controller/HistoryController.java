@@ -2,21 +2,26 @@ package hmm.itam.controller;
 
 import hmm.itam.service.HistoryService;
 import hmm.itam.vo.HistoryVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.text.BreakIterator;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
+@Slf4j
 public class HistoryController {
 
     @Autowired
     private HistoryService HistoryService;
 
-    @GetMapping("/historyList") // 웹 URL 매핑
+    @GetMapping("/historyList") // 웹 URL 매핑(전체 리스트 시간 오래 걸리는 단점. 조회 기간 설정 필요)
     public String getHistoryList(Model model) {
         List<HistoryVo> historyList = HistoryService.getHistoryList();
         model.addAttribute("list", historyList);
@@ -24,12 +29,12 @@ public class HistoryController {
     }
 
     @GetMapping("/historyAdd") // 자산 등록 화면
-    public String toHistoryaddPage(HistoryVo historyVo) {
+    public String toHistoryAddPage(HistoryVo historyVo) {
         return "/itam/history/historyAdd";
     }
 
     @PostMapping("/historyAdd") // 자산 입출고 관련 이력 입력 처리 // null 관련 처리 추가 해야함.
-    public String historyadd(HistoryVo historyVo, String historyAssetNumber, String historyMemberId, Model model) {
+    public String historyAdd(HistoryVo historyVo, String historyAssetNumber, String historyMemberId, Model model) {
         if (historyAssetNumber == null || historyAssetNumber.isEmpty() || historyAssetNumber.isBlank() ||
                 historyMemberId == null || historyMemberId.isEmpty() || historyMemberId.isBlank()) {
             System.out.println("NullPointerException historyAssetNumber err : " + historyAssetNumber); // null 값 입력 확인
@@ -42,7 +47,8 @@ public class HistoryController {
         }
         HistoryService.historyAdd(historyVo);
         System.out.println("historyAssetNumber : " + historyAssetNumber);
-        List<HistoryVo> resultList = HistoryService.historyAddResult(historyAssetNumber);
+        String search = historyAssetNumber;
+        List<HistoryVo> resultList = HistoryService.historyAddResult(search);
         model.addAttribute("list", resultList);
         /*try { 입출력 이력 등록은 중복 값 체크 하지 않음
             HistoryService.historyAdd(historyVo);
@@ -55,10 +61,39 @@ public class HistoryController {
         return "itam/history/historyAdd"; // 자산 등록 후 보여질 화면
     }
 
-/*    @GetMapping("/historySearch") // 자산 등록 후 화면
-    public String historySearch(HistoryVo historyVo, Model model, String historyAssetNumber) {
-        return "/itam/history/historyList";
-    }*/
+    @GetMapping("/historySearch") // 이력 조회 화면
+    public String toHistorySearchPage(HistoryVo historyVo) {
+        return "/itam/history/historySearch";
+    }
 
 
+    @PostMapping("/historySearch") // 자산 조회 화면
+    public String historySearch(HistoryVo historyVo, Model model, String search, String searchType) {
+        log.info("searchType : {}", searchType);
+        log.info("search : {}", search);
+        if (Objects.equals(searchType, "easySearch")) {
+            log.info("간편 조회하기 : {}", search);
+            List<HistoryVo> resultList = HistoryService.historySearch(search);
+            model.addAttribute("list", resultList);
+            return "/itam/history/historySearch";
+        } else if (Objects.equals(searchType, "historyAssetNumber")) {
+            log.info("관리번호 조회하기 : {}", search);
+            List<HistoryVo> resultList = HistoryService.historyAssetSearch(search);
+            model.addAttribute("list", resultList);
+            return "/itam/history/historySearch";
+        } else if (Objects.equals(searchType, "historyMemberName")) {
+            log.info("이름 조회하기 : {}", search);
+            List<HistoryVo> resultList = HistoryService.historyNameSearch(search);
+            model.addAttribute("list", resultList);
+            return "/itam/history/historySearch";
+        } else if (Objects.equals(searchType, "historyMemberId")) {
+            log.info("아이디 조회하기 : {}", search);
+            List<HistoryVo> resultList = HistoryService.historyIdSearch(search);
+            model.addAttribute("list", resultList);
+            return "/itam/history/historySearch";
+        } else if (search == null || search.isEmpty() || search.isBlank()) {
+            log.info("빈 값 리턴");
+        }
+        return "redirect:historySearch";
+    }
 }

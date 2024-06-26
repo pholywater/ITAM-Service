@@ -13,6 +13,7 @@ public class HeaderSearchDto {
     private String memberId;
     private String assetNumber;
     private String assetModelName;
+    private String memberDepartmentName;
     private String navSearch;
 
     /*public HeaderSearchDto(String navSearch) {

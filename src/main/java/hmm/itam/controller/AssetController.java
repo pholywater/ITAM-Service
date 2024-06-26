@@ -2,7 +2,10 @@ package hmm.itam.controller;
 
 import hmm.itam.dto.*;
 import hmm.itam.service.AssetService;
+import hmm.itam.service.HistoryService;
 import hmm.itam.vo.AssetVo;
+import hmm.itam.vo.HistoryVo;
+import hmm.itam.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
+import java.util.SimpleTimeZone;
 
 @Controller
 @Slf4j
@@ -20,18 +25,21 @@ public class AssetController {
     @Autowired
     private AssetService AssetService;
 
-    @GetMapping("/assetList") // Service 처리로 변경(24.02) 미사용
+
+    @GetMapping("/assetList") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)
     public String getAssetList(Model model) {
-        //List<AssetVo> assetList = AssetService.getAssetList();
-        //System.out.println(assetList);
-        //model.addAttribute("list", assetList);
+        List<AssetVo> assetList = AssetService.getAssetList();
+        /*System.out.println(assetList);*/
+        log.info("전체 자산 리스트 조회 : 출고,입고,기타");
+        model.addAttribute("list", assetList);
         return "itam/asset/assetList";
     }
 
 
     @GetMapping("/headerSearch") // 해더 드롭다운 href Server-Side 검색
-    public String HeaderSearch(HttpSession session, String navSearch, Model model) {
+    public String HeaderSearch(AssetVo assetVo, HttpSession session, String navSearch, Model model) {
         session.setAttribute("navSearch", navSearch);
+
         //model.addAttribute("Searh", "navSearch");
         //String navSearch = headerSearchDto.getNavSearch();
         //List<AssetVo> navSearchList = AssetService.navbarSearch(navSearch);
@@ -47,38 +55,58 @@ public class AssetController {
 
     @ResponseBody // Data로 받아오는 선언
     @PostMapping("/assets") // js ajax 호출로 Data로 들어갈 PageDto 값 정의
-    public PageDto getAsset(int draw, int length, int start, String sSearch, HttpSession session) {
+    public PageDto getAsset(int draw, int length, int start, String search, HttpSession session) {
         String navSearch = (String) session.getAttribute("navSearch");
+        //session.setAttribute("filterSearch", Search);
+        //String filterSearch = (String) session.getAttribute("filterSearch");
         //String searchValue = Request["search[value]"];
         //String search = Request.Form.GetValues("search[value]").FirstOrDefault();
         //String search = Request.QueryString["(search[value])"];
-        //String search = (String) session.getAttribute("search[value]");
+        //String filterSearch = (String) session.getAttribute("search[value]");
         //String search = Request.Form.GetValues("search[value]")[0];
         //String navSearch = (String) headerSearchDto.getNavSearch();
-        String search = navSearch;
+        //String search = navSearch;
 
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 draw 값 {} ", draw);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 start 값 {} ", start);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 length 값 {} ", length);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 search 값 {} ", search);
-        log.info("getNavSearch 값 {} ", navSearch);
+        //log.info("ajax: '/assets' 실행 후 js에서 받아오는 filterSearch 값 {} ", filterSearch);
+        log.info("해더에서 넘겨 받은 getNavSearch 값 {} ", navSearch);
 
         PageDto rs = new PageDto();
 
         rs.setDraw(draw);
         rs.setStart(start);
         rs.setLength(length);
-        rs.setSearch(search);
+        //rs.setSearch(search);
         rs.setNavSearch(navSearch);
 
 
         return AssetService.findAssetByPagination(rs);
     }
 
+
     @GetMapping("/navbarSearch") // Navbar 우측 Get 클라이언트 검색
-    public String navGetSearch(AssetVo assetVo, String navbarSearch, Model model) {
+
+
+    public String navGetSearch(AssetVo assetVo, HistoryVo historyVo, String navbarSearch, String searchType, String search, Model model) {
+
+        if (navbarSearch == "") { // 빈 값 입력 시
+            log.info("검색어 빈값 : redirect:/ 처리");
+            return "redirect:/";
+        }
+
+        if (Objects.equals(searchType, "history")) {
+            log.info("간편 이력 조회하기 : {}", navbarSearch);
+            List<AssetVo> resultList = AssetService.historySearch(navbarSearch);
+            model.addAttribute("list", resultList);
+            return "/itam/history/historySearch";
+        }
+
         List<AssetVo> navbarGetSearch = AssetService.navbarSearch(navbarSearch);
         log.info("검색어 : {}", navbarSearch);
+
         if (navbarGetSearch == null) { // 일치 항목 없을 경우 에러 처리
             return "redirect:/";
         }
@@ -100,6 +128,7 @@ public class AssetController {
 
     @GetMapping("/assetAdd") // 자산 등록 화면
     public String toAssetAddPage(AssetVo assetVo) {
+        log.info("장비 등록 화면입니다.");
         return "/itam/asset/assetAdd";
     }
 
@@ -127,7 +156,8 @@ public class AssetController {
     }
 
     @GetMapping("/assetSearch") // 자산 등록 후 화면
-    public String searchPage(AssetVo assetVo) {
+    public String searchPage(AssetVo assetVoo) {
+        log.info("장비 정보 조회 화면입니다.");
         return "/itam/asset/assetSearch";
     }
 
@@ -135,9 +165,11 @@ public class AssetController {
     public String searchResult(AssetVo assetVo, String assetNumber, Model model) {
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
         if (assetNum == null) { // 관리번호 일치 항목 없을 경우 에러 처리
+            log.info("조회하기 : 일치하는 관리번호 없음");
             return "redirect:assetSearch";
         }
         model.addAttribute("asset", assetNum);
+        log.info("장비 정보를 조회합니다. 관리번호 : {}", assetNum.getAssetNumber());
         return "itam/asset/assetResult"; //
     }
 
@@ -162,6 +194,7 @@ public class AssetController {
         /*AssetService.modifyInfo(assetVo);*/
         AssetVo asset = AssetService.assetSearch(asset_number);
         model.addAttribute("asset", assetVo);  // 수정 후 변경 내역 다시 보기 위한 값 가져오기
+        log.info("장비 정보 수정 화면입니다.");
         return "itam/asset/assetUpdate";
     }
 
@@ -170,7 +203,8 @@ public class AssetController {
         AssetService.modifyInfo(assetVo);
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
         model.addAttribute("asset", assetNum);
-        return "itam/asset/assetResult";
+        log.info("장비 정보를 수정하였습니다. 관리번호 : {}", assetNum.getAssetNumber());
+        return "itam/asset/assetSearch";
     }
 
     @PostMapping("/assetLogout")

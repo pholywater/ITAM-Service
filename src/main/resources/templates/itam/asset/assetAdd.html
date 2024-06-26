@@ -68,6 +68,37 @@
                            placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
                     <label class="form-check-label" th:for="statusMemberId">장비 소유자 사번</label>
                 </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{memberName}"
+                           placeholder="사용자 이름" disabled/>
+                    <label th:for="memberName">사용자 이름</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{memberDepartment}"
+                           placeholder="사용자 부서" disabled/>
+                    <label th:for="memberDepartment">사용자 부서</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{memberDepartmentDetail}"
+                           placeholder="사용자 부서 상세" disabled/>
+                    <label th:for="memberDepartmentDetail">사용자 부서 상세</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1"
+                           th:field="*{statusAssetEtc1}" placeholder="비고1(트리플)" disabled/>
+                    <label th:for="statusAssetEtc1">비고1(트리플)</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1"
+                           th:field="*{statusAssetEtc2}" placeholder="용도 상세" disabled/>
+                    <label th:for="statusAssetEtc2">용도 상세</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1"
+                           th:field="*{assetDuration}" placeholder="장비 지급 기간" disabled/>
+                    <label th:for="statusAssetEtc2">장비 지급 기간</label>
+                </div>
+
 
             </div>
             <div class="col">
@@ -98,12 +129,12 @@
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec1}"
                            placeholder="Storage 용량"/>
-                    <label th:for="statusAssetSpec1">Storage 용량 : </label>
+                    <label th:for="statusAssetSpec1">Storage / 인치 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec2}"
                            placeholder="Memory 용량"/>
-                    <label th:for="statusAssetSpec2">Memory 용량 : </label>
+                    <label th:for="statusAssetSpec2">Memory / 해상도 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="date" class="form-control mb-1" th:field="*{assetArrivalDate}"/>

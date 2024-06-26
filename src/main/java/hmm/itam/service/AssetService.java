@@ -5,6 +5,7 @@ import hmm.itam.dto.HeaderSearchDto;
 import hmm.itam.dto.PageDto;
 import hmm.itam.mapper.AssetMapper;
 import hmm.itam.vo.AssetVo;
+import hmm.itam.vo.HistoryVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,10 @@ public class AssetService {
     /*NavbarSearch 메인 화면 우측 상단 클라이언트 검색*/
     public List<AssetVo> navbarSearch(String navbarSearch) {
         return AssetMapper.searchByNavbar(navbarSearch);
+    }
+
+    public List<AssetVo> historySearch(String navbarSearch) {
+        return AssetMapper.getHistorySearch(navbarSearch);
     }
 
     /*DataTables Server-side 조회 설정*/
@@ -66,19 +71,27 @@ public class AssetService {
             rowNo = rowNo + 1;
             list.add(String.valueOf(rowNo));
             list.add(assetVo.getMemberId());
+            list.add(assetVo.getDepartmentLocation());
+            list.add(assetVo.getDepartmentRegion());
+            list.add(assetVo.getDepartmentFloor());
+            list.add(assetVo.getDepartmentName());
             list.add(assetVo.getMemberName());
             list.add(assetVo.getMemberRank());
             list.add(assetVo.getAssetNumber());
             list.add(assetVo.getModelType());
             list.add(assetVo.getModelManufacturer());
             list.add(assetVo.getAssetModelName());
+            list.add(assetVo.getStatusAssetSpec1());
+            list.add(assetVo.getStatusAssetSpec2());
             Date date = new AssetVo.getAssetPaymentDate();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String AssetPaymentDate = simpleDateFormat.format(date);
-            list.add(AssetPaymentDate); // format 변경 해야함.
+            list.add(AssetPaymentDate); // db 날짜 yyy-MM-dd 포맷 가져오기
             list.add(assetVo.getStatusType());
             list.add(assetVo.getStatusAssetUsage());
             list.add(assetVo.getStatusAssetStatus());
+            list.add(assetVo.getAssetLastUpdateDate());
+            list.add(assetVo.getStatusAssetEtc2());
             result.add(list);
         }
         pageDto.setData(result);

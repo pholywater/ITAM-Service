@@ -7,7 +7,7 @@
 
 <head>
     <title>ITAM Asset List</title>
-
+    <!--백앤드 조회-->
 
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
 
@@ -39,16 +39,25 @@
         <tr>
             <th>No.</th>
             <th>사원번호</th>
+            <th>위치</th>
+            <th>지역</th>
+            <th>층</th>
+            <th>부서</th>
             <th>이름</th>
             <th>직급</th>
             <th>장비번호</th>
             <th>타입</th>
             <th>제조사</th>
             <th>모델명</th>
+            <th>시리얼</th>
+            <th>Spec1</th>
+            <th>Spec2</th>
             <th>지급일</th>
             <th>구분</th>
             <th>용도</th>
             <th>장비상태</th>
+            <th>최근실사</th>
+            <th>용도상세</th>
         </tr>
         </thead>
 
@@ -64,10 +73,11 @@
         document.getElementById("myDiv").style.display = "block";
 
         $('#myTable').DataTable( {
-               searching: true , // 우측 상단 서치박스 활성화
+               searching: false , // 우측 상단 서치박스 활성화
                processing: true,
                search: {
                          return: true // 엔터 키 검색
+                         // regex : true
                          },
 
                serverSide: true,
@@ -87,13 +97,16 @@
                buttons: [
                            'pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'
                          ],
-               columnDefs: [
+               columnDefs:
+                            [
                                 {
                                 className: 'dtr-control',
                                 orderable: false
 
                                 }
                             ],
+
+
                order: [5, 'asc'], // 작동 안함
                colReorder: true,
                responsive: {
