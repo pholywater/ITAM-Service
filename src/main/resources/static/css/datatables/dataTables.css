@@ -274,7 +274,7 @@ table.dataTable tfoot th {
 table.dataTable > thead > tr > th,
 table.dataTable > thead > tr > td {
   padding: 10px;
-  font-size: 16px;/*테이블 해더 폰트*/
+  font-size: 14px;/*테이블 해더 폰트*/
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 table.dataTable > thead > tr > th:active,
@@ -301,7 +301,7 @@ table.dataTable tbody tr.selected a {
 }
 table.dataTable tbody th,
 table.dataTable tbody td {
-font-size: 15px; /*테이블 바디 폰트*/
+font-size: 13px; /*테이블 바디 폰트*/
   padding: 8px 10px;
 }
 table.dataTable.row-border > tbody > tr > th,

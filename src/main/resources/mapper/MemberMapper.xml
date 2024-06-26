@@ -4,8 +4,6 @@
     <select id="getMemberList" resultType="hmm.itam.vo.MemberVo">
         SELECT *
         FROM hmm_member
-        LEFT JOIN tgate_db
-        ON hmm_member.member_id=tgate_db.tgate_member_id
     </select>
 
     <insert id="insertMember" parameterType="hmm.itam.vo.MemberVo">
@@ -20,4 +18,19 @@
         #{memberEtc1}, #{memberEtc2}
         )
     </insert>
+
+    <!--부서 조회-->
+    <select id="getDepartmentList" resultType="hmm.itam.vo.MemberVo">
+        SELECT DISTINCT
+        member_department_detail, member_department
+        FROM hmm_member
+    </select>
+
+    <!--홈 해더에서 부서 조회-->
+    <select id="getHeaderDepartmentList" resultType="hmm.itam.vo.MemberVo">
+        SELECT DISTINCT
+        member_department_detail, member_department
+        FROM hmm_member
+    </select>
+
 </mapper>

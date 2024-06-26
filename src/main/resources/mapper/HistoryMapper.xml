@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hmm.itam.mapper.HistoryMapper">
+    <!--장비 이력 전체 조회-->
     <select id="getHistoryList" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
@@ -8,8 +9,8 @@
         LEFT JOIN hmm_member
         ON asset_history.history_member_id=hmm_member.member_id
 
-        LEFT JOIN tgate_db
-        ON hmm_member.member_id=tgate_db.tgate_member_id
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
 
         LEFT JOIN asset_info
         ON asset_history.history_asset_number=asset_info.asset_number
@@ -17,12 +18,18 @@
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
+        WHERE history_completion_date
+        BETWEEN DATE_ADD(NOW(), INTERVAL -1 YEAR ) AND NOW()
+
         order by
         asset_history.history_completion_date DESC,
-        asset_history.history_member_id
+        hmm_member.member_department,
+        asset_history.history_member_id,
+        asset_history.history_type
 
     </select>
 
+    <!--이력 등록 하기-->
     <insert id="insertHistory" parameterType="hmm.itam.vo.HistoryVo">
         INSERT INTO asset_history
         (
@@ -40,6 +47,7 @@
         )
     </insert>
 
+    <!--장비 번호로 이력 조회-->
     <select id="getHistoryAssetNumber" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
@@ -47,8 +55,8 @@
         LEFT JOIN hmm_member
         ON asset_history.history_member_id=hmm_member.member_id
 
-        LEFT JOIN tgate_db
-        ON hmm_member.member_id=tgate_db.tgate_member_id
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
 
         LEFT JOIN asset_info
         ON asset_history.history_asset_number=asset_info.asset_number
@@ -57,15 +65,97 @@
         ON asset_info.asset_model_name=asset_model.model_name
 
         WHERE
-        history_asset_number = #{historyAssetNumber}
+        history_asset_number = #{search}
 
         order by
-        asset_history.idx DESC,
         asset_history.history_completion_date DESC,
-        asset_history.history_member_id
+        hmm_member.member_department,
+        asset_history.history_member_id,
+        asset_history.history_type
+    </select>
+
+    <!--이름으로 이력 조회-->
+    <select id="getHistoryMemberName" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM asset_history
+
+        LEFT JOIN hmm_member
+        ON asset_history.history_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        LEFT JOIN asset_info
+        ON asset_history.history_asset_number=asset_info.asset_number
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        WHERE
+        member_name = #{search}
+
+        order by
+        asset_history.history_completion_date DESC,
+        hmm_member.member_department,
+        asset_history.history_member_id,
+        asset_history.history_type
+    </select>
+
+    <!--사번으로 이력 조회-->
+    <select id="getHistoryMemberId" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM asset_history
+
+        LEFT JOIN hmm_member
+        ON asset_history.history_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        LEFT JOIN asset_info
+        ON asset_history.history_asset_number=asset_info.asset_number
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        WHERE
+        member_id = #{search}
+
+        order by
+        asset_history.history_completion_date DESC,
+        hmm_member.member_department,
+        asset_history.history_member_id,
+        asset_history.history_type
+    </select>
+
+    <!--간편 이력 조회-->
+    <select id="getHistorySearch" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM asset_history
+
+        LEFT JOIN hmm_member
+        ON asset_history.history_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        LEFT JOIN asset_info
+        ON asset_history.history_asset_number=asset_info.asset_number
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        WHERE
+        history_asset_number = #{search} or
+        member_id = #{search} or
+        member_name = #{search}
 
 
-
+        order by
+        asset_history.history_completion_date DESC,
+        hmm_member.member_department,
+        asset_history.history_member_id,
+        asset_history.history_type
     </select>
 
 
