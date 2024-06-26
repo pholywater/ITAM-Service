@@ -46,36 +46,67 @@
                         <input type="text" class="form-control is-invalid mb-1" th:field="*{historyAssetNumber}"/>
                         <label th:for="historyAssetNumber">장비,소모품 번호 : </label>
                     </div>
-                    <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
-                    >뒤로가기
-                    </button>
-                    <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">자산 변동사항
+                    <div class="form-floating">
+                        <select class="form-control is-invalid mb-1" th:field="*{historyType}">
+                            <option value="">클릭 후 선택</option>
+                            <option th:value="입고">입고</option>
+                            <option th:value="출고">출고</option>
+                            <option th:value="변경">변경</option>
+                        </select>
+                        <label th:for="historyType">입출고 선택 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <select class="form-control is-invalid mb-1" th:field="*{historyAssetType}">
+                            <option value="">클릭 후 선택</option>
+                            <option th:value="장비">장비</option>
+                            <option th:value="소모품">소모품</option>
+                            <option th:value="기타">기타</option>
+                        </select>
+                        <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
+                        <label th:for="historyAssetType">장비,소모품(구분) : </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">자산 이력
                         등록
+                    </button>
+                    <button type="submit" class="btn btn-primary mb-1" formaction="historySearch" formmethod="post">자산
+                        이력
+                        조회
                     </button>
                 </div>
 
                 <div class="col">
                     <h3>요청 내용</h3>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyRequester}"/>
-                        <label th:for="historyRequester">요청자 : </label>
+                        <select class="form-control is-invalid mb-1" th:field="*{historyRequestUsage}">
+                            <option value="">클릭 후 선택</option>
+                            <option th:value="업무용">업무용</option>
+                            <option th:value="대여용">대여용</option>
+                            <option th:value="공용">공용</option>
+                            <option th:value="재고">재고</option>
+                            <option th:value="기타">기타</option>
+                            <option th:value="미반납장비">미반납장비</option>
+                        </select>
+                        <label th:for="historyRequestUsage">지급 및 회수 후 용도 : </label>
                     </div>
                     <div class="form-floating">
                         <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"/>
                         <label th:for="historyRequestDate">요청 일시 : </label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>
-                        <label th:for="historyAssetType">장비,소모품(구분) : </label>
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequester}"/>
+                        <label th:for="historyRequester">요청자 : </label>
                     </div>
+
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1" th:field="*{historyRequestDetails}"/>
                         <label th:for="historyRequestDetails">요청 내용 : </label>
                     </div>
+
                 </div>
 
                 <div class="col">
                     <h3>작업 정보</h3>
+
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1" th:field="*{historyWorker}"/>
                         <label th:for="historyWorker">작업자 : </label>
@@ -85,12 +116,8 @@
                         <label th:for="historyCompletionDate">처리 일시 : </label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyType}"/>
-                        <label th:for="historyType">입고,출고,변경 : </label>
-                    </div>
-                    <div class="form-floating">
                         <input type="text" class="form-control mb-1" th:field="*{historyReqeustEtc}"/>
-                        <label th:for="historyReqeustEtc">비고 내용 : </label>
+                        <label th:for="historyReqeustEtc">비고 내용(소모품 추가 지급) : </label>
                     </div>
                 </div>
 

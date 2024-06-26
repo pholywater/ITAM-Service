@@ -4,7 +4,7 @@
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080"> <!--href="http://10.20.14.19"-->
+        <a class="navbar-brand" href="http://10.20.14.19"> <!--href="http://10.20.14.19"-->
             <img src="/img/logoWhite.png" width="90" height="40">
         </a>
         <button
@@ -42,19 +42,24 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{assetAdd}">신규 장비 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{assetSearch}">장비 번호 조회</a></li>
+                        <li><a class="dropdown-item" th:href="@{assetSearch}">장비 조회 수정</a></li>
+                        <li><a class="dropdown-item" th:href="@{/navbarSearch}">장비 상세 조회(준비 중)</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트</a>
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=출고}">출고 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=입고}">재고 장비 리스트</a></li>
+                        <!--<li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트(백엔드 조회)</a>-->
+                        <!--<li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=}">전체 장비 리스트</a>-->
+                        <li><a class="dropdown-item" th:href="@{assetList}">전체 장비 리스트</a>
+                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=출고}">출고 장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=재고}">재고 장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=입고}">부서 조회(준비 중)</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=업무용}">업무용 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=대여용}">대여용 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=공용}">공용 장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=업무용}">업무용 장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=대여용}">대여용 장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=공용}">공용 장비 리스트</a></li>
+                        <!--
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -63,13 +68,17 @@
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{#}">멤버 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">멤버 조회</a></li>
+                        <li><a class="dropdown-item" th:href="@{memberAdd}">멤버 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{memberList}">멤버 조회</a></li>
                         <li>
                             <a class="dropdown-item" th:href="@{#}">Something else here</a>
                         </li>
+                        -->
                     </ul>
                 </li>
+
+
+                <!--
                 <li class="nav-item dropdown">
                     <a
                             class="nav-link dropdown-toggle"
@@ -91,6 +100,8 @@
                         <li><a class="dropdown-item" th:href="@{#}">장비 수리 이력</a></li>
                     </ul>
                 </li>
+                -->
+
                 <li class="nav-item dropdown">
                     <a
                             class="nav-link dropdown-toggle"
@@ -103,7 +114,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{historyAdd}">자산 입출고 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{historyList}">자산 입출고 조회</a></li>
+                        <li><a class="dropdown-item" th:href="@{historySearch}">자산 입출고 조회</a></li>
+                        <li><a class="dropdown-item" th:href="@{historyList}">자산 입출고 리스트</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -123,21 +135,109 @@
                         S/W 관리
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{#}">Windows VLSC</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">MS Office 2021</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">한컴 오피스 2022</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Foxit Phantom</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Foxit Reader</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://admin.microsoft.com/Adminportal/Home?#/homepage}" target="_blank">Windows
+                            VLSC</a>
+                        </li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://www.office.com/}"
+                               target="_blank">Microsoft 365 - Office</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://itsm.hmm21.com/jira/servicedesk/customer/portal/20/SDIH-11}"
+                               target="_blank">MS Office
+                            2021</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{#}" target="_blank">한컴 오피스
+                            2022</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{http://download.safelink.kr/phantompdf/v10/GA_Phantom_KR_BIZ_Online_Full_v10.1.0.37527.exe}"
+                               target="_blank">Foxit
+                            Phantom</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{http://10.20.14.119/UTIL/HMM_SETUP/06.FoxitReader83_L10N_Setup_Prom.exe}"
+                               target="_blank">Foxit
+                            Reader</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{#}">AutoCAD(오토데스크)</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Camtasia(녹화편집용)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://manage.autodesk.com/products}" target="_blank">AutoCAD(오토데스크)</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}" target="_blank">Camtasia(녹화편집용)</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{#}">S/W UTIL 다운로드</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">라이선스 관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}" target="_blank">S/W UTIL 다운로드</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}" target="_blank">라이선스 관리</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        Etc S/W
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{http://203.239.98.20:8014/1.HQ_SEP_64bit_setup.exe}"
+                               target="_blank">Symantec Endpoint Protection(본사)</a></li>
+                        <li><a class="dropdown-item" th:href="@{http://203.239.98.20:8014/2.BS_SEP_64bit_setup.exe}"
+                               target="_blank">Symantec Endpoint Protection(부산)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://203.239.98.25/agentInstall/files/agentsetup/tgatedist.exe}"
+                               target="_blank">Tgate 자산관리 솔루션</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{http://10.20.14.119/UTIL/Sentinel_One/HMM_S1Installer_22.2_HQ.exe}"
+                               target="_blank">Sentinel One EDR</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://edm.hmm21.com/xedrm/json/downloadTicket?ticket=2021053118363883}"
+                               target="_blank">XEDM 문서 중앙화 Agent</a></li>
+                        <li><a class="dropdown-item" th:href="@{https://edm.hmm21.com}" target="_blank">XEDM 문서 중앙화
+                            웹페이지</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" th:href="@{https://sslvpn.hmm21.com/}" target="_blank">SSL-VPN
+                            GlobalProtect(업무용)</a></li>
+                        <li><a class="dropdown-item" th:href="@{https://v.hmm21.com}" target="_blank">SSL-VPN Citrix
+                            Gatway(원격용)</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://itsm.hmm21.com/jira/servicedesk/customer/portal/20/SDIH-326}"
+                               target="_blank">신사옥 유무선 네트워크 가이드</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" th:href="@{http://10.20.14.119/UTIL/On_Time/PC_off_Install.exe}"
+                               target="_blank">On Time 근무 프로그램</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" th:href="@{http://10.20.236.30:8080}" target="_blank">프린터 지원</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" th:href="@{http://10.20.14.119/UTIL/GAUS/GAUS_WIN.exe}"
+                               target="_blank">GAUS 설치 파일</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://itsm.hmm21.com/jira/servicedesk/customer/portal/20/SDIH-188}"
+                               target="_blank">SAP(포탈 GUI 패치)</a></li>
+                        <li>
+                        <li><a class="dropdown-item"
+                               th:href="@{X:\전사 폴더\+\02. 대표이사직속\01. 정보기술실\SAP GUI 800 Installer.exe}"
+                               target="_blank">SAP GUI 800 설치 파일</a></li>
+                        <li>
+                        <li><a class="dropdown-item"
+                               th:href="@{X:\전사 폴더\+\02. 대표이사직속\01. 정보기술실\SAP GUI 800 설치 가이드_v0.1.PPT}"
+                               target="_blank">SAP GUI 800 설치 가이드</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -151,21 +251,27 @@
                         제조사 지원
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{#}">HP 공식 사이트</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">HP 보증 기간 확인</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">LG 드라이버 사이트</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">인텔 드라이버 사이트</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">삼성 드라이버 사이트</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
+                        <li><a class="dropdown-item" th:href="@{https://support.hp.com/kr-ko}" target="_blank">HP 공식
+                            사이트</a></li>
+                        <li><a class="dropdown-item" th:href="@{https://support.hp.com/kr-ko/check-warranty}"
+                               target="_blank">HP 보증 기간
+                            확인</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://support.hp.com/kr-ko/drivers/selfservice/hp-universal-print-driver-series-for-windows/503548}"
+                               target="_blank">LG
+                            드라이버 사이트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{https://www.intel.co.kr/content/www/kr/ko/download-center/home.html}"
+                               target="_blank">인텔 드라이버
+                            사이트</a></li>
+                        <li><a class="dropdown-item" th:href="@{https://www.samsungsvc.co.kr/download}" target="_blank">삼성
+                            드라이버 사이트</a>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{#}">AutoCAD(오토데스크)</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Camtasia(녹화편집용)</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
+                        <li><a class="dropdown-item" th:href="@{https://www.lge.co.kr/support/product-manuals}"
+                               target="_blank">LG 드라이버
+                            사이트</a>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{#}">S/W UTIL 다운로드</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">라이선스 관리</a></li>
+
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -207,8 +313,10 @@
                         <img src="/img/wheel_icon.png" width="35" height="35">
                     </a>
                     <ul class="dropdown-menu">
+                        <!--
                         <li><a class="dropdown-item" th:href="@{signup}">로그인 회원 등록</a></li>
                         <li><a class="dropdown-item" th:href="@{userList}">로그인 맴버 조회</a></li>
+                        -->
                         <li><a class="dropdown-item" th:href="@{update}">로그인 맴버 수정</a></li>
                     </ul>
                 </li>
@@ -216,10 +324,16 @@
 
             <form class="d-flex" role="search" th:action="@{/navbarSearch}" method="get">
 
+                <select class="form-select me-2" aria-label="Default select example" id="searchType" name="searchType"
+                        style="width:10rem">
+                    <option th:value="realTime">실시간 조회</option>
+                    <option th:value="history">이력 조회</option>
+                </select>
+
                 <input
                         class="form-control me-2"
                         type="search"
-                        placeholder="장비번호, 이름, 사번, 직급 검색"
+                        placeholder="간편 조회(이름, 부서, 장비)"
                         aria-label="navSearch"
                         size="30"
                         id="navbarSearch"

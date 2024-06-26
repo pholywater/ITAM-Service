@@ -10,13 +10,22 @@ import java.util.List;
 @Service
 public class MemberService {
     @Autowired
-    private MemberMapper memberMapper;
+    private static MemberMapper memberMapper;
 
     public List<MemberVo> getMemberList() {
 
         return memberMapper.getMemberList();
     }
-    public void memberAdd(MemberVo memberVo){
+
+    public void memberAdd(MemberVo memberVo) {
         memberMapper.insertMember(memberVo);
+    }
+
+    public List<MemberVo> getDepartmentList() {
+        return memberMapper.getDepartmentList();
+    }
+
+    public static List<MemberVo> getHeaderDepartmentList() {
+        return memberMapper.getHeaderDepartmentList();
     }
 }

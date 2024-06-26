@@ -11,29 +11,30 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
 </head>
-<body class="p-0 m-0 bg-secondary-subtle bg-opacity-10">
+<body class="p-0 m-0 bg-body-tertiary ">
 <div class="container p-3 position-absolute top-50 start-50 translate-middle"
      style="width:350px;">
     <div class="d-flex justify-content-center mb-4">
         <img src="/img/logoLogin.png" width="150" height="63">
     </div>
-    <h2 class="h1 mt-1 mb-4 fw-normal text-center">ITAM Service</h2>
+    <h3 class="h1 mt-1 mb-4 fw-normal text-center">ITAM Service</h3>
     <form th:action="@{/login}" th:object="${userVo}" method="post">
         <div class="form-floating">
-            <input type="text" class="form-control mb-1 bg-primary bg-opacity-10 border border-secondary-subtle "
-                   th:field="*{hmmId}"/>
+            <input type="text" class="form-control mb-2 bg-light-subtle border border-secondary-subtle "
+                   th:field="*{hmmId}" autofocus/>
             <label class="form-check-label" th:for="hmmId">Portal ID</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control mb-2 bg-primary bg-opacity-10 border border-secondary-subtle"
+            <input type="password"
+                   class="form-control mb-2 bg-light-subtle bg-opacity-10 border border-secondary-subtle"
                    th:field="*{password}"/>
-            <label class="form-check-label" th:for="password">Portal PW</label>
+            <label class="form-check-label" th:for="password">Password</label>
         </div>
         <div class="d-flex justify-content-center">
-            <button type="submit" class="form-control btn btn-primary me-1 mb-2">로그인</button>
-            <button type="button" onclick="location.href='signup'" class="form-control btn btn-success ms-1 mb-2">회원
+            <button type="submit" class="form-control btn btn-primary me-1 mb-2">Log in</button>
+            <!--<button type="button" onclick="location.href='signup'" class="form-control btn btn-success ms-1 mb-2">회원
                 가입
-            </button>
+            </button>-->
         </div>
         <h2 class="h6 mt-5 mb-5 fw-normal text-center">현대디지텍코어(주)</h2>
     </form>

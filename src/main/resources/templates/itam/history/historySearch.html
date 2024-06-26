@@ -1,11 +1,16 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!DOCTYPE HTML>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/defaultLayout}"
-      layout:fragment="Content">
+      layout:fragment="Content"
+>
+
 <head>
-    <title>ITAM History List</title>
+    <title>History Search</title>
 
 
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
@@ -27,8 +32,43 @@
 
 <body>
 <div id="myDiv" class="container-fluid">
-    
+    <div class="container">
+        <hr>
+        <form th:action="@{/historySearch}" th:object="${historyVo}" method="post">
+            <div class="row align-items-start">
+                <div class="col">
+                    <h3>장비 이력 조회</h3>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <select class="form-select mb-1" th:field="*{searchType}">
+                            <option th:value="easySearch">간편 이력 조회</option>
+                            <option th:value="historyAssetNumber">장비 번호 조회</option>
+                            <option th:value="historyMemberName">이름 조회</option>
+                            <option th:value="historyMemberId">사번 조회</option>
+                        </select>
+                        <label th:for="searchType">검색 항목 선택 : </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{search}"/>
+                        <label th:for="search">검색창 </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="submit" hidden="" class="btn btn-primary mb-1" formaction="historySearch"
+                            formmethod="post">자산
+                        이력 조회
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr>
     <table id="myTable" class="display">
+
         <thead>
         <tr>
             <th>No.</th>
@@ -75,9 +115,38 @@
         </tr>
         </tbody>
     </table>
-</div> <!-- /container -->
+</div>
 <script src="js/datatables/dataTables.responsive.min.js"></script>
 
+<!--<script>
+    $(document).ready(function() {
+    document.getElementById("myDiv").style.display = "block";
+    $('#myTable').DataTable( {
+        dom: 'Bfrtip',
+        lengthMenu: [
+            [ 5, 10, 25, 50, 100, -1 ],
+            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
+        ],
+        iDisplayLength : 15,
+        buttons: [
+            'pageLength'
+        ],
+        columnDefs: [
+            {
+            className: 'dtr-control',
+            orderable: false,
+            targets: 0
+            }
+        ],
+
+        responsive: {
+                details: {
+                type: 'column'
+            }
+            }
+    } );
+} );
+</script>-->
 <script>
     $(document).ready(function() {
     document.getElementById("myDiv").style.display = "block";
@@ -92,7 +161,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 10,
+        iDisplayLength : 15,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],
@@ -111,6 +180,6 @@
     } );
 } );
 </script>
-
 </body>
+</html>
 </html>
