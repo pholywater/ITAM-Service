@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <select>
+            <option value="">-- 선택 --</option>
+            <option th:each="val : ${list}" th:value="${val?.memberDepartment}"
+                    th:utext="${'부서 : ' + val?.memberDepartmentDetail}">
+            </option>
+        </select>
+    </div>
+    <div>
+        멤버 리스트
+        <table>
+            <thead>
+            <tr>
+                <th>부서상세</th>
+                <th>부서</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u:${list}">
+                <td th:text="${u.memberDepartmentDetail}"></td>
+                <td th:text="${u.memberDepartment}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+
+</body>
+</html>

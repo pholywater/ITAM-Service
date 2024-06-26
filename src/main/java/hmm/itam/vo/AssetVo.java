@@ -12,6 +12,7 @@ public class AssetVo {
     private String headerSearch;
     private String navbarSearch;
     private String navSearch;
+    private String searchType;
     private String navSelectBox;
     private String HeaderSearchDto;
     private String assetNum;
@@ -58,10 +59,32 @@ public class AssetVo {
     private String modelReplaycementType;
     private String memberId;
     private String memberName;
+    private String memberDepartment;
+    private String memberDepartmentDetail;
     private String memberRank;
     private String memberStatus;
-    private String tgateMemberEmail;
-    private String tgateMemberDepartment;
+    private String memberWorkingStatus;
+    private String departmentLocation;
+    private String departmentRegion;
+    private String departmentFloor;
+    private String departmentName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date historyCompletionDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date historyRequestDate;
+    private String historyAssetType;
+    private String historyType;
+    private String historyRequester;
+    private String historyWorker;
+    private String historyMemberName;
+    private String historyMemberId;
+    private String historyAssetNumber;
+    private String historyRequestDetails;
+    private String historyReqeustEtc;
+    private String historySpec1;
+    private String historySpec2;
+    private String historySpec3;
+    private String historyCheck;
 
     public static class getAssetPaymentDate extends Date {
     }

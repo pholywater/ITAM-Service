@@ -18,22 +18,25 @@
                     <input type="text" class="form-control is-invalid mb-1" th:field="*{assetNumber}"
                            placeholder="자산 고유번호 입력"/>
                     <label th:for="assetNumber">관리번호</label>
-                    <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
-                    >뒤로가기
-                    </button>
+
                     <button type="submit" class="btn btn-primary mb-1" formaction="assetSearch" formmethod="post">장비조회
                     </button>
+
+                    <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
+                    >뒤로가기
+                    </button>-->
                     <!--<button type="submit" class="btn btn-success mb-1" formaction="assetUpdateResult" formmethod="post">수정하기</button>
                     <button type="submit" class="btn btn-danger mb-1" formaction="assetDelete" formmethod="post">삭제하기</button>-->
                 </div>
             </div>
             <div class="col">
-                <h3>장비 상태 정보</h3>
+                <h3>장비 조회 결과</h3>
                 <!-- radio button-->
                 <div class="">
                     <label class="form-check-label">입출고 상태</label>
                     <span th:each="type : ${statusType}" class="form-check">
-                    <input type="radio" class="form-check-input" th:field="*{statusType}" th:value="${type.name()}">
+                    <input type="radio" class="form-check-input" th:field="*{statusType}" th:value="${type.name()}"
+                           disabled/>
                     <label class="form-check-label" th:for="${#ids.prev('statusType')}"
                            th:text="${type.description}"></label>
                 </span>
@@ -43,7 +46,7 @@
                     <label class="form-check-label">장비 상태</label>
                     <span th:each="type : ${statusAssetStatus}" class="form-check">
                     <input type="radio" class="form-check-input" th:field="*{statusAssetStatus}"
-                           th:value="${type.name()}">
+                           th:value="${type.name()}" disabled/>
                     <label class="form-check-label" th:for="${#ids.prev('statusAssetStatus')}"
                            th:text="${type.description}"></label>
                 </span>
@@ -52,7 +55,7 @@
                     <label class="form-check-label">지급 용도</label>
                     <span th:each="type : ${statusAssetUsage}" class="form-check">
                     <input type="radio" class="form-check-input" th:field="*{statusAssetUsage}"
-                           th:value="${type.name()}">
+                           th:value="${type.name()}" disabled/>
                     <label class="form-check-label" th:for="${#ids.prev('statusAssetUsage')}"
                            th:text="${type.description}"></label>
                 </span>
@@ -62,80 +65,113 @@
                 <h3>장비 사용자 정보</h3>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{statusMemberId}"
-                           placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
-                    <label class="form-check-label" th:for="statusMemberId">장비 소유자 사번</label>
+                           placeholder="장비 소유자 입력(HMMxxxx,신규장비)" disabled/>
+                    <label th:for="statusMemberId">장비 소유자 사번</label>
                 </div>
-
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{memberName}"
+                           placeholder="사용자 이름" disabled/>
+                    <label th:for="memberName">사용자 이름</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{memberDepartment}"
+                           placeholder="사용자 부서" disabled/>
+                    <label th:for="memberDepartment">사용자 부서</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{memberDepartmentDetail}"
+                           placeholder="사용자 부서 상세" disabled/>
+                    <label th:for="memberDepartmentDetail">사용자 부서 상세</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{statusAssetEtc1}"
+                           placeholder="비고1" disabled/>
+                    <label th:for="statusAssetEtc1">비고1(트리플)</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{statusAssetEtc2}"
+                           placeholder="용도 상세" disabled/>
+                    <label th:for="statusAssetEtc2">용도 상세</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-1" th:field="*{assetDuration}"
+                           placeholder="장비 지급 기간" disabled/>
+                    <label th:for="assetDuration">장비 지급 기간</label>
+                </div>
             </div>
             <div class="col">
                 <h3>장비 스펙 정보</h3>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetModelCode}" placeholder="모델 코드 입력"/>
+                    <input type="text" class="form-control mb-1" th:field="*{assetModelCode}" placeholder="모델 코드 입력"
+                           disabled/>
                     <label th:for="assetModelCode">모델 코드 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{assetModelName}" placeholder="모델명 입력"/>
+                    <input type="text" class="form-control mb-1" th:field="*{assetModelName}" placeholder="모델명 입력"
+                           disabled/>
                     <label th:for="assetModelName">모델명 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetSerialNumber}"
-                           placeholder="장비 시리얼 입력"/>
+                           placeholder="장비 시리얼 입력" disabled/>
                     <label th:for="assetSerialNumber">시리얼 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetWiredMacAddress}"
-                           placeholder="유선 MAC Address"/>
+                           placeholder="유선 MAC Address" disabled/>
                     <label th:for="assetWiredMacAddress">유선 MAC Address : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetWirelessMacAddress}"
-                           placeholder="무선 MAC Address"/>
+                           placeholder="무선 MAC Address" disabled/>
                     <label th:for="assetWirelessMacAddress">무선 MAC Address : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec1}"
-                           placeholder="Storage 용량"/>
-                    <label th:for="statusAssetSpec1">Storage 용량 : </label>
+                           placeholder="Storage 용량" disabled/>
+                    <label th:for="statusAssetSpec1">Storage / 인치 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{statusAssetSpec2}"
-                           placeholder="Memory 용량"/>
-                    <label th:for="statusAssetSpec2">Memory 용량 : </label>
+                           placeholder="Memory 용량" disabled/>
+                    <label th:for="statusAssetSpec2">Memory / 해상도 : </label>
                 </div>
                 <div class="form-floating">
-                    <input type="date" class="form-control mb-1" th:field="*{assetArrivalDate}"/>
-                    <label th:for="assetArrivalDate">도입일 : </label>
+                    <input type="date" class="form-control mb-1" th:field="*{assetArrivalDate}"
+                           placeholder="장비 도입일" disabled/>
+                    <label th:for="assetArrivalDate">장비 도입일 : </label>
                 </div>
             </div>
             <div class="col">
                 <h3>최초 지급 내역</h3>
                 <div class="form-floating">
-                    <input type="date" class="form-control mb-1" th:field="*{assetPaymentDate}"/>
-                    <label th:for="assetPaymentDate">지급일 : </label>
+                    <input type="date" class="form-control mb-1" th:field="*{assetPaymentDate}" placeholder="장비 지급일"
+                           disabled/>
+                    <label th:for="assetPaymentDate">장비 지급일 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberId}"
-                           placeholder="최초지급 사번"/>
+                           placeholder="최초지급 사번" disabled/>
                     <label th:for="assetPaymentMemberId">최초지급 사번 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberName}"
-                           placeholder="최초지급 이름"/>
+                           placeholder="최초지급 이름" disabled/>
                     <label th:for="assetPaymentMemberName">최초지급 이름 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetPaymentMemberRank}"
-                           placeholder="최초지급 직급"/>
+                           placeholder="최초지급 직급" disabled/>
                     <label th:for="assetPaymentMemberRank">최초지급 직급 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetPaymentDepartment}"
-                           placeholder="최초지급 부서"/>
+                           placeholder="최초지급 부서" disabled/>
                     <label th:for="assetPaymentDepartment">최초지급 부서 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{assetPaymentDetails}"
-                           placeholder="최초지급 내용"/>
+                           placeholder="최초지급 내용" disabled/>
                     <label th:for="assetPaymentDetails">최초지급 내용 : </label>
                 </div>
             </div>
@@ -156,5 +192,79 @@
 
 
 </div>-->
+
+<hr>
+<div>
+    <table id="myTable" class="display">
+        <h4>장비 입출고, 사용자 변경 후 최근 변경 이력 현황</h4>
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>처리 일시</th>
+            <th>요청 일시</th>
+            <th>자산구분</th>
+            <th>입출고</th>
+            <th>요청자</th>
+            <th>작업자</th>
+            <th>사번</th>
+            <th>장비,소모품 번호</th>
+            <th>요청 내용</th>
+            <th>비고 내용</th>
+            <th>스펙1</th>
+            <th>스펙2</th>
+            <th>스펙3</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u, stat :${list}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${#dates.format(u.historyCompletionDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(u.historyRequestDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${u.historyAssetType}"></td>
+            <td th:text="${u.historyType}"></td>
+            <td th:text="${u.historyRequester}"></td>
+            <td th:text="${u.historyWorker}"></td>
+            <td th:text="${u.historyMemberId}"></td>
+            <td th:text="${u.historyAssetNumber}"></td>
+            <td th:text="${u.historyRequestDetails}"></td>
+            <td th:text="${u.historyReqeustEtc}"></td>
+            <td th:text="${u.historySpec1}"></td>
+            <td th:text="${u.historySpec2}"></td>
+            <td th:text="${u.historySpec3}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="js/datatables/dataTables.responsive.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    document.getElementById("myDiv").style.display = "block";
+    $('#myTable').DataTable( {
+        dom: 'Bfrtip',
+        lengthMenu: [
+            [ 5, 10, 25, 50, 100, -1 ],
+            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
+        ],
+        iDisplayLength : 5,
+        buttons: [
+            'pageLength'
+        ],
+        columnDefs: [
+            {
+            className: 'dtr-control',
+            orderable: false,
+            targets: 0
+            }
+        ],
+        order: [1, 'asc'],
+        responsive: {
+                details: {
+                type: 'column'
+            }
+            }
+    } );
+} );
+</script>
 </body>
 </html>

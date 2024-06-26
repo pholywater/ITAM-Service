@@ -6,11 +6,12 @@
       layout:fragment="Content">
 <head>
     <title>로그인 정보 페이지 </title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
 <div id="myDiv1" class="container">
-    <div class="d-flex justify-content-center"><h1>이곳에 메인 첫 화면 만드는 중</h1>
-    </div>
+    <!--<div class="d-flex justify-content-center"><h1>이곳에 메인 첫 화면 만드는 중</h1>
+    </div>-->
 
     <div style="text-align:right;">
         <span th:text="${user.department}"></span><span>부서의 </span>
@@ -18,6 +19,62 @@
     </div>
 
 
+    <div class="dashboard-background" id="dashboard" style="margin-top:100px ">
+        <div>메인화면 준비 중입니다.</div>
+        <div class="dashboard-wrapper" style="width: 100%;">
+            <div class="title" style="width: 60%; float: left; ">
+                <canvas id="myChart"></canvas>
+            </div>
+
+
+            <div class="title" style="width: 30%; float: right;  ">
+                <canvas id="myChart1"></canvas>
+            </div>
+
+        </div>
+    </div>
+
+
 </div>
 </body>
+<script>
+    const ctx = document.getElementById('myChart');
+    const ctx1 = document.getElementById('myChart1');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['데스크탑', '노트북', '모니터', '재고 데스크탑', '재고 노트북', '재고 모니터'],
+        datasets: [{
+          label: '# 장비 수량',
+          data: [35, 1031, 1529, 147, 472, 682],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+        new Chart(ctx1, {
+      type: 'pie',
+      data: {
+        labels: ['싱글', '듀얼', '트리플'],
+        datasets: [{
+          label: '# 장비 수량',
+          data: [17, 440, 483],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+</script>
 </html>

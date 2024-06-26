@@ -11,4 +11,7 @@ public interface MemberMapper {
 
     void insertMember(MemberVo memberVo); // 신규직원 등록
 
+    List<MemberVo> getDepartmentList();
+
+    List<MemberVo> getHeaderDepartmentList();
 }

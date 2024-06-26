@@ -40,6 +40,9 @@
         LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
 
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
@@ -49,20 +52,31 @@
         LEFT JOIN orderby_asset
         ON asset_info.status_type=orderby_asset.asset_status
 
+        LEFT JOIN orderby_model
+        ON asset_model.model_type=orderby_model.asset_model
+
         WHERE
         asset_info.status_asset_usage LIKE CONCAT('%' #{navSearch} '%') OR
         asset_info.status_type LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_id LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_rank LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_name LIKE CONCAT('%' #{navSearch} '%') OR
+        hmm_member.member_department_detail LIKE CONCAT('%' #{navSearch} '%') OR
+        asset_info.asset_model_name LIKE CONCAT('%' #{navSearch} '%') OR
         asset_info.asset_number LIKE CONCAT('%' #{navSearch} '%')
 
 
         order by
         orderby_asset.asset_grant,
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor,
+        hmm_member.member_department_detail,
+        hmm_member.member_working_status desc,
         orderby_rank.member_grant,
         hmm_member.member_id,
-        asset_info.status_asset_usage DESC
+        asset_info.status_asset_usage DESC,
+        asset_info.asset_number
 
 
         <!--WHERE member_name LIKE CONCAT('%' #{search} '%')-->
@@ -75,10 +89,16 @@
 
         LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
+
         LEFT JOIN orderby_asset
         ON asset_info.status_type=orderby_asset.asset_status
+
         LEFT JOIN orderby_rank
         ON hmm_member.member_rank=orderby_rank.member_rank
 
@@ -88,9 +108,16 @@
         hmm_member.member_id LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_rank LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_name LIKE CONCAT('%' #{navSearch} '%') OR
+        hmm_member.member_department_detail LIKE CONCAT('%' #{navSearch} '%') OR
+        asset_info.asset_model_name LIKE CONCAT('%' #{navSearch} '%') OR
         asset_info.asset_number LIKE CONCAT('%' #{navSearch} '%')
 
         order by
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor,
+        hmm_member.member_department_detail,
+        hmm_member.member_working_status desc,
         orderby_asset.asset_grant,
         orderby_rank.member_grant,
         hmm_member.member_id,
@@ -120,13 +147,17 @@
         hmm_member.member_id LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_rank LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_name LIKE CONCAT('%' #{navSearch} '%') OR
+        hmm_member.member_department_detail LIKE CONCAT('%' #{navSearch} '%') OR
         asset_info.asset_number LIKE CONCAT('%' #{navSearch} '%')
 
-        <!--        order by
-                orderby_asset.asset_grant,
-                orderby_rank.member_grant,
-                hmm_member.member_id,
-                asset_info.status_asset_usage DESC-->
+        <!--order by
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor,
+        orderby_asset.asset_grant,
+        orderby_rank.member_grant,
+        hmm_member.member_id,
+        asset_info.status_asset_usage DESC-->
     </select>
 
     <!--장비정보 추가--><!-- useGeneratedKeys="true" keyProperty="addId"-->
@@ -167,6 +198,24 @@
         #{assetLastUpdateDate}
         )
     </insert>
+
+    <insert id="insertHistory" parameterType="hmm.itam.vo.AssetVo">
+        INSERT INTO asset_history
+        (
+        history_completion_date, history_request_date, history_asset_type, history_type,
+        history_requester, history_worker, history_member_id, history_asset_number,
+        history_request_details, history_reqeust_etc, history_spec1,
+        history_spec2, history_spec3, history_request_usage, history_asset_etc1
+        )
+        VALUES
+        (
+        #{historyCompletionDate}, #{historyRequestDate}, #{historyAssetType}, #{statusType},
+        #{historyRequester}, #{historyWorker}, #{statusMemberId}, #{assetNumber},
+        #{statusAssetEtc2}, #{historyReqeustEtc}, #{statusAssetSpec1},
+        #{statusAssetSpec2}, #{historySpec3}, #{statusAssetUsage}, #{statusAssetEtc1}
+        )
+    </insert>
+
     <!--모델정보 추가-->
     <insert id="insertModel" parameterType="hmm.itam.vo.AssetVo">
         INSERT INTO Asset_model
@@ -203,7 +252,7 @@
         asset_model_code = #{assetModelCode},
         asset_model_name = #{assetModelName},
         asset_serial_number = #{assetSerialNumber},
-        asset_billing_date = #{assetBillingDate},
+        <!--asset_billing_date = #{assetBillingDate},-->
         asset_arrival_date = #{assetArrivalDate},
         asset_payment_date = #{assetPaymentDate},
         asset_payment_member_id = #{assetPaymentMemberId},
@@ -221,15 +270,16 @@
         status_asset_etc1 = #{statusAssetEtc1},
         status_asset_spec1 = #{statusAssetSpec1},
         status_asset_spec2 = #{statusAssetSpec2},
-        status_asset_spec3 = #{statusAssetSpec3},
+        <!--status_asset_spec3 = #{statusAssetSpec3},-->
         status_asset_due_diligence = #{statusAssetDueDiligence},
         status_asset_etc2 = #{statusAssetEtc2},
-        asset_duration = #{assetDuration},
-        asset_repair_history = #{assetRepairHistory},
-        asset_last_update_date = #{assetLastUpdateDate}
+        <!--asset_repair_history = #{assetRepairHistory},-->
+        <!--asset_last_update_date = #{assetLastUpdateDate}-->
+        asset_duration = #{assetDuration}
 
         WHERE asset_number = #{assetNumber}
     </update>
+
     <!--모델정보 수정-->
     <update id="updateModel" parameterType="hmm.itam.vo.AssetVo">
         UPDATE Asset_model
@@ -256,34 +306,45 @@
     </delete>
 
     <!--사용 안하는 것들-->
-    <!--자산 리스트 전체 검색-->
+    <!--자산 리스트 전체 검색 매각, 신규 제외-->
     <select id="getAssetList" resultType="hmm.itam.vo.AssetVo">
         SELECT *
-
         FROM asset_info
 
         LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
 
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
-
-        LEFT JOIN orderby_asset
-        ON asset_info.status_type=orderby_asset.asset_status
 
         LEFT JOIN orderby_rank
         ON hmm_member.member_rank=orderby_rank.member_rank
 
+        LEFT JOIN orderby_asset
+        ON asset_info.status_type=orderby_asset.asset_status
+
+        LEFT JOIN orderby_model
+        ON asset_model.model_type=orderby_model.asset_model
+
+        WHERE
+        asset_info.status_type LIKE CONCAT('%' '출고' '%') OR
+        asset_info.status_type LIKE CONCAT('%' '입고' '%') OR
+        asset_info.status_type LIKE CONCAT('%' '기타' '%')
 
         order by
+        asset_info.status_type desc,
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor,
+        hmm_member.member_working_status desc,
+        hmm_department.department_name,
         orderby_asset.asset_grant,
         orderby_rank.member_grant,
         hmm_member.member_id,
         asset_info.status_asset_usage DESC
-
-
-        <!--LIMIT 0,100-->
-
 
     </select>
     <!--검색 -->
@@ -312,5 +373,35 @@
         LIMIT #{startNo}, #{length};
     </select>
 
+
+    <!--간편 이력 조회-->
+    <select id="getHistorySearch" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_history
+
+        LEFT JOIN hmm_member
+        ON asset_history.history_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        LEFT JOIN asset_info
+        ON asset_history.history_asset_number=asset_info.asset_number
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        WHERE
+        history_asset_number = #{navbarSearch} or
+        member_id = #{navbarSearch} or
+        member_name = #{navbarSearch}
+
+
+        order by
+        asset_history.history_completion_date DESC,
+        hmm_member.member_department,
+        asset_history.history_member_id,
+        asset_history.history_type
+    </select>
 
 </mapper>

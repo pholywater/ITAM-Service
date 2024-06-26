@@ -24,9 +24,16 @@ public class MemberController {
         model.addAttribute("list", memberList);
         return "itam/member/memberList"; // 실제 HTML 경로
     }
+
+    @GetMapping("/departmentList") // 부서 리스트 불러오기
+    public String getDepartmentList(Model model) {
+        List<MemberVo> departmentList = MemberService.getDepartmentList();
+        model.addAttribute("list", departmentList);
+        return "itam/member/departmentList";
+    }
+
     @GetMapping("/memberAdd") // 자산 등록 화면
-    public String toMemberaddPage()
-    {
+    public String toMemberaddPage() {
         return "/itam/member/memberAdd";
     }
 
@@ -42,6 +49,7 @@ public class MemberController {
         }
         return "redirect:memberResult"; // 자산 등록 후 보여질 화면
     }
+
     @GetMapping("/memberResult") // 자산 등록 후 화면
     public String memberResult() {
         return "/itam/member/memberResult";
