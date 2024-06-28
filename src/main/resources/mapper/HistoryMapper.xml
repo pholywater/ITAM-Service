@@ -47,7 +47,7 @@
         )
     </insert>
 
-    <!--장비 번호로 이력 조회-->
+    <!--이력 관리 등록 후 장비 번호 히스토리 리스트 생성-->
     <select id="getHistoryAssetNumber" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
@@ -74,8 +74,56 @@
         asset_history.history_type
     </select>
 
-    <!--이름으로 이력 조회-->
-    <select id="getHistoryMemberName" resultType="hmm.itam.vo.HistoryVo">
+    <!--이력 관리 상세 조회 동적 쿼리문으로 처리 완료-->
+    <select id="getHistorySearch" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM asset_history
+
+        LEFT JOIN hmm_member
+        ON asset_history.history_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        LEFT JOIN asset_info
+        ON asset_history.history_asset_number=asset_info.asset_number
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        <!--동적쿼리문 작성-->
+        <choose>
+            <when test="searchType == 'easySearch'">
+                WHERE
+                history_asset_number = #{search} or
+                member_id = #{search} or
+                member_name = #{search}
+            </when>
+            <when test="searchType == 'historyAssetNumber'">
+                WHERE
+                history_asset_number = #{search}
+            </when>
+            <when test="searchType == 'historyMemberId'">
+                WHERE
+                member_id = #{search}
+            </when>
+            <when test="searchType == 'historyMemberName'">
+                WHERE
+                member_name = #{search}
+            </when>
+        </choose>
+
+
+        order by
+        asset_history.history_completion_date DESC,
+        hmm_member.member_department,
+        asset_history.history_member_id,
+        asset_history.history_type
+    </select>
+
+
+    <!--이름으로 이력 조회 동적쿼리 변경 후 불필요-->
+    <!--<select id="getHistoryMemberName" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
 
@@ -100,10 +148,10 @@
         hmm_member.member_department,
         asset_history.history_member_id,
         asset_history.history_type
-    </select>
+    </select>-->
 
-    <!--사번으로 이력 조회-->
-    <select id="getHistoryMemberId" resultType="hmm.itam.vo.HistoryVo">
+    <!--사번으로 이력 조회 동적쿼리 변경 후 불필요-->
+    <!--<select id="getHistoryMemberId" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
 
@@ -127,60 +175,6 @@
         hmm_member.member_department,
         asset_history.history_member_id,
         asset_history.history_type
-    </select>
-
-    <!--간편 이력 조회-->
-    <select id="getHistorySearch" resultType="hmm.itam.vo.HistoryVo">
-        SELECT *
-        FROM asset_history
-
-        LEFT JOIN hmm_member
-        ON asset_history.history_member_id=hmm_member.member_id
-
-        LEFT JOIN hmm_department
-        ON hmm_member.member_department=hmm_department.department_name
-
-        LEFT JOIN asset_info
-        ON asset_history.history_asset_number=asset_info.asset_number
-
-        LEFT JOIN asset_model
-        ON asset_info.asset_model_name=asset_model.model_name
-
-        <choose>
-            <when test="searchType == 'easySearch'">
-                WHERE
-                history_asset_number = #{search} or
-                member_id = #{search} or
-                member_name = #{search}
-            </when>
-            <when test="searchType == 'historyAssetNumber'">
-                WHERE
-                history_asset_number = #{search}
-            </when>
-            <when test="searchType == 'historyMemberId'">
-                WHERE
-                member_id = #{search}
-            </when>
-            <when test="searchType == 'historyMemberName'">
-                WHERE
-                member_name = #{search}
-            </when>
-        </choose>
-
-
-        <!--
-        WHERE
-        history_asset_number = #{search} or
-        member_id = #{search} or
-        member_name = #{search}
-        -->
-
-        order by
-        asset_history.history_completion_date DESC,
-        hmm_member.member_department,
-        asset_history.history_member_id,
-        asset_history.history_type
-    </select>
-
+    </select>-->
 
 </mapper>
