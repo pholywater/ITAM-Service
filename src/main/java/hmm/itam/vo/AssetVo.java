@@ -13,6 +13,7 @@ public class AssetVo {
     private String navbarSearch;
     private String navSearch;
     private String searchType;
+    private String searchName;
     private String navSelectBox;
     private String HeaderSearchDto;
     private String assetNum;

@@ -4,6 +4,7 @@ import hmm.itam.dto.HeaderSearchDto;
 import hmm.itam.dto.PageDto;
 import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.HistoryVo;
+import hmm.itam.vo.MemberVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,6 +27,10 @@ public interface AssetMapper {
     List<AssetVo> getHistorySearch(String navSearch); // 간편 검색
 
     AssetVo getAssetByAssetNumber(String assetNumber); // 관리번호로 검색
+
+    List<AssetVo> getDepartmentList(); // datalist 자동완성 부서 검색 리스트
+
+    List<AssetVo> getMemberList(); // datalist 자동완성 직원 이름 검색 리스트
 
     void insertAsset(AssetVo assetVo); // 장비 등록
 

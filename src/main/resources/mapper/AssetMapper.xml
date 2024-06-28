@@ -82,6 +82,38 @@
         <!--WHERE member_name LIKE CONCAT('%' #{search} '%')-->
     </select>
 
+    <!--datalist 자동완성 부서 검색 리스트-->
+    <select id="getDepartmentList" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM hmm_department
+
+        LEFT JOIN hmm_member
+        ON hmm_department.department_name=hmm_member.member_department
+
+        GROUP BY department_name
+
+        ORDER BY
+        hmm_department.idx,
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor,
+        hmm_member.member_department_detail
+
+    </select>
+
+    <!--datalist 자동완성 이름 검색 리스트-->
+    <select id="getMemberList" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM hmm_member
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        ORDER BY
+        hmm_member.idx
+
+    </select>
+
     <!--Pasination DataTables Server-Side 조건(DB LIMIT) 검색 처리-->
     <select id="findAssetByPagination" resultType="hmm.itam.vo.AssetVo">
         SELECT *
@@ -125,6 +157,7 @@
 
         LIMIT #{startNo}, #{length};
     </select>
+
     <!--Pasination DataTables Server-Side 조건(DB LIMIT) 검색 Total Page Count-->
     <select id="countTotalAsset" resultType="int">
         SELECT
@@ -199,6 +232,7 @@
         )
     </insert>
 
+    <!--장비 관리 수정 작업 시 이력 관리 추가-->
     <insert id="insertHistory" parameterType="hmm.itam.vo.AssetVo">
         INSERT INTO asset_history
         (
@@ -210,7 +244,7 @@
         VALUES
         (
         #{historyCompletionDate}, #{historyRequestDate}, #{historyAssetType}, #{statusType},
-        #{historyRequester}, #{historyWorker}, #{statusMemberId}, #{assetNumber},
+        #{historyRequester}, #{historyWorker}, #{historyMemberId}, #{assetNumber},
         #{statusAssetEtc2}, #{historyReqeustEtc}, #{statusAssetSpec1},
         #{statusAssetSpec2}, #{historySpec3}, #{statusAssetUsage}, #{statusAssetEtc1}
         )
@@ -229,6 +263,7 @@
         #{modelSpec2}, #{modelSpec4}, #{modelSpec5}, #{modelSpec6}, #{modelReplaycementType}
         )
     </insert>
+
     <!--장비정보 조회(관리번호)-->
     <select id="getAssetByAssetNumber" resultType="hmm.itam.vo.AssetVo">
         SELECT *
@@ -238,12 +273,14 @@
 
         WHERE asset_number = #{assetNumber}
     </select>
+
     <!--장비정보 조회, 수정, 삭제 시 키값-->
     <select id="getAssetByIdx" resultType="hmm.itam.vo.AssetVo">
         SELECT *
         FROM asset_info
         WHERE idx = #{idx}
     </select>
+
     <!--장비정보 수정-->
     <update id="updateAsset" parameterType="hmm.itam.vo.AssetVo">
         UPDATE Asset_info
@@ -298,6 +335,7 @@
 
         WHERE model_code = #{modelCode}
     </update>
+
     <!--장비정보 삭제-->
     <delete id="deleteAsset">
         DELETE

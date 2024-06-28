@@ -17,7 +17,7 @@
             <div class="col">
                 <h3>필수 입력 정보</h3>
                 <div class="form-floating">
-                    <input type="text" class="form-control is-invalid mb-1" th:field="*{assetNumber}"
+                    <input type="text" class="form-control border border-danger mb-1" th:field="*{assetNumber}"
                            placeholder="자산 고유번호 입력"/>
                     <label th:for="assetNumber">관리번호</label>
                     <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
@@ -64,9 +64,15 @@
             <div class="col">
                 <h3>장비 사용자 정보</h3>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" th:field="*{statusMemberId}"
-                           placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
-                    <label class="form-check-label" th:for="statusMemberId">장비 소유자 사번</label>
+                    <div class="form-floating">
+                        <input type="text" list="asserMemberName" class="form-control border border-primary mb-1"
+                               th:field="*{statusMemberId}"/>
+                        <datalist id="asserMemberName">
+                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
+                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartmentDetail}|">
+                        </datalist>
+                        <label class="form-check-label" th:for="statusMemberId">장비 소유자 사번</label>
+                    </div>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{memberName}"
@@ -86,7 +92,7 @@
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1"
                            th:field="*{statusAssetEtc1}" placeholder="비고1(트리플)" disabled/>
-                    <label th:for="statusAssetEtc1">비고1(트리플)</label>
+                    <label th:for="statusAssetEtc1">모니터 현황(싱글,듀얼,트리플)</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1"

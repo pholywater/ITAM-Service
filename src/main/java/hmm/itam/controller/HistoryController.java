@@ -61,42 +61,24 @@ public class HistoryController {
         return "itam/history/historyAdd"; // 자산 등록 후 보여질 화면
     }
 
-    @GetMapping("/historySearch") // 이력 조회 화면
+    @GetMapping("/historySearch") // 이력 조회 화면(기본 화면)
     public String toHistorySearchPage(HistoryVo historyVo) {
         return "/itam/history/historySearch";
     }
 
 
-    @PostMapping("/historySearch") // 자산 조회 화면
+    @PostMapping("/historySearch") // 자산 이력 상세 조회 진행
     public String historySearch(HistoryVo historyVo, Model model, String search, String searchType) {
         log.info("searchType : {}", searchType);
         log.info("search : {}", search);
         if (search == null || search.isEmpty() || search.isBlank()) {
+            log.info("search 검색 값이 없습니다. : {}", search);
             return "itam/history/historySearch"; // 빈 값 검색 초기화
+
         }
-        if (Objects.equals(searchType, "easySearch")) {
-            log.info("간편 조회하기 : {}", search);
-            List<HistoryVo> resultList = HistoryService.historySearch(search);
-            model.addAttribute("list", resultList);
-            return "/itam/history/historySearch";
-        } else if (Objects.equals(searchType, "historyAssetNumber")) {
-            log.info("관리번호 조회하기 : {}", search);
-            List<HistoryVo> resultList = HistoryService.historyAssetSearch(search);
-            model.addAttribute("list", resultList);
-            return "/itam/history/historySearch";
-        } else if (Objects.equals(searchType, "historyMemberName")) {
-            log.info("이름 조회하기 : {}", search);
-            List<HistoryVo> resultList = HistoryService.historyNameSearch(search);
-            model.addAttribute("list", resultList);
-            return "/itam/history/historySearch";
-        } else if (Objects.equals(searchType, "historyMemberId")) {
-            log.info("아이디 조회하기 : {}", search);
-            List<HistoryVo> resultList = HistoryService.historyIdSearch(search);
-            model.addAttribute("list", resultList);
-            return "/itam/history/historySearch";
-        } else if (search == null || search.isEmpty() || search.isBlank()) {
-            log.info("빈 값 리턴");
-        }
-        return "redirect:historySearch";
+        List<HistoryVo> resultList = HistoryService.historySearch(search, searchType);
+        model.addAttribute("list", resultList);
+        log.info("간편 조회하기 : {}", search);
+        return "/itam/history/historySearch";
     }
 }

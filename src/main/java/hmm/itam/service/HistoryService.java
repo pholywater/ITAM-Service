@@ -40,8 +40,8 @@ public class HistoryService {
     }
 
     /*간편 조회*/
-    public List<HistoryVo> historySearch(String search) {
-        return HistoryMapper.getHistorySearch(search);
+    public List<HistoryVo> historySearch(String search, String searchType) {
+        return HistoryMapper.getHistorySearch(search, searchType);
     }
 
     /*장비 등록 후 조회*/
