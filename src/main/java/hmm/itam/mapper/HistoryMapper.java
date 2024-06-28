@@ -18,7 +18,7 @@ public interface HistoryMapper {
 
     List<HistoryVo> getHistoryAssetNumber(String search); // 관리번호로 검색
 
-    List<HistoryVo> getHistorySearch(String search); // 간편 검색
+    List<HistoryVo> getHistorySearch(String search, String searchType); // 간편 검색
 
 
 }

@@ -91,6 +91,7 @@
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
+
         WHERE
         member_name = #{search}
 
@@ -145,11 +146,34 @@
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
+        <choose>
+            <when test="searchType == 'easySearch'">
+                WHERE
+                history_asset_number = #{search} or
+                member_id = #{search} or
+                member_name = #{search}
+            </when>
+            <when test="searchType == 'historyAssetNumber'">
+                WHERE
+                history_asset_number = #{search}
+            </when>
+            <when test="searchType == 'historyMemberId'">
+                WHERE
+                member_id = #{search}
+            </when>
+            <when test="searchType == 'historyMemberName'">
+                WHERE
+                member_name = #{search}
+            </when>
+        </choose>
+
+
+        <!--
         WHERE
         history_asset_number = #{search} or
         member_id = #{search} or
         member_name = #{search}
-
+        -->
 
         order by
         asset_history.history_completion_date DESC,

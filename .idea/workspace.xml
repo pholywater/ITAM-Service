@@ -18,17 +18,18 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/AssetMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/AssetMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetAdd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetResult.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetResult.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/navbarSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/navbarSearch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -490,7 +491,23 @@
       <option name="project" value="LOCAL" />
       <updated>1719370854496</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="itam">
+      <option name="closed" value="true" />
+      <created>1719506124696</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1719506124696</updated>
+    </task>
+    <task id="LOCAL-00038" summary="itam">
+      <option name="closed" value="true" />
+      <created>1719506134913</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1719506134913</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

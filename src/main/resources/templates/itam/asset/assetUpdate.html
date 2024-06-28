@@ -13,7 +13,7 @@
             <div class="col">
                 <h3>장비 수정 화면</h3>
                 <div class="form-floating">
-                    <input type="text" class="form-control is-invalid mb-1" th:field="*{assetNumber}"
+                    <input type="text" class="form-control border border-danger mb-1" th:field="*{assetNumber}"
                            th:value="${asset.assetNumber}" placeholder="자산 고유번호 입력" readonly/>
                     <label th:for="assetNumber">관리번호</label>
                 </div>
@@ -25,22 +25,32 @@
                     <label class="form-check-label" for="historyCheck">이력 관리 등록 체크</label>
                 </span>
                 </div>
-
-                <div class="form-floating">
-                    <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"/>
-                    <label th:for="historyRequestDate">요청 일시 : </label>
-                </div>
                 <div class="form-floating">
                     <input type="date" class="form-control mb-1" th:field="*{historyCompletionDate}"/>
-                    <label th:for="historyCompletionDate">처리 일시 : </label>
+                    <label th:for="historyCompletionDate">처리 일시</label>
+                </div>
+                <div class="form-floating">
+                    <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"/>
+                    <label th:for="historyRequestDate">요청 일시</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyRequester}"/>
-                    <label th:for="historyRequester">요청자 : </label>
+                    <label th:for="historyRequester">요청자(이력관리)</label>
+                </div>
+                <div class="form-floating">
+                    <div class="form-floating">
+                        <input type="text" list="historyMemberName" class="form-control mb-1"
+                               th:field="*{historyMemberId}"/>
+                        <datalist id="historyMemberName">
+                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
+                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartmentDetail}|">
+                        </datalist>
+                        <label th:for="historyMemberId">사번(이력관리)</label>
+                    </div>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyWorker}"/>
-                    <label th:for="historyWorker">작업자 : </label>
+                    <label th:for="historyWorker">작업자(이력관리)</label>
                 </div>
                 <div class="form-floating">
                     <select class="form-control mb-1" th:field="*{historyAssetType}">
@@ -50,11 +60,11 @@
                         <option th:value="기타">기타</option>
                     </select>
                     <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
-                    <label th:for="historyAssetType">장비,소모품(구분) : </label>
+                    <label th:for="historyAssetType">장비,소모품(구분)</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyReqeustEtc}"/>
-                    <label th:for="historyReqeustEtc">비고 내용(소모품 추가 지급) : </label>
+                    <label th:for="historyReqeustEtc">비고 내용(소모품 or 위치)</label>
                 </div>
                 <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                 >뒤로가기
@@ -107,9 +117,15 @@
             <div class="col">
                 <h3>장비 사용자 정보</h3>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" name="statusMemberId" id="statusMemberId"
-                           th:value="${asset.statusMemberId}" placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
-                    <label class="form-check-label" th:for="statusMemberId">장비 소유자 사번</label>
+                    <div class="form-floating">
+                        <input type="text" list="asserMemberName" class="form-control border border-primary mb-1"
+                               name="statusMemberId" id="statusMemberId"/>
+                        <datalist id="asserMemberName">
+                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
+                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartmentDetail}|">
+                        </datalist>
+                        <label class="form-check-label" th:for="statusMemberId">장비 소유자 사번</label>
+                    </div>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="memberName" id="memberName"
@@ -128,21 +144,22 @@
                     <label th:for="memberDepartmentDetail">사용자 부서 상세</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" name="statusAssetEtc1"
+                    <input type="text" class="form-control border border-primary mb-1" name="statusAssetEtc1"
                            id="statusAssetEtc1"
                            th:value="${asset.statusAssetEtc1}" placeholder="비고1"/>
-                    <label th:for="statusAssetEtc1">비고1(트리플)</label>
+                    <label th:for="statusAssetEtc1">모니터 현황(싱글,듀얼,트리플)</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" name="statusAssetEtc2"
+                    <input type="text" class="form-control border border-primary mb-1" name="statusAssetEtc2"
                            id="statusAssetEtc2"
                            th:value="${asset.statusAssetEtc2}" placeholder="용도 상세"/>
                     <label th:for="statusAssetEtc2">용도 상세</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" name="assetDuration" id="assetDuration"
+                    <input type="text" class="form-control border border-primary mb-1" name="assetDuration"
+                           id="assetDuration"
                            th:value="${asset.assetDuration}" placeholder="장비 지급 기간"/>
-                    <label th:for="assetDuration">장비 지급 기간</label>
+                    <label th:for="assetDuration">장비 지급 기간(대여장비)</label>
                 </div>
             </div>
             <div class="col">

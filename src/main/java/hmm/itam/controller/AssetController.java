@@ -5,6 +5,7 @@ import hmm.itam.service.AssetService;
 import hmm.itam.service.HistoryService;
 import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.HistoryVo;
+import hmm.itam.vo.MemberVo;
 import hmm.itam.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,29 +89,30 @@ public class AssetController {
 
 
     @GetMapping("/navbarSearch") // Navbar 우측 Get 클라이언트 검색
-
-
-    public String navGetSearch(AssetVo assetVo, HistoryVo historyVo, String navbarSearch, String searchType, String search, Model model) {
-
+    public String navGetSearch(AssetVo assetVo, HistoryVo historyVo, MemberVo memberVo, String navbarSearch, String searchType, String search, Model model) {
         if (navbarSearch == "") { // 빈 값 입력 시
             log.info("검색어 빈값 : redirect:/ 처리");
             return "redirect:/";
         }
-
         if (Objects.equals(searchType, "history")) {
             log.info("간편 이력 조회하기 : {}", navbarSearch);
             List<AssetVo> resultList = AssetService.historySearch(navbarSearch);
             model.addAttribute("list", resultList);
             return "/itam/history/historySearch";
         }
-
         List<AssetVo> navbarGetSearch = AssetService.navbarSearch(navbarSearch);
         log.info("검색어 : {}", navbarSearch);
-
         if (navbarGetSearch == null) { // 일치 항목 없을 경우 에러 처리
             return "redirect:/";
         }
+        /*조회 한 값 넘겨주기*/
         model.addAttribute("list", navbarGetSearch);
+        /*상세조회 datalist 부서 검색 자동완성 작업*/
+        List<AssetVo> departmentList = AssetService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
         return "itam/asset/navbarSearch"; //
     }
 
@@ -127,7 +129,10 @@ public class AssetController {
     }
 
     @GetMapping("/assetAdd") // 자산 등록 화면
-    public String toAssetAddPage(AssetVo assetVo) {
+    public String toAssetAddPage(AssetVo assetVo, Model model) {
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
         log.info("장비 등록 화면입니다.");
         return "/itam/asset/assetAdd";
     }
@@ -189,12 +194,15 @@ public class AssetController {
     }
 
 
-    @PostMapping("/assetUpdate") // 장비 수정 화면
+    @PostMapping("/assetUpdate") // 장비 수정 작업 화면
     public String updatePage(AssetVo assetVo, String asset_number, Model model) {
         /*AssetService.modifyInfo(assetVo);*/
         AssetVo asset = AssetService.assetSearch(asset_number);
         model.addAttribute("asset", assetVo);  // 수정 후 변경 내역 다시 보기 위한 값 가져오기
         log.info("장비 정보 수정 화면입니다.");
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
         return "itam/asset/assetUpdate";
     }
 

@@ -14,7 +14,7 @@
                 <h3>장비 조회 내역</h3>
 
                 <div class="form-floating">
-                    <input type="text" class="form-control is-invalid mb-1" th:field="*{assetNumber}"
+                    <input type="text" class="form-control border border-danger mb-1" th:field="*{assetNumber}"
                            th:value="${asset.assetNumber}" placeholder="자산 고유번호 입력"/>
                     <label th:for="assetNumber">관리번호</label>
                     <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
@@ -80,7 +80,7 @@
                     <input type="text" class="form-control mb-1" name="statusAssetEtc1"
                            id="statusAssetEtc1"
                            th:value="${asset.statusAssetEtc1}" placeholder="비고1" readonly/>
-                    <label th:for="statusAssetEtc1">비고1(트리플)</label>
+                    <label th:for="statusAssetEtc1">모니터 현황(싱글,듀얼,트리플)</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetEtc2"
