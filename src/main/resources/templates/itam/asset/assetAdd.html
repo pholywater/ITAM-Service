@@ -15,14 +15,14 @@
     <form th:action="@{/assetAdd}" th:object="${assetVo}" method="post">  <!--action="/assetUpdate"-->
         <div class="row align-items-start">
             <div class="col">
-                <h3>필수 입력 정보</h3>
+                <h3>장비 등록</h3>
                 <div class="form-floating">
                     <input type="text" class="form-control border border-danger mb-1" th:field="*{assetNumber}"
                            placeholder="자산 고유번호 입력"/>
                     <label th:for="assetNumber">관리번호</label>
-                    <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
+                    <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                     >뒤로가기
-                    </button>
+                    </button>-->
                     <button type="submit" class="btn btn-primary mb-1" formaction="assetAdd" formmethod="post">자산등록
                     </button>
                     <!--<button type="submit" class="btn btn-info mb-1" formaction="assetSearch" formmethod="post">장비조회</button>-->

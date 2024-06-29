@@ -87,12 +87,12 @@ public class AssetController {
         return AssetService.findAssetByPagination(rs);
     }
 
-
+/*  아래의 장비 리스스 상세 검색과 통합 작업 완료.
     @GetMapping("/navbarSearch") // Navbar 우측 Get 클라이언트 검색
     public String navGetSearch(AssetVo assetVo, HistoryVo historyVo, MemberVo memberVo, String navbarSearch, String searchType, String search, Model model) {
         if (navbarSearch == "") { // 빈 값 입력 시
             log.info("검색어 빈값 : redirect:/ 처리");
-            return "redirect:/";
+            return "itam/asset/assetSearchList";
         }
         if (Objects.equals(searchType, "history")) {
             log.info("간편 이력 조회하기 : {}", navbarSearch);
@@ -105,17 +105,75 @@ public class AssetController {
         if (navbarGetSearch == null) { // 일치 항목 없을 경우 에러 처리
             return "redirect:/";
         }
-        /*조회 한 값 넘겨주기*/
+        *//*조회 한 값 넘겨주기*//*
         model.addAttribute("list", navbarGetSearch);
+        *//*상세조회 datalist 부서 검색 자동완성 작업*//*
+        List<AssetVo> departmentList = AssetService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+        *//*상세조회 datalist 직원(사번) 검색 자동완성 작업*//*
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
+        return "itam/asset/assetSearchList"; //
+    }*/
+
+    @GetMapping("/searchAssetPage") // 자산 등록 후 화면
+    public String searchAssetDetailPage(AssetVo assetVo, Model model) {
+        log.info("장비 리스트 조회 화면입니다.");
+
         /*상세조회 datalist 부서 검색 자동완성 작업*/
         List<AssetVo> departmentList = AssetService.getDepartmentList();
         model.addAttribute("departList", departmentList);
+
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
-        return "itam/asset/navbarSearch"; //
+        return "/itam/asset/assetSearchList";
     }
 
+    @GetMapping("/searchAssetDetail") // 장비 상세 조회
+    public String searchAssetDetail(AssetVo assetVo, String searchType, String search, String navSearch, Model model) {
+        log.info("searchType : {}", searchType);
+        log.info("navsearch : {}", navSearch);
+        log.info("search : {}", search);
+
+        /*장비 전체 리스트 조회 할 경우 예외처리*/
+        if (Objects.equals(searchType, "assetAll")) {
+            log.info("장비 전체 리스트 조회");
+            List<AssetVo> searchAssetDetail = AssetService.searchAssetDetail(search, searchType);
+            model.addAttribute("list", searchAssetDetail);
+            return "itam/asset/assetSearchList"; //
+        }
+        if (Objects.equals(searchType, "realTime")) {
+            log.info("상단 간편검색 : {}", navSearch);
+            search = navSearch;
+        }
+        if (search == "") { // 빈 값 입력 시
+            log.info("검색 창 빈값 처리");
+            return "itam/asset/assetSearchList";
+        }
+        if (Objects.equals(searchType, "history")) {
+            log.info("간편 이력 조회하기 : {}", navSearch);
+            List<AssetVo> resultList = AssetService.historySearch(navSearch);
+            model.addAttribute("list", resultList);
+            return "/itam/history/historySearch";
+        }
+
+
+        /*조회 한 값 넘겨주기*/
+        List<AssetVo> searchAssetDetail = AssetService.searchAssetDetail(search, searchType);
+        model.addAttribute("list", searchAssetDetail);
+
+        /*상세조회 datalist 부서 검색 자동완성 작업*/
+        List<AssetVo> departmentList = AssetService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
+        return "itam/asset/assetSearchList"; //
+    }
+
+    /*
     @PostMapping("/navbarSearch") // Navbar 우측 "Post" 검색(현재 미사용)
     public String navHeaderSearch(String navSearch, Model model) {
         List<AssetVo> navbarSearch = AssetService.navbarSearch(navSearch);
@@ -125,9 +183,9 @@ public class AssetController {
         }
         System.out.println(navbarSearch);
         model.addAttribute("list", navbarSearch);
-        return "itam/asset/navbarSearch"; //
+        return "itam/asset/assetSearchList"; //
     }
-
+*/
     @GetMapping("/assetAdd") // 자산 등록 화면
     public String toAssetAddPage(AssetVo assetVo, Model model) {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
