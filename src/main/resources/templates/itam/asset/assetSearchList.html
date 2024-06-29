@@ -27,54 +27,62 @@
 <div id="myDiv" class="container-fluid">
     <div class="container">
         <hr>
-        <form th:action="@{/navbarSearch}" th:object="${assetVo}" method="get">
+        <form th:action="@{/searchAssetDetail}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h3>장비 상세 조회(준비 중)</h3>
+                    <h3>장비 리스트 조회</h3>
                 </div>
                 <div class="col">
                     <div class="form-floating">
                         <select class="form-select mb-1" th:field="*{searchType}">
-                            <option th:value="easySearch">장비 상세 조회</option>
-                            <option th:value="assetNumber">장비 번호 조회</option>
+                            <option th:value="easySearch">간편 조회</option>
                             <option th:value="memberName">이름 조회</option>
-                            <option th:value="statusAssetUsage">용도 조회</option>
+                            <option th:value="memberId">사번 조회</option>
+                            <option th:value="memberDepartmentDetail">부서 조회</option>
+                            <option th:value="modelType">장비 번호 조회</option>
+                            <option th:value="assetNumber">장비 번호 조회</option>
+                            <option th:value="modelType">장비 타입 조회(D,L,M)</option>
+                            <option th:value="assetModelName">모델명 조회</option>
+                            <option th:value="statusType">입출고 상태(출고,입고,기타)</option>
+                            <option th:value="statusAssetUsage">용도별 조회(업무용,대여용,공용,재고)</option>
                         </select>
                         <label th:for="searchType">검색 항목 선택 : </label>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{navbarSearch}"/>
-                        <label th:for="navbarSearch">검색창 </label>
+                        <input type="search" class="form-control mb-1" th:field="*{search}" autofocus/>
+                        <label th:for="search">검색창 </label>
                     </div>
                 </div>
+
+
+                <!-- <div class="col">
+                     <div class="form-floating">
+                         <input type="search" list="department" class="form-control mb-1"
+                                th:field="*{memberDepartment}"/>
+                         <datalist id="department">
+                             <option th:each="d : ${departList}" th:value="${d.memberDepartment}"
+                                     th:label="|${d.departmentFloor} / ${d.memberDepartmentDetail}|">
+                         </datalist>
+                         <label th:for="memberDepartment">부서 검색 </label>
+                     </div>
+                 </div>
+                 <div class="col">
+                     <div class="form-floating">
+                         <input type="search" list="memberName" class="form-control mb-1"
+                                th:field="*{searchName}"/>
+                         <datalist id="memberName">
+                             <option th:each="m : ${memberList}" th:value="${m.memberId}"
+                                     th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartmentDetail}|">
+                         </datalist>
+                         <label th:for="searchName">직원 검색(사번) </label>
+                     </div>
+                 </div>-->
                 <div class="col">
-                    <div class="form-floating">
-                        <input type="search" list="department" class="form-control mb-1"
-                               th:field="*{memberDepartment}"/>
-                        <datalist id="department">
-                            <option th:each="d : ${departList}" th:value="${d.memberDepartment}"
-                                    th:label="|${d.departmentFloor} / ${d.memberDepartmentDetail}|">
-                        </datalist>
-                        <label th:for="memberDepartment">부서 검색 </label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-floating">
-                        <input type="search" list="memberName" class="form-control mb-1"
-                               th:field="*{searchName}"/>
-                        <datalist id="memberName">
-                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
-                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartmentDetail}|">
-                        </datalist>
-                        <label th:for="searchName">직원 검색(사번) </label>
-                    </div>
-                </div>
-                <div class="col">
-                    <button type="submit" hidden="" class="btn btn-primary mb-1" formaction="navbarSearch"
+                    <button type="submit" hidden="" class="btn btn-primary mb-1" formaction="searchAssetDetail"
                             formmethod="get">자산
-                        이력 조회
+                        리스트 조회
                     </button>
                 </div>
             </div>
@@ -175,6 +183,13 @@
             }
     } );
 } );
+</script>
+
+<!--검색 창 포커스 글씨 맨 뒤 위치-->
+<script>
+    var len = $('#search').val().length;
+    $('#search').focus();
+    $('#search')[0].setSelectionRange(len, len);
 </script>
 </body>
 </html>

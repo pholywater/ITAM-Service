@@ -23,9 +23,9 @@ public class AssetService {
     private AssetMapper AssetMapper;
     private HeaderSearchDto HeaderSearchDto;
 
-    public List<AssetVo> assetHeaderSearch(String navbarSearch) {
+    /*public List<AssetVo> assetHeaderSearch(String navbarSearch) {
         return AssetMapper.searchByNavbar(navbarSearch);
-    }
+    }*/
 
     public List<AssetVo> getAssetList() {
         return AssetMapper.getAssetList();
@@ -39,9 +39,15 @@ public class AssetService {
         return AssetMapper.getMemberList();
     }
 
+    /*아래 장비 리스트 상세 검색과 통합*/
     /*NavbarSearch 메인 화면 우측 상단 클라이언트 검색*/
-    public List<AssetVo> navbarSearch(String navbarSearch) {
+    /*public List<AssetVo> navbarSearch(String navbarSearch) {
         return AssetMapper.searchByNavbar(navbarSearch);
+    }*/
+
+    /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/
+    public List<AssetVo> searchAssetDetail(String search, String searchType) {
+        return AssetMapper.searchAssetDetail(search, searchType);
     }
 
     public List<AssetVo> historySearch(String navbarSearch) {

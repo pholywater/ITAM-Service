@@ -21,8 +21,12 @@ public interface AssetMapper {
     List<AssetVo> findAssetByPagination(int startNo, int length, String navSearch);
 
     int countTotalAsset(String navSearch);
-
+/*
+    아래 상세 검색과 통합 작업 완료.
     List<AssetVo> searchByNavbar(String navSearch); // NavbarSearch 메인 화면 우측 상단 검색
+*/
+
+    List<AssetVo> searchAssetDetail(String search, String searchType); // 장비 리스트 죄회
 
     List<AssetVo> getHistorySearch(String navSearch); // 간편 검색
 
