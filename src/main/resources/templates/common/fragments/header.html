@@ -42,15 +42,24 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{assetAdd}">신규 장비 등록</a></li>
+<<<<<<< HEAD
                         <li><a class="dropdown-item" th:href="@{assetSearch}">장비 조회 및 수정</a></li>
                         <li><a class="dropdown-item" th:href="@{searchAssetPage}">장비 리스트 조회</a>
                         </li>
+=======
+                        <li><a class="dropdown-item" th:href="@{assetSearch}">장비 조회 수정</a></li>
+                        <li><a class="dropdown-item" th:href="@{assetSearchDetail}">장비 상세 조회(준비 중)</a></li>
+>>>>>>> origin/main24.06.26
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
                         <!--<li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트(백엔드 조회)</a>-->
                         <!--<li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=}">전체 장비 리스트</a>-->
+<<<<<<< HEAD
                         <li><a class="dropdown-item" th:href="@{searchAssetDetail?searchType=assetAll}">전체 장비 리스트</a>
+=======
+                        <li><a class="dropdown-item" th:href="@{assetList}">전체 장비 리스트</a>
+>>>>>>> origin/main24.06.26
                         <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=출고}">출고 장비 리스트</a></li>
                         <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=재고}">재고 장비 리스트</a></li>
                         <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=입고}">부서 조회(준비 중)</a></li>
@@ -331,15 +340,27 @@
                     <option th:value="history">이력 조회</option>
                 </select>
 
+                <select class="form-select me-2" aria-label="Default select example" id="searchType" name="searchType">
+                    <option th:value="realTime">실시간 조회</option>
+                    <option th:value="history">이력 조회</option>
+                </select>
+
                 <input
                         class="form-control me-2"
                         type="search"
                         placeholder="간편 조회(이름, 부서, 장비)"
                         aria-label="navSearch"
+<<<<<<< HEAD
                         size="30"
                         id="navSearch"
                         name="navSearch"
 
+=======
+                        size="40"
+                        id="navbarSearch"
+                        name="navbarSearch"
+                        autofocus
+>>>>>>> origin/main24.06.26
                 />
                 <button class="btn btn-outline-success" type="submit">
                     Search

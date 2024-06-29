@@ -5,12 +5,9 @@ import hmm.itam.dto.HeaderSearchDto;
 import hmm.itam.dto.PageDto;
 import hmm.itam.mapper.AssetMapper;
 import hmm.itam.vo.AssetVo;
-import hmm.itam.vo.HistoryVo;
-import hmm.itam.vo.MemberVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,6 +50,8 @@ public class AssetService {
     public List<AssetVo> historySearch(String navbarSearch) {
         return AssetMapper.getHistorySearch(navbarSearch);
     }
+
+
 
     /*DataTables Server-side 조회 설정*/
     public PageDto<List<String>> findAssetByPagination(PageDto pageDto) {

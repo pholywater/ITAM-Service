@@ -12,7 +12,19 @@ public interface HistoryMapper {
 
     void insertHistory(HistoryVo historyVo); // 히스토리 등록
 
+
+/*
     List<HistoryVo> getHistoryAssetNumber(String search); // 관리번호로 검색
+*/
+
+    List<HistoryVo> getHistoryMemberName(String search); // 이름 검색
+
+    List<HistoryVo> getHistoryMemberId(String search); // 사번 검색
+
+    List<HistoryVo> getHistoryAssetNumber(String search); // 관리번호로 검색
+
+    List<HistoryVo> getHistorySearch(String search); // 간편 검색
+
 
     List<HistoryVo> getHistorySearch(String search, String searchType); // 이력 관리 상세 검색
 

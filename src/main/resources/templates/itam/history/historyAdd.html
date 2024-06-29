@@ -46,6 +46,7 @@
                         <input type="text" class="form-control is-invalid mb-1" th:field="*{historyAssetNumber}"/>
                         <label th:for="historyAssetNumber">장비,소모품 번호 : </label>
                     </div>
+<<<<<<< HEAD
                     <div class="form-floating">
                         <select class="form-control is-invalid mb-1" th:field="*{historyType}">
                             <option value="">클릭 후 선택</option>
@@ -72,6 +73,16 @@
                         이력
                         조회
                     </button>
+=======
+
+                    <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">자산 이력
+                        등록
+                    </button>
+                    <!--<button type="submit" class="btn btn-primary mb-1" formaction="historySearch" formmethod="post">자산
+                        이력
+                        조회
+                    </button>-->
+>>>>>>> origin/main24.06.26
                 </div>
 
                 <div class="col">
@@ -107,6 +118,19 @@
                 <div class="col">
                     <h3>작업 정보</h3>
 
+                    <div class="form-floating">
+                        <select class="form-control mb-1" th:field="*{historyType}">
+                            <option value="">필수선택</option>
+                            <option th:value="입고">입고</option>
+                            <option th:value="출고">출고</option>
+                            <option th:value="변경">변경</option>
+                        </select>
+                        <label th:for="historyType">입출고 선택 : </label>
+                    </div>
+                    <!--<div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyType}"/>
+                        <label th:for="historyType">입고,출고,변경 : </label>
+                    </div>-->
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1" th:field="*{historyWorker}"/>
                         <label th:for="historyWorker">작업자 : </label>
