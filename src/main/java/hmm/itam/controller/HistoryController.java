@@ -61,10 +61,13 @@ public class HistoryController {
         return "itam/history/historyAdd"; // 자산 등록 후 보여질 화면
     }
 
+
     @GetMapping("/historySearch") // 이력 조회 화면(기본 화면)
+
     public String toHistorySearchPage(HistoryVo historyVo) {
         return "/itam/history/historySearch";
     }
+
 
 
     @PostMapping("/historySearch") // 자산 이력 상세 조회 진행
@@ -80,5 +83,6 @@ public class HistoryController {
         model.addAttribute("list", resultList);
         log.info("간편 조회하기 : {}", search);
         return "/itam/history/historySearch";
+
     }
 }
