@@ -130,7 +130,7 @@ public class AssetController {
         return "/itam/asset/assetSearchList";
     }
 
-    @GetMapping("/searchAssetDetail") // 장비 상세 조회
+    @GetMapping("/searchAssetDetail") // 장비 상세 조회(24.06.29)
     public String searchAssetDetail(AssetVo assetVo, String searchType, String search, String navSearch, Model model) {
         log.info("searchType : {}", searchType);
         log.info("navsearch : {}", navSearch);
@@ -143,21 +143,23 @@ public class AssetController {
             model.addAttribute("list", searchAssetDetail);
             return "itam/asset/assetSearchList"; //
         }
+        /*상단 검색에서 장비 조회 시*/
         if (Objects.equals(searchType, "realTime")) {
             log.info("상단 간편검색 : {}", navSearch);
             search = navSearch;
         }
-        if (search == "") { // 빈 값 입력 시
-            log.info("검색 창 빈값 처리");
-            return "itam/asset/assetSearchList";
-        }
+        /*상단 검색에서 이력 관리 조회 시*/
         if (Objects.equals(searchType, "history")) {
             log.info("간편 이력 조회하기 : {}", navSearch);
             List<AssetVo> resultList = AssetService.historySearch(navSearch);
             model.addAttribute("list", resultList);
             return "/itam/history/historySearch";
         }
-
+        /*빈 값 입력 시*/
+        if (search == "") {
+            log.info("검색 창 빈값 처리");
+            return "itam/asset/assetSearchList";
+        }
 
         /*조회 한 값 넘겨주기*/
         List<AssetVo> searchAssetDetail = AssetService.searchAssetDetail(search, searchType);

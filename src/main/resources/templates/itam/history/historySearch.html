@@ -41,7 +41,7 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <select class="form-select mb-1" th:field="*{searchType}">
+                        <select class="form-select mb-1" id="searchType" name="searchType">
                             <option th:value="easySearch">간편 이력 조회</option>
                             <option th:value="historyAssetNumber">장비 번호 조회</option>
                             <option th:value="historyMemberName">이름 조회</option>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{search}"/>
+                        <input type="text" class="form-control mb-1" id="search" name="search"/>
                         <label th:for="search">검색창 </label>
                     </div>
                 </div>
