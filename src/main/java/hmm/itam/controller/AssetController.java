@@ -205,16 +205,6 @@ public class AssetController {
         log.info("searchStart : {}", searchStart);
         log.info("searchEnd : {}", searchEnd);
 
-        /*빈 값 입력 시*/
-        if (searchStart == "") {
-            log.info("검색 창 빈값 처리");
-            return "itam/asset/assetPaymentList";
-        }
-        if (searchEnd == "") {
-            log.info("검색 창 빈값 처리");
-            return "itam/asset/assetPaymentList";
-        }
-
         /*조회 한 값 넘겨주기*/
         List<AssetVo> searchPaymentList = AssetService.searchPaymentList(searchStart, searchEnd);
         model.addAttribute("list", searchPaymentList);
