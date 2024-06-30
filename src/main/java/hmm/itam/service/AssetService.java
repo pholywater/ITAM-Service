@@ -5,8 +5,6 @@ import hmm.itam.dto.HeaderSearchDto;
 import hmm.itam.dto.PageDto;
 import hmm.itam.mapper.AssetMapper;
 import hmm.itam.vo.AssetVo;
-import hmm.itam.vo.HistoryVo;
-import hmm.itam.vo.MemberVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +21,6 @@ public class AssetService {
     private AssetMapper AssetMapper;
     private HeaderSearchDto HeaderSearchDto;
 
-    /*public List<AssetVo> assetHeaderSearch(String navbarSearch) {
-        return AssetMapper.searchByNavbar(navbarSearch);
-    }*/
 
     public List<AssetVo> getAssetList() {
         return AssetMapper.getAssetList();
@@ -48,6 +43,11 @@ public class AssetService {
     /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/
     public List<AssetVo> searchAssetDetail(String search, String searchType) {
         return AssetMapper.searchAssetDetail(search, searchType);
+    }
+
+    /*searchPaymentList 신규 장비 출고 리스트 조회 클라이언트 검색*/
+    public List<AssetVo> searchPaymentList(String searchStart, String searchEnd) {
+        return AssetMapper.searchPaymentList(searchStart, searchEnd);
     }
 
     public List<AssetVo> historySearch(String navbarSearch) {

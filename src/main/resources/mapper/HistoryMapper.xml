@@ -18,11 +18,31 @@
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
-        WHERE history_completion_date
-        BETWEEN DATE_ADD(NOW(), INTERVAL -1 YEAR ) AND NOW()
+        <choose>
+            <when test="searchStart == '' and searchEnd == ''">
+                WHERE history_completion_date
+                BETWEEN DATE_ADD(NOW(), INTERVAL -4 DAY ) AND NOW()
+                <!--YEAR, MONTH, WEEK, DAY-->
+            </when>
+            <when test="searchStart == ''">
+                WHERE history_completion_date
+                BETWEEN #{searchEnd} AND #{searchEnd}
+                <!--BETWEEN DATE_ADD(NOW(), INTERVAL -1 YEAR ) AND NOW()-->
+            </when>
+            <when test="searchEnd == ''">
+                WHERE history_completion_date
+                BETWEEN #{searchStart} AND NOW()
+                <!--BETWEEN DATE_ADD(NOW(), INTERVAL -1 YEAR ) AND NOW()-->
+            </when>
+            <otherwise>
+                WHERE history_completion_date
+                BETWEEN #{searchStart} and #{searchEnd}
+            </otherwise>
+        </choose>
+
 
         order by
-        asset_history.history_completion_date DESC,
+        asset_history.history_completion_date,
         hmm_member.member_department,
         asset_history.history_member_id,
         asset_history.history_type

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface HistoryMapper {
-    List<HistoryVo> getHistoryList(); // 전체 이력 조회
+    List<HistoryVo> getHistoryList(String searchStart, String searchEnd); // 전체 이력 조회
 
     void insertHistory(HistoryVo historyVo); // 히스토리 등록
 

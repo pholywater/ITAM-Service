@@ -9,6 +9,8 @@ import java.util.Date;
 @Data
 public class HistoryVo {
     private String search;
+    private String searchStart;
+    private String searchEnd;
     private String searchType;
     private String historySearch;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

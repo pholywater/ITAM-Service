@@ -4,12 +4,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
+<body>
 <head>
-    <title>ITAM History List</title>
-
+    <title>ITAM Asset Search</title>
 
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
-    <!--datatables child-rows -->
+    <!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
 
@@ -19,20 +19,18 @@
     <script src="js/datatables/dataTables-1.13.7.js"></script>
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
-    <script src="js/datatables/pdfmake.min-0.1.53.js"></script>
-    <script src="js/datatables/vfs_fonts-0.1.53.js"></script>
+    <script src="js/datatables/pdfmake.min.js"></script>
+    <script src="js/datatables/vfs_fonts.js"></script>
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
 </head>
-
-<body>
 <div id="myDiv" class="container-fluid">
     <div class="container">
         <hr>
-        <form th:action="@{/historyList}" th:object="${historyVo}" method="get">
+        <form th:action="@{/searchAssetDetail}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h3>장비 이력 날짜 조회</h3>
+                    <h3>신규 장비 <br/>출고 리스트 조회</h3>
                 </div>
                 <div class="col">
                     <div class="form-floating">
@@ -42,70 +40,60 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="date" class="form-control mb-1" th:field="*{searchEnd}"
-                               
-                        />
+                        <input type="date" class="form-control mb-1" th:field="*{searchEnd}"/>
                         <label th:for="searchEnd">종료일 </label>
                     </div>
                 </div>
 
                 <div class="col">
-                    <button type="submit" class="btn btn-primary mb-1" formaction="historyList"
-                            formmethod="get">리스트 조회
+                    <button type="submit" class="btn btn-primary mb-1" formaction="searchPaymentList"
+                            formmethod="get">자산
+                        리스트 조회
                     </button>
                 </div>
             </div>
         </form>
     </div>
+
+    <hr>
     <table id="myTable" class="display">
         <thead>
         <tr>
             <th>No.</th>
-            <th>처리 일시</th>
-            <th>요청 일시</th>
-            <th>구분</th>
-            <th>입출고</th>
-            <th>요청자</th>
-            <th>작업자</th>
-            <th>사번</th>
+            <th>지급일</th>
+            <th>장비번호</th>
+            <th>타입</th>
+            <th>제조사</th>
+            <th>모델명</th>
+            <th>시리얼</th>
+            <th>사원번호</th>
             <th>부서</th>
             <th>이름</th>
             <th>직급</th>
-            <th>장비번호</th>
-            <th>모델명</th>
-            <th>요청 내용</th>
-            <th>비고 내용</th>
-            <!--<th>스펙1</th>
-            <th>스펙2</th>
-            <th>스펙3</th>-->
-
+            <th>용도</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="u, stat :${list}">
             <td th:text="${stat.count}"></td>
-            <td th:text="${#dates.format(u.historyCompletionDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#dates.format(u.historyRequestDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${u.historyAssetType}"></td>
-            <td th:text="${u.historyType}"></td>
-            <td th:text="${u.historyRequester}"></td>
-            <td th:text="${u.historyWorker}"></td>
-            <td th:text="${u.historyMemberId}"></td>
-            <td th:text="${u.departmentName}"></td>
-            <td th:text="${u.memberName}"></td>
-            <td th:text="${u.memberRank}"></td>
-            <td th:text="${u.historyAssetNumber}"></td>
+            <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${u.assetNumber}"></td>
+            <td th:text="${u.modelType}"></td>
+            <td th:text="${u.modelManufacturer}"></td>
             <td th:text="${u.assetModelName}"></td>
-            <td th:text="${u.historyRequestDetails}"></td>
-            <td th:text="${u.historyReqeustEtc}"></td>
-            <!--<td th:text="${u.historySpec1}"></td>
-            <td th:text="${u.historySpec2}"></td>
-            <td th:text="${u.historySpec3}"></td>-->
+            <td th:text="${u.assetSerialNumber}"></td>
+            <td th:text="${u.assetPaymentMemberId}"></td>
+            <td th:text="${u.assetPaymentDepartment}"></td>
+            <td th:text="${u.assetPaymentMemberName}"></td>
+            <td th:text="${u.assetPaymentMemberRank}"></td>
+            <td th:text="${u.assetPaymentDetails}"></td>
         </tr>
         </tbody>
     </table>
 </div> <!-- /container -->
+
 <script src="js/datatables/dataTables.responsive.min.js"></script>
+
 
 <script>
     $(document).ready(function() {
@@ -121,7 +109,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 10,
+        iDisplayLength : 25 ,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],
@@ -141,5 +129,11 @@
 } );
 </script>
 
+<!--검색 창 포커스 글씨 맨 뒤 위치-->
+<script>
+    var len = $('#search').val().length;
+    $('#search').focus();
+    $('#search')[0].setSelectionRange(len, len);
+</script>
 </body>
 </html>

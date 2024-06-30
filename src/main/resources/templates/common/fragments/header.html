@@ -51,6 +51,7 @@
                         <!--<li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트(백엔드 조회)</a>-->
                         <!--<li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=}">전체 장비 리스트</a>-->
                         <li><a class="dropdown-item" th:href="@{searchAssetDetail?searchType=assetAll}">전체 장비 리스트</a>
+
                         <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=출고}">출고 장비 리스트</a></li>
                         <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=재고}">재고 장비 리스트</a></li>
                         <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=입고}">부서 조회(준비 중)</a></li>
@@ -116,10 +117,11 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{historyAdd}">자산 입출고 등록</a></li>
                         <li><a class="dropdown-item" th:href="@{historySearch}">자산 입출고 조회</a></li>
-                        <li><a class="dropdown-item" th:href="@{historyList}">자산 입출고 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{historyList}">자산 입출고 날짜 조회</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
+                        <li><a class="dropdown-item" th:href="@{searchPaymentPage}">신규 장비 출고 조회</a>
                         <li>
                             <a class="dropdown-item" href="#">Something else here</a>
                         </li>

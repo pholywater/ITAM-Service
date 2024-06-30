@@ -13,9 +13,9 @@ public class HistoryService {
     @Autowired
     private HistoryMapper HistoryMapper;
 
-    public List<HistoryVo> getHistoryList() {
+    public List<HistoryVo> getHistoryList(String searchStart, String searchEnd) {
 
-        return HistoryMapper.getHistoryList();
+        return HistoryMapper.getHistoryList(searchStart, searchEnd);
     }
 
     /*히스토리 정보 등록*/

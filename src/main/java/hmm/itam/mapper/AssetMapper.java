@@ -26,7 +26,9 @@ public interface AssetMapper {
     List<AssetVo> searchByNavbar(String navSearch); // NavbarSearch 메인 화면 우측 상단 검색
 */
 
-    List<AssetVo> searchAssetDetail(String search, String searchType); // 장비 리스트 죄회
+    List<AssetVo> searchAssetDetail(String search, String searchType); // 장비 리스트 조회
+
+    List<AssetVo> searchPaymentList(String searchStart, String searchEnd); // 신규 장비 출고 리스트 조
 
     List<AssetVo> getHistorySearch(String navSearch); // 간편 검색
 
