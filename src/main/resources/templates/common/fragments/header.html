@@ -43,8 +43,11 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{assetAdd}">신규 장비 등록</a></li>
                         <li><a class="dropdown-item" th:href="@{assetSearch}">장비 조회 및 수정</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetPage}">장비 리스트 조회</a>
+                        <li>
+                            <hr class="dropdown-divider"/>
                         </li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetPage}">장비 리스트 상세 조회</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchMemberPage}">부서 밎 직원 장비 조회</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -52,15 +55,21 @@
                         <!--<li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=}">전체 장비 리스트</a>-->
                         <li><a class="dropdown-item" th:href="@{searchAssetDetail?searchType=assetAll}">전체 장비 리스트</a>
 
-                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=출고}">출고 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=재고}">재고 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=입고}">부서 조회(준비 중)</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetDetail?searchType=statusType&search=출고}">전체
+                            출고 장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetDetail?searchType=statusType&search=입고}">본사
+                            입고 장비 리스트</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=업무용}">업무용 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=대여용}">대여용 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{navbarSearch?navbarSearch=공용}">공용 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{searchAssetDetail?searchType=statusAssetUsage&search=업무용}">업무용 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{searchAssetDetail?searchType=statusAssetUsage&search=대여용}">대여용 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{searchAssetDetail?searchType=statusAssetUsage&search=공용}">공용 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{searchAssetDetail?searchType=statusAssetUsage&search=재고}">재고 장비 리스트</a></li>
                         <!--
                         <li>
                             <hr class="dropdown-divider"/>
@@ -115,7 +124,10 @@
                         이력 관리
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{historyAdd}">자산 입출고 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{historyAdd}">장비 고장 및 수리 이력 등록</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
                         <li><a class="dropdown-item" th:href="@{historySearch}">자산 입출고 조회</a></li>
                         <li><a class="dropdown-item" th:href="@{historyList}">자산 입출고 날짜 조회</a></li>
                         <li>
