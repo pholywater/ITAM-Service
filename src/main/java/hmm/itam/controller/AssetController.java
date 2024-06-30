@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.SimpleTimeZone;
 
+import static java.time.LocalTime.now;
+
 @Controller
 @Slf4j
 public class AssetController {
@@ -175,6 +177,7 @@ public class AssetController {
         return "itam/asset/assetSearchList"; //
     }
 
+
     /*
     @PostMapping("/navbarSearch") // Navbar 우측 "Post" 검색(현재 미사용)
     public String navHeaderSearch(String navSearch, Model model) {
@@ -188,6 +191,38 @@ public class AssetController {
         return "itam/asset/assetSearchList"; //
     }
 */
+
+
+    @GetMapping("/searchPaymentPage") // 신규장비 출고 리스트 조회 화면
+    public String searchPaymentListPage(AssetVo assetVo, Model model) {
+        log.info("신규 장비 출고 리스트 조회 화면입니다.");
+        return "/itam/asset/assetPaymentList";
+    }
+
+
+    @GetMapping("/searchPaymentList") // 신규장비 출고 리스트 조회 화면(처리)
+    public String searchAssetDetail(AssetVo assetVo, String searchStart, String searchEnd, Model model) {
+        log.info("searchStart : {}", searchStart);
+        log.info("searchEnd : {}", searchEnd);
+
+        /*빈 값 입력 시*/
+        if (searchStart == "") {
+            log.info("검색 창 빈값 처리");
+            return "itam/asset/assetPaymentList";
+        }
+        if (searchEnd == "") {
+            log.info("검색 창 빈값 처리");
+            return "itam/asset/assetPaymentList";
+        }
+
+        /*조회 한 값 넘겨주기*/
+        List<AssetVo> searchPaymentList = AssetService.searchPaymentList(searchStart, searchEnd);
+        model.addAttribute("list", searchPaymentList);
+
+        return "itam/asset/assetPaymentList"; //
+    }
+
+
     @GetMapping("/assetAdd") // 자산 등록 화면
     public String toAssetAddPage(AssetVo assetVo, Model model) {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/

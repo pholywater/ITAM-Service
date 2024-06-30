@@ -14,6 +14,8 @@ public class AssetVo {
     private String navSearch;
     private String searchType;
     private String search;
+    private String searchStart;
+    private String searchEnd;
     private String searchName;
     private String navSelectBox;
     private String HeaderSearchDto;

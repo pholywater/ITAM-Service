@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.text.BreakIterator;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static java.time.LocalTime.now;
 
 @Controller
 @Slf4j
@@ -21,12 +27,19 @@ public class HistoryController {
     @Autowired
     private HistoryService HistoryService;
 
+
     @GetMapping("/historyList") // 웹 URL 매핑(전체 리스트 시간 오래 걸리는 단점. 조회 기간 설정 필요)
-    public String getHistoryList(Model model) {
-        List<HistoryVo> historyList = HistoryService.getHistoryList();
+    public String getHistoryList(HistoryVo historyVo, String searchStart, String searchEnd, Model model) {
+
+        log.info("searchStart 초기 값 : {}", searchStart);
+        log.info("searchEnd 초기 값 : {}", searchEnd);
+
+        
+        List<HistoryVo> historyList = HistoryService.getHistoryList(searchStart, searchEnd);
         model.addAttribute("list", historyList);
         return "itam/history/historyList"; // 실제 HTML 경로
     }
+
 
     @GetMapping("/historyAdd") // 자산 등록 화면
     public String toHistoryAddPage(HistoryVo historyVo) {
