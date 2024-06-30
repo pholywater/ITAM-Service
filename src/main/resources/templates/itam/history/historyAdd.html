@@ -49,11 +49,14 @@
                     <div class="form-floating">
                         <select class="form-control is-invalid mb-1" th:field="*{historyType}">
                             <option value="">클릭 후 선택</option>
+                            <option th:value="고장">고장</option>
+                            <option th:value="수리">수리</option>
+                            <option th:value="변경">변경</option>
                             <option th:value="입고">입고</option>
                             <option th:value="출고">출고</option>
-                            <option th:value="변경">변경</option>
+
                         </select>
-                        <label th:for="historyType">입출고 선택 : </label>
+                        <label th:for="historyType">이력 관리 구분(고장, 수리, 변경) : </label>
                     </div>
                     <div class="form-floating">
                         <select class="form-control is-invalid mb-1" th:field="*{historyAssetType}">
@@ -63,7 +66,7 @@
                             <option th:value="기타">기타</option>
                         </select>
                         <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
-                        <label th:for="historyAssetType">장비,소모품(구분) : </label>
+                        <label th:for="historyAssetType">이력 등록 품목(장비,소모품) : </label>
                     </div>
                     <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">자산 이력
                         등록
@@ -86,7 +89,7 @@
                             <option th:value="기타">기타</option>
                             <option th:value="미반납장비">미반납장비</option>
                         </select>
-                        <label th:for="historyRequestUsage">지급 및 회수 후 용도 : </label>
+                        <label th:for="historyRequestUsage">이력 관리 발생 용도 : </label>
                     </div>
                     <div class="form-floating">
                         <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"/>
@@ -99,7 +102,7 @@
 
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1" th:field="*{historyRequestDetails}"/>
-                        <label th:for="historyRequestDetails">요청 내용 : </label>
+                        <label th:for="historyRequestDetails">이력 관리 등록 내용 : </label>
                     </div>
 
                 </div>

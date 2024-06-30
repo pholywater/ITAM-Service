@@ -32,57 +32,6 @@
         asset_last_update_date
     </sql>
 
-    <!--아래 장비 조회 동적쿼리문 추가로 미사용-->
-    <!--메인 화면 NAVBAR 우측 상단 클라이언트 방식(전체 조회 후 js 처리) 조건 검색-->
-    <!--<select id="searchByNavbar" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_info
-
-        LEFT JOIN hmm_member
-        ON asset_info.status_member_id=hmm_member.member_id
-
-        LEFT JOIN hmm_department
-        ON hmm_member.member_department=hmm_department.department_name
-
-        LEFT JOIN asset_model
-        ON asset_info.asset_model_name=asset_model.model_name
-
-        LEFT JOIN orderby_rank
-        ON hmm_member.member_rank=orderby_rank.member_rank
-
-        LEFT JOIN orderby_asset
-        ON asset_info.status_type=orderby_asset.asset_status
-
-        LEFT JOIN orderby_model
-        ON asset_model.model_type=orderby_model.asset_model
-
-        WHERE
-        asset_info.status_asset_usage LIKE CONCAT('%' #{navSearch} '%') OR
-        asset_info.status_type LIKE CONCAT('%' #{navSearch} '%') OR
-        hmm_member.member_id LIKE CONCAT('%' #{navSearch} '%') OR
-        hmm_member.member_rank LIKE CONCAT('%' #{navSearch} '%') OR
-        hmm_member.member_name LIKE CONCAT('%' #{navSearch} '%') OR
-        hmm_member.member_department_detail LIKE CONCAT('%' #{navSearch} '%') OR
-        asset_info.asset_model_name LIKE CONCAT('%' #{navSearch} '%') OR
-        asset_info.asset_number LIKE CONCAT('%' #{navSearch} '%')
-
-
-        order by
-        orderby_asset.asset_grant,
-        hmm_department.department_location,
-        hmm_department.department_region,
-        hmm_department.department_floor,
-        hmm_member.member_department_detail,
-        hmm_member.member_working_status desc,
-        orderby_rank.member_grant,
-        hmm_member.member_id,
-        asset_info.status_asset_usage DESC,
-        asset_info.asset_number
-
-
-        &lt;!&ndash;WHERE member_name LIKE CONCAT('%' #{search} '%')&ndash;&gt;
-    </select>-->
-
     <!--헤더 드롭다운 장비 리스트 조회 클라이언트 (전체 조회 후 js 처리) 조건 검색-->
     <select id="searchAssetDetail" resultType="hmm.itam.vo.AssetVo">
         SELECT *
@@ -107,6 +56,7 @@
         ON asset_model.model_type=orderby_model.asset_model
 
         <!--동적쿼리문 작성-->
+        <!--WHERE 조건문 정리-->
         <choose>
             <!--상단 간편 검색 및 상세 조회 리스트 검색의 간편 검색 처리-->
             <when test="searchType == 'easySearch' or searchType == 'realTime'">
@@ -162,14 +112,20 @@
             <when test="searchType == 'assetPayment'">
                 WHERE
                 asset_info.asset_payment_date BETWEEN '2024-01-01' and NOW()
-
-                ORDER BY asset_payment_date
             </when>
         </choose>
 
+        <!--WHERE 조건문 공통 처리 : 매각 장비 검색 금지-->
+        AND
+        asset_info.status_type NOT LIKE CONCAT('%' '매각' '%')
+
+        <!--정렬 조건 정리-->
         <choose>
+            <when test="searchType == 'assetPayment'">
+                ORDER BY asset_payment_date
+            </when>
             <when test="searchType != 'assetPayment'">
-                order by
+                ORDER BY
                 orderby_asset.asset_grant,
                 hmm_department.department_location,
                 hmm_department.department_region,
@@ -185,6 +141,75 @@
 
 
         <!--WHERE member_name LIKE CONCAT('%' #{search} '%')-->
+    </select>
+
+    <!--부서 및 직원 장비 리스트 조회 클라이언트 (전체 조회 후 js 처리) 조건 검색-->
+    <select id="searchMemberList" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_info
+
+        LEFT JOIN hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        LEFT JOIN orderby_rank
+        ON hmm_member.member_rank=orderby_rank.member_rank
+
+        LEFT JOIN orderby_asset
+        ON asset_info.status_type=orderby_asset.asset_status
+
+        LEFT JOIN orderby_model
+        ON asset_model.model_type=orderby_model.asset_model
+
+        <!--동적쿼리문 작성-->
+        <!--WHERE 조건문 정리-->
+        <choose>
+            <!--상단 간편 검색 및 상세 조회 리스트 검색의 간편 검색 처리-->
+            <when test="searchDepart != '' and searchMember != ''">
+                WHERE
+                hmm_member.member_department_detail LIKE CONCAT('%' #{searchDepart} '%') AND
+                hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
+                hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
+            </when>
+            <when test="searchDepart != ''">
+                WHERE
+                hmm_member.member_department_detail LIKE CONCAT('%' #{searchDepart} '%')
+            </when>
+            <when test="searchMember != ''">
+                WHERE
+                hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
+                hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
+            </when>
+            <when test="searchDepart == '' and searchMember == ''">
+                WHERE
+                asset_info.status_type NOT LIKE CONCAT('%' '출고' '%') and
+                asset_info.status_type NOT LIKE CONCAT('%' '입고' '%') and
+                asset_info.status_type NOT LIKE CONCAT('%' '기타' '%')
+            </when>
+        </choose>
+
+        <!--WHERE 조건문 공통 처리 : 매각, 신규 예비 장비 검색 금지-->
+        AND
+        asset_info.status_type NOT LIKE CONCAT('%' '매각' '%')
+        AND
+        asset_info.status_type NOT LIKE CONCAT('%' '신규' '%')
+
+        ORDER BY
+        orderby_asset.asset_grant,
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor,
+        hmm_member.member_department_detail,
+        hmm_member.member_working_status desc,
+        orderby_rank.member_grant,
+        hmm_member.member_id,
+        asset_info.status_asset_usage DESC,
+        asset_info.asset_number
     </select>
 
     <!--헤더 드롭다운 신규 장비 출고 리스트 조회 클라이언트 (전체 조회 후 js 처리) 조건 검색-->
@@ -252,11 +277,9 @@
         GROUP BY department_name
 
         ORDER BY
-        hmm_department.idx,
-        hmm_department.department_location,
-        hmm_department.department_region,
-        hmm_department.department_floor,
+
         hmm_member.member_department_detail
+
 
     </select>
 
@@ -269,7 +292,7 @@
         ON hmm_member.member_department=hmm_department.department_name
 
         ORDER BY
-        hmm_member.idx
+        hmm_member.idx desc
 
     </select>
 

@@ -43,10 +43,6 @@ public class AssetController {
     public String HeaderSearch(AssetVo assetVo, HttpSession session, String navSearch, Model model) {
         session.setAttribute("navSearch", navSearch);
 
-        //model.addAttribute("Searh", "navSearch");
-        //String navSearch = headerSearchDto.getNavSearch();
-        //List<AssetVo> navSearchList = AssetService.navbarSearch(navSearch);
-
         if (navSearch == "null") {
             return "redirect:/";
         }
@@ -60,63 +56,18 @@ public class AssetController {
     @PostMapping("/assets") // js ajax 호출로 Data로 들어갈 PageDto 값 정의
     public PageDto getAsset(int draw, int length, int start, String search, HttpSession session) {
         String navSearch = (String) session.getAttribute("navSearch");
-        //session.setAttribute("filterSearch", Search);
-        //String filterSearch = (String) session.getAttribute("filterSearch");
-        //String searchValue = Request["search[value]"];
-        //String search = Request.Form.GetValues("search[value]").FirstOrDefault();
-        //String search = Request.QueryString["(search[value])"];
-        //String filterSearch = (String) session.getAttribute("search[value]");
-        //String search = Request.Form.GetValues("search[value]")[0];
-        //String navSearch = (String) headerSearchDto.getNavSearch();
-        //String search = navSearch;
-
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 draw 값 {} ", draw);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 start 값 {} ", start);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 length 값 {} ", length);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 search 값 {} ", search);
-        //log.info("ajax: '/assets' 실행 후 js에서 받아오는 filterSearch 값 {} ", filterSearch);
         log.info("해더에서 넘겨 받은 getNavSearch 값 {} ", navSearch);
-
         PageDto rs = new PageDto();
-
         rs.setDraw(draw);
         rs.setStart(start);
         rs.setLength(length);
-        //rs.setSearch(search);
         rs.setNavSearch(navSearch);
-
-
         return AssetService.findAssetByPagination(rs);
     }
-
-/*  아래의 장비 리스스 상세 검색과 통합 작업 완료.
-    @GetMapping("/navbarSearch") // Navbar 우측 Get 클라이언트 검색
-    public String navGetSearch(AssetVo assetVo, HistoryVo historyVo, MemberVo memberVo, String navbarSearch, String searchType, String search, Model model) {
-        if (navbarSearch == "") { // 빈 값 입력 시
-            log.info("검색어 빈값 : redirect:/ 처리");
-            return "itam/asset/assetSearchList";
-        }
-        if (Objects.equals(searchType, "history")) {
-            log.info("간편 이력 조회하기 : {}", navbarSearch);
-            List<AssetVo> resultList = AssetService.historySearch(navbarSearch);
-            model.addAttribute("list", resultList);
-            return "/itam/history/historySearch";
-        }
-        List<AssetVo> navbarGetSearch = AssetService.navbarSearch(navbarSearch);
-        log.info("검색어 : {}", navbarSearch);
-        if (navbarGetSearch == null) { // 일치 항목 없을 경우 에러 처리
-            return "redirect:/";
-        }
-        *//*조회 한 값 넘겨주기*//*
-        model.addAttribute("list", navbarGetSearch);
-        *//*상세조회 datalist 부서 검색 자동완성 작업*//*
-        List<AssetVo> departmentList = AssetService.getDepartmentList();
-        model.addAttribute("departList", departmentList);
-        *//*상세조회 datalist 직원(사번) 검색 자동완성 작업*//*
-        List<AssetVo> memberList = AssetService.getMemberList();
-        model.addAttribute("memberList", memberList);
-        return "itam/asset/assetSearchList"; //
-    }*/
 
     @GetMapping("/searchAssetPage") // 자산 등록 후 화면
     public String searchAssetDetailPage(AssetVo assetVo, Model model) {
@@ -193,6 +144,41 @@ public class AssetController {
 */
 
 
+    @GetMapping("/searchMemberPage") // 부서 및 직원 장비 리스트 조회 화면
+    public String searchMemberListPage(AssetVo assetVo, Model model) {
+        log.info("부서 및 직원 장비 리스트 조회 화면입니다.");
+        /*상세조회 datalist 부서 검색 자동완성 작업*/
+        List<AssetVo> departmentList = AssetService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
+        return "/itam/asset/searchMemberList";
+    }
+
+
+    @GetMapping("/searchMemberList") // 부서 및 직원 장비 리스트 조회 화면(처리)
+    public String searchMemberList(AssetVo assetVo, String searchDepart, String searchMember, Model model) {
+        log.info("searchDepart : {}", searchDepart);
+        log.info("searchMember : {}", searchMember);
+
+        /*조회 한 값 넘겨주기*/
+        List<AssetVo> searchMemberList = AssetService.searchMemberList(searchDepart, searchMember);
+        model.addAttribute("list", searchMemberList);
+
+        /*상세조회 datalist 부서 검색 자동완성 작업*/
+        List<AssetVo> departmentList = AssetService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
+
+        return "itam/asset/searchMemberList"; //
+    }
+
+
     @GetMapping("/searchPaymentPage") // 신규장비 출고 리스트 조회 화면
     public String searchPaymentListPage(AssetVo assetVo, Model model) {
         log.info("신규 장비 출고 리스트 조회 화면입니다.");
@@ -201,7 +187,7 @@ public class AssetController {
 
 
     @GetMapping("/searchPaymentList") // 신규장비 출고 리스트 조회 화면(처리)
-    public String searchAssetDetail(AssetVo assetVo, String searchStart, String searchEnd, Model model) {
+    public String searchPaymentList(AssetVo assetVo, String searchStart, String searchEnd, Model model) {
         log.info("searchStart : {}", searchStart);
         log.info("searchEnd : {}", searchEnd);
 

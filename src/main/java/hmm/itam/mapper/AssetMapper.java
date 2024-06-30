@@ -28,6 +28,8 @@ public interface AssetMapper {
 
     List<AssetVo> searchAssetDetail(String search, String searchType); // 장비 리스트 조회
 
+    List<AssetVo> searchMemberList(String searchDepart, String searchMember); // 부서 및 직원 장비 리스트 조회 화면
+
     List<AssetVo> searchPaymentList(String searchStart, String searchEnd); // 신규 장비 출고 리스트 조
 
     List<AssetVo> getHistorySearch(String navSearch); // 간편 검색
