@@ -34,7 +34,9 @@ public class HistoryService {
         return HistoryMapper.getHistorySearch(search, searchType);
     }
 
-
+    public List<HistoryVo> getMemberList() {
+        return HistoryMapper.getMemberList();
+    }
 
 
     /* 동적 쿼리문으로 변경 후 필여 없어짐

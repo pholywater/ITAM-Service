@@ -32,6 +32,10 @@ public class HistoryVo {
     private String historySpec2;
     private String historySpec3;
     private String departmentName;
+    private String memberDepartment;
+    private String memberDepartmentDetail;
+    private String departmentFloor;
+    private String memberId;
     private String memberName;
     private String memberRank;
     private String assetModelName;

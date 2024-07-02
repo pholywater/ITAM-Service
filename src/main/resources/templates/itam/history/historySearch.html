@@ -34,7 +34,7 @@
 <div id="myDiv" class="container-fluid">
     <div class="container">
         <hr>
-        <form th:action="@{/historySearch}" th:object="${historyVo}" method="post">
+        <form th:action="@{/historySearch}" th:object="${historyVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
                     <h3>장비 이력 조회</h3>
@@ -57,9 +57,11 @@
                     </div>
                 </div>
                 <div class="col">
-                    <button type="submit" hidden="" class="btn btn-primary mb-1" formaction="historySearch"
-                            formmethod="post">자산
-                        이력 조회
+                    <button type="submit" class="btn btn-primary mb-1" formaction="historySearch"
+                            formmethod="get">이력 조회
+                    </button>
+                    <button type="submit" class="btn btn-outline-primary mb-1" formaction="historyList"
+                            formmethod="get">날짜 조회 바로가기
                     </button>
                 </div>
             </div>
@@ -161,7 +163,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 15,
+        iDisplayLength : 10,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],

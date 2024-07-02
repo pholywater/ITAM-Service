@@ -19,30 +19,27 @@ import java.util.List;
 public class AssetService {
     @Autowired
     private AssetMapper AssetMapper;
-    private HeaderSearchDto HeaderSearchDto;
 
 
+    /*장비 리스트 자동완성*/
     public List<AssetVo> getAssetList() {
         return AssetMapper.getAssetList();
     }
 
+    /*부서 리스트 자동완성*/
     public List<AssetVo> getDepartmentList() {
         return AssetMapper.getDepartmentList();
     }
 
+    /*멤버 리스트 자동완성*/
     public List<AssetVo> getMemberList() {
         return AssetMapper.getMemberList();
     }
 
-    /*아래 장비 리스트 상세 검색과 통합*/
-    /*NavbarSearch 메인 화면 우측 상단 클라이언트 검색*/
-    /*public List<AssetVo> navbarSearch(String navbarSearch) {
-        return AssetMapper.searchByNavbar(navbarSearch);
-    }*/
 
     /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/
-    public List<AssetVo> searchAssetDetail(String search, String searchType) {
-        return AssetMapper.searchAssetDetail(search, searchType);
+    public List<AssetVo> searchAssetList(String search, String searchType) {
+        return AssetMapper.searchAssetList(search, searchType);
     }
 
     /*searchMemberList 부서 및 직원 장비 리스트 조회 클라이언트 검색*/
@@ -50,16 +47,51 @@ public class AssetService {
         return AssetMapper.searchMemberList(searchDepart, searchMember);
     }
 
-    /*searchPaymentList 신규 장비 출고 리스트 조회 클라이언트 검색*/
-    public List<AssetVo> searchPaymentList(String searchStart, String searchEnd) {
+    /*searchPaymentList 신규장비 및 전체 장비 지급일 리스트 조회 클라이언트 검색*/
+    public List<AssetVo> assetPaymentList(String searchStart, String searchEnd) {
         return AssetMapper.searchPaymentList(searchStart, searchEnd);
     }
 
+    /*상단 간편검색 - 이력관리 조회*/
     public List<AssetVo> historySearch(String navbarSearch) {
         return AssetMapper.getHistorySearch(navbarSearch);
     }
 
+
+    /*장비 정보 등록*/
+    public void assetAdd(AssetVo assetVo) {
+        AssetMapper.insertAsset(assetVo);
+    }
+
+    /*이력 관리 등록*/
+    public void historyAdd(AssetVo AssetVo) {
+        AssetMapper.insertHistory(AssetVo);
+    }
+
+    /*장비 조회 1*/
+    public AssetVo assetSearch(String assetNumber) {
+        return AssetMapper.getAssetByAssetNumber(assetNumber);
+    }
+
+    /*장비정보 수정*/
+    public void modifyInfo(AssetVo assetVo) {
+        AssetMapper.updateAsset(assetVo);
+    }
+
+    /*장비 삭제하기*/
+    public void withdraw(AssetVo assetVo) {
+        AssetMapper.deleteAsset(assetVo);
+    }
+
+
+    /*잘 안쓰는거 */
     /*DataTables Server-side 조회 설정*/
+    private HeaderSearchDto HeaderSearchDto;
+
+    public HeaderSearchDto HeaderSearchDto(String navSearch) {
+        return HeaderSearchDto;
+    }
+
     public PageDto<List<String>> findAssetByPagination(PageDto pageDto) {
         int startNo = pageDto.getStart();
         int length = pageDto.getLength();
@@ -118,36 +150,6 @@ public class AssetService {
         log.info("값 변환 후: {}", result);
         return pageDto;
     }
-
-    public HeaderSearchDto HeaderSearchDto(String navSearch) {
-        return HeaderSearchDto;
-    }
-
-    /*장비 정보 등록*/
-    public void assetAdd(AssetVo assetVo) {
-        AssetMapper.insertAsset(assetVo);
-    }
-
-    /*이력 관리 등록*/
-    public void historyAdd(AssetVo AssetVo) {
-        AssetMapper.insertHistory(AssetVo);
-    }
-
-    /*장비 조회 1*/
-    public AssetVo assetSearch(String assetNumber) {
-        return AssetMapper.getAssetByAssetNumber(assetNumber);
-    }
-
-    /*장비정보 수정*/
-    public void modifyInfo(AssetVo assetVo) {
-        AssetMapper.updateAsset(assetVo);
-    }
-
-    /*장비 삭제하기*/
-    public void withdraw(AssetVo assetVo) {
-        AssetMapper.deleteAsset(assetVo);
-    }
-
 
     /* public List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto, PageDto pageDto, String navSearch) {
         pageDto.setRecordsTotal(AssetMapper.countTotalAsset(navSearch));

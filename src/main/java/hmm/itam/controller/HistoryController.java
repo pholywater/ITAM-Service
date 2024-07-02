@@ -1,6 +1,7 @@
 package hmm.itam.controller;
 
 import hmm.itam.service.HistoryService;
+import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.HistoryVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class HistoryController {
         log.info("searchStart 초기 값 : {}", searchStart);
         log.info("searchEnd 초기 값 : {}", searchEnd);
 
-        
+
         List<HistoryVo> historyList = HistoryService.getHistoryList(searchStart, searchEnd);
         model.addAttribute("list", historyList);
         return "itam/history/historyList"; // 실제 HTML 경로
@@ -42,7 +43,10 @@ public class HistoryController {
 
 
     @GetMapping("/historyAdd") // 자산 등록 화면
-    public String toHistoryAddPage(HistoryVo historyVo) {
+    public String toHistoryAddPage(HistoryVo historyVo, Model model) {
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<HistoryVo> memberList = HistoryService.getMemberList();
+        model.addAttribute("memberList", memberList);
         return "/itam/history/historyAdd";
     }
 
@@ -75,23 +79,14 @@ public class HistoryController {
     }
 
     @GetMapping("/historySearch") // 이력 조회 화면(기본 화면)
-    public String toHistorySearchPage(HistoryVo historyVo) {
-        return "/itam/history/historySearch";
-    }
-
-
-    @PostMapping("/historySearch") // 자산 이력 상세 조회 진행
     public String historySearch(HistoryVo historyVo, Model model, String search, String searchType) {
         log.info("searchType : {}", searchType);
         log.info("search : {}", search);
-        if (search == null || search.isEmpty() || search.isBlank()) {
-            log.info("search 검색 값이 없습니다. : {}", search);
-            return "itam/history/historySearch"; // 빈 값 검색 초기화
 
-        }
         List<HistoryVo> resultList = HistoryService.historySearch(search, searchType);
         model.addAttribute("list", resultList);
         log.info("간편 조회하기 : {}", search);
         return "/itam/history/historySearch";
     }
+
 }

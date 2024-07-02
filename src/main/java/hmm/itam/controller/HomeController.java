@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,17 +24,20 @@ public class HomeController {
         return "index";
     }
 
-
     @GetMapping("/")
     public String home(HttpSession session, Model model) {
         Long idx = (Long) session.getAttribute("userId");
         if (idx != null) {
             UserVo userVo = userService.getUserById(idx);
             model.addAttribute("user", userVo);
+
+            /*차트 연동 테스트*/
+            String label[] = {"a", "b", "c", "d", "e", "f", "g"};
+            int point[] = {5, 3, 7, 1, 8, 3, 4,};
+            model.addAttribute("label", label);
+            model.addAttribute("point", point);
             return "home";
         }
-
-
         return "redirect:/login"; // 정상 작동
     }
 

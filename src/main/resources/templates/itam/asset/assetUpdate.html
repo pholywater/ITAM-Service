@@ -8,7 +8,8 @@
 <body>
 <div id="myDiv1" class="container">
     <hr>
-    <form th:object="${assetVo}" method="post">  <!--action="/assetUpdate"-->
+    <form th:action="@{/assetUpdateResult}" th:object="${assetVo}" method="post">
+        <!--action="/assetUpdate"-->
         <div class="row align-items-start">
             <div class="col">
                 <h3>장비 수정 화면</h3>
@@ -75,7 +76,7 @@
                     업데이트
                 </button>
 
-                <button type="submit" class="btn btn-info mb-1" formaction="/assetSearch" formmethod="post">뒤로가기
+                <button type="submit" class="btn btn-info mb-1" formaction="/assetSearch" formmethod="get">뒤로가기
                 </button>
 
 

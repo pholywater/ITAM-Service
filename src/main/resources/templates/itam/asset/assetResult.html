@@ -14,9 +14,13 @@
                 <h3>장비 조회 내역</h3>
 
                 <div class="form-floating">
-                    <input type="text" class="form-control border border-danger mb-1" th:field="*{assetNumber}"
-                           th:value="${asset.assetNumber}" placeholder="자산 고유번호 입력"/>
-                    <label th:for="assetNumber">관리번호</label>
+                    <input type="search" list="assetList" class="form-control mb-1"
+                           th:field="*{assetNumber}" autofocus/>
+                    <datalist id="assetList">
+                        <option th:each="a : ${assetList}" th:value="${a.assetNumber}"
+                                th:label="|${a.statusAssetUsage} / ${a.memberName}/ ${a.memberId} / ${a.departmentFloor} / ${a.assetModelName} / ${a.statusAssetSpec2} / ${a.statusAssetSpec3}|">
+                    </datalist>
+                    <label th:for="assetNumber">관리번호 입력</label>
                     <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                     >뒤로가기
                     </button>-->

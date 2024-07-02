@@ -17,30 +17,51 @@
         <span th:text="${user.department}"></span><span>부서의 </span>
         <span th:text="${user.name}">사용자 이름 리스트</span><span>님께서 로그인 중입니다.</span>
     </div>
+    <!--
+        <div class="dashboard-background" id="dashboard" style="margin-top:100px ">
+            <div>메인화면 준비 중입니다.</div>
+            <div class="dashboard-wrapper" style="width: 100%;">
+                <div class="title" style="width: 60%; float: left; ">
+                    <canvas id="myChart1"></canvas>
+                </div>
 
+                <div class="title" style="width: 30%; float: right;  ">
+                    <canvas id="myChart2"></canvas>
+                </div>
 
-    <div class="dashboard-background" id="dashboard" style="margin-top:100px ">
-        <div>메인화면 준비 중입니다.</div>
-        <div class="dashboard-wrapper" style="width: 100%;">
-            <div class="title" style="width: 60%; float: left; ">
-                <canvas id="myChart"></canvas>
             </div>
 
-
-            <div class="title" style="width: 30%; float: right;  ">
-                <canvas id="myChart1"></canvas>
-            </div>
-
-        </div>
-    </div>
-
+        </div>-->
+    <canvas id="Chart"></canvas>
+    <canvas id="myChart1"></canvas>
+    <canvas id="myChart2"></canvas>
 
 </div>
 </body>
-<script>
-    const ctx = document.getElementById('myChart');
+<script type="text/javascript" th:inline="javascript">
+    var ctx = document.getElementById("Chart").getContext('2d');
+    var ChartDemo = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: /*[[ ${label} ]]*/,
+            datasets: [
+                {
+                    label: "Chart-1",
+                    <!--borderColor: 'rgb(255, 0, 0)',-->
+                    lineTension: 0,
+                    fill: false,
+                    data: /*[[ ${point} ]]*/,
+                },
+            ]
+        },
+        options: {
+            responsive: true,
+        }
+    });
     const ctx1 = document.getElementById('myChart1');
-    new Chart(ctx, {
+    const ctx2 = document.getElementById('myChart2');
+
+    new Chart(ctx1, {
       type: 'bar',
       data: {
         labels: ['데스크탑', '노트북', '모니터', '재고 데스크탑', '재고 노트북', '재고 모니터'],
@@ -58,7 +79,8 @@
         }
       }
     });
-        new Chart(ctx1, {
+
+        new Chart(ctx2, {
       type: 'pie',
       data: {
         labels: ['싱글', '듀얼', '트리플'],
@@ -76,5 +98,7 @@
         }
       }
     });
+
 </script>
+-->
 </html>

@@ -27,37 +27,27 @@
 <div id="myDiv" class="container-fluid">
     <div class="container">
         <hr>
-        <form th:action="@{/searchAssetDetail}" th:object="${assetVo}" method="get">
+        <form th:action="@{/searchPaymentList}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h3>장비 리스트 조회</h3>
+                    <h4>장비 지급일 리스트 조회</h4>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <select class="form-select mb-1" th:field="*{searchType}">
-                            <option th:value="easySearch">간편 조회</option>
-                            <option th:value="memberName">이름 조회</option>
-                            <option th:value="memberId">사번 조회</option>
-                            <option th:value="memberDepartmentDetail">부서 조회</option>
-                            <option th:value="assetNumber">장비 번호 조회</option>
-                            <option th:value="modelType">장비 타입 조회(D,L,M)</option>
-                            <option th:value="assetModelName">모델명 조회</option>
-                            <option th:value="statusType">입출고 상태(출고,입고,기타)</option>
-                            <option th:value="statusAssetUsage">용도별 조회(업무용,대여용,공용,재고)</option>
-                        </select>
-                        <label th:for="searchType">검색 항목 선택 : </label>
+                        <input type="date" class="form-control mb-1" th:field="*{searchStart}"/>
+                        <label th:for="searchStart">시작일 </label>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="search" class="form-control mb-1" th:field="*{search}" autofocus/>
-                        <label th:for="search">검색창 </label>
+                        <input type="date" class="form-control mb-1" th:field="*{searchEnd}" autofocus/>
+                        <label th:for="searchEnd">종료일 </label>
                     </div>
                 </div>
+
                 <div class="col">
-                    <button type="submit" hidden="" class="btn btn-primary mb-1" formaction="searchAssetDetail"
-                            formmethod="get">자산
-                        리스트 조회
+                    <button type="submit" class="btn btn-primary mb-1" formaction="searchPaymentList"
+                            formmethod="get">리스트 조회
                     </button>
                 </div>
             </div>
@@ -162,9 +152,9 @@
 
 <!--검색 창 포커스 글씨 맨 뒤 위치-->
 <script>
-    var len = $('#search').val().length;
-    $('#search').focus();
-    $('#search')[0].setSelectionRange(len, len);
+    var len = $('#searchMember').val().length;
+    $('#searchMember').focus();
+    $('#searchMember')[0].setSelectionRange(len, len);
 </script>
 </body>
 </html>
