@@ -11,34 +11,23 @@ import java.util.List;
 
 @Mapper
 public interface AssetMapper {
-
-    List<AssetVo> getAssetList();
-
-    /*List<AssetVo> assetHeaderSearch(String statusType, String statusAssetUsage);*/
-    //AssetVo assetHeaderSearch(HeaderSearchDto headerSearchDto);
-    //List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto);
-
-    List<AssetVo> findAssetByPagination(int startNo, int length, String navSearch);
-
-    int countTotalAsset(String navSearch);
-/*
-    아래 상세 검색과 통합 작업 완료.
-    List<AssetVo> searchByNavbar(String navSearch); // NavbarSearch 메인 화면 우측 상단 검색
-*/
-
-    List<AssetVo> searchAssetDetail(String search, String searchType); // 장비 리스트 조회
-
-    List<AssetVo> searchMemberList(String searchDepart, String searchMember); // 부서 및 직원 장비 리스트 조회 화면
-
-    List<AssetVo> searchPaymentList(String searchStart, String searchEnd); // 신규 장비 출고 리스트 조
-
-    List<AssetVo> getHistorySearch(String navSearch); // 간편 검색
-
-    AssetVo getAssetByAssetNumber(String assetNumber); // 관리번호로 검색
+    List<AssetVo> getAssetList(); //  datalist 자동완성 장비 리스트
 
     List<AssetVo> getDepartmentList(); // datalist 자동완성 부서 검색 리스트
 
     List<AssetVo> getMemberList(); // datalist 자동완성 직원 이름 검색 리스트
+
+
+    List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
+
+    List<AssetVo> searchMemberList(String searchDepart, String searchMember); // 부서 및 직원 장비 리스트 조회 화면
+
+    List<AssetVo> searchPaymentList(String searchStart, String searchEnd); // 신규 및 장비 지급일 리스트 조회
+
+    List<AssetVo> getHistorySearch(String navSearch); // 이력 관리 간편 검색
+
+
+    AssetVo getAssetByAssetNumber(String assetNumber); // 관리번호로 검색
 
     void insertAsset(AssetVo assetVo); // 장비 등록
 
@@ -48,5 +37,15 @@ public interface AssetMapper {
 
     void deleteAsset(AssetVo assetVo); // 장비 삭제
 
+
+    List<AssetVo> findAssetByPagination(int startNo, int length, String navSearch);
+
+    int countTotalAsset(String navSearch);
+
+
+
+    /*List<AssetVo> assetHeaderSearch(String statusType, String statusAssetUsage);*/
+    //AssetVo assetHeaderSearch(HeaderSearchDto headerSearchDto);
+    //List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto);
 
 }

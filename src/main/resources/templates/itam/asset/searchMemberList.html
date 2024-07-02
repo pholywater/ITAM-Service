@@ -30,7 +30,7 @@
         <form th:action="@{/searchMemberList}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h3>부서 및 직원<br/>장비 리스트 조회</h3>
+                    <h4>장비 부서별 리스트 조회</h4>
                 </div>
                 <div class="col">
                     <div class="form-floating">
@@ -46,7 +46,7 @@
                 <div class="col">
                     <div class="form-floating">
                         <input type="search" list="memberName" class="form-control mb-1"
-                               th:field="*{searchMember}"/>
+                               th:field="*{searchMember}" autofocus/>
                         <datalist id="memberName">
                             <option th:each="m : ${memberList}" th:value="${m.memberId}"
                                     th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} / ${m.memberDepartmentDetail}|">
@@ -162,9 +162,9 @@
 
 <!--검색 창 포커스 글씨 맨 뒤 위치-->
 <script>
-    var len = $('#search').val().length;
-    $('#search').focus();
-    $('#search')[0].setSelectionRange(len, len);
+    var len = $('#searchMember').val().length;
+    $('#searchMember').focus();
+    $('#searchMember')[0].setSelectionRange(len, len);
 </script>
 </body>
 </html>

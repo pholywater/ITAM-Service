@@ -19,9 +19,10 @@
         ON asset_info.asset_model_name=asset_model.model_name
 
         <choose>
-            <when test="searchStart == '' and searchEnd == ''">
+            <when test="(searchStart == '' and searchEnd == '') or (searchStart == null and searchEnd == null)">
                 WHERE history_completion_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -4 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -1 DAY ) AND NOW()
+                <!--BETWEEN DATE_ADD(NOW(), INTERVAL -4 DAY ) AND NOW()-->
                 <!--YEAR, MONTH, WEEK, DAY-->
             </when>
             <when test="searchStart == ''">
@@ -113,6 +114,10 @@
 
         <!--동적쿼리문 작성-->
         <choose>
+            <when test="search == '' or search == null or navSearch == null">
+                WHERE history_completion_date
+                BETWEEN DATE_ADD(NOW(), INTERVAL -1 DAY ) AND NOW()
+            </when>
             <when test="searchType == 'easySearch'">
                 WHERE
                 history_asset_number = #{search} or
@@ -142,59 +147,18 @@
     </select>
 
 
-    <!--이름으로 이력 조회 동적쿼리 변경 후 불필요-->
-    <!--<select id="getHistoryMemberName" resultType="hmm.itam.vo.HistoryVo">
+    <!--datalist 자동완성 이름 검색 리스트-->
+    <select id="getMemberList" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
-        FROM asset_history
-
-        LEFT JOIN hmm_member
-        ON asset_history.history_member_id=hmm_member.member_id
+        FROM hmm_member
 
         LEFT JOIN hmm_department
         ON hmm_member.member_department=hmm_department.department_name
 
-        LEFT JOIN asset_info
-        ON asset_history.history_asset_number=asset_info.asset_number
+        ORDER BY
+        hmm_member.idx desc
 
-        LEFT JOIN asset_model
-        ON asset_info.asset_model_name=asset_model.model_name
+    </select>
 
-
-        WHERE
-        member_name = #{search}
-
-        order by
-        asset_history.history_completion_date DESC,
-        hmm_member.member_department,
-        asset_history.history_member_id,
-        asset_history.history_type
-    </select>-->
-
-    <!--사번으로 이력 조회 동적쿼리 변경 후 불필요-->
-    <!--<select id="getHistoryMemberId" resultType="hmm.itam.vo.HistoryVo">
-        SELECT *
-        FROM asset_history
-
-        LEFT JOIN hmm_member
-        ON asset_history.history_member_id=hmm_member.member_id
-
-        LEFT JOIN hmm_department
-        ON hmm_member.member_department=hmm_department.department_name
-
-        LEFT JOIN asset_info
-        ON asset_history.history_asset_number=asset_info.asset_number
-
-        LEFT JOIN asset_model
-        ON asset_info.asset_model_name=asset_model.model_name
-
-        WHERE
-        member_id = #{search}
-
-        order by
-        asset_history.history_completion_date DESC,
-        hmm_member.member_department,
-        asset_history.history_member_id,
-        asset_history.history_type
-    </select>-->
 
 </mapper>

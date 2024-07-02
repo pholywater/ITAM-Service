@@ -80,21 +80,21 @@ public class AssetController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
-        return "/itam/asset/assetSearchList";
+        return "/itam/asset/searchAssetList";
     }
 
-    @GetMapping("/searchAssetDetail") // 장비 상세 조회(24.06.29)
+    @GetMapping("/searchAssetList") // 장비 상세 조회(24.06.29)
     public String searchAssetDetail(AssetVo assetVo, String searchType, String search, String navSearch, Model model) {
         log.info("searchType : {}", searchType);
-        log.info("navsearch : {}", navSearch);
+        log.info("navSearch : {}", navSearch);
         log.info("search : {}", search);
 
         /*장비 전체 리스트 조회 할 경우 예외처리*/
         if (Objects.equals(searchType, "assetAll")) {
             log.info("장비 전체 리스트 조회");
-            List<AssetVo> searchAssetDetail = AssetService.searchAssetDetail(search, searchType);
-            model.addAttribute("list", searchAssetDetail);
-            return "itam/asset/assetSearchList"; //
+            List<AssetVo> searchAssetList = AssetService.searchAssetList(search, searchType);
+            model.addAttribute("list", searchAssetList);
+            return "itam/asset/searchAssetList"; //
         }
         /*상단 검색에서 장비 조회 시*/
         if (Objects.equals(searchType, "realTime")) {
@@ -111,11 +111,11 @@ public class AssetController {
         /*빈 값 입력 시*/
         if (search == "") {
             log.info("검색 창 빈값 처리");
-            return "itam/asset/assetSearchList";
+            return "itam/asset/searchAssetList";
         }
 
         /*조회 한 값 넘겨주기*/
-        List<AssetVo> searchAssetDetail = AssetService.searchAssetDetail(search, searchType);
+        List<AssetVo> searchAssetDetail = AssetService.searchAssetList(search, searchType);
         model.addAttribute("list", searchAssetDetail);
 
         /*상세조회 datalist 부서 검색 자동완성 작업*/
@@ -125,7 +125,7 @@ public class AssetController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
-        return "itam/asset/assetSearchList"; //
+        return "itam/asset/searchAssetList"; //
     }
 
 
@@ -139,7 +139,7 @@ public class AssetController {
         }
         System.out.println(navbarSearch);
         model.addAttribute("list", navbarSearch);
-        return "itam/asset/assetSearchList"; //
+        return "itam/asset/searchAssetList"; //
     }
 */
 
@@ -179,36 +179,43 @@ public class AssetController {
     }
 
 
-    @GetMapping("/searchPaymentPage") // 신규장비 출고 리스트 조회 화면
-    public String searchPaymentListPage(AssetVo assetVo, Model model) {
-        log.info("신규 장비 출고 리스트 조회 화면입니다.");
-        return "/itam/asset/assetPaymentList";
+    @GetMapping("/searchPaymentList") // 장비 지급일 리스트 조회 화면(처리)
+    public String searchPaymentList(AssetVo assetVo, String searchStart, String searchEnd, Model model) {
+        log.info("searchStart : {}", searchStart);
+        log.info("searchEnd : {}", searchEnd);
+        log.info("장비 지급일 리스트 조회 화면입니다.");
+        /*조회 한 값 넘겨주기*/
+        List<AssetVo> assetPaymentList = AssetService.assetPaymentList(searchStart, searchEnd);
+        model.addAttribute("list", assetPaymentList);
+        return "itam/asset/searchPaymentList"; //
     }
 
-
-    @GetMapping("/searchPaymentList") // 신규장비 출고 리스트 조회 화면(처리)
-    public String searchPaymentList(AssetVo assetVo, String searchStart, String searchEnd, Model model) {
+    @GetMapping("/searchNewPaymentList") // 신규 장비 출고 리스트 조회 화면(처리)
+    public String searchNewPaymentList(AssetVo assetVo, String searchStart, String searchEnd, Model model) {
+        log.info("신규 장비 출고 리스트 조회 화면입니다.");
         log.info("searchStart : {}", searchStart);
         log.info("searchEnd : {}", searchEnd);
 
         /*조회 한 값 넘겨주기*/
-        List<AssetVo> searchPaymentList = AssetService.searchPaymentList(searchStart, searchEnd);
-        model.addAttribute("list", searchPaymentList);
-
-        return "itam/asset/assetPaymentList"; //
+        List<AssetVo> assetPaymentList = AssetService.assetPaymentList(searchStart, searchEnd);
+        model.addAttribute("list", assetPaymentList);
+        return "itam/asset/searchNewPaymentList"; //
     }
 
 
     @GetMapping("/assetAdd") // 자산 등록 화면
     public String toAssetAddPage(AssetVo assetVo, Model model) {
-        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        /* datalist 직원(사번) 검색 자동완성 */
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
+        /* datalist 장비번호 검색 자동완성 */
+        List<AssetVo> assetList = AssetService.getAssetList();
+        model.addAttribute("assetList", assetList);
         log.info("장비 등록 화면입니다.");
         return "/itam/asset/assetAdd";
     }
 
-    @PostMapping("/assetAdd") // 자산 등록 입력 처리
+    @PostMapping("/assetAdd") // 자산 등록 입력 처리(간단하게 정리해야함)
     public String assetAdd(AssetVo assetVo, String assetNumber, Model model) {
         if (assetNumber == null || assetNumber.isEmpty() || assetNumber.isBlank()) {
             System.out.println("NullPointerException err : " + assetNumber); // null 값 입력 확인
@@ -231,15 +238,21 @@ public class AssetController {
         return "itam/asset/assetResult"; // 자산 등록 후 보여질 화면
     }
 
-    @GetMapping("/assetSearch") // 자산 등록 후 화면
-    public String searchPage(AssetVo assetVo) {
+    @GetMapping("/assetSearch") // 자산 등록 후 화면 & 검색 화면(조회를 먼저 하고 수정하는 방향)
+    public String searchPage(AssetVo assetVo, Model model) {
         log.info("장비 정보 조회 화면입니다.");
+        /* datalist 장비번호 검색 자동완성 */
+        List<AssetVo> assetList = AssetService.getAssetList();
+        model.addAttribute("assetList", assetList);
         return "/itam/asset/assetSearch";
     }
 
-    @PostMapping("/assetSearch") // 자산 내역 검색 및 수정 화면
+    @PostMapping("/assetSearch") // 자산 내역 검색 및 수정 처리 화면
     public String searchResult(AssetVo assetVo, String assetNumber, Model model) {
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
+        /* datalist 장비번호 검색 자동완성 */
+        List<AssetVo> assetList = AssetService.getAssetList();
+        model.addAttribute("assetList", assetList);
         if (assetNum == null) { // 관리번호 일치 항목 없을 경우 에러 처리
             log.info("조회하기 : 일치하는 관리번호 없음");
             return "redirect:assetSearch";

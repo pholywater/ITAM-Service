@@ -39,15 +39,25 @@
                 <div class="col">
                     <h3>필수 입력 정보</h3>
                     <div class="form-floating">
-                        <input type="text" class="form-control is-invalid mb-1" th:field="*{historyMemberId}"/>
-                        <label th:for="historyMemberId">사번(실 사용자) : </label>
+                        <input type="search" list="memberName" class="form-control mb-1"
+                               th:field="*{historyMemberId}" autofocus/>
+                        <datalist id="memberName">
+                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
+                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} / ${m.memberDepartmentDetail}|">
+                        </datalist>
+                        <label th:for="historyMemberId">사번(실 사용자) </label>
                     </div>
+
+                    <!--                    <div class="form-floating">
+                                            <input type="text" class="form-control mb-1" th:field="*{historyMemberId}"/>
+                                            <label th:for="historyMemberId">사번(실 사용자) : </label>
+                                        </div>-->
                     <div class="form-floating">
-                        <input type="text" class="form-control is-invalid mb-1" th:field="*{historyAssetNumber}"/>
+                        <input type="text" class="form-control mb-1" th:field="*{historyAssetNumber}"/>
                         <label th:for="historyAssetNumber">장비,소모품 번호 : </label>
                     </div>
                     <div class="form-floating">
-                        <select class="form-control is-invalid mb-1" th:field="*{historyType}">
+                        <select class="form-control mb-1" th:field="*{historyType}">
                             <option value="">클릭 후 선택</option>
                             <option th:value="고장">고장</option>
                             <option th:value="수리">수리</option>
@@ -59,7 +69,7 @@
                         <label th:for="historyType">이력 관리 구분(고장, 수리, 변경) : </label>
                     </div>
                     <div class="form-floating">
-                        <select class="form-control is-invalid mb-1" th:field="*{historyAssetType}">
+                        <select class="form-control mb-1" th:field="*{historyAssetType}">
                             <option value="">클릭 후 선택</option>
                             <option th:value="장비">장비</option>
                             <option th:value="소모품">소모품</option>
@@ -80,7 +90,7 @@
                 <div class="col">
                     <h3>요청 내용</h3>
                     <div class="form-floating">
-                        <select class="form-control is-invalid mb-1" th:field="*{historyRequestUsage}">
+                        <select class="form-control mb-1" th:field="*{historyRequestUsage}">
                             <option value="">클릭 후 선택</option>
                             <option th:value="업무용">업무용</option>
                             <option th:value="대여용">대여용</option>
@@ -145,23 +155,27 @@
 
     <hr>
     <table id="myTable" class="display">
-        <h4>장비 입출고, 사용자 변경 후 최근 변경 이력 현황</h4>
         <thead>
         <tr>
             <th>No.</th>
             <th>처리 일시</th>
             <th>요청 일시</th>
-            <th>자산구분</th>
+            <th>구분</th>
             <th>입출고</th>
             <th>요청자</th>
             <th>작업자</th>
             <th>사번</th>
-            <th>장비,소모품 번호</th>
+            <th>부서</th>
+            <th>이름</th>
+            <th>직급</th>
+            <th>장비번호</th>
+            <th>모델명</th>
             <th>요청 내용</th>
             <th>비고 내용</th>
-            <th>스펙1</th>
+            <!--<th>스펙1</th>
             <th>스펙2</th>
-            <th>스펙3</th>
+            <th>스펙3</th>-->
+
         </tr>
         </thead>
         <tbody>
@@ -174,12 +188,16 @@
             <td th:text="${u.historyRequester}"></td>
             <td th:text="${u.historyWorker}"></td>
             <td th:text="${u.historyMemberId}"></td>
+            <td th:text="${u.departmentName}"></td>
+            <td th:text="${u.memberName}"></td>
+            <td th:text="${u.memberRank}"></td>
             <td th:text="${u.historyAssetNumber}"></td>
+            <td th:text="${u.assetModelName}"></td>
             <td th:text="${u.historyRequestDetails}"></td>
             <td th:text="${u.historyReqeustEtc}"></td>
-            <td th:text="${u.historySpec1}"></td>
+            <!--<td th:text="${u.historySpec1}"></td>
             <td th:text="${u.historySpec2}"></td>
-            <td th:text="${u.historySpec3}"></td>
+            <td th:text="${u.historySpec3}"></td>-->
         </tr>
         </tbody>
     </table>
