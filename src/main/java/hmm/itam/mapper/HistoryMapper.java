@@ -18,4 +18,6 @@ public interface HistoryMapper {
 
     List<HistoryVo> getMemberList(); // datalist 자동완성 직원 이름 검색 리스트
 
+    List<HistoryVo> getAssetList(); // datalist 자동완성 직원 이름 검색 리스트
+
 }

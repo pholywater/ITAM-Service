@@ -72,10 +72,10 @@ public class UserController {
 
 
     @GetMapping("/update")
-    public String toUpdatePage(HttpSession session, Model model) {
+    public String toUpdatePage(HttpSession session, UserVo userVo, Model model) {
         Long id = (Long) session.getAttribute("userId");
-        UserVo userVo = userService.getUserById(id);
-        model.addAttribute("user", userVo);
+        UserVo userUpdate = userService.getUserById(id);
+        model.addAttribute("user", userUpdate);
         return "/login/update";
     }
 

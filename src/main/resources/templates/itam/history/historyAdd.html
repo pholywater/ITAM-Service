@@ -11,7 +11,14 @@
 
 <head>
     <title>History Result</title>
-
+    <!-- 엔터 Submit 방지 -->
+    <script>
+        document.addEventListener('keydown', function(event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+          };
+        }, true);
+    </script>
 
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
     <!--datatables child-rows -->
@@ -53,9 +60,18 @@
                                             <label th:for="historyMemberId">사번(실 사용자) : </label>
                                         </div>-->
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyAssetNumber}"/>
-                        <label th:for="historyAssetNumber">장비,소모품 번호 : </label>
+
+                        <input type="search" list="assetList" class="form-control mb-1"
+                               th:field="*{historyAssetNumber}"/>
+                        <datalist id="assetList">
+                            <option th:each="a : ${assetList}" th:value="${a.assetNumber}"
+                                    th:label="|${a.statusAssetUsage} / ${a.memberName}/ ${a.memberId} / ${a.departmentFloor} / ${a.assetModelName} / ${a.statusAssetSpec2} / ${a.statusAssetSpec3}|">
+                        </datalist>
+                        <label th:for="historyAssetNumber">장비 번호 입력</label>
+
                     </div>
+
+
                     <div class="form-floating">
                         <select class="form-control mb-1" th:field="*{historyType}">
                             <option value="">클릭 후 선택</option>
