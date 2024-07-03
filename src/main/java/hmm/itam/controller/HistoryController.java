@@ -62,7 +62,7 @@ public class HistoryController {
         /* datalist 장비번호 검색 자동완성 */
         List<HistoryVo> assetList = HistoryService.getAssetList();
         model.addAttribute("assetList", assetList);
-        
+
         if (historyAssetNumber == null || historyAssetNumber.isEmpty() || historyAssetNumber.isBlank() ||
                 historyMemberId == null || historyMemberId.isEmpty() || historyMemberId.isBlank()) {
             System.out.println("NullPointerException historyAssetNumber err : " + historyAssetNumber); // null 값 입력 확인

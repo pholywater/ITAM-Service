@@ -114,7 +114,7 @@
 
         <!--동적쿼리문 작성-->
         <choose>
-            <when test="search == '' or search == null or navSearch == null">
+            <when test="search == '' or search == null">
                 WHERE history_completion_date
                 BETWEEN DATE_ADD(NOW(), INTERVAL -2 DAY ) AND NOW()
             </when>
