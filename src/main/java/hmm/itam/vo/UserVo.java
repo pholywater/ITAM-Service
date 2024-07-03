@@ -8,7 +8,7 @@ public class UserVo {
     private Long idx;
     private String hmmId;
     private String name;
-    private String isMale;
+    private String comment;
     private String department;
     private String password;
 }

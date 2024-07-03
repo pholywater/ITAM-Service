@@ -15,21 +15,19 @@ public class UserService {
 
     /*회원 정보 리스트*/
     public List<UserVo> getUserList() {
-
         return userMapper.getUserList();
     }
 
     /*메인 로그인 화면 아이디, 패스워드 확인 처리 작업*/
     public Long login(String hmmId, String password) {
-
         UserVo userVo = userMapper.getUserByHmmId(hmmId);
 
         /* NullPointerException 처리(ID, PW 불일치 및 없음) */
-        if (userVo == null){
+        if (userVo == null) {
             return null;
         }
 
-        if (userVo.getPassword().equals(password)){
+        if (userVo.getPassword().equals(password)) {
             return userVo.getIdx();
 /*
         System.out.println("service.check.hmmId :"+ hmm_id);
@@ -42,7 +40,7 @@ public class UserService {
     }
 
     /*회원 정보 등록*/
-    public void signup(UserVo userVo){
+    public void signup(UserVo userVo) {
 
         userMapper.insertUser(userVo);
     }

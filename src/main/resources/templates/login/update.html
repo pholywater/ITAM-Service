@@ -8,26 +8,37 @@
     <title>Sign Up</title>
 </head>
 <body>
-<div id="myDiv1" class="container">
-    <h2>사용자 정보 수정</h2>
-    <form action="/update" method="post">
-        <div>
-            <input type="text" name="hmmId" th:value="${user.hmmId}"/>
-        </div>
-        <div>
-            <input type="text" name="name" th:value="${user.name}"/>
-        </div>
-        <div>
-            <input type="text" name="department" th:value="${user.department}"/>
-        </div>
-        <div>
-            <input type="password" name="password" th:value="${user.password}"/>
-        </div>
-        <button type="submit">수정하기</button>
-    </form>
-    <form action="delete" method="post">
-        <button type="submit" class="btn btn-outline-primary">탈퇴하기</button>
-    </form>
+<div id="myDiv1" class="container-fluid" style="width:500px">
+    <div class="container">
+        <hr>
+        <form th:action="@{/update}" th:object="${userVo}" method="post">
+            <div class="row align-items-start">
+                <div class="col">
+                    <h2>사용자 정보 수정</h2>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="hmmId" th:value="${user.hmmId}"/>
+                        <label th:for="hmmId">로그인 ID</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="name" th:value="${user.name}"/>
+                        <label th:for="name">사용자 이름</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="department" th:value="${user.department}"/>
+                        <label th:for="department">사용자 부서</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control mb-1" name="password" th:value="${user.password}"/>
+                        <label th:for="memberName">패스워드</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">수정하기</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--    <form action="delete" method="post">
+            <button type="submit" class="btn btn-outline-primary">탈퇴하기</button>
+        </form>-->
 </div>
 </body>
 </html>

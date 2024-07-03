@@ -25,11 +25,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(HttpSession session, Model model) {
+    public String home(HttpSession session, UserVo userVo, Model model) {
         Long idx = (Long) session.getAttribute("userId");
         if (idx != null) {
-            UserVo userVo = userService.getUserById(idx);
-            model.addAttribute("user", userVo);
+            UserVo userList = userService.getUserById(idx);
+            model.addAttribute("user", userList);
 
             /*차트 연동 테스트*/
             String label[] = {"a", "b", "c", "d", "e", "f", "g"};
@@ -40,6 +40,7 @@ public class HomeController {
         }
         return "redirect:/login"; // 정상 작동
     }
+
 
     @GetMapping("/headerDepartmentList") // 부서 리스트 불러오기
     public String getHeaderDepartmentList(Model model) {

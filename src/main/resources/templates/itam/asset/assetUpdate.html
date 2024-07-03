@@ -4,8 +4,20 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
+<head>
+    <title>Asset Update</title>
+    <!-- 엔터 Submit 방지 -->
+    <script>
+        document.addEventListener('keydown', function(event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+          };
+        }, true);
+    </script>
+</head>
 
 <body>
+
 <div id="myDiv1" class="container">
     <hr>
     <form th:action="@{/assetUpdateResult}" th:object="${assetVo}" method="post">
@@ -25,6 +37,28 @@
 
                     <label class="form-check-label" for="historyCheck">이력 관리 등록 체크</label>
                 </span>
+                </div>
+                <div class="form-floating">
+                    <select class="form-control mb-1" th:field="*{historyType}">
+                        <option value="">클릭 후 선택</option>
+                        <option th:value="고장">고장</option>
+                        <option th:value="수리">수리</option>
+                        <option th:value="변경">변경</option>
+                        <option th:value="입고">입고</option>
+                        <option th:value="출고">출고</option>
+                    </select>
+                    <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
+                    <label th:for="historyAssetType">이력 관리(구분)</label>
+                </div>
+                <div class="form-floating">
+                    <select class="form-control mb-1" th:field="*{historyAssetType}">
+                        <option value="">클릭 후 선택</option>
+                        <option th:value="장비">장비</option>
+                        <option th:value="소모품">소모품</option>
+                        <option th:value="기타">기타</option>
+                    </select>
+                    <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
+                    <label th:for="historyAssetType">장비,소모품(구분)</label>
                 </div>
                 <div class="form-floating">
                     <input type="date" class="form-control mb-1" th:field="*{historyCompletionDate}"/>
@@ -52,16 +86,6 @@
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyWorker}"/>
                     <label th:for="historyWorker">작업자(이력관리)</label>
-                </div>
-                <div class="form-floating">
-                    <select class="form-control mb-1" th:field="*{historyAssetType}">
-                        <option value="">클릭 후 선택</option>
-                        <option th:value="장비">장비</option>
-                        <option th:value="소모품">소모품</option>
-                        <option th:value="기타">기타</option>
-                    </select>
-                    <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
-                    <label th:for="historyAssetType">장비,소모품(구분)</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyReqeustEtc}"/>
@@ -248,114 +272,6 @@
     </form>
 </div>
 
-<!--
-<div class="container">
-        <h2>장비 정보 수정</h2>
-        <form th:object="${assetVo}" method="post">  &lt;!&ndash;action="/assetUpdate"&ndash;&gt;
-                <div>
-                    <span class="box">관리번호 : </span>
-                    <input type="text" name="assetNumber" th:value="${asset.assetNumber}" placeholder="자산 고유번호 입력"/>
-                </div>
-                <button type="submit" formaction="/assetSearch" formmethod="post">장비 조회</button>
-                <hr>
-            <div>
-                <span class="box">장비 소유자 사번 : </span>
-                <input type="text" name="statusMemberId" th:value="${asset.statusMemberId}" placeholder="장비 소유자 입력(HMMxxxx,신규장비)"/>
-            </div>
 
-            &lt;!&ndash; radio button&ndash;&gt;
-            <div>
-                <span class="box">입출고 상태 : </span>
-                <span th:each="type : ${statusType}" class="form-check form-check-inline">
-                    <input type="radio" th:field="*{statusType}" th:value="${type.name()}" class="form-check-input">
-                    <label th:for="${#ids.prev('statusType')}" th:text="${type.description}" class="form-check-label"></label>
-                </span>
-            </div>
-
-            <div>
-                <span class="box">장비 상태 : </span>
-                <span th:each="type : ${statusAssetStatus}" class="form-check form-check-inline">
-                    <input type="radio" th:field="*{statusAssetStatus}" th:value="${type.name()}" class="form-check-input">
-                    <label th:for="${#ids.prev('statusAssetStatus')}" th:text="${type.description}" class="form-check-label"></label>
-                </span>
-            </div>
-
-            <div>
-                <span class="box">지급 용도 : </span>
-                <span th:each="type : ${statusAssetUsage}" class="form-check form-check-inline">
-                    <input type="radio" th:field="*{statusAssetUsage}" th:value="${type.name()}" class="form-check-input">
-                    <label th:for="${#ids.prev('statusAssetUsage')}" th:text="${type.description}" class="form-check-label"></label>
-                </span>
-            </div>
-
-                <div>
-                        <span class="box">장비 지급 기간 : </span>
-                        <input type="text" name="assetDuration" th:value="${asset.assetDuration}" placeholder="장비 지급 기간"/>
-                </div>
-                <div>
-                        <span class="box">모델 코드 : </span>
-                        <input type="text" name="assetModelCode" th:value="${asset.assetModelCode}" placeholder="모델 코드 입력"/>
-                </div>
-                <div>
-                        <span class="box">모델명 : </span>
-                        <input type="text" name="assetModelName" th:value="${asset.assetModelName}" placeholder="모델명 입력"/>
-                </div>
-                <div>
-                        <span class="box">시리얼 : </span>
-                        <input type="text" name="assetSerialNumber" th:value="${asset.assetSerialNumber}" placeholder="장비 시리얼 입력"/>
-                </div>
-                <div>
-                        <span class="box">유선 MAC Address : </span>
-                        <input type="text" name="assetWiredMacAddress" th:value="${asset.assetWiredMacAddress}" placeholder="유선 MAC Address"/>
-                </div>
-                <div>
-                        <span class="box">무선 MAC Address : </span>
-                        <input type="text" name="assetWirelessMacAddress" th:value="${asset.assetWirelessMacAddress}" placeholder="무선 MAC Address"/>
-                </div>
-                <div>
-                        <span class="box">Storage 용량 : </span>
-                        <input type="text" name="statusAssetSpec1" th:value="${asset.statusAssetSpec1}" placeholder="Storage 용량"/>
-                </div>
-                <div>
-                        <span class="box">Memory 용량 : </span>
-                        <input type="text" name="statusAssetSpec2" th:value="${asset.statusAssetSpec2}" placeholder="Memory 용량"/>
-                </div>
-                <div>
-                        <span class="box">도입일 : </span>
-                        <input type="date" name="assetArrivalDate" th:value="${asset.assetArrivalDate}" />
-                </div>
-                <div>
-                        <span class="box">지급일 : </span>
-                        <input type="date" name="assetPaymentDate" th:value="${asset.assetPaymentDate}" />
-                </div>
-                <div>
-                        <span class="box">최초지급 사번 : </span>
-                        <input type="text" name="assetPaymentMemberId" th:value="${asset.assetPaymentMemberId}" placeholder="최초지급 사번"/>
-                </div>
-                <div>
-                        <span class="box">최초지급 이름 : </span>
-                        <input type="text" name="assetPaymentMemberName" th:value="${asset.assetPaymentMemberName}" placeholder="최초지급 이름"/>
-                </div>
-                <div>
-                        <span class="box">최초지급 직급 : </span>
-                        <input type="text" name="assetPaymentMemberRank" th:value="${asset.assetPaymentMemberRank}" placeholder="최초지급 직급"/>
-                </div>
-                <div>
-                        <span class="box">최초지급 부서 : </span>
-                        <input type="text" name="assetPaymentDepartment" th:value="${asset.assetPaymentDepartment}" placeholder="최초지급 부서"/>
-                </div>
-                <div>
-                        <span class="box">최초지급 내용 : </span>
-                        <input type="text" name="assetPaymentDetails" th:value="${asset.assetPaymentDetails}" placeholder="최초지급 내용"/>
-                </div>
-
-
-                <button type="submit" formaction="assetUpdateResult" formmethod="post">수정하기</button>
-                <button type="submit" formaction="assetAdd" formmethod="post">추가하기</button>
-                <button type="submit" formaction="assetDelete" formmethod="post">삭제하기</button>
-                <button type="submit" formaction="assetLogout" formmethod="post">로그아웃</button>
-
-        </form>
-</div>-->
 </body>
 </html>

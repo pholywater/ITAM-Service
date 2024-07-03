@@ -47,11 +47,22 @@ public class HistoryController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<HistoryVo> memberList = HistoryService.getMemberList();
         model.addAttribute("memberList", memberList);
+        /* datalist 장비번호 검색 자동완성 */
+        List<HistoryVo> assetList = HistoryService.getAssetList();
+        model.addAttribute("assetList", assetList);
+
         return "/itam/history/historyAdd";
     }
 
     @PostMapping("/historyAdd") // 자산 입출고 관련 이력 입력 처리 // null 관련 처리 추가 해야함.
     public String historyAdd(HistoryVo historyVo, String historyAssetNumber, String historyMemberId, Model model) {
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<HistoryVo> memberList = HistoryService.getMemberList();
+        model.addAttribute("memberList", memberList);
+        /* datalist 장비번호 검색 자동완성 */
+        List<HistoryVo> assetList = HistoryService.getAssetList();
+        model.addAttribute("assetList", assetList);
+        
         if (historyAssetNumber == null || historyAssetNumber.isEmpty() || historyAssetNumber.isBlank() ||
                 historyMemberId == null || historyMemberId.isEmpty() || historyMemberId.isBlank()) {
             System.out.println("NullPointerException historyAssetNumber err : " + historyAssetNumber); // null 값 입력 확인

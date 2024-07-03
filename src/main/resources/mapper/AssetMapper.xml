@@ -463,7 +463,7 @@
         )
         VALUES
         (
-        #{historyCompletionDate}, #{historyRequestDate}, #{historyAssetType}, #{statusType},
+        #{historyCompletionDate}, #{historyRequestDate}, #{historyAssetType}, #{historyType},
         #{historyRequester}, #{historyWorker}, #{historyMemberId}, #{assetNumber},
         #{statusAssetEtc2}, #{historyReqeustEtc}, #{statusAssetSpec1},
         #{statusAssetSpec2}, #{historySpec3}, #{statusAssetUsage}, #{statusAssetEtc1}

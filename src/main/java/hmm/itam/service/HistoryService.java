@@ -38,6 +38,10 @@ public class HistoryService {
         return HistoryMapper.getMemberList();
     }
 
+    public List<HistoryVo> getAssetList() {
+        return HistoryMapper.getAssetList();
+    }
+
 
     /* 동적 쿼리문으로 변경 후 필여 없어짐
      *//*관리번호 조회*//*
