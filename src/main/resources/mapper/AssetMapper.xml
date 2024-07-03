@@ -611,7 +611,7 @@
         <choose>
             <when test="navSearch == '' or navSearch == null">
                 WHERE history_completion_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -1 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -2 DAY ) AND NOW()
             </when>
             <otherwise>
                 WHERE
