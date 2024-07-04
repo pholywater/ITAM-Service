@@ -332,6 +332,59 @@
 
     </select>
 
+    <!--재고장비 차트 리스트-->
+    <select id="getChart1List" resultType="string">
+        SELECT
+        asset_model_name,
+        COUNT(*) as countUsage
+
+        FROM asset_info
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        WHERE
+        (status_asset_usage = '재고' and asset_info.status_asset_status ='양호')<!--AND
+        (asset_model_name = '450 G10' OR
+        asset_model_name = '450 G9' OR
+        asset_model_name = '450 G8' OR
+        asset_model_name = '450 G7' OR
+        asset_model_name = '450 G6' OR
+        asset_model_name = 'P24v G5' OR
+        asset_model_name = 'P24v G4' OR
+        asset_model_name = 'P224' )-->
+        GROUP BY
+        asset_model_name
+
+        ORDER BY
+        asset_model.model_type,
+        asset_model.model_name
+    </select>
+    <select id="getChart2List" resultType="int">
+        SELECT COUNT(*)
+        FROM asset_info
+
+        LEFT JOIN asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        WHERE
+        (status_asset_usage = '재고' and asset_info.status_asset_status ='양호')<!--AND
+        (asset_model_name = '450 G10' OR
+        asset_model_name = '450 G9' OR
+        asset_model_name = '450 G8' OR
+        asset_model_name = '450 G7' OR
+        asset_model_name = '450 G6' OR
+        asset_model_name = 'P24v G5' OR
+        asset_model_name = 'P24v G4' OR
+        asset_model_name = 'P224' )-->
+        GROUP BY
+        asset_model_name
+
+        ORDER BY
+        asset_model.model_type,
+        asset_model.model_name
+    </select>
+
 
     <!--Pasination DataTables Server-Side 조건(DB LIMIT) 검색 처리-->
     <select id="findAssetByPagination" resultType="hmm.itam.vo.AssetVo">
@@ -531,7 +584,7 @@
         status_asset_due_diligence = #{statusAssetDueDiligence},
         status_asset_etc2 = #{statusAssetEtc2},
         <!--asset_repair_history = #{assetRepairHistory},-->
-        <!--asset_last_update_date = #{assetLastUpdateDate}-->
+        asset_last_update_date = NOW(),
         asset_duration = #{assetDuration}
 
         WHERE asset_number = #{assetNumber}

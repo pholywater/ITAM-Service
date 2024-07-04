@@ -19,7 +19,7 @@
         <span th:text="${user.name}">사용자 이름 리스트</span><span>님께서 로그인 중입니다.</span>
     </div>
     <div class="chart-container">
-        <canvas id="Chart" width="1270" height="600"></canvas>
+        <canvas id="Chart" width="1200" height="600"></canvas>
     </div>
     <!--<div class="chart-container" style="position: relative; height:40vh; width:80vw">
         <canvas id="Chart2"></canvas>
@@ -38,11 +38,11 @@
             labels: /*[[ ${label} ]]*/,
             datasets: [
                 {
-                    label: "본사+부산 재고 장비(양호)", //
+                    label: "본사 재고 장비(양호)",
                     borderColor: 'rgb(0, 0, 255)',
                     backgroundColor: 'rgba(0, 99, 255, 0.4)',
                     lineTension: 0,
-                    fill: true,
+                    fill: false,
                     data: /*[[ ${point} ]]*/,
                     datalabels: {
                         display: true,
@@ -55,13 +55,53 @@
         },
         options: {
             responsive: false,
-            layout: {
-                padding: {
-                    top: 70
-                },
-            },
         }
     });
+
+
+<!--
+    const ctx1 = document.getElementById('myChart1');
+    const ctx2 = document.getElementById('myChart2');
+
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['데스크탑', '노트북', '모니터', '재고 데스크탑', '재고 노트북', '재고 모니터'],
+        datasets: [{
+          label: '# 장비 수량',
+          data: [35, 1031, 1529, 147, 472, 682],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+        new Chart(ctx2, {
+      type: 'pie',
+      data: {
+        labels: ['싱글', '듀얼', '트리플'],
+        datasets: [{
+          label: '# 장비 수량',
+          data: [17, 440, 483],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+-->
+
 </script>
 
 </html>

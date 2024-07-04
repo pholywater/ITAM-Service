@@ -17,6 +17,10 @@ public interface AssetMapper {
 
     List<AssetVo> getMemberList(); // datalist 자동완성 직원 이름 검색 리스트
 
+/*    List<AssetVo> getChart1List(); // 재고 장비 차트 리스트
+
+    List<AssetVo> getChart2List(); // 재고 장비 차트 리스트*/
+
 
     List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
 
@@ -41,6 +45,8 @@ public interface AssetMapper {
     List<AssetVo> findAssetByPagination(int startNo, int length, String navSearch);
 
     int countTotalAsset(String navSearch);
+
+
 
 
 

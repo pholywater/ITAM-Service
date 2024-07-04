@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Data
 public class AssetVo {
+    private String CountUsage;
     private String headerSearch;
     private String navbarSearch;
     private String navSearch;
