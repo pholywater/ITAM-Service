@@ -36,6 +36,14 @@ public class AssetService {
         return AssetMapper.getMemberList();
     }
 
+    /*재고장비 수량 차트 리스트*/
+   /* public List<AssetVo> getChart1List() {
+        return AssetMapper.getChart1List();
+    }
+
+    public List<AssetVo> getChart2List() {
+        return AssetMapper.getChart2List();
+    }*/
 
     /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/
     public List<AssetVo> searchAssetList(String search, String searchType) {

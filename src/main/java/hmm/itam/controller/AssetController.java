@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.SimpleTimeZone;
@@ -28,6 +29,28 @@ public class AssetController {
     @Autowired
     private AssetService AssetService;
 
+
+    /*@GetMapping("/homeChart") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)*/
+    /*
+    public String getChart1List(Model model, AssetVo assetVo) {
+        List<AssetVo> chart1Label = AssetService.getChart1List();
+        model.addAttribute("label", chart1Label);
+        List<AssetVo> chart1Point = AssetService.getChart2List();
+        model.addAttribute("point", chart1Point);
+        log.info("label : {}", chart1Label);
+        log.info("point : {}", chart1Point);
+        model.addAttribute("point1", chart1Label);
+       search = "불량";
+        List<AssetVo> chart2Point = AssetService.getChart2List();
+        model.addAttribute("point2", chart2Point);
+
+        log.info("chart1Point: {}", chart1Point);
+        log.info("chart2Point: {}", chart2Point);
+        log.info("홈 화면");
+
+
+        return "itam/asset/homeChart";
+    }*/
 
     @GetMapping("/assetList") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)
     public String getAssetList(Model model) {

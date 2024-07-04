@@ -1,6 +1,7 @@
 package hmm.itam.service;
 
 import hmm.itam.mapper.UserMapper;
+import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.UserVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,14 @@ public class UserService {
     /*회원 정보 리스트*/
     public List<UserVo> getUserList() {
         return userMapper.getUserList();
+    }
+
+    public List<AssetVo> getChart1List() {
+        return userMapper.getChart1List();
+    }
+
+    public List<AssetVo> getChart2List() {
+        return userMapper.getChart2List();
     }
 
     /*메인 로그인 화면 아이디, 패스워드 확인 처리 작업*/
