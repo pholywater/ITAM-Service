@@ -116,25 +116,34 @@
         <choose>
             <when test="search == '' or search == null">
                 WHERE history_completion_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -2 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -7 DAY ) AND NOW()
             </when>
             <when test="searchType == 'easySearch'">
                 WHERE
-                history_asset_number = #{search} or
-                member_id = #{search} or
-                member_name = #{search}
+                history_asset_number LIKE CONCAT('%' #{search} '%') or
+                member_id LIKE CONCAT('%' #{search} '%') or
+                member_name LIKE CONCAT('%' #{search} '%')
             </when>
             <when test="searchType == 'historyAssetNumber'">
                 WHERE
-                history_asset_number = #{search}
+                history_asset_number LIKE CONCAT('%' #{search} '%')
+            </when>
+            <when test="searchType == 'historyAssetType'">
+                WHERE
+                history_asset_type LIKE CONCAT('%' #{search} '%')
             </when>
             <when test="searchType == 'historyMemberId'">
                 WHERE
-                member_id = #{search}
+                member_id LIKE CONCAT('%' #{search} '%')
             </when>
             <when test="searchType == 'historyMemberName'">
                 WHERE
-                member_name = #{search}
+                member_name LIKE CONCAT('%' #{search} '%')
+            </when>
+            <when test="searchType == 'historyType'">
+                WHERE
+                history_type LIKE CONCAT('%' #{search} '%') or
+                history_type LIKE CONCAT('%' '수리' '%')
             </when>
         </choose>
 

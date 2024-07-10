@@ -94,6 +94,7 @@
             <th>지급일</th>
             <th>최근실사</th>
             <th>용도상세</th>
+            <th>지급기한</th>
         </tr>
         </thead>
         <tbody>
@@ -121,6 +122,7 @@
             <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${u.assetLastUpdateDate}"></td>
             <td th:text="${u.statusAssetEtc2}"></td>
+            <td th:text="${u.assetDuration}"></td>
         </tr>
         </tbody>
     </table>
