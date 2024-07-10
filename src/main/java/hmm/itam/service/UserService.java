@@ -19,12 +19,20 @@ public class UserService {
         return userMapper.getUserList();
     }
 
-    public List<AssetVo> getChart1List() {
-        return userMapper.getChart1List();
+    public List<AssetVo> getChartList1(String search, String search1) {
+        return userMapper.getChartList1(search, search1);
     }
 
-    public List<AssetVo> getChart2List() {
-        return userMapper.getChart2List();
+    public List<AssetVo> getChartCount1(String search, String search1) {
+        return userMapper.getChartCount1(search, search1);
+    }
+
+    public List<AssetVo> getChartList2() {
+        return userMapper.getChartList2();
+    }
+
+    public List<AssetVo> getChartCount2() {
+        return userMapper.getChartCount2();
     }
 
     /*메인 로그인 화면 아이디, 패스워드 확인 처리 작업*/

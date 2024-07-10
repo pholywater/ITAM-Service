@@ -30,7 +30,7 @@
         <form th:action="@{/searchNewPaymentList}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h4>신규 장비 납품 리스트 조회</h4>
+                    <h4>신규 장비 지급 리스트 조회</h4>
                 </div>
                 <div class="col">
                     <div class="form-floating">
@@ -108,7 +108,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 25 ,
+        iDisplayLength : 10 ,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],

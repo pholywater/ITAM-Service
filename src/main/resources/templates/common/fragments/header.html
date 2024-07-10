@@ -127,7 +127,7 @@
                         이력 관리
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{historyAdd}">장비 고장 및 수리 이력 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{historyAdd}">소모품 및 수리 이력 등록</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -136,7 +136,18 @@
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{searchNewPaymentList}">신규 납품 장비 리스트 조회</a>
+                        <li><a class="dropdown-item"
+                               th:href="@{searchNewPaymentList?searchStart=2024-01-01&searchEnd=}">신규 장비 지급
+                            리스트</a>
+                        </li>
+                        <li><a class="dropdown-item"
+                               th:href="@{historySearch?searchType=historyAssetType&search=소모품}">전산 소모품 지급 리스트</a>
+                        </li>
+                        <li><a class="dropdown-item"
+                               th:href="@{historySearch?searchType=historyType&search=고장}">고장 및 수리 이력 리스트</a>
+                        </li>
+
+
                         <li>
                             <a class="dropdown-item" href="#">Something else here</a>
                         </li>

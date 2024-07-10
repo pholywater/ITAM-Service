@@ -668,9 +668,9 @@
             </when>
             <otherwise>
                 WHERE
-                history_asset_number = #{navSearch} or
-                member_id = #{navSearch} or
-                member_name = #{navSearch}
+                history_asset_number LIKE CONCAT('%' #{navSearch} '%') or
+                member_id LIKE CONCAT('%' #{navSearch} '%') or
+                member_name LIKE CONCAT('%' #{navSearch} '%')
             </otherwise>
         </choose>
 

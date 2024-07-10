@@ -11,16 +11,41 @@
 </head>
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
 <div id="myDiv1" class="container">
-    <!--<div class="d-flex justify-content-center"><h1>이곳에 메인 첫 화면 만드는 중</h1>
-    </div>-->
 
     <div style="text-align:right;">
-        <span th:text="${user.department}"></span><span>부서의 </span>
-        <span th:text="${user.name}">사용자 이름 리스트</span><span>님께서 로그인 중입니다.</span>
+        <!--    <span th:text="${user.department}"></span><span>부서의 </span>-->
+        <!--<span th:text="${user.name}">사용자 이름 리스트</span><span>님께서 로그인 중입니다.</span>-->
     </div>
-    <div class="chart-container">
-        <canvas id="Chart" width="1270" height="600"></canvas>
+
+    <div class="d-flex justify-content-center">
+        <div class="chart-container">
+            <canvas id="ChartL" width="1280" height="450"></canvas>
+        </div>
     </div>
+    <div class="d-flex justify-content-center">
+        <div class="chart-container">
+            <canvas id="ChartD" width="440" height="380"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="ChartM" width="840" height="380"></canvas>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="chart-container">
+            <canvas id="ChartBusan1" width="940" height="380"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="ChartBusan2" width="340" height="380"></canvas>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="chart-container">
+            <canvas id="Chart1" width="1280" height="450"></canvas>
+        </div>
+    </div>
+
+
     <!--<div class="chart-container" style="position: relative; height:40vh; width:80vw">
         <canvas id="Chart2"></canvas>
     </div>-->
@@ -30,20 +55,20 @@
 </body>
 <script type="text/javascript" th:inline="javascript">
 
-    var ctx = document.getElementById("Chart").getContext('2d');
+    var ctx = document.getElementById("ChartL").getContext('2d');
     var ChartDemo = new Chart(ctx, {
         type: 'bar',
         plugins: [ChartDataLabels],
         data: {
-            labels: /*[[ ${label} ]]*/,
+            labels: /*[[ ${labelL} ]]*/,
             datasets: [
                 {
-                    label: "본사+부산 재고 장비(양호)", //
+                    label: "노트북 재고", //
                     borderColor: 'rgb(0, 0, 255)',
                     backgroundColor: 'rgba(0, 99, 255, 0.4)',
                     lineTension: 0,
                     fill: true,
-                    data: /*[[ ${point} ]]*/,
+                    data: /*[[ ${pointL} ]]*/,
                     datalabels: {
                         display: true,
                         align: 'end',
@@ -55,11 +80,218 @@
         },
         options: {
             responsive: false,
+            <!--indexAxis: 'y',-->
             layout: {
                 padding: {
-                    top: 70
+                    top: 20,
+                    bottom: 20,
                 },
             },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '본사 재고 장비 현황(불용 제외)',
+                }
+            }
+        }
+    });
+
+
+    var ctx = document.getElementById("ChartD").getContext('2d');
+    var ChartDemo = new Chart(ctx, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${labelD} ]]*/,
+            datasets: [
+                {
+                    label: "데스크탑 재고", //
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${pointD} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            <!--indexAxis: 'y',-->
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+        }
+    });
+
+
+    var ctx = document.getElementById("ChartM").getContext('2d');
+    var ChartDemo = new Chart(ctx, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${labelM} ]]*/,
+            datasets: [
+                {
+                    label: "모니터 재고", //
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${pointM} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            <!--indexAxis: 'y',-->
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+        }
+    });
+
+
+
+    var ctx = document.getElementById("ChartBusan1").getContext('2d');
+    var ChartDemo = new Chart(ctx, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${labelBusan1} ]]*/,
+            datasets: [
+                {
+                    label: "부산 재고", //
+                    borderColor: 'rgb(153, 102, 255)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${pointBusan1} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            <!--indexAxis: 'y',-->
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '부산 신사옥 재고 장비 현황',
+                }
+            }
+        }
+    });
+
+
+
+    var ctx = document.getElementById("ChartBusan2").getContext('2d');
+    var ChartDemo = new Chart(ctx, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${labelBusan2} ]]*/,
+            datasets: [
+                {
+                    label: "중앙동 재고", //
+                    borderColor: 'rgb(201, 203, 207)',
+                    backgroundColor:  'rgba(201, 203, 207, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${pointBusan2} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            <!--indexAxis: 'y',-->
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '부산 중앙동 재고 장비 현황',
+                }
+            }
+        }
+    });
+
+    var ctx1 = document.getElementById("Chart1").getContext('2d');
+    var ChartDemo = new Chart(ctx1, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${label1} ]]*/,
+            datasets: [
+                {
+                    label: "불용 장비", //
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${point1} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            indexAxis: 'x',
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '불용 장비 현황',
+                }
+            }
         }
     });
 </script>
