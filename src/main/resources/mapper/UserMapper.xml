@@ -94,6 +94,10 @@
                 department_floor = '중앙동' AND
                 status_asset_usage = '재고'
             </when>
+            <when test="search1 == 'newAsset'">
+                WHERE
+                status_member_id = '신규자산'
+            </when>
         </choose>
 
 
@@ -136,6 +140,10 @@
                 department_floor = '중앙동' AND
                 status_asset_usage = '재고'
             </when>
+            <when test="search1 == 'newAsset'">
+                WHERE
+                status_member_id = '신규자산'
+            </when>
         </choose>
 
         GROUP BY
@@ -158,8 +166,7 @@
         ON asset_info.asset_model_name=asset_model.model_name
 
         WHERE
-        (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')AND
-        asset_info.asset_model_name NOT LIKE CONCAT('%' 'P223' '%')
+        (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
 
         GROUP BY
         asset_model_name
@@ -176,8 +183,7 @@
         ON asset_info.asset_model_name=asset_model.model_name
 
         WHERE
-        (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')AND
-        asset_info.asset_model_name NOT LIKE CONCAT('%' 'P223' '%')
+        (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
 
         GROUP BY
         asset_model_name

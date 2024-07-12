@@ -21,7 +21,7 @@
         <choose>
             <when test="(searchStart == '' and searchEnd == '') or (searchStart == null and searchEnd == null)">
                 WHERE history_completion_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -2 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -10 DAY ) AND NOW()
                 <!--BETWEEN DATE_ADD(NOW(), INTERVAL -4 DAY ) AND NOW()-->
                 <!--YEAR, MONTH, WEEK, DAY-->
             </when>
@@ -116,7 +116,7 @@
         <choose>
             <when test="search == '' or search == null">
                 WHERE history_completion_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -7 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -10 DAY ) AND NOW()
             </when>
             <when test="searchType == 'easySearch'">
                 WHERE
