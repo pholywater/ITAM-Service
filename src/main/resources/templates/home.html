@@ -32,10 +32,13 @@
     </div>
     <div class="d-flex justify-content-center">
         <div class="chart-container">
-            <canvas id="ChartBusan1" width="940" height="380"></canvas>
+            <canvas id="ChartNewAsset" width="400" height="380"></canvas>
         </div>
         <div class="chart-container">
-            <canvas id="ChartBusan2" width="340" height="380"></canvas>
+            <canvas id="ChartBusan1" width="480" height="380"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="ChartBusan2" width="400" height="380"></canvas>
         </div>
     </div>
 
@@ -143,7 +146,7 @@
                 {
                     label: "모니터 재고", //
                     borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.4)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.5)',
                     lineTension: 0,
                     fill: true,
                     data: /*[[ ${pointM} ]]*/,
@@ -222,8 +225,8 @@
             datasets: [
                 {
                     label: "중앙동 재고", //
-                    borderColor: 'rgb(201, 203, 207)',
-                    backgroundColor:  'rgba(201, 203, 207, 0.4)',
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor:  'rgba(255, 159, 64, 0.4)',
                     lineTension: 0,
                     fill: true,
                     data: /*[[ ${pointBusan2} ]]*/,
@@ -249,6 +252,48 @@
                 title: {
                     display: true,
                     text: '부산 중앙동 재고 장비 현황',
+                }
+            }
+        }
+    });
+
+
+    var ctx = document.getElementById("ChartNewAsset").getContext('2d');
+    var ChartDemo = new Chart(ctx, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${newAssetLabel} ]]*/,
+            datasets: [
+                {
+                    label: "본사 신규",  //
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${newAssetPoint} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            <!--indexAxis: 'y',-->
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '본사 신규 장비 보유',
                 }
             }
         }

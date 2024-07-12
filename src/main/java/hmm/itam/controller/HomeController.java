@@ -82,6 +82,14 @@ public class HomeController {
             log.info("labelBusan2 : {}", chartBusan2Label);
             log.info("pointBusan2 : {}", chartBusan2Point);
 
+            search1 = String.valueOf("newAsset");
+            List<AssetVo> newAssetLabel = userService.getChartList1(search, search1);
+            List<AssetVo> newAssetPoint = userService.getChartCount1(search, search1);
+            model.addAttribute("newAssetLabel", newAssetLabel);
+            model.addAttribute("newAssetPoint", newAssetPoint);
+            log.info("newAssetLabel : {}", newAssetLabel);
+            log.info("newAssetPoint : {}", newAssetPoint);
+
 
             List<AssetVo> chart2Label = userService.getChartList2();
             List<AssetVo> chart2Point = userService.getChartCount2();

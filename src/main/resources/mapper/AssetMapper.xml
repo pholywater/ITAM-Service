@@ -241,7 +241,7 @@
         <choose>
             <when test="(searchStart == '' and searchEnd == '') or (searchStart == null and searchEnd == null)">
                 WHERE asset_payment_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -5 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -10 DAY ) AND NOW()
                 <!--YEAR, MONTH, WEEK, DAY-->
             </when>
             <when test="searchStart == ''">
@@ -664,7 +664,7 @@
         <choose>
             <when test="navSearch == '' or navSearch == null">
                 WHERE history_completion_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -2 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -10 DAY ) AND NOW()
             </when>
             <otherwise>
                 WHERE
