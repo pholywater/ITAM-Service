@@ -32,13 +32,13 @@
     </div>
     <div class="d-flex justify-content-center">
         <div class="chart-container">
-            <canvas id="ChartNewAsset" width="400" height="380"></canvas>
+            <canvas id="ChartNewAsset" width="232" height="380"></canvas>
         </div>
         <div class="chart-container">
-            <canvas id="ChartBusan1" width="480" height="380"></canvas>
+            <canvas id="ChartBusan1" width="699" height="380"></canvas>
         </div>
         <div class="chart-container">
-            <canvas id="ChartBusan2" width="400" height="380"></canvas>
+            <canvas id="ChartBusan2" width="349" height="380"></canvas>
         </div>
     </div>
 
@@ -95,6 +95,12 @@
                     display: true,
                     text: '본사 재고 장비 현황(불용 제외)',
                 }
+            },
+            scales: {
+                y: {
+                    max: 100,
+                    min: 0
+                }
             }
         }
     });
@@ -132,6 +138,12 @@
                     bottom: 20,
                 },
             },
+            scales: {
+                y: {
+                    max: 100,
+                    min: 0
+                }
+            }
         }
     });
 
@@ -168,6 +180,12 @@
                     bottom: 20,
                 },
             },
+            scales: {
+                y: {
+                    max: 700,
+                    min: 0
+                }
+            }
         }
     });
 
@@ -209,6 +227,17 @@
                 title: {
                     display: true,
                     text: '부산 신사옥 재고 장비 현황',
+                }
+            },
+            scales: {
+                y: {
+                    max: 25,
+                    min: 0,
+                    ticks: {
+                        stepSize: 5,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
                 }
             }
         }
@@ -253,6 +282,17 @@
                     display: true,
                     text: '부산 중앙동 재고 장비 현황',
                 }
+            },
+            scales: {
+                y: {
+                    max: 5,
+                    min: 0,
+                    ticks: {
+                        stepSize: 1,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
+                }
             }
         }
     });
@@ -295,6 +335,12 @@
                     display: true,
                     text: '본사 신규 장비 보유',
                 }
+            },
+            scales: {
+                y: {
+                    max: 140,
+                    min: 0
+                }
             }
         }
     });
@@ -335,6 +381,12 @@
                 title: {
                     display: true,
                     text: '불용 장비 현황',
+                }
+            },
+            scales: {
+                y: {
+                    max: 30,
+                    min: 0
                 }
             }
         }

@@ -4,61 +4,38 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content">
-<body>
+
 <head>
-    <title>ITAM Asset Search</title>
+    <title>ITAM Asset List</title>
+
 
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
+
     <!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
 
+
+    <!--<link rel="stylesheet" type="text/css" href="cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css"/>-->
     <link rel="stylesheet" type="text/css" href="css/datatables/jquery.dataTables.min-1.13.7.css"/>
     <link rel="stylesheet" type="text/css" href="css/datatables/buttons.dataTables.min-2.4.2.css"/>
     <script src="jquery/jquery-3.7.0.js"></script>
     <script src="js/datatables/dataTables-1.13.7.js"></script>
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
+    <!--<script src="js/datatables/pdfmake.min-0.1.53.js"></script>-->
     <script src="js/datatables/pdfmake.min.js"></script>
+    <!--<script src="js/datatables/vfs_fonts-0.1.53.js"></script>-->
     <script src="js/datatables/vfs_fonts.js"></script>
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
 </head>
+<body>
+
 <div id="myDiv" class="container-fluid">
-    <div class="container">
-        <hr>
-        <form th:action="@{/searchPaymentList}" th:object="${assetVo}" method="get">
-            <div class="row align-items-start">
-                <div class="col">
-                    <h4>장비 지급일 리스트 조회</h4>
-                </div>
-                <div class="col">
-                    <div class="form-floating">
-                        <input type="date" class="form-control mb-1" th:field="*{searchStart}"/>
-                        <label th:for="searchStart">시작일 </label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-floating">
-                        <input type="date" class="form-control mb-1" th:field="*{searchEnd}" autofocus/>
-                        <label th:for="searchEnd">종료일 </label>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <button type="submit" class="btn btn-primary mb-1" formaction="searchPaymentList"
-                            formmethod="get">리스트 조회
-                    </button>
-                    <button type="submit" class="btn btn-outline-primary mb-1" formaction="searchAssetPage"
-                            formmethod="get">간편 조회 바로가기
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <hr>
-    <table id="myTable" class="display">
+    <table id="myTable" class="display nowrap" style="width:100%">
         <thead>
         <tr>
             <th>No.</th>
@@ -73,18 +50,15 @@
             <th>직급</th>
             <th>직원상태</th>
             <th>용도</th>
-            <th>트리플</th>
             <th>장비번호</th>
             <th>타입</th>
             <th>제조사</th>
             <th>모델명</th>
             <th>SPEC</th>
-            <th>MAC ADDRESS</th>
             <th>시리얼</th>
             <th>지급일</th>
             <th>최근실사</th>
             <th>용도상세</th>
-            <th>지급기한</th>
         </tr>
         </thead>
         <tbody>
@@ -101,85 +75,28 @@
             <td th:text="${u.memberRank}"></td>
             <td th:text="${u.memberWorkingStatus}"></td>
             <td th:text="${u.statusAssetUsage}"></td>
-            <td th:text="${u.statusAssetEtc1}"></td>
             <td th:text="${u.assetNumber}"></td>
             <td th:text="${u.modelType}"></td>
             <td th:text="${u.modelManufacturer}"></td>
             <td th:text="${u.assetModelName}"></td>
             <td th:text="|${u.statusAssetSpec1} / ${u.statusAssetSpec2}|">
-            <td th:text="|${u.assetWiredMacAddress} / ${u.assetWirelessMacAddress}|">
             <td th:text="${u.assetSerialNumber}"></td>
             <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${u.assetLastUpdateDate}"></td>
             <td th:text="${u.statusAssetEtc2}"></td>
-            <td th:text="${u.assetDuration}"></td>
         </tr>
         </tbody>
         <tfoot>
-        <tr>
-            <th>No.</th>
-            <th>구분</th>
-            <th>장비상태</th>
-            <th>사원번호</th>
-            <th>위치</th>
-            <th>지역</th>
-            <th>층</th>
-            <th>부서</th>
-            <th>이름</th>
-            <th>직급</th>
-            <th>직원상태</th>
-            <th>용도</th>
-            <th>트리플</th>
-            <th>장비번호</th>
-            <th>타입</th>
-            <th>제조사</th>
-            <th>모델명</th>
-            <th>SPEC</th>
-            <th>MAC ADDRESS</th>
-            <th>시리얼</th>
-            <th>지급일</th>
-            <th>최근실사</th>
-            <th>용도상세</th>
-            <th>지급기한</th>
-        </tr>
         </tfoot>
     </table>
-</div> <!-- /container -->
+</div><!-- /container -->
 
 <script src="js/datatables/dataTables.responsive.min.js"></script>
-
 
 <script>
     $(document).ready(function() {
     document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {initComplete: function () {
-            this.api()
-            .columns([1,2,3,4,5,6,8,10,11,12,14,15,16])
-            .every(function () {
-                let column = this;
-
-                // Create select element
-                let select = document.createElement('select');
-                select.add(new Option(''));
-                column.footer().replaceChildren(select);
-
-                // Apply listener for user change in value
-                select.addEventListener('change', function () {
-                    column
-                        .search(select.value, {exact: true})
-                        .draw();
-                });
-
-                // Add list of options
-                column
-                    .data()
-                    .unique()
-                    .sort()
-                    .each(function (d, j) {
-                        select.add(new Option(d));
-                    });
-            });
-        },
+    $('#myTable').DataTable( {
         search: {
                     // return: true
                 },
@@ -190,7 +107,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 5 ,
+        iDisplayLength : 10,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],
@@ -208,13 +125,6 @@
             }
     } );
 } );
-</script>
-
-<!--검색 창 포커스 글씨 맨 뒤 위치-->
-<script>
-    var len = $('#searchMember').val().length;
-    $('#searchMember').focus();
-    $('#searchMember')[0].setSelectionRange(len, len);
 </script>
 </body>
 </html>

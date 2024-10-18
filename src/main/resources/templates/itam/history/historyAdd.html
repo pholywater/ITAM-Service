@@ -75,20 +75,19 @@
                     <div class="form-floating">
                         <select class="form-control mb-1" th:field="*{historyType}">
                             <option value="">클릭 후 선택</option>
+                            <option th:value="출고">출고</option>
+                            <option th:value="입고">입고</option>
                             <option th:value="고장">고장</option>
                             <option th:value="수리">수리</option>
                             <option th:value="변경">변경</option>
-                            <option th:value="입고">입고</option>
-                            <option th:value="출고">출고</option>
-
                         </select>
                         <label th:for="historyType">이력 관리 구분(고장, 수리, 변경) : </label>
                     </div>
                     <div class="form-floating">
                         <select class="form-control mb-1" th:field="*{historyAssetType}">
                             <option value="">클릭 후 선택</option>
-                            <option th:value="장비">장비</option>
                             <option th:value="소모품">소모품</option>
+                            <option th:value="장비">장비</option>
                             <option th:value="기타">기타</option>
                         </select>
                         <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
@@ -240,7 +239,7 @@
             targets: 0
             }
         ],
-        order: [1, 'asc'],
+
         responsive: {
                 details: {
                 type: 'column'

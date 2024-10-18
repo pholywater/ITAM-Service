@@ -274,7 +274,8 @@ table.dataTable tfoot th {
 table.dataTable > thead > tr > th,
 table.dataTable > thead > tr > td {
   padding: 10px;
-  font-size: 14px;/*테이블 해더 폰트*/
+  font-size: 12px;/*테이블 해더 폰트*/
+  background:#000221; /* #1E1930;테이블 해더 배경색*/
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 table.dataTable > thead > tr > th:active,
@@ -283,10 +284,16 @@ table.dataTable > thead > tr > td:active {
 }
 table.dataTable > tfoot > tr > th,
 table.dataTable > tfoot > tr > td {
-  padding: 10px 10px 6px 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  font-size: 12px;/*테이블 푸터 폰트*/
+  background:#000221;/*테이블 푸터 배경색*/
+  text-align:center;
+
+  /*padding: 10px 10px 6px 10px;*/
+  /*border-top: 1px solid rgba(0, 0, 0, 0.3);*/
 }
 table.dataTable tbody tr {
+  font-size: 12px;
   background-color: transparent;
 }
 table.dataTable tbody tr.selected > * {

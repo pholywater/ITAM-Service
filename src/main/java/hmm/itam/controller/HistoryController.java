@@ -42,7 +42,7 @@ public class HistoryController {
     }
 
 
-    @GetMapping("/historyAdd") // 자산 등록 화면
+    @GetMapping("/historyAdd") // 자산 이력 등록 화면
     public String toHistoryAddPage(HistoryVo historyVo, Model model) {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<HistoryVo> memberList = HistoryService.getMemberList();

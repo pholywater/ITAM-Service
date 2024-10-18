@@ -124,34 +124,6 @@
             <td th:text="${u.assetDuration}"></td>
         </tr>
         </tbody>
-        <tfoot>
-        <tr>
-            <th>No.</th>
-            <th>구분</th>
-            <th>장비상태</th>
-            <th>사원번호</th>
-            <th>위치</th>
-            <th>지역</th>
-            <th>층</th>
-            <th>부서</th>
-            <th>이름</th>
-            <th>직급</th>
-            <th>직원상태</th>
-            <th>용도</th>
-            <th>트리플</th>
-            <th>장비번호</th>
-            <th>타입</th>
-            <th>제조사</th>
-            <th>모델명</th>
-            <th>SPEC</th>
-            <th>MAC ADDRESS</th>
-            <th>시리얼</th>
-            <th>지급일</th>
-            <th>최근실사</th>
-            <th>용도상세</th>
-            <th>지급기한</th>
-        </tr>
-        </tfoot>
     </table>
 </div> <!-- /container -->
 
@@ -161,34 +133,7 @@
 <script>
     $(document).ready(function() {
     document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {initComplete: function () {
-            this.api()
-            .columns([1,2,3,4,5,6,8,10,11,12,14,15])
-            .every(function () {
-                let column = this;
-
-                // Create select element
-                let select = document.createElement('select');
-                select.add(new Option(''));
-                column.footer().replaceChildren(select);
-
-                // Apply listener for user change in value
-                select.addEventListener('change', function () {
-                    column
-                        .search(select.value, {exact: true})
-                        .draw();
-                });
-
-                // Add list of options
-                column
-                    .data()
-                    .unique()
-                    .sort()
-                    .each(function (d, j) {
-                        select.add(new Option(d));
-                    });
-            });
-        },
+    $('#myTable').DataTable( {
         search: {
                     // return: true
                 },
@@ -199,7 +144,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 5 ,
+        iDisplayLength : 10 ,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],
