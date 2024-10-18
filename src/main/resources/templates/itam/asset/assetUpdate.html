@@ -41,11 +41,12 @@
                 <div class="form-floating">
                     <select class="form-control mb-1" th:field="*{historyType}">
                         <option value="">클릭 후 선택</option>
+                        <option th:value="출고">출고</option>
+                        <option th:value="입고">입고</option>
                         <option th:value="고장">고장</option>
                         <option th:value="수리">수리</option>
                         <option th:value="변경">변경</option>
-                        <option th:value="입고">입고</option>
-                        <option th:value="출고">출고</option>
+
                     </select>
                     <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
                     <label th:for="historyAssetType">이력 관리(구분)</label>
@@ -118,16 +119,6 @@
                            th:text="${type.description}"></label>
                 </span>
                 </div>
-
-                <div class="">
-                    <label class="form-check-label mt-3">[장비 상태]</label>
-                    <span th:each="type : ${statusAssetStatus}" class="form-check">
-                    <input type="radio" class="form-check-input" th:field="*{statusAssetStatus}"
-                           th:value="${type.name()}">
-                    <label class="form-check-label" th:for="${#ids.prev('statusAssetStatus')}"
-                           th:text="${type.description}"></label>
-                </span>
-                </div>
                 <div class="">
                     <label class="form-check-label mt-3">[장비 용도]</label>
                     <span th:each="type : ${statusAssetUsage}" class="form-check">
@@ -137,7 +128,15 @@
                            th:text="${type.description}"></label>
                 </span>
                 </div>
-
+                <div class="">
+                    <label class="form-check-label mt-3">[장비 상태]</label>
+                    <span th:each="type : ${statusAssetStatus}" class="form-check">
+                    <input type="radio" class="form-check-input" th:field="*{statusAssetStatus}"
+                           th:value="${type.name()}">
+                    <label class="form-check-label" th:for="${#ids.prev('statusAssetStatus')}"
+                           th:text="${type.description}"></label>
+                </span>
+                </div>
             </div>
             <div class="col">
                 <h3>장비 사용자 정보</h3>

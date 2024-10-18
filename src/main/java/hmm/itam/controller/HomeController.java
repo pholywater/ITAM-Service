@@ -45,8 +45,8 @@ public class HomeController {
             List<AssetVo> chart1DPoint = userService.getChartCount1(search, search1);
             model.addAttribute("labelD", chart1DLabel);
             model.addAttribute("pointD", chart1DPoint);
-            log.info("labelD : {}", chart1DLabel);
-            log.info("pointD : {}", chart1DPoint);
+            //log.info("labelD : {}", chart1DLabel);
+            //log.info("pointD : {}", chart1DPoint);
 
             search1 = String.valueOf("seoul");
             search = String.valueOf('L');
@@ -54,8 +54,8 @@ public class HomeController {
             List<AssetVo> chart1LPoint = userService.getChartCount1(search, search1);
             model.addAttribute("labelL", chart1LLabel);
             model.addAttribute("pointL", chart1LPoint);
-            log.info("labelL : {}", chart1LLabel);
-            log.info("pointL : {}", chart1LPoint);
+            //log.info("labelL : {}", chart1LLabel);
+            //log.info("pointL : {}", chart1LPoint);
 
             search1 = String.valueOf("seoul");
             search = String.valueOf('M');
@@ -63,40 +63,40 @@ public class HomeController {
             List<AssetVo> chart1MPoint = userService.getChartCount1(search, search1);
             model.addAttribute("labelM", chart1MLabel);
             model.addAttribute("pointM", chart1MPoint);
-            log.info("labelM : {}", chart1MLabel);
-            log.info("pointM : {}", chart1MPoint);
+            //log.info("labelM : {}", chart1MLabel);
+            //log.info("pointM : {}", chart1MPoint);
 
             search1 = String.valueOf("busan1");
             List<AssetVo> chartBusan1Label = userService.getChartList1(search, search1);
             List<AssetVo> chartBusan1Point = userService.getChartCount1(search, search1);
             model.addAttribute("labelBusan1", chartBusan1Label);
             model.addAttribute("pointBusan1", chartBusan1Point);
-            log.info("labelBusan1 : {}", chartBusan1Label);
-            log.info("pointBusan1 : {}", chartBusan1Point);
+            //log.info("labelBusan1 : {}", chartBusan1Label);
+            //log.info("pointBusan1 : {}", chartBusan1Point);
 
             search1 = String.valueOf("busan2");
             List<AssetVo> chartBusan2Label = userService.getChartList1(search, search1);
             List<AssetVo> chartBusan2Point = userService.getChartCount1(search, search1);
             model.addAttribute("labelBusan2", chartBusan2Label);
             model.addAttribute("pointBusan2", chartBusan2Point);
-            log.info("labelBusan2 : {}", chartBusan2Label);
-            log.info("pointBusan2 : {}", chartBusan2Point);
+            //log.info("labelBusan2 : {}", chartBusan2Label);
+            //log.info("pointBusan2 : {}", chartBusan2Point);
 
             search1 = String.valueOf("newAsset");
             List<AssetVo> newAssetLabel = userService.getChartList1(search, search1);
             List<AssetVo> newAssetPoint = userService.getChartCount1(search, search1);
             model.addAttribute("newAssetLabel", newAssetLabel);
             model.addAttribute("newAssetPoint", newAssetPoint);
-            log.info("newAssetLabel : {}", newAssetLabel);
-            log.info("newAssetPoint : {}", newAssetPoint);
+            //log.info("newAssetLabel : {}", newAssetLabel);
+            //log.info("newAssetPoint : {}", newAssetPoint);
 
 
             List<AssetVo> chart2Label = userService.getChartList2();
             List<AssetVo> chart2Point = userService.getChartCount2();
             model.addAttribute("label1", chart2Label);
             model.addAttribute("point1", chart2Point);
-            log.info("label1 : {}", chart2Label);
-            log.info("point1 : {}", chart2Point);
+            //log.info("label1 : {}", chart2Label);
+            //log.info("point1 : {}", chart2Point);
 
             /*HEADER 화면 권한 체크*/
             /*th:if="${#strings.equals(user.authority, 'admin')}"*/

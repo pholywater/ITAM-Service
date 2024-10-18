@@ -27,39 +27,30 @@
 <div id="myDiv" class="container-fluid">
     <div class="container">
         <hr>
-        <form th:action="@{/searchAssetList}" th:object="${assetVo}" method="get">
+        <form th:action="@{/searchPaymentList}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h4>장비 항목별 리스트 조회</h4>
+                    <h4>장비 지급일 리스트 조회</h4>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <select class="form-select mb-1" th:field="*{searchType}">
-                            <option th:value="easySearch">간편 조회(이름, 부서, 번호, 모델명)</option>
-                            <option th:value="memberName">이름 조회</option>
-                            <option th:value="memberId">사번 조회</option>
-                            <option th:value="memberDepartmentDetail">부서 조회</option>
-                            <option th:value="assetNumber">장비 번호 조회</option>
-                            <option th:value="modelType">장비 타입 조회(D,L,M)</option>
-                            <option th:value="assetModelName">모델명 조회</option>
-                            <option th:value="statusType">입출고 상태(출고,입고,기타)</option>
-                            <option th:value="statusAssetUsage">용도별 조회(업무용,대여용,공용,재고)</option>
-                        </select>
-                        <label th:for="searchType">검색 항목 선택 : </label>
+                        <input type="date" class="form-control mb-1" th:field="*{searchStart}"/>
+                        <label th:for="searchStart">시작일 </label>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="search" class="form-control mb-1" th:field="*{search}" autofocus/>
-                        <label th:for="search">검색창 </label>
+                        <input type="date" class="form-control mb-1" th:field="*{searchEnd}" autofocus/>
+                        <label th:for="searchEnd">종료일 </label>
                     </div>
                 </div>
+
                 <div class="col">
-                    <button type="submit" class="btn btn-primary mb-1" formaction="searchAssetList"
+                    <button type="submit" class="btn btn-primary mb-1" formaction="searchPaymentList"
                             formmethod="get">리스트 조회
                     </button>
-                    <button type="submit" class="btn btn-outline-primary mb-1" formaction="searchMemberPage"
-                            formmethod="get">부서별 조회 바로가기
+                    <button type="submit" class="btn btn-outline-primary mb-1" formaction="searchAssetPage"
+                            formmethod="get">간편 조회 바로가기
                     </button>
                 </div>
             </div>
@@ -124,34 +115,6 @@
             <td th:text="${u.assetDuration}"></td>
         </tr>
         </tbody>
-        <tfoot>
-        <tr>
-            <th>No.</th>
-            <th>구분</th>
-            <th>장비상태</th>
-            <th>사원번호</th>
-            <th>위치</th>
-            <th>지역</th>
-            <th>층</th>
-            <th>부서</th>
-            <th>이름</th>
-            <th>직급</th>
-            <th>직원상태</th>
-            <th>용도</th>
-            <th>트리플</th>
-            <th>장비번호</th>
-            <th>타입</th>
-            <th>제조사</th>
-            <th>모델명</th>
-            <th>SPEC</th>
-            <th>MAC ADDRESS</th>
-            <th>시리얼</th>
-            <th>지급일</th>
-            <th>최근실사</th>
-            <th>용도상세</th>
-            <th>지급기한</th>
-        </tr>
-        </tfoot>
     </table>
 </div> <!-- /container -->
 
@@ -161,34 +124,7 @@
 <script>
     $(document).ready(function() {
     document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {initComplete: function () {
-            this.api()
-            .columns([1,2,3,4,5,6,8,10,11,12,14,15])
-            .every(function () {
-                let column = this;
-
-                // Create select element
-                let select = document.createElement('select');
-                select.add(new Option(''));
-                column.footer().replaceChildren(select);
-
-                // Apply listener for user change in value
-                select.addEventListener('change', function () {
-                    column
-                        .search(select.value, {exact: true})
-                        .draw();
-                });
-
-                // Add list of options
-                column
-                    .data()
-                    .unique()
-                    .sort()
-                    .each(function (d, j) {
-                        select.add(new Option(d));
-                    });
-            });
-        },
+    $('#myTable').DataTable( {
         search: {
                     // return: true
                 },
@@ -199,7 +135,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 5 ,
+        iDisplayLength : 10 ,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],
@@ -221,9 +157,9 @@
 
 <!--검색 창 포커스 글씨 맨 뒤 위치-->
 <script>
-    var len = $('#search').val().length;
-    $('#search').focus();
-    $('#search')[0].setSelectionRange(len, len);
+    var len = $('#searchMember').val().length;
+    $('#searchMember').focus();
+    $('#searchMember')[0].setSelectionRange(len, len);
 </script>
 </body>
 </html>

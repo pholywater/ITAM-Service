@@ -186,10 +186,6 @@ public class AssetController {
         log.info("searchDepart : {}", searchDepart);
         log.info("searchMember : {}", searchMember);
 
-        /*조회 한 값 넘겨주기*/
-        List<AssetVo> searchMemberList = AssetService.searchMemberList(searchDepart, searchMember);
-        model.addAttribute("list", searchMemberList);
-
         /*상세조회 datalist 부서 검색 자동완성 작업*/
         List<AssetVo> departmentList = AssetService.getDepartmentList();
         model.addAttribute("departList", departmentList);
@@ -197,6 +193,11 @@ public class AssetController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
+
+        /*조회 한 값 넘겨주기*/
+        List<AssetVo> searchMemberList = AssetService.searchMemberList(searchDepart, searchMember);
+        model.addAttribute("list", searchMemberList);
+
 
         return "itam/asset/searchMemberList"; //
     }
@@ -283,6 +284,7 @@ public class AssetController {
         model.addAttribute("asset", assetNum);
         log.info("장비 정보를 조회합니다. 관리번호 : {}", assetNum.getAssetNumber());
         return "itam/asset/assetResult"; //
+
     }
 
     @ModelAttribute("statusType")
@@ -327,6 +329,9 @@ public class AssetController {
         }
         log.info("장비 정보를 수정하였습니다. 관리번호 : {}", assetNum.getAssetNumber());
 
+        /* datalist 장비번호 검색 자동완성 */
+        List<AssetVo> assetList = AssetService.getAssetList();
+        model.addAttribute("assetList", assetList);
         return "itam/asset/assetSearch";
     }
 

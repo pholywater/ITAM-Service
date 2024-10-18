@@ -41,12 +41,12 @@
             </otherwise>
         </choose>
 
-
         order by
         asset_history.history_completion_date DESC,
         hmm_member.member_department,
         asset_history.history_member_id,
-        asset_history.history_type
+        asset_history.history_type,
+        asset_history.history_asset_number
 
     </select>
 
@@ -92,7 +92,8 @@
         asset_history.history_completion_date DESC,
         hmm_member.member_department,
         asset_history.history_member_id,
-        asset_history.history_type
+        asset_history.history_type,
+        asset_history.history_asset_number
     </select>
 
     <!--이력 관리 상세 조회 동적 쿼리문으로 처리 완료-->
@@ -152,7 +153,8 @@
         asset_history.history_completion_date DESC,
         hmm_member.member_department,
         asset_history.history_member_id,
-        asset_history.history_type
+        asset_history.history_type,
+        asset_history.history_asset_number
     </select>
 
 
