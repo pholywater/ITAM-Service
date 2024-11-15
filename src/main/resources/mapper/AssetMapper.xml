@@ -357,8 +357,9 @@
         asset_model_name
 
         ORDER BY
-        asset_model.model_type,
-        asset_model.model_name
+        asset_model.model_code,
+        asset_model.model_type
+
     </select>
     <select id="getChart2List" resultType="int">
         SELECT COUNT(*)
@@ -381,8 +382,8 @@
         asset_model_name
 
         ORDER BY
-        asset_model.model_type,
-        asset_model.model_name
+        asset_model.model_code,
+        asset_model.model_type
     </select>
 
 

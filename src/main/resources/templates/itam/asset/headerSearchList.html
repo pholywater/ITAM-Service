@@ -76,7 +76,7 @@
                searching: false , // 우측 상단 서치박스 활성화
                processing: true,
                search: {
-                         return: true // 엔터 키 검색
+                         // return: true // 엔터 키 검색
                          // regex : true
                          },
 
@@ -103,11 +103,18 @@
                                 className: 'dtr-control',
                                 orderable: false
 
-                                }
+                                },
+                                            // 열 숨기기 설정
+                                { targets: 3, visible: false }, // 지역
+                                { targets: 10, visible: false }, // 제조사
+                                { targets: 12, visible: false }, // 시리얼
+                                { targets: 13, visible: false }, // 스펙1
+                                { targets: 14, visible: false }, // 스펙2
+                                { targets: 20, visible: false }, // 최근 실사
                             ],
 
 
-               order: [5, 'asc'], // 작동 안함
+               order: [8, 'asc'], // 작동 안함
                colReorder: true,
                responsive: {
                                details: {

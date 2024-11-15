@@ -19,16 +19,16 @@
                            th:field="*{assetNumber}" autofocus/>
                     <datalist id="assetList">
                         <option th:each="a : ${assetList}" th:value="${a.assetNumber}"
-                                th:label="|${a.statusAssetUsage} / ${a.memberName}/ ${a.memberId} / ${a.departmentFloor} / ${a.assetModelName} / ${a.statusAssetSpec2} / ${a.statusAssetSpec3}|">
+                                th:label="|${a.statusAssetUsage} / ${a.memberDepartment}/ ${a.memberName}/ ${a.memberId} / ${a.departmentFloor} / ${a.assetModelName} / ${a.statusAssetSpec2} / ${a.statusAssetSpec3}|">
                     </datalist>
                     <label th:for="assetNumber">관리번호 입력</label>
 
                     <button type="submit" class="btn btn-primary mb-1" formaction="assetSearch" formmethod="post">장비조회
                     </button>
 
-                    <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
+                    <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                     >뒤로가기
-                    </button>-->
+                    </button>
                     <!--<button type="submit" class="btn btn-success mb-1" formaction="assetUpdateResult" formmethod="post">수정하기</button>
                     <button type="submit" class="btn btn-danger mb-1" formaction="assetDelete" formmethod="post">삭제하기</button>-->
                 </div>
