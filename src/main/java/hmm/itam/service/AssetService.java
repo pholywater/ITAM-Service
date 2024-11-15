@@ -140,6 +140,7 @@ public class AssetService {
             list.add(assetVo.getModelType());
             list.add(assetVo.getModelManufacturer());
             list.add(assetVo.getAssetModelName());
+            list.add(assetVo.getAssetSerialNumber());
             list.add(assetVo.getStatusAssetSpec1());
             list.add(assetVo.getStatusAssetSpec2());
             Date date = new AssetVo.getAssetPaymentDate();
@@ -154,8 +155,8 @@ public class AssetService {
             result.add(list);
         }
         pageDto.setData(result);
-        log.info("디비로 부터 받은 값: {}", data);
-        log.info("값 변환 후: {}", result);
+        /*log.info("디비로 부터 받은 값: {}", data);*/
+        /*log.info("값 변환 후: {}", result);*/
         return pageDto;
     }
 

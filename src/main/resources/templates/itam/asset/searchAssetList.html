@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/defaultLayout}"
-      layout:fragment="Content">
+      layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
 <body>
 <head>
     <title>ITAM Asset Search</title>
@@ -94,6 +94,7 @@
             <th>최근실사</th>
             <th>용도상세</th>
             <th>지급기한</th>
+            <th>상세조회</th>
         </tr>
         </thead>
         <tbody>
@@ -122,6 +123,14 @@
             <td th:text="${u.assetLastUpdateDate}"></td>
             <td th:text="${u.statusAssetEtc2}"></td>
             <td th:text="${u.assetDuration}"></td>
+            <td>
+                <form th:action="@{/assetSearch}" th:object="${assetVo}" method="post">
+                    <input type="hidden" id="assetNumber" name="assetNumber" th:value="${u.assetNumber}"/>
+                    <button type="submit" class="btn btn-outline-primary btn-sm"
+                            formaction="assetSearch" formmethod="post">Search
+                    </button>
+                </form>
+            </td>
         </tr>
         </tbody>
         <tfoot>
@@ -150,6 +159,7 @@
             <th>최근실사</th>
             <th>용도상세</th>
             <th>지급기한</th>
+            <th>상세조회</th>
         </tr>
         </tfoot>
     </table>
@@ -199,7 +209,7 @@
             [ 5, 10, 25, 50, 100, -1 ],
             [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
         ],
-        iDisplayLength : 5 ,
+        iDisplayLength : 6 ,
         buttons: [
             'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
         ],
@@ -207,7 +217,30 @@
             {
             className: 'dtr-control',
             orderable: false
-            }
+            },
+            // 열 숨기기 설정
+            { targets: 5, visible: false }, // 지역
+            // { targets: 10, visible: false }, // 직원 상태
+            { targets: 12, visible: false }, // 트리플
+            { targets: 15, visible: false }, // 제조사
+            { targets: 18, visible: false }, // MAC
+            { targets: 21, visible: false }, // 최근 실사
+
+            // 열 넓이 설정
+            { targets: 1, width: 10 }, // 구분
+            { targets: 2, width: 10 }, // *장비상태
+            // { targets: 4, width: 10 },
+            // { targets: 7, width: 100 }, // 부서
+            { targets: 6, width: 10 },
+            { targets: 9, width: 60 }, // *직급
+            { targets: 10, width: 10 },
+            { targets: 12, width: 15 },
+            // { targets: 15, width: 10 }, // 제조사
+            { targets: 18, width: 110 }, // *MAC
+            { targets: 20, width: 70 }, // *지급일
+            { targets: 21, width: 70 }, // *최근 실사일
+            { targets: 22, width: 120 } // *용도
+
         ],
 
         responsive: {
