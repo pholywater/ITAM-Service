@@ -45,17 +45,17 @@
                 <h3>장비 상태 정보</h3>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusType" id="statusType"
-                           th:value="${asset.statusType}" placeholder="장비 입출고 상태(입고, 출고, 신규 등)" readonly/>
+                           th:value="${asset.statusType}" readonly/>
                     <label th:for="statusType">입출고 상태</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetStatus" id="statusAssetStatus"
-                           th:value="${asset.statusAssetStatus}" placeholder="장비 상태(양호, 불량)" readonly/>
+                           th:value="${asset.statusAssetStatus}" readonly/>
                     <label th:for="statusAssetStatus">장비 상태</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetUsage" id="statusAssetUsage"
-                           th:value="${asset.statusAssetUsage}" placeholder="장비 지급 용도(업무용, 공용 등)" readonly/>
+                           th:value="${asset.statusAssetUsage}" readonly/>
                     <label th:for="statusAssetUsage">지급 용도</label>
                 </div>
 
@@ -64,40 +64,40 @@
                 <h3>사용자 정보</h3>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusMemberId" id="statusMemberId"
-                           th:value="${asset.statusMemberId}" placeholder="장비 소유자 입력(HMMxxxx,신규장비)" readonly/>
+                           th:value="${asset.statusMemberId}" readonly/>
                     <label th:for="statusMemberId">장비 소유자 사번</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="memberName" id="memberName"
-                           th:value="${asset.memberName}" placeholder="사용자 이름" readonly/>
+                           th:value="${asset.memberName}" readonly/>
                     <label th:for="memberName">사용자 이름</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="memberDepartment" id="memberDepartment"
-                           th:value="${asset.memberDepartment}" placeholder="사용자 부서" readonly/>
+                           th:value="${asset.memberDepartment}" readonly/>
                     <label th:for="memberDepartment">사용자 부서</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="memberDepartmentDetail"
                            id="memberDepartmentDetail"
-                           th:value="${asset.memberDepartmentDetail}" placeholder="사용자 부서 상세" readonly/>
+                           th:value="${asset.memberDepartmentDetail}" readonly/>
                     <label th:for="memberDepartmentDetail">사용자 부서 상세</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetEtc1"
                            id="statusAssetEtc1"
-                           th:value="${asset.statusAssetEtc1}" placeholder="비고1" readonly/>
+                           th:value="${asset.statusAssetEtc1}" readonly/>
                     <label th:for="statusAssetEtc1">모니터 현황(싱글,듀얼,트리플)</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetEtc2"
                            id="statusAssetEtc2"
-                           th:value="${asset.statusAssetEtc2}" placeholder="용도 상세" readonly/>
+                           th:value="${asset.statusAssetEtc2}" readonly/>
                     <label th:for="statusAssetEtc1">용도 상세</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetDuration" id="assetDuration"
-                           th:value="${asset.assetDuration}" placeholder="장비 지급 기간" readonly/>
+                           th:value="${asset.assetDuration}" readonly/>
                     <label th:for="assetDuration">장비 지급 기간</label>
                 </div>
             </div>
@@ -106,38 +106,38 @@
                 <h3>장비 스펙 정보</h3>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetModelCode" id="assetModelCode"
-                           th:value="${asset.assetModelCode}" placeholder="모델 코드 입력" readonly/>
+                           th:value="${asset.assetModelCode}" readonly/>
                     <label th:for="assetModelCode">모델 코드 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetModelName" id="assetModelName"
-                           th:value="${asset.assetModelName}" placeholder="모델명 입력" readonly/>
+                           th:value="${asset.assetModelName}" readonly/>
                     <label th:for="assetModelName">모델명 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetSerialNumber" id="assetSerialNumber"
-                           th:value="${asset.assetSerialNumber}" placeholder="장비 시리얼 입력" readonly/>
+                           th:value="${asset.assetSerialNumber}" readonly/>
                     <label th:for="assetSerialNumber">시리얼 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetWiredMacAddress" id="assetWiredMacAddress"
-                           th:value="${asset.assetWiredMacAddress}" placeholder="유선 MAC Address" readonly/>
+                           th:value="${asset.assetWiredMacAddress}" readonly/>
                     <label th:for="assetWiredMacAddress">유선 MAC Address : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetWirelessMacAddress"
                            id="assetWirelessMacAddress" th:value="${asset.assetWirelessMacAddress}"
-                           placeholder="무선 MAC Address" readonly/>
+                           readonly/>
                     <label th:for="assetWirelessMacAddress">무선 MAC Address : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetSpec1" id="statusAssetSpec1"
-                           th:value="${asset.statusAssetSpec1}" placeholder="Storage 용량" readonly/>
+                           th:value="${asset.statusAssetSpec1}" readonly/>
                     <label th:for="statusAssetSpec1">Storage / 인치 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetSpec2" id="statusAssetSpec2"
-                           th:value="${asset.statusAssetSpec2}" placeholder="Memory 용량" readonly/>
+                           th:value="${asset.statusAssetSpec2}" readonly/>
                     <label th:for="statusAssetSpec2">Memory / 해상도 : </label>
                 </div>
                 <div class="form-floating">
@@ -155,30 +155,30 @@
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetPaymentMemberId" id="assetPaymentMemberId"
-                           th:value="${asset.assetPaymentMemberId}" placeholder="최초지급 사번" readonly/>
+                           th:value="${asset.assetPaymentMemberId}" readonly/>
                     <label th:for="assetPaymentMemberId">최초지급 사번 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetPaymentMemberName"
-                           id="assetPaymentMemberName" th:value="${asset.assetPaymentMemberName}" placeholder="최초지급 이름"
+                           id="assetPaymentMemberName" th:value="${asset.assetPaymentMemberName}"
                            readonly/>
                     <label th:for="assetPaymentMemberName">최초지급 이름 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetPaymentMemberRank"
-                           id="assetPaymentMemberRank" th:value="${asset.assetPaymentMemberRank}" placeholder="최초지급 직급"
+                           id="assetPaymentMemberRank" th:value="${asset.assetPaymentMemberRank}"
                            readonly/>
                     <label th:for="assetPaymentMemberRank">최초지급 직급 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetPaymentDepartment"
-                           id="assetPaymentDepartment" th:value="${asset.assetPaymentDepartment}" placeholder="최초지급 부서"
+                           id="assetPaymentDepartment" th:value="${asset.assetPaymentDepartment}"
                            readonly/>
                     <label th:for="assetPaymentDepartment">최초지급 부서 : </label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="assetPaymentDetails" id="assetPaymentDetails"
-                           th:value="${asset.assetPaymentDetails}" placeholder="최초지급 내용" readonly/>
+                           th:value="${asset.assetPaymentDetails}" readonly/>
                     <label th:for="assetPaymentDetails">최초지급 내용 : </label>
                 </div>
             </div>

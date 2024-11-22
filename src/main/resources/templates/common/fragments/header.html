@@ -119,7 +119,6 @@
                     </ul>
                 </li>
                 -->
-
                 <li class="nav-item dropdown">
                     <a
                             class="nav-link dropdown-toggle"
@@ -150,6 +149,28 @@
                         <li><a class="dropdown-item"
                                th:href="@{historySearch?searchType=historyType&search=고장}">고장 및 수리 이력 리스트</a>
                         </li>
+
+
+                        <li>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        멤버 관리
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{memberAdd}">멤버 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{memberSearch}">멤버 조회 및 수정</a></li>
+                        <li><a class="dropdown-item" th:href="@{memberList}">멤버 리스트</a></li>
 
 
                         <li>

@@ -12,13 +12,13 @@
     <div class="container">
         <hr>
 
-        <form th:action="@{/memberUpdate}" th:object="${memberVo}" method="post">
+        <form th:action="@{/memberSearch}" th:object="${memberVo}" method="post">
             <div class="row align-items-start">
                 <h2>직원 정보 내역</h2>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberId" id="memberId"
-                               th:value="${member.memberId}" placeholder="사원번호" autofocus/>
+                        <input type="text" class="form-control mb-1" th:field="*{memberId}"
+                               autofocus/>
                         <label th:for="memberId">사원번호</label>
                     </div>
 
@@ -26,8 +26,6 @@
                     <button type="submit" class="btn btn-primary mb-1" formaction="/memberSearch" formmethod="post">멤버조회
                     </button>
 
-                    <button type="submit" class="btn btn-success mb-1" formaction="memberUpdate" formmethod="post">멤버수정
-                    </button>
 
                     <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                     >뒤로가기
@@ -35,55 +33,54 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberName"
-                               th:value="${member.memberName}" readonly/>
+                        <input type="text" class="form-control mb-1" th:field="*{memberName}" disabled/>
                         <label th:for="memberName">이름</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberRank"
-                               th:value="${member.memberRank}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberRank}" disabled/>
                         <label th:for="memberRank">직급</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberWork"
-                               th:value="${member.memberWork}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberWork}" disabled/>
                         <label th:for="memberWork">직책</label>
                     </div>
-
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberDepartment"
-                               th:value="${member.memberDepartment}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberDepartment}" disabled/>
                         <label th:for="memberDepartment">부서</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberDepartmentDetail"
-                               th:value="${member.memberDepartmentDetail}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberDepartmentDetail}" disabled/>
                         <label th:for="memberDepartmentDetail">부서상세</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberWorkingStatus"
-                               th:value="${member.memberWorkingStatus}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberWorkingStatus}" disabled/>
                         <label th:for="memberWorkingStatus">근무상태</label>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberEtc1"
-                               th:value="${member.memberEtc1}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberEtc1}" disabled/>
                         <label th:for="memberEtc1">비고1</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberEtc2"
-                               th:value="${member.memberEtc2}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberEtc2}" disabled/>
                         <label th:for="memberEtc2">비고2</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberEtc3"
-                               th:value="${member.memberEtc3}" readonly/>
+                        <input type="text" class="form-control mb-1"
+                               th:field="*{memberEtc3}" disabled/>
                         <label th:for="memberEtc3">비고3</label>
                     </div>
+
                 </div>
             </div>
         </form>

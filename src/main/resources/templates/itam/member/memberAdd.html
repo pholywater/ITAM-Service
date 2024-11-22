@@ -1,34 +1,78 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content">
 <head>
     <title>Member Add</title>
 </head>
 <body>
-    <h2>신규 직원 추가 입력</h2>
-    <form action="/memberAdd" method="post">
-        <div>
-            <input type="text" name="memberId" placeholder="사원번호"/>
-        </div>
-        <div>
-            <input type="text" name="memberName" placeholder="이름"/>
-        </div>
-        <div>
-            <input type="text" name="memberRank" placeholder="직급"/>
-        </div>
-        <div>
-            <input type="text" name="memberWork" placeholder="직책"/>
-        </div>
-        <div>
-            <input type="text" name="memberWorkingStatus" placeholder="근무상태"/>
-        </div>
-        <div>
-            <input type="text" name="memberEtc1" placeholder="비고1"/>
-        </div>
-        <div>
-            <input type="text" name="memberEtc2" placeholder="비고2"/>
-        </div>
+<div id="myDiv1" class="container-fluid" style="width:1200px">
+    <div class="container">
+        <hr>
 
-        <button type="submit">신규직원 등록</button>
-    </form>
+        <form th:action="@{memberAdd}" method="post">
+            <div class="row align-items-start">
+                <h2>신규 직원 추가</h2>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="search" list="memberList" class="form-control mb-1" name="memberId" autofocus/>
+                        <datalist id="memberList">
+                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
+                                    th:label="| ${m.departmentFloor} / ${m.memberName} / ${m.memberRank} / ${m.memberDepartment} |">
+                        </datalist>
+                        <label th:for="memberId">사원번호</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">멤버 등록</button>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberName"/>
+                        <label th:for="memberName">이름</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberRank"/>
+                        <label th:for="memberRank">직급</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberWork"/>
+                        <label th:for="memberWork">직책</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberDepartment"/>
+                        <label th:for="memberDepartment">부서</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberDepartmentDetail"/>
+                        <label th:for="memberDepartmentDetail">부서상세</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberWorkingStatus"/>
+                        <label th:for="memberWorkingStatus">근무상태</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberEtc1"/>
+                        <label th:for="memberEtc1">비고1</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberEtc2"/>
+                        <label th:for="memberEtc2">비고2</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" name="memberEtc3"/>
+                        <label th:for="memberEtc3">비고3</label>
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
