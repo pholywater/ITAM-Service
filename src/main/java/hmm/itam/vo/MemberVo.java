@@ -14,4 +14,10 @@ public class MemberVo {
     private String memberEtc1;
     private String memberEtc2;
     private String memberEtc3;
+    private String departmentName;
+    private String departmentDetail;
+    private String departmentLocation;
+    private String departmentRegion;
+    private String departmentFloor;
+
 }

@@ -4,26 +4,69 @@
     <select id="getMemberList" resultType="hmm.itam.vo.MemberVo">
         SELECT *
         FROM hmm_member
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        LEFT JOIN orderby_rank
+        ON hmm_member.member_rank=orderby_rank.member_rank
+
+        ORDER BY
+        hmm_member.member_department_detail,
+        hmm_member.member_working_status desc,
+        orderby_rank.member_grant,
+        hmm_member.member_id
+
+
     </select>
 
     <insert id="insertMember" parameterType="hmm.itam.vo.MemberVo">
         INSERT INTO hmm_member
         (
-        member_id, member_name, member_rank, member_work, member_working_status,
-        member_etc_1, member_etc_2
+        member_id, member_name, member_rank, member_department, member_work, member_working_status, member_etc1,
+        member_etc2, member_etc3
         )
         VALUES
         (
-        #{memberId}, #{memberName}, #{memberRank}, #{memberWork}, #{memberWorkingStatus},
-        #{memberEtc1}, #{memberEtc2}
+        #{memberId}, #{memberName}, #{memberRank}, #{memberDepartment} , #{memberWork}, #{memberWorkingStatus},
+        #{memberEtc1}, #{memberEtc2},
+        #{memberEtc3}
         )
     </insert>
 
+    <!--직원정보 조회(관리번호)-->
+    <select id="getMemberByMemberId" resultType="hmm.itam.vo.MemberVo">
+        SELECT *
+        FROM hmm_member
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
+        WHERE member_id = #{memberId}
+    </select>
+
+    <!--직원정보 수정-->
+    <update id="updateMember" parameterType="hmm.itam.vo.MemberVo">
+        UPDATE hmm_member
+        SET
+        member_id = #{memberId},
+        member_name = #{memberName},
+        member_rank = #{memberRank},
+        member_department = #{memberDepartment},
+        member_department_detail = #{memberDepartmentDetail},
+        member_work = #{memberWork},
+        member_working_status = #{memberWorkingStatus},
+        member_etc1 = #{memberEtc1},
+        member_etc2 = #{memberEtc2},
+        member_etc3 = #{memberEtc3}
+
+        WHERE member_id = #{memberId}
+    </update>
+
     <!--부서 조회-->
     <select id="getDepartmentList" resultType="hmm.itam.vo.MemberVo">
-        SELECT DISTINCT
-        member_department_detail, member_department
-        FROM hmm_member
+        SELECT *
+        FROM hmm_department
     </select>
 
     <!--홈 해더에서 부서 조회-->
