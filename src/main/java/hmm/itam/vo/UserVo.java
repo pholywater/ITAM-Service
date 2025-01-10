@@ -14,6 +14,7 @@ public class UserVo {
     private String password;
     private String authority;
     private String chartType;
+    private String departmentLocation;
     private String departmentRegion;
     private String departmentFloor;
 }

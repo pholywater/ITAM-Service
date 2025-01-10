@@ -24,30 +24,51 @@
     </div>
     <div class="d-flex justify-content-center">
         <div class="chart-container">
-            <canvas id="ChartD" width="440" height="380"></canvas>
+            <canvas id="ChartD" width="370" height="350"></canvas>
         </div>
         <div class="chart-container">
-            <canvas id="ChartM" width="840" height="380"></canvas>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class="chart-container">
-            <canvas id="ChartNewAsset" width="232" height="380"></canvas>
+            <canvas id="ChartM" width="670" height="350"></canvas>
         </div>
         <div class="chart-container">
-            <canvas id="ChartBusan1" width="699" height="380"></canvas>
+            <canvas id="ChartNewAsset" width="240" height="350"></canvas>
         </div>
-        <div class="chart-container">
-            <canvas id="ChartBusan2" width="349" height="380"></canvas>
-        </div>
+
     </div>
 
     <div class="d-flex justify-content-center">
         <div class="chart-container">
-            <canvas id="Chart1" width="1280" height="450"></canvas>
+            <canvas id="Chart1" width="340" height="300"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="Chart2" width="620" height="300"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="Chart3" width="320" height="300"></canvas>
         </div>
     </div>
 
+    <div class="d-flex justify-content-center">
+
+        <div class="chart-container">
+            <canvas id="ChartBusan1" width="590" height="300"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="ChartBusan2" width="590" height="300"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="ChartBusan3" width="100" height="300"></canvas>
+        </div>
+    </div>
+    <div>
+        <table>
+            <tbody>
+            <tr th:each="u, stat :${list}">
+                <td th:text="${u.modelType}"></td><!--구분-->
+                <td th:text="${u.assetModelName}"></td><!--구분-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <!--<div class="chart-container" style="position: relative; height:40vh; width:80vw">
         <canvas id="Chart2"></canvas>
@@ -93,12 +114,12 @@
             plugins: {
                 title: {
                     display: true,
-                    text: '본사 재고 장비 현황(불용 제외)',
+                    text: '본사 재고 장비 현황',
                 }
             },
             scales: {
                 y: {
-                    max: 100,
+                    max: 140,
                     min: 0
                 }
             }
@@ -140,8 +161,13 @@
             },
             scales: {
                 y: {
-                    max: 100,
-                    min: 0
+                    max: 60,
+                    min: 0,
+                    ticks: {
+                        stepSize: 15,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
                 }
             }
         }
@@ -182,8 +208,13 @@
             },
             scales: {
                 y: {
-                    max: 700,
-                    min: 0
+                    max: 350,
+                    min: 0,
+                    ticks: {
+                        stepSize: 50,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
                 }
             }
         }
@@ -297,6 +328,59 @@
         }
     });
 
+    var ctx = document.getElementById("ChartBusan3").getContext('2d');
+    var ChartDemo = new Chart(ctx, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${labelBusan3} ]]*/,
+            datasets: [
+                {
+                    label: "불용", //
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${pointBusan3} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            <!--indexAxis: 'y',-->
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '부산 불용 장비',
+                }
+            },
+            scales: {
+                y: {
+                    max: 5,
+                    min: 0,
+                    ticks: {
+                        stepSize: 1,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
+                }
+            }
+        }
+    });
+
+
 
     var ctx = document.getElementById("ChartNewAsset").getContext('2d');
     var ChartDemo = new Chart(ctx, {
@@ -306,7 +390,7 @@
             labels: /*[[ ${newAssetLabel} ]]*/,
             datasets: [
                 {
-                    label: "본사 신규",  //
+                    label: "본사 신규 장비",  //
                     borderColor: 'rgb(54, 162, 235)',
                     backgroundColor: 'rgba(54, 162, 235, 0.4)',
                     lineTension: 0,
@@ -330,35 +414,34 @@
                     bottom: 20,
                 },
             },
-            plugins: {
-                title: {
-                    display: true,
-                    text: '본사 신규 장비 보유',
-                }
-            },
             scales: {
                 y: {
-                    max: 140,
-                    min: 0
+                    max: 20,
+                    min: 0,
+                    ticks: {
+                        stepSize: 5,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
                 }
             }
         }
     });
 
-    var ctx1 = document.getElementById("Chart1").getContext('2d');
+    var ctx1 = document.getElementById("Chart2").getContext('2d');
     var ChartDemo = new Chart(ctx1, {
         type: 'bar',
         plugins: [ChartDataLabels],
         data: {
-            labels: /*[[ ${label1} ]]*/,
+            labels: /*[[ ${labelL1} ]]*/,
             datasets: [
                 {
-                    label: "불용 장비", //
+                    label: "불용 노트북", //
                     borderColor: 'rgb(255, 99, 132)',
                     backgroundColor: 'rgba(255, 99, 132, 0.4)',
                     lineTension: 0,
                     fill: true,
-                    data: /*[[ ${point1} ]]*/,
+                    data: /*[[ ${pointL1} ]]*/,
                     datalabels: {
                         display: true,
                         align: 'end',
@@ -377,20 +460,116 @@
                     bottom: 20,
                 },
             },
-            plugins: {
-                title: {
-                    display: true,
-                    text: '불용 장비 현황',
-                }
-            },
+
             scales: {
                 y: {
-                    max: 30,
-                    min: 0
+                    max: 20,
+                    min: 0,
+                    ticks: {
+                        stepSize: 5,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
                 }
             }
         }
     });
+
+        var ctx1 = document.getElementById("Chart1").getContext('2d');
+    var ChartDemo = new Chart(ctx1, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${labelD1} ]]*/,
+            datasets: [
+                {
+                    label: "불용 데스크탑", //
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${pointD1} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            indexAxis: 'x',
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+
+            scales: {
+                y: {
+                    max: 20,
+                    min: 0,
+                    ticks: {
+                        stepSize: 5,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
+                }
+            }
+        }
+    });
+
+        var ctx1 = document.getElementById("Chart3").getContext('2d');
+    var ChartDemo = new Chart(ctx1, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: /*[[ ${labelM1} ]]*/,
+            datasets: [
+                {
+                    label: "불용 모니터", //
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                    lineTension: 0,
+                    fill: true,
+                    data: /*[[ ${pointM1} ]]*/,
+                    datalabels: {
+                        display: true,
+                        align: 'end',
+                        anchor: 'end',
+                    },
+                    borderWidth: 1,
+                },
+            ]
+        },
+        options: {
+            responsive: false,
+            indexAxis: 'x',
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+
+            scales: {
+                y: {
+                    max: 20,
+                    min: 0,
+                    ticks: {
+                        stepSize: 5,
+                        suggestedMin: 'min-int-value',
+                        suggestedMax: 'max-int-value'
+                    }
+                }
+            }
+        }
+    });
+
+
 </script>
 
 </html>

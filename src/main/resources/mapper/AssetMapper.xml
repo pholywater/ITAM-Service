@@ -67,7 +67,7 @@
                 hmm_member.member_rank LIKE CONCAT('%' #{search} '%') OR
                 hmm_member.member_name LIKE CONCAT('%' #{search} '%') OR
                 hmm_member.member_department LIKE CONCAT('%' #{search} '%') OR
-                hmm_member.member_department_detail LIKE CONCAT('%' #{search} '%') OR
+                hmm_department.department_detail LIKE CONCAT('%' #{search} '%') OR
                 asset_info.asset_model_name LIKE CONCAT('%' #{search} '%') OR
                 asset_info.asset_number LIKE CONCAT('%' #{search} '%')
             </when>
@@ -90,7 +90,7 @@
             <when test="searchType == 'memberDepartmentDetail'">
                 WHERE
                 member_department LIKE CONCAT('%' #{search} '%') OR
-                member_department_detail LIKE CONCAT('%' #{search} '%')
+                hmm_department.department_detail LIKE CONCAT('%' #{search} '%')
             </when>
             <when test="searchType == 'modelType'">
                 WHERE
@@ -132,7 +132,7 @@
                 hmm_department.department_location,
                 hmm_department.department_region,
                 hmm_department.department_floor,
-                hmm_member.member_department_detail,
+                hmm_department.department_detail,
                 hmm_member.member_working_status desc,
                 orderby_rank.member_grant,
                 hmm_member.member_id,
@@ -173,14 +173,14 @@
             <!--상단 간편 검색 및 상세 조회 리스트 검색의 간편 검색 처리-->
             <when test="searchDepart != '' and searchMember != ''">
                 WHERE
-                hmm_member.member_department_detail LIKE CONCAT('%' #{searchDepart} '%') AND
+                hmm_department.department_detail LIKE CONCAT('%' #{searchDepart} '%') AND
                 hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
                 hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
             </when>
             <when test="searchDepart != ''">
                 WHERE
                 hmm_member.member_department LIKE CONCAT('%' #{searchDepart} '%') OR
-                hmm_member.member_department_detail LIKE CONCAT('%' #{searchDepart} '%')
+                hmm_department.department_detail LIKE CONCAT('%' #{searchDepart} '%')
             </when>
             <when test="searchMember != ''">
                 WHERE
@@ -206,7 +206,7 @@
         hmm_department.department_location,
         hmm_department.department_region,
         hmm_department.department_floor,
-        hmm_member.member_department_detail,
+        hmm_department.department_detail,
         hmm_member.member_working_status desc,
         orderby_rank.member_grant,
         hmm_member.member_id,
@@ -314,7 +314,7 @@
 
         ORDER BY
 
-        hmm_member.member_department_detail
+        hmm_department.department_detail
 
 
     </select>
@@ -413,20 +413,23 @@
         hmm_member.member_id LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_rank LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_name LIKE CONCAT('%' #{navSearch} '%') OR
-        hmm_member.member_department_detail LIKE CONCAT('%' #{navSearch} '%') OR
+        hmm_department.department_detail LIKE CONCAT('%' #{navSearch} '%') OR
         asset_info.asset_model_name LIKE CONCAT('%' #{navSearch} '%') OR
         asset_info.asset_number LIKE CONCAT('%' #{navSearch} '%')
+        AND
+        asset_info.status_type NOT LIKE CONCAT('%' '매각' '%')
 
         order by
+        asset_info.status_type desc,
         hmm_department.department_location,
         hmm_department.department_region,
         hmm_department.department_floor,
-        hmm_member.member_department_detail,
+        hmm_department.department_detail,
         hmm_member.member_working_status desc,
         orderby_asset.asset_grant,
         orderby_rank.member_grant,
         hmm_member.member_id,
-        asset_info.status_asset_usage DESC
+        asset_info.status_asset_usage desc
 
         LIMIT #{startNo}, #{length};
     </select>
@@ -440,10 +443,16 @@
 
         LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
+
         LEFT JOIN orderby_asset
         ON asset_info.status_type=orderby_asset.asset_status
+
         LEFT JOIN orderby_rank
         ON hmm_member.member_rank=orderby_rank.member_rank
 
@@ -453,8 +462,10 @@
         hmm_member.member_id LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_rank LIKE CONCAT('%' #{navSearch} '%') OR
         hmm_member.member_name LIKE CONCAT('%' #{navSearch} '%') OR
-        hmm_member.member_department_detail LIKE CONCAT('%' #{navSearch} '%') OR
+        hmm_department.department_detail LIKE CONCAT('%' #{navSearch} '%') OR
         asset_info.asset_number LIKE CONCAT('%' #{navSearch} '%')
+        AND
+        asset_info.status_type NOT LIKE CONCAT('%' '매각' '%')
 
         <!--order by
         hmm_department.department_location,
@@ -679,7 +690,8 @@
         asset_history.history_completion_date DESC,
         hmm_member.member_department,
         asset_history.history_member_id,
-        asset_history.history_type
+        asset_history.history_type,
+        asset_history.history_asset_number
     </select>
 
 </mapper>

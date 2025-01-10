@@ -100,11 +100,13 @@ public class AssetService {
         return HeaderSearchDto;
     }
 
+
     public PageDto<List<String>> findAssetByPagination(PageDto pageDto) {
         int startNo = pageDto.getStart();
         int length = pageDto.getLength();
         int rowNo = pageDto.getStart();
         String navSearch = pageDto.getNavSearch();
+
         pageDto.setRecordsTotal(AssetMapper.countTotalAsset(navSearch));
         pageDto.setRecordsFiltered(pageDto.getRecordsTotal());
 
@@ -150,7 +152,10 @@ public class AssetService {
             list.add(assetVo.getStatusType());
             list.add(assetVo.getStatusAssetUsage());
             list.add(assetVo.getStatusAssetStatus());
-            list.add(assetVo.getAssetLastUpdateDate());
+            Date date1 = new AssetVo.getAssetLastUpdateDate();
+            SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+            String AssetLastUpdateDate = simpleDateFormat.format(date);
+            list.add(AssetLastUpdateDate);
             list.add(assetVo.getStatusAssetEtc2());
             result.add(list);
         }

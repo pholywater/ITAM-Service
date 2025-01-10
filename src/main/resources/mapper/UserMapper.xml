@@ -85,14 +85,13 @@
             </when>
             <when test="search1 == 'busan1'">
                 WHERE
-                department_region = '부산' AND
-                department_floor NOT LIKE CONCAT('%' '중앙동' '%') AND
-                status_asset_usage = '재고'
+                department_region = '초량동' AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='양호')
             </when>
             <when test="search1 == 'busan2'">
                 WHERE
-                department_floor = '중앙동' AND
-                status_asset_usage = '재고'
+                department_region = '중앙동' AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='양호')
             </when>
             <when test="search1 == 'newAsset'">
                 WHERE
@@ -100,14 +99,14 @@
             </when>
         </choose>
 
-
         GROUP BY
         asset_model_name
 
         ORDER BY
         asset_model.model_type,
-        asset_model.model_code
+        asset_model.model_name
     </select>
+
     <select id="getChartCount1" resultType="int">
         SELECT COUNT(*)
 
@@ -131,14 +130,13 @@
             </when>
             <when test="search1 == 'busan1'">
                 WHERE
-                department_region = '부산' AND
-                department_floor NOT LIKE CONCAT('%' '중앙동' '%') AND
-                status_asset_usage = '재고'
+                department_region = '초량동' AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='양호')
             </when>
             <when test="search1 == 'busan2'">
                 WHERE
-                department_floor = '중앙동' AND
-                status_asset_usage = '재고'
+                department_region = '중앙동' AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='양호')
             </when>
             <when test="search1 == 'newAsset'">
                 WHERE
@@ -151,7 +149,7 @@
 
         ORDER BY
         asset_model.model_type,
-        asset_model.model_code
+        asset_model.model_name
     </select>
 
     <!--재고장비 차트1 리스트-->
@@ -162,11 +160,29 @@
 
         FROM asset_info
 
+        LEFT JOIN hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
-        WHERE
-        (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
+        <choose>
+            <when test="search1 == 'seoul'">
+                WHERE
+                department_region = '여의도' AND
+                model_type = #{search} AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
+            </when>
+            <when test="search1 == 'busan'">
+                WHERE
+                department_location = '부산' AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
+            </when>
+        </choose>
+
 
         GROUP BY
         asset_model_name
@@ -177,13 +193,31 @@
     </select>
     <select id="getChartCount2" resultType="int">
         SELECT COUNT(*)
+
         FROM asset_info
+
+        LEFT JOIN hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
 
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
-        WHERE
-        (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
+        <choose>
+            <when test="search1 == 'seoul'">
+                WHERE
+                department_region = '여의도' AND
+                model_type = #{search} AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
+            </when>
+            <when test="search1 == 'busan'">
+                WHERE
+                department_location = '부산' AND
+                (status_asset_usage = '재고' and asset_info.status_asset_status ='불량')
+            </when>
+        </choose>
 
         GROUP BY
         asset_model_name
@@ -192,4 +226,150 @@
         asset_model.model_type,
         asset_model.model_code
     </select>
+
+
+    <select id="getChartTableList" resultType="hmm.itam.vo.AssetVo">
+        select asset_model_name, model_type,
+
+        COUNT(case when asset_divestituer = '활성' then 1 end) as 'total_count',
+        COUNT(case when status_type = '출고' and status_asset_usage = '업무용' and status_asset_status = '양호' then 1 end) as
+        'hmm_work',<!--출고(업무용)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '대여용' and status_asset_status = '양호' then 1 end) as
+        'hmm_rent',<!--출고(대여용)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '공용' and status_asset_status = '양호' then 1 end) as
+        'hmm_public',<!--출고(공용)-->
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+        'hmm_help',<!--본사재고(양호)-->
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+        'hmm_broken',<!--본사재고(불용)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+        'busan_help',<!--부산재고(양호)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+        'busan_broken'<!--부산재고(불용)-->
+
+        FROM test1.asset_info
+        LEFT JOIN test1.hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+        LEFT JOIN test1.hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+        LEFT JOIN test1.asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        where
+        asset_divestituer = '활성'
+
+        group by
+        asset_model_name
+
+        order by model_type, asset_model_name
+    </select>
+
+
+    <select id="getChartList" resultType="string">
+        select asset_model_name, model_type,
+        COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
+        COUNT(case when status_type = '출고' and status_asset_usage = '업무용' and status_asset_status = '양호' then 1 end) as
+        'hmm_work',<!--출고(업무용)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '대여용' and status_asset_status = '양호' then 1 end) as
+        'hmm_rent',<!--출고(대여용)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '공용' and status_asset_status = '양호' then 1 end) as
+        'hmm_public',<!--출고(공용)-->
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+        'hmm_help',<!--본사재고(양호)-->
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+        'hmm_broken',<!--본사재고(불용)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+        'busan_help',<!--부산재고(양호)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+        'busan_broken'<!--부산재고(불용)-->
+
+        FROM test1.asset_info
+
+        LEFT JOIN test1.hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+        LEFT JOIN test1.hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+        LEFT JOIN test1.asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        where
+        asset_divestituer = '활성' and model_type = #{search}
+
+        group by
+        asset_model_name
+
+        order by model_type, asset_model_name
+    </select>
+
+
+    <select id="getChartCount" resultType="int">
+        select
+        <choose>
+            <when test="search1 == 'totalCount'">
+                COUNT(case when asset_divestituer = '활성' then 1 end) as 'total_count'
+            </when>
+            <when test="search1 == 'outCount'">
+                COUNT(case when status_type = '출고' then 1 end) as 'outCount'
+            </when>
+            <when test="search1 == 'inCount'">
+                COUNT(case when status_type = '입고' then 1 end) as 'outCount'
+            </when>
+            <otherwise>
+                COUNT(0)
+            </otherwise>
+        </choose>
+
+
+        FROM test1.asset_info
+
+        LEFT JOIN test1.hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+        LEFT JOIN test1.hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+        LEFT JOIN test1.asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+
+        where
+        asset_divestituer = '활성' and model_type = #{search}
+
+        group by
+        asset_model_name
+
+        order by model_type, asset_model_name
+    </select>
+
+    <!--
+        <select id="getChartCount" resultType="int">
+            SELECT asset_model_name,
+            COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
+            COUNT(case when status_type = '출고' and status_asset_usage = '업무용' and status_asset_status = '양호' then 1 end) as
+            '출고(업무용)',
+            COUNT(case when status_type = '출고' and status_asset_usage = '대여용' and status_asset_status = '양호' then 1 end) as
+            '출고(대여용)',
+            COUNT(case when status_type = '출고' and status_asset_usage = '공용' and status_asset_status = '양호' then 1 end) as
+            '출고(공용)',
+            COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+            '본사재고(양호)',
+            COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+            '본사재고(불용)',
+            COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+            '부산재고(양호)',
+            COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+            '부산재고(불용)'
+            from test1.asset_info
+            LEFT JOIN test1.hmm_member
+            ON asset_info.status_member_id=hmm_member.member_id
+            LEFT JOIN test1.hmm_department
+            ON hmm_member.member_department=hmm_department.department_name
+            LEFT JOIN test1.asset_model
+            ON asset_info.asset_model_name=asset_model.model_name
+
+            where
+            asset_divestituer = '활성'
+
+            group by
+            status_type, asset_model_name, status_asset_status
+
+            order by model_type, asset_model_name
+        </select>-->
 </mapper>

@@ -12,7 +12,7 @@
         ON hmm_member.member_rank=orderby_rank.member_rank
 
         ORDER BY
-        hmm_member.member_department_detail,
+        hmm_department.department_detail,
         hmm_member.member_working_status desc,
         orderby_rank.member_grant,
         hmm_member.member_id
@@ -53,7 +53,6 @@
         member_name = #{memberName},
         member_rank = #{memberRank},
         member_department = #{memberDepartment},
-        member_department_detail = #{memberDepartmentDetail},
         member_work = #{memberWork},
         member_working_status = #{memberWorkingStatus},
         member_etc1 = #{memberEtc1},
@@ -67,13 +66,25 @@
     <select id="getDepartmentList" resultType="hmm.itam.vo.MemberVo">
         SELECT *
         FROM hmm_department
+
+        LEFT JOIN hmm_member
+        ON hmm_department.department_name=hmm_member.member_department
+
+        GROUP BY department_name
+
+        order by
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor
     </select>
 
     <!--홈 해더에서 부서 조회-->
     <select id="getHeaderDepartmentList" resultType="hmm.itam.vo.MemberVo">
         SELECT DISTINCT
-        member_department_detail, member_department
+        department_detail, member_department
         FROM hmm_member
+        LEFT JOIN hmm_member
+        ON hmm_department.department_name=hmm_member.member_department
     </select>
 
 </mapper>

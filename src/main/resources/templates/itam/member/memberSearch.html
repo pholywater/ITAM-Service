@@ -17,9 +17,14 @@
                 <h2>직원 정보 내역</h2>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{memberId}"
+                        <input type="search" list="memberList" class="form-control border border-primary mb-1"
+                               th:field="*{memberId}"
                                autofocus/>
-                        <label th:for="memberId">사원번호</label>
+                        <datalist id="memberList">
+                            <option th:each="m : ${memberSearch}" th:value="${m.memberId}"
+                                    th:label="|${m.memberName} / ${m.memberDepartment}/ ${m.departmentFloor} |">
+                        </datalist>
+                        <label th:for="memberId">사원번호(자동완성)</label>
                     </div>
 
 
@@ -55,8 +60,8 @@
                     </div>
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1"
-                               th:field="*{memberDepartmentDetail}" disabled/>
-                        <label th:for="memberDepartmentDetail">부서상세</label>
+                               th:field="*{departmentDetail}" disabled/>
+                        <label th:for="departmentDetail">부서상세</label>
                     </div>
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1"

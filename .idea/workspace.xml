@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="datatable 열 선택검색 추가&#10;불필요 소스 숨기기&#10;리스트에서 상세보기 버튼 추가">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/datatables/highcharts.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/searchAssetList(24.11.19).html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberSearch.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberUpdate.html" afterDir="false" />
+    <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="직원 정보 등록 및 검색, 수정, 리스트 조회">
+      <change afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/ChartVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/header1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/common/layouts/serverSideSearchLayout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/homeChart.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/homeTable.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" afterDir="false" />
@@ -17,22 +18,36 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HomeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/MemberMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/MemberMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/StatusAssetStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/StatusAssetStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/StatusAssetUsage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/StatusAssetUsage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/StatusType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/StatusType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/MemberVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/MemberVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/UserVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/UserVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/MemberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/MemberMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetAdd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetResult.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetResult.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/headerSearchList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/headerSearchList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/searchAssetList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/searchAssetList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberAdd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberResult.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberResult.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberSearch.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberUpdate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/member/memberUpdate.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +90,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main24.07.12" />
+        <entry key="$PROJECT_DIR$" value="main24.11.16" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -101,8 +116,8 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main24.11.16",
-    "last_opened_file_path": "C:/study/itam/src/main/resources/templates/itam/member",
+    "git-widget-placeholder": "main24.11.22",
+    "last_opened_file_path": "C:/study/itam/src/main/resources/templates",
     "settings.editor.selected.configurable": "actions.on.save"
   }
 }]]></component>
@@ -111,11 +126,11 @@
       <recent name="hmm.itam.controller" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\study\itam\src\main\resources\templates" />
+      <recent name="C:\study\itam\src\main\resources\templates\common\layouts" />
+      <recent name="C:\study\itam\src\main\resources\templates\common\fragments" />
       <recent name="C:\study\itam\src\main\resources\templates\itam\member" />
       <recent name="C:\study\itam\src\main\resources\templates\itam\asset" />
-      <recent name="C:\study\itam\src\main\resources\static\js\datatables" />
-      <recent name="C:\study\itam\src\main\resources\mapper" />
-      <recent name="C:\study\itam\src\main\resources\templates\itam\history" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\study\itam\src\main\resources\static\js\datatables" />
@@ -125,11 +140,11 @@
       <recent name="C:\study\itam\src\main\resources\static\js\datatables\b-print-2.4.2" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="hmm.itam.vo" />
       <recent name="hmm.itam.mapper" />
       <recent name="hmm.itam.service" />
       <recent name="hmm.itam.dto" />
       <recent name="hmm.itam.controller" />
-      <recent name="hmm.itam.vo" />
     </key>
   </component>
   <component name="RunManager" selected="Application.ItamApplication">
@@ -206,14 +221,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698040510174</updated>
-    </task>
-    <task id="LOCAL-00005" summary="itam">
-      <option name="closed" value="true" />
-      <created>1698301649236</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1698301649236</updated>
     </task>
     <task id="LOCAL-00006" summary="itam">
       <option name="closed" value="true" />
@@ -599,7 +606,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731708785257</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="직원 정보 등록 및 검색, 수정, 리스트 조회">
+      <option name="closed" value="true" />
+      <created>1732262128228</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1732262128228</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -636,7 +651,8 @@
     <MESSAGE value="Chart.js db 연결 작업 2차 완료" />
     <MESSAGE value="Chart.js db 연결 작업 3차 완료" />
     <MESSAGE value="datatable 열 선택검색 추가&#10;불필요 소스 숨기기&#10;리스트에서 상세보기 버튼 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="datatable 열 선택검색 추가&#10;불필요 소스 숨기기&#10;리스트에서 상세보기 버튼 추가" />
+    <MESSAGE value="직원 정보 등록 및 검색, 수정, 리스트 조회" />
+    <option name="LAST_COMMIT_MESSAGE" value="직원 정보 등록 및 검색, 수정, 리스트 조회" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

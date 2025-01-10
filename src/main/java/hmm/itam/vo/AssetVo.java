@@ -53,7 +53,8 @@ public class AssetVo {
     private String statusAssetEtc2;
     private String assetDuration;
     private String assetRepairHistory;
-    private String assetLastUpdateDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date assetLastUpdateDate;
     private String modelCode;
     private String modelType;
     private String modelManufacturer;
@@ -94,6 +95,20 @@ public class AssetVo {
     private String historySpec3;
     private String historyCheck;
 
+
+    private int totalCount;
+    private int hmmWork;
+    private int hmmRent;
+    private int hmmPublic;
+    private int hmmHelp;
+    private int hmmBroken;
+    private int busanHelp;
+    private int busanBroken;
+
+
     public static class getAssetPaymentDate extends Date {
+    }
+
+    public static class getAssetLastUpdateDate extends Date {
     }
 }

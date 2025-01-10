@@ -92,7 +92,7 @@
                                th:field="*{historyAssetNumber}"/>
                         <datalist id="assetList">
                             <option th:each="a : ${assetList}" th:value="${a.assetNumber}"
-                                    th:label="|${a.statusAssetUsage} / ${a.memberName}/ ${a.memberId} / ${a.departmentFloor} / ${a.assetModelName} / ${a.statusAssetSpec2} / ${a.statusAssetSpec3}|">
+                                    th:label="|${a.statusAssetUsage} / ${a.statusAssetEtc1} / ${a.memberName}/ ${a.memberId} / ${a.departmentFloor} / ${a.assetModelName} / ${a.statusAssetSpec3}|">
                         </datalist>
                         <label th:for="historyAssetNumber">장비 번호 입력</label>
 

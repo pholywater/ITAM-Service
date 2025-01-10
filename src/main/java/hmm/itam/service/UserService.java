@@ -2,6 +2,7 @@ package hmm.itam.service;
 
 import hmm.itam.mapper.UserMapper;
 import hmm.itam.vo.AssetVo;
+import hmm.itam.vo.ChartVo;
 import hmm.itam.vo.UserVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,20 @@ public class UserService {
         return userMapper.getUserList();
     }
 
+    public List<AssetVo> getChartTableList() {
+        return userMapper.getChartTableList();
+    }
+
+
+    public List<ChartVo> getChartList(String search, String search1) {
+        return userMapper.getChartList(search, search1);
+    }
+
+    public List<ChartVo> getChartCount(String search, String search1) {
+        return userMapper.getChartCount(search, search1);
+    }
+
+
     public List<AssetVo> getChartList1(String search, String search1) {
         return userMapper.getChartList1(search, search1);
     }
@@ -27,12 +42,12 @@ public class UserService {
         return userMapper.getChartCount1(search, search1);
     }
 
-    public List<AssetVo> getChartList2() {
-        return userMapper.getChartList2();
+    public List<AssetVo> getChartList2(String search, String search1) {
+        return userMapper.getChartList2(search, search1);
     }
 
-    public List<AssetVo> getChartCount2() {
-        return userMapper.getChartCount2();
+    public List<AssetVo> getChartCount2(String search, String search1) {
+        return userMapper.getChartCount2(search, search1);
     }
 
     /*메인 로그인 화면 아이디, 패스워드 확인 처리 작업*/

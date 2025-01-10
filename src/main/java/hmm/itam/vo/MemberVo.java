@@ -19,5 +19,4 @@ public class MemberVo {
     private String departmentLocation;
     private String departmentRegion;
     private String departmentFloor;
-
 }
