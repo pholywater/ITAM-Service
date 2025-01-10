@@ -40,6 +40,7 @@ public class HistoryVo {
     private String memberRank;
     private String assetModelName;
     private String statusAssetUsage;
+    private String statusAssetEtc1;
     private String statusAssetSpec2;
     private String statusAssetSpec3;
     private String assetNumber;

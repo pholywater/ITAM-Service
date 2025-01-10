@@ -107,10 +107,11 @@ public class AssetController {
     }
 
     @GetMapping("/searchAssetList") // 장비 상세 조회(24.06.29)
-    public String searchAssetDetail(AssetVo assetVo, String searchType, String search, String navSearch, Model model) {
+    public String searchAssetDetail(AssetVo assetVo, HttpSession session, String searchType, String search, String navSearch, Model model) {
         log.info("searchType : {}", searchType);
         log.info("navSearch : {}", navSearch);
         log.info("search : {}", search);
+        search = navSearch;
 
         /*장비 전체 리스트 조회 할 경우 예외처리*/
         if (Objects.equals(searchType, "assetAll")) {
@@ -124,6 +125,7 @@ public class AssetController {
             log.info("상단 간편검색 : {}", navSearch);
             search = navSearch;
         }
+
         /*상단 검색에서 이력 관리 조회 시*/
         if (Objects.equals(searchType, "history")) {
             log.info("간편 이력 조회하기 : {}", navSearch);
@@ -131,6 +133,15 @@ public class AssetController {
             model.addAttribute("list", resultList);
             return "/itam/history/historySearch";
         }
+
+        /*상단 검색에서 백앤드 장비 조회 시*/
+        if (Objects.equals(searchType, "serverSide")) {
+            session.setAttribute("navSearch", navSearch);
+            log.info("상단 간편검색 : {}", navSearch);
+
+            return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출
+        }
+
         /*빈 값 입력 시*/
         if (search == "") {
             log.info("검색 창 빈값 처리");
@@ -272,7 +283,7 @@ public class AssetController {
     }
 
     @PostMapping("/assetSearch") // 자산 내역 검색 및 수정 처리 화면
-    public String searchResult(AssetVo assetVo, String assetNumber, Model model) {
+    public String searchResult(AssetVo assetVo, String assetNumber, String memberId, Model model) {
         AssetVo assetNum = AssetService.assetSearch(assetNumber);
         /* datalist 장비번호 검색 자동완성 */
         List<AssetVo> assetList = AssetService.getAssetList();
@@ -283,6 +294,16 @@ public class AssetController {
         }
         model.addAttribute("asset", assetNum);
         log.info("장비 정보를 조회합니다. 관리번호 : {}", assetNum.getAssetNumber());
+
+        log.info("사번 정보 : {}", assetNum.getMemberId());
+        String search = assetNum.getMemberId();
+        String searchType = "memberId";
+        log.info("search : {}", search);
+        log.info("searchType : {}", searchType);
+        List<AssetVo> searchAssetList = AssetService.searchAssetList(search, searchType);
+        model.addAttribute("list", searchAssetList);
+
+
         return "itam/asset/assetResult"; //
 
     }
@@ -332,7 +353,8 @@ public class AssetController {
         /* datalist 장비번호 검색 자동완성 */
         List<AssetVo> assetList = AssetService.getAssetList();
         model.addAttribute("assetList", assetList);
-        return "itam/asset/assetSearch";
+        return "itam/asset/assetResult";
+        /*return "itam/asset/assetSearch";*/
     }
 
 

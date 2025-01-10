@@ -79,7 +79,7 @@
                                th:field="*{historyMemberId}"/>
                         <datalist id="historyMemberName">
                             <option th:each="m : ${memberList}" th:value="${m.memberId}"
-                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartmentDetail}|">
+                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} |">
                         </datalist>
                         <label th:for="historyMemberId">사번(이력관리)</label>
                     </div>

@@ -34,6 +34,8 @@
 </head>
 <body>
 <div id="myDiv" class="container-fluid">
+    <h5 Style="text-align:center">실시간 전산 장비 리스트 백앤드 조회</h5>
+    <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
         <thead>
         <tr>
@@ -52,11 +54,11 @@
             <th>시리얼</th>
             <th>Spec1</th>
             <th>Spec2</th>
-            <th>지급일</th>
+            <th>최초지급</th>
             <th>구분</th>
             <th>용도</th>
             <th>장비상태</th>
-            <th>최근실사</th>
+            <th>업데이트</th>
             <th>용도상세</th>
         </tr>
         </thead>
@@ -73,7 +75,7 @@
         document.getElementById("myDiv").style.display = "block";
 
         $('#myTable').DataTable( {
-               searching: false , // 우측 상단 서치박스 활성화
+               searching: false , // 우측 상단 서치박스 활성화 false
                processing: true,
                search: {
                          // return: true // 엔터 키 검색
@@ -93,7 +95,7 @@
                                 [ 5, 10, 25, 50, 100, -1 ],
                                 [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
                             ],
-               iDisplayLength : 10,
+               iDisplayLength : 15,
                buttons: [
                            'pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'
                          ],
@@ -108,9 +110,9 @@
                                 { targets: 3, visible: false }, // 지역
                                 { targets: 10, visible: false }, // 제조사
                                 { targets: 12, visible: false }, // 시리얼
-                                { targets: 13, visible: false }, // 스펙1
-                                { targets: 14, visible: false }, // 스펙2
-                                { targets: 20, visible: false }, // 최근 실사
+                                { targets: 13, visible: true }, // 스펙1
+                                { targets: 14, visible: true }, // 스펙2
+                                { targets: 20, visible: true }, // 용도 상세
                             ],
 
 

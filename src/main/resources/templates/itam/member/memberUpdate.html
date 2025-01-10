@@ -16,9 +16,9 @@
             <div class="row align-items-start">
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberId"
+                        <input type="text" class="form-control border border-primary mb-1" name="memberId"
                                th:value="${member.memberId}" readonly autofocus/>
-                        <label th:for="memberId">사원번호</label>
+                        <label th:for="memberId">사원번호(자동완성)</label>
                     </div>
 
 
@@ -46,14 +46,18 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberDepartment"
+                        <input type="search" list="departList" class="form-control mb-1" name="memberDepartment"
                                th:value="${member.memberDepartment}"/>
-                        <label th:for="memberDepartment">부서</label>
+                        <datalist id="departList">
+                            <option th:each="d : ${departList}" th:value="${d.memberDepartment}"
+                                    th:label="| ${d.departmentDetail} / ${d.departmentLocation} / ${d.departmentRegion} / ${d.departmentFloor} |">
+                        </datalist>
+                        <label th:for="memberDepartment">부서(자동완성)</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" name="memberDepartmentDetail"
-                               th:value="${member.memberDepartmentDetail}"/>
-                        <label th:for="memberDepartmentDetail">부서상세</label>
+                        <input type="text" class="form-control mb-1" name="departmentDetail"
+                               th:value="${member.departmentDetail}" readonly/>
+                        <label th:for="departmentDetail">부서상세</label>
                     </div>
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1" name="memberWorkingStatus"

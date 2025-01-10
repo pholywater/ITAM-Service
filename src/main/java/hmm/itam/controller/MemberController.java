@@ -44,6 +44,10 @@ public class MemberController {
         List<MemberVo> memberList = MemberService.getMemberList();
         model.addAttribute("memberList", memberList);
 
+        /*datalist 부서 검색 자동완성*/
+        List<MemberVo> departmentList = MemberService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+
         return "/itam/member/memberAdd";
     }
 
@@ -78,7 +82,7 @@ public class MemberController {
         log.info("멤버 정보 조회 화면입니다.");
         /*datalist 멤버 검색 자동완성*/
         List<MemberVo> memberList = MemberService.getMemberList();
-        model.addAttribute("member", memberList);
+        model.addAttribute("memberSearch", memberList);
 
         return "/itam/member/memberSearch";
     }
@@ -87,10 +91,10 @@ public class MemberController {
     public String memberSearch(MemberVo memberVo, String memberId, Model model) {
         /*datalist 멤버 검색 자동완성*/
         List<MemberVo> memberList = MemberService.getMemberList();
-        model.addAttribute("member", memberList);
+        model.addAttribute("memberSearch", memberList);
 
         MemberVo memberIdCheck = MemberService.memberSearch(memberId);
-        if (memberIdCheck == null) { // 관리번호 일치 항목 없을 경우 에러 처리
+        if (memberIdCheck == null) { // 사원번호 일치 항목 없을 경우 에러 처리
             log.info("조회하기 : 일치하는 아이디 없음");
             return "redirect:memberSearch";
         }
@@ -104,10 +108,18 @@ public class MemberController {
     public String updatePage(String memberId, Model model) {
         /*datalist 멤버 검색 자동완성*/
         List<MemberVo> memberList = MemberService.getMemberList();
-        model.addAttribute("member", memberList);
+        model.addAttribute("memberSearch", memberList);
 
-        /*AssetService.modifyInfo(assetVo);*/
+        /*datalist 부서 검색 자동완성*/
+        List<MemberVo> departmentList = MemberService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+
         MemberVo memberUpdate = MemberService.memberSearch(memberId);
+        if (memberUpdate == null) { // 사원번호 일치 항목 없을 경우 에러 처리
+            log.info("조회하기 : 일치하는 아이디 없음");
+            return "redirect:memberSearch";
+        }
+
         model.addAttribute("member", memberUpdate);  // 멤버 아이디로 정보 가져오기
         log.info("현재 직원 정보 내역입니다.");
         System.out.println(memberUpdate);
@@ -125,6 +137,10 @@ public class MemberController {
 
         log.info("변경 된 직원 정보 내역입니다.");
         System.out.println(memberVo); //
+
+        /*datalist 멤버 검색 자동완성*/
+        List<MemberVo> memberList = MemberService.getMemberList();
+        model.addAttribute("memberSearch", memberList);
 
         return "itam/member/memberResult";
     }
