@@ -24,7 +24,7 @@ public interface AssetMapper {
 
     List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
 
-    List<AssetVo> searchMemberList(String searchDepart, String searchMember); // 부서 및 직원 장비 리스트 조회 화면
+    List<AssetVo> searchMemberList(String searchMember); // 부서 및 직원 장비 리스트 조회 화면
 
     List<AssetVo> searchPaymentList(String searchStart, String searchEnd); // 신규 및 장비 지급일 리스트 조회
 

@@ -178,12 +178,9 @@ public class AssetController {
 */
 
 
-    @GetMapping("/searchMemberPage") // 부서 및 직원 장비 리스트 조회 화면
-    public String searchMemberListPage(AssetVo assetVo, Model model) {
-        log.info("부서 및 직원 장비 리스트 조회 화면입니다.");
-        /*상세조회 datalist 부서 검색 자동완성 작업*/
-        List<AssetVo> departmentList = AssetService.getDepartmentList();
-        model.addAttribute("departList", departmentList);
+    @GetMapping("/searchMemberUpdatePage") // 부서 및 직원 장비 리스트 조회 화면
+    public String searchMemberListUpdatePage(AssetVo assetVo, Model model) {
+        log.info("직원 장비 검색 조회 화면입니다.");
 
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
@@ -193,20 +190,44 @@ public class AssetController {
 
 
     @GetMapping("/searchMemberList") // 부서 및 직원 장비 리스트 조회 화면(처리)
-    public String searchMemberList(AssetVo assetVo, String searchDepart, String searchMember, Model model) {
-        log.info("searchDepart : {}", searchDepart);
+    public String searchMemberList(AssetVo assetVo, String searchMember, Model model) {
         log.info("searchMember : {}", searchMember);
-
-        /*상세조회 datalist 부서 검색 자동완성 작업*/
-        List<AssetVo> departmentList = AssetService.getDepartmentList();
-        model.addAttribute("departList", departmentList);
 
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
 
         /*조회 한 값 넘겨주기*/
-        List<AssetVo> searchMemberList = AssetService.searchMemberList(searchDepart, searchMember);
+        List<AssetVo> searchMemberList = AssetService.searchMemberList(searchMember);
+        model.addAttribute("list", searchMemberList);
+
+
+        return "itam/asset/searchMemberList"; //
+    }
+
+    @GetMapping("/searchMemberUpdate") // 부서 및 직원 장비 리스트 조회 화면(처리)
+    public String searchMemberUpdate(AssetVo assetVo, String searchMember, Model model, String updateCheck, String assetNumber) {
+        log.info("searchMember : {}", searchMember);
+
+        log.info("업데이트 체크박스 : {}", updateCheck);
+        log.info("업데이트 장비번호 : {}", assetNumber);
+        if (Objects.equals(updateCheck, "on")) {
+            log.info("업데이트 장비번호 : {}", assetNumber);
+            AssetService.modifyInfo(assetVo);
+            AssetVo assetNum = AssetService.assetSearch(assetNumber);
+            model.addAttribute("asset", assetNum);
+            log.info("업데이트 체크박스 정보를 변경 하였습니다.");
+        } else {
+            log.info("정보를 변경 하지 않았습니다.");
+        }
+
+
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<AssetVo> memberList = AssetService.getMemberList();
+        model.addAttribute("memberList", memberList);
+
+        /*조회 한 값 넘겨주기*/
+        List<AssetVo> searchMemberList = AssetService.searchMemberList(searchMember);
         model.addAttribute("list", searchMemberList);
 
 
@@ -222,6 +243,9 @@ public class AssetController {
         /*조회 한 값 넘겨주기*/
         List<AssetVo> assetPaymentList = AssetService.assetPaymentList(searchStart, searchEnd);
         model.addAttribute("list", assetPaymentList);
+        if (Objects.equals(searchStart, "change")) {
+            return "/itam/asset/searchAssetChangeList";
+        }
         return "itam/asset/searchPaymentList"; //
     }
 
@@ -288,6 +312,7 @@ public class AssetController {
         /* datalist 장비번호 검색 자동완성 */
         List<AssetVo> assetList = AssetService.getAssetList();
         model.addAttribute("assetList", assetList);
+
         if (assetNum == null) { // 관리번호 일치 항목 없을 경우 에러 처리
             log.info("조회하기 : 일치하는 관리번호 없음");
             return "redirect:assetSearch";
@@ -325,11 +350,12 @@ public class AssetController {
 
 
     @PostMapping("/assetUpdate") // 장비 수정 작업 화면
-    public String updatePage(AssetVo assetVo, String asset_number, Model model) {
+    public String updatePage(AssetVo assetVo, String assetNumber, Model model) {
         /*AssetService.modifyInfo(assetVo);*/
-        AssetVo asset = AssetService.assetSearch(asset_number);
+        AssetVo asset = AssetService.assetSearch(assetNumber);
         model.addAttribute("asset", assetVo);  // 수정 후 변경 내역 다시 보기 위한 값 가져오기
         log.info("장비 정보 수정 화면입니다.");
+
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
@@ -353,8 +379,15 @@ public class AssetController {
         /* datalist 장비번호 검색 자동완성 */
         List<AssetVo> assetList = AssetService.getAssetList();
         model.addAttribute("assetList", assetList);
-        return "itam/asset/assetResult";
-        /*return "itam/asset/assetSearch";*/
+
+        AssetVo asset = AssetService.assetSearch(assetNumber);
+        model.addAttribute("asset", assetVo);  // 수정 후 변경 내역 다시 보기 위한 값 가져오기
+
+
+        return "itam/asset/assetSearch";
+        /*return "redirect:assetSearch";*/
+        /*return "redirect:/assetSearch";*/
+        /*return "itam/asset/assetResult";*/
     }
 
 

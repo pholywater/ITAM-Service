@@ -22,7 +22,7 @@ white-space : nowrap;
 
                 <div class="form-floating">
                     <input type="search" list="assetList" class="form-control mb-1"
-                           th:field="*{assetNumber}" autofocus/>
+                           th:field="*{assetNumber}" readonly/>
                     <datalist id="assetList">
                         <option th:each="a : ${assetList}" th:value="${a.assetNumber}"
                                 th:label="|${a.statusAssetUsage} / ${a.memberName}/ ${a.memberId} / ${a.departmentFloor} / ${a.assetModelName} / ${a.statusAssetSpec2} / ${a.statusAssetSpec3}|">
@@ -32,17 +32,17 @@ white-space : nowrap;
                     >뒤로가기
                     </button>-->
 
-                    <button type="submit" class="btn btn-primary mb-1" formaction="/assetSearch" formmethod="post">
-                        장비조회
+                    <button type="submit" class="btn btn-primary mb-1" formaction="/assetSearch" formmethod="get">
+                        조회화면
                     </button>
 
                     <button type="submit" class="btn btn-success mb-1" formaction="assetUpdate" formmethod="post">
                         장비수정
                     </button>
 
-                    <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
+                    <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                     >뒤로가기
-                    </button>
+                    </button>-->
                     <!--<button type="submit" class="btn btn-primary mb-1" formaction="assetAdd" formmethod="get">추가등록
                     </button>-->
                     <!--<button type="submit" class="btn btn-danger mb-1" formaction="assetDelete" formmethod="post"
@@ -87,10 +87,10 @@ white-space : nowrap;
                     <label th:for="memberDepartment">사용자 부서</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-1" name="memberDepartmentDetail"
-                           id="memberDepartmentDetail"
-                           th:value="${asset.memberDepartmentDetail}" readonly/>
-                    <label th:for="memberDepartmentDetail">사용자 부서 상세</label>
+                    <input type="text" class="form-control mb-1" name="departmentDetail"
+                           id="departmentDetail"
+                           th:value="${asset.departmentDetail}" readonly/>
+                    <label th:for="departmentDetail">사용자 부서 상세</label>
                 </div>
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" name="statusAssetEtc1"

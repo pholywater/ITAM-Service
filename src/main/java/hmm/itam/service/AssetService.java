@@ -51,8 +51,8 @@ public class AssetService {
     }
 
     /*searchMemberList 부서 및 직원 장비 리스트 조회 클라이언트 검색*/
-    public List<AssetVo> searchMemberList(String searchDepart, String searchMember) {
-        return AssetMapper.searchMemberList(searchDepart, searchMember);
+    public List<AssetVo> searchMemberList(String searchMember) {
+        return AssetMapper.searchMemberList(searchMember);
     }
 
     /*searchPaymentList 신규장비 및 전체 장비 지급일 리스트 조회 클라이언트 검색*/

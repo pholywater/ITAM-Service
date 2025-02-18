@@ -171,23 +171,18 @@
         <!--WHERE 조건문 정리-->
         <choose>
             <!--상단 간편 검색 및 상세 조회 리스트 검색의 간편 검색 처리-->
-            <when test="searchDepart != '' and searchMember != ''">
-                WHERE
-                hmm_department.department_detail LIKE CONCAT('%' #{searchDepart} '%') AND
-                hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
-                hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
-            </when>
-            <when test="searchDepart != ''">
-                WHERE
-                hmm_member.member_department LIKE CONCAT('%' #{searchDepart} '%') OR
-                hmm_department.department_detail LIKE CONCAT('%' #{searchDepart} '%')
-            </when>
+            <!--            <when test="searchDepart != '' and searchMember != ''">
+                            WHERE
+                            hmm_department.department_detail LIKE CONCAT('%' #{searchDepart} '%') AND
+                            hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
+                            hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
+                        </when>-->
             <when test="searchMember != ''">
                 WHERE
                 hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
                 hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
             </when>
-            <when test="searchDepart == '' and searchMember == ''">
+            <when test="searchMember == ''">
                 WHERE
                 asset_info.status_type NOT LIKE CONCAT('%' '출고' '%') and
                 asset_info.status_type NOT LIKE CONCAT('%' '입고' '%') and
@@ -251,6 +246,20 @@
             <when test="searchEnd == ''">
                 WHERE asset_payment_date
                 BETWEEN #{searchStart} AND NOW()
+            </when>
+            <when test="searchStart == 'change'">
+                WHERE asset_payment_date
+                BETWEEN '1999-01-01' and DATE_SUB(DATE_FORMAT(NOW(), '%Y-12-31'), INTERVAL 4 YEAR) and
+                status_type = '출고' and
+                status_asset_usage = '업무용' and
+                member_working_status NOT LIKE CONCAT('%' '외주' '%') and
+                model_type NOT LIKE CONCAT('%' 'M' '%') or
+                asset_payment_date
+                BETWEEN '1999-01-01' and DATE_SUB(DATE_FORMAT(NOW(), '%Y-12-31'), INTERVAL 8 YEAR) and
+                status_type = '출고' and
+                status_asset_usage = '업무용' and
+                member_working_status NOT LIKE CONCAT('%' '외주' '%') and
+                model_type = 'M'
             </when>
             <otherwise>
                 WHERE asset_payment_date
@@ -553,8 +562,12 @@
     <select id="getAssetByAssetNumber" resultType="hmm.itam.vo.AssetVo">
         SELECT *
         FROM asset_info
+
         LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
+
+        LEFT JOIN hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
 
         WHERE asset_number = #{assetNumber}
     </select>
@@ -676,7 +689,7 @@
         <choose>
             <when test="navSearch == '' or navSearch == null">
                 WHERE history_completion_date
-                BETWEEN DATE_ADD(NOW(), INTERVAL -10 DAY ) AND NOW()
+                BETWEEN DATE_ADD(NOW(), INTERVAL -1 DAY ) AND NOW()
             </when>
             <otherwise>
                 WHERE

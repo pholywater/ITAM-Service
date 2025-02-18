@@ -54,10 +54,17 @@
                         </li>
                         <!--<li><a class="dropdown-item" th:href="@{searchAssetPage}">장비 항목별 리스트 조회</a></li>-->
                         <li><a class="dropdown-item" th:href="@{searchPaymentList}">장비 지급일 리스트 조회</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchMemberPage}">장비 부서별 리스트 조회</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
+                        <li><a class="dropdown-item" th:href="@{homeTable}">모델별 전산장비 지급 현황(표)</a></li>
+                        <li><a class="dropdown-item" th:href="@{homeChart}">모델별 전산장비 지급 현황(차트)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{searchPaymentList?searchStart=change}">노후 전산 장비 교체 리스트</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+
                         <!--백엔드 조회-->
                         <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트(백엔드)</a></li>
                         <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=assetAll}">전체 장비 리스트</a>
@@ -133,6 +140,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{historyAdd}">소모품 및 수리 이력 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchMemberUpdatePage}">멤버 조회 입출고 등록</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -142,7 +150,7 @@
                             <hr class="dropdown-divider"/>
                         </li>
                         <li><a class="dropdown-item"
-                               th:href="@{searchNewPaymentList?searchStart=2024-01-01&searchEnd=}">신규 장비 지급
+                               th:href="@{searchNewPaymentList?searchStart=2025-01-01&searchEnd=}">신규 장비 지급
                             리스트</a>
                         </li>
                         <li><a class="dropdown-item"

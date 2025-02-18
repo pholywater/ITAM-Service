@@ -73,6 +73,7 @@ public class AssetVo {
     private String memberRank;
     private String memberStatus;
     private String memberWorkingStatus;
+    private String departmentDetail;
     private String departmentLocation;
     private String departmentRegion;
     private String departmentFloor;
@@ -94,6 +95,7 @@ public class AssetVo {
     private String historySpec2;
     private String historySpec3;
     private String historyCheck;
+    private String updateCheck;
 
 
     private int totalCount;

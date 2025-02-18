@@ -227,10 +227,45 @@
         asset_model.model_code
     </select>
 
+    <select id="getTable1List" resultType="hmm.itam.vo.TableVo">
+        select
+        COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
+        COUNT(case when model_type = 'D' then 1 end) as 'desktop',
+        COUNT(case when model_type = 'L' then 1 end) as 'laptop',
+        COUNT(case when model_type = 'M' then 1 end) as 'monitor'
+        from test1.asset_info
+        LEFT JOIN test1.hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+        LEFT JOIN test1.hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+        LEFT JOIN test1.asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+        where
+        asset_divestituer = '활성' and status_type = '출고' and status_asset_usage != '재고'
+    </select>
 
-    <select id="getChartTableList" resultType="hmm.itam.vo.AssetVo">
+    <select id="getTable2List" resultType="hmm.itam.vo.TableVo">
+        select status_asset_usage,
+        COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
+        COUNT(case when model_type = 'D' then 1 end) as 'desktop',
+        COUNT(case when model_type = 'L' then 1 end) as 'laptop',
+        COUNT(case when model_type = 'M' then 1 end) as 'monitor'
+        from test1.asset_info
+        LEFT JOIN test1.hmm_member
+        ON asset_info.status_member_id=hmm_member.member_id
+        LEFT JOIN test1.hmm_department
+        ON hmm_member.member_department=hmm_department.department_name
+        LEFT JOIN test1.asset_model
+        ON asset_info.asset_model_name=asset_model.model_name
+        where
+        asset_divestituer = '활성' and status_type = '출고' and status_asset_usage != '재고'
+        group by
+        status_asset_usage
+        order by field(status_asset_usage, '업무용','대여용','공용','기타')
+    </select>
+
+    <select id="getChartTableList" resultType="hmm.itam.vo.TableVo">
         select asset_model_name, model_type,
-
         COUNT(case when asset_divestituer = '활성' then 1 end) as 'total_count',
         COUNT(case when status_type = '출고' and status_asset_usage = '업무용' and status_asset_status = '양호' then 1 end) as
         'hmm_work',<!--출고(업무용)-->
@@ -238,6 +273,8 @@
         'hmm_rent',<!--출고(대여용)-->
         COUNT(case when status_type = '출고' and status_asset_usage = '공용' and status_asset_status = '양호' then 1 end) as
         'hmm_public',<!--출고(공용)-->
+        COUNT(case when status_type = '출고' and status_asset_usage = '기타' and status_asset_status = '양호' then 1 end) as
+        'hmm_etc',<!--출고(기타)-->
         COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
         'hmm_help',<!--본사재고(양호)-->
         COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
