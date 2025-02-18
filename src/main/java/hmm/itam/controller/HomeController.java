@@ -135,10 +135,26 @@ public class HomeController {
 
     @GetMapping("/homeTable") // 장비 운영 현황 테이블
     public String getHomeTable(Model model) {
-        List<AssetVo> chartList = userService.getChartTableList();
-        log.info("통계 테이블 불러오기");
-        model.addAttribute("list", chartList);
+        List<AssetVo> tableList = userService.getChartTableList();
+        model.addAttribute("list", tableList);
+        List<AssetVo> table1List = userService.getTable1List();
+        model.addAttribute("list1", table1List);
+        List<AssetVo> table2List = userService.getTable2List();
+        model.addAttribute("list2", table2List);
         return "/homeTable";
+    }
+
+    @GetMapping("/homeTable1") // 장비 지급 수량
+    public String getHomeTable1(Model model) {
+        List<AssetVo> tableList = userService.getChartTableList();
+        log.info("통계 테이블 불러오기");
+        model.addAttribute("list", tableList);
+        List<AssetVo> table1List = userService.getTable1List();
+        log.info("통계 테이블 불러오기");
+        model.addAttribute("list1", table1List);
+        List<AssetVo> table2List = userService.getTable2List();
+        model.addAttribute("list2", table2List);
+        return "/homeTable_test";
     }
 
 

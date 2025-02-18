@@ -25,7 +25,8 @@
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
 </head>
 <div id="myDiv" class="container-fluid">
-    <h5 Style="text-align:center">실시간 전산 장비 리스트 조회</h5>
+    <h5 Style="text-align:center"><span th:text="${#calendars.format(#calendars.createNow(), 'yyyy년 ')}"></span>노후 전산 장비
+        교체 리스트</h5>
     <!--<div class="container">
 
         <hr>
@@ -93,11 +94,10 @@
             <th>MAC ADDRESS</th>
             <th>시리얼</th>
             <th>도입일</th><!--숨김-->
-            <th>최초지급</th>
+            <th>최초지급일</th>
             <th>업데이트</th>
             <th>용도상세</th>
             <th>지급기한</th>
-            <th>상세조회</th>
         </tr>
         </thead>
         <tbody>
@@ -109,7 +109,7 @@
             <td th:text="${u.departmentLocation}"></td><!--위치-->
             <td th:text="${u.departmentRegion}"></td><!--지역-->
             <td th:text="${u.departmentFloor}"></td><!--층-->
-            <td th:text="${u.departmentName}"></td><!--부서-->
+            <td th:text="${u.departmentName}" style="text-align:left;"></td><!--부서-->
             <td th:text="${u.memberName}"></td><!--이름-->
             <td th:text="${u.memberRank}"></td><!--직급-->
             <td th:text="${u.memberWorkingStatus}"></td><!--직원상태-->
@@ -127,14 +127,6 @@
             <td th:text="${#dates.format(u.assetLastUpdateDate, 'yyyy-MM-dd')}"></td><!--최근업데이트-->
             <td th:text="${u.statusAssetEtc2}"></td><!--용도상세-->
             <td th:text="${u.assetDuration}"></td><!--지급기한-->
-            <td>
-                <form th:action="@{/assetSearch}" th:object="${assetVo}" method="post">
-                    <input type="hidden" id="assetNumber" name="assetNumber" th:value="${u.assetNumber}"/>
-                    <button type="submit" class="btn btn-outline-primary btn-sm"
-                            formaction="assetSearch" formmethod="post" formtarget="_blank">Search
-                    </button>
-                </form>
-            </td>
         </tr>
         </tbody>
         <tfoot>
@@ -160,11 +152,10 @@
             <th>MAC ADDRESS</th><!--숨김-->
             <th>시리얼</th>
             <th>도입일</th><!--숨김-->
-            <th>최초지급</th>
+            <th>최초지급일</th>
             <th>업데이트</th>
             <th>용도상세</th>
             <th>지급기한</th>
-            <th>상세조회</th>
         </tr>
         </tfoot>
     </table>
@@ -178,7 +169,7 @@
     document.getElementById("myDiv").style.display = "block";
     $('#myTable').DataTable( {initComplete: function () {
             this.api()
-            .columns([1,2,3,4,5,6,7,8,10,11,12,14,15,16,17,18])
+            .columns([4,5,6,7,10,12,14,15,16,17])
             .every(function () {
                 let column = this;
 
@@ -224,29 +215,33 @@
             orderable: false
             },
             // 열 숨기기 설정
-            { targets: 5, visible: false }, // 지역
+            { targets: 2, visible: false }, // 장비상태
+            // { targets: 5, visible: false }, // 지역
             // { targets: 10, visible: false }, // 직원 상태
             { targets: 12, visible: false }, // 트리플
             { targets: 15, visible: false }, // 제조사
             { targets: 18, visible: false }, // MAC
             { targets: 20, visible: false }, // 도입일
+            { targets: 22, visible: false }, // 최근실사
+            { targets: 23, visible: false }, // 용도
+            { targets: 24, visible: false }, // 지급기한
             <!--{ targets: 21, visible: false }, // 최근 실사-->
 
             // 열 넓이 설정
-            { targets: 1, width: 10 }, // 구분
-            { targets: 2, width: 10 }, // *장비상태
+            // { targets: 1, width: 10 }, // 구분
+            // { targets: 2, width: 10 }, // *장비상태
             // { targets: 4, width: 10 },
             // { targets: 7, width: 100 }, // 부서
-            { targets: 6, width: 10 },
-            { targets: 9, width: 60 }, // *직급
-            { targets: 10, width: 10 },
-            { targets: 12, width: 15 },
+            // { targets: 6, width: 10 },
+            // { targets: 9, width: 60 }, // *직급
+            // { targets: 10, width: 10 },
+            // { targets: 12, width: 15 },
             // { targets: 15, width: 10 }, // 제조사
-            { targets: 18, width: 110 }, // *MAC
-            { targets: 20, width: 70 }, // *도입일
-            { targets: 21, width: 70 }, // *지급일
-            { targets: 22, width: 70 }, // *최근 실사일
-            { targets: 23, width: 120 } // *용도
+            // { targets: 18, width: 110 }, // *MAC
+            // { targets: 20, width: 70 }, // *도입일
+            // { targets: 21, width: 70 }, // *지급일
+            // { targets: 22, width: 70 }, // *최근 실사일
+            // { targets: 23, width: 120 } // *용도
 
         ],
 

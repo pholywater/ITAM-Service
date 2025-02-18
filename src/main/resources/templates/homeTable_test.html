@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
+<body>
+<head>
+    <title>ITAM Asset Search</title>
+
+    <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
+    <!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
+    <link rel="stylesheet" type="text/css"
+          href="css/datatables/responsive.dataTables.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="css/datatables/jquery.dataTables.min-1.13.7.css"/>
+    <link rel="stylesheet" type="text/css" href="css/datatables/buttons.dataTables.min-2.4.2.css"/>
+    <script src="jquery/jquery-3.7.0.js"></script>
+    <script src="js/datatables/dataTables-1.13.7.js"></script>
+    <script src="js/datatables/dataTables.buttons.min.js"></script>
+    <script src="js/datatables/jszip.min-3.10.1.js"></script>
+    <script src="js/datatables/pdfmake.min.js"></script>
+    <script src="js/datatables/vfs_fonts.js"></script>
+    <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
+    <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
+</head>
+
+<div id="myDiv" class="container">
+    <h4 Style="text-align:center">모델별 전산장비 지급 현황</h4>
+    <hr>
+    <table id="myTable" class="display">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>장비타입</th>
+            <th>모델명</th>
+            <th>전체수량</th>
+            <th>출고(업무용)</th>
+            <th>출고(대여용)</th>
+            <th>출고(공용)</th>
+            <th>출고(기타)</th>
+            <th>본사재고(양호)</th><!--숨김-->
+            <th>본사재고(불용)</th>
+            <th>부산재고(양호)</th>
+            <th>부산재고(불용)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u, stat :${list}">
+            <td th:text="${stat.count}"></td><!--No-->
+            <td th:text="${u.modelType}"></td><!--구분-->
+            <td th:text="${u.assetModelName}"></td><!--구분-->
+            <td th:text="${u.totalCount}"></td><!--구분-->
+            <td th:text="${u.hmmWork}"></td><!--구분-->
+            <td th:text="${u.hmmRent}"></td><!--구분-->
+            <td th:text="${u.hmmPublic}"></td><!--구분-->
+            <td th:text="${u.hmmEtc}"></td><!--구분-->
+            <td th:text="${u.hmmHelp}"></td><!--구분-->
+            <td th:text="${u.hmmBroken}"></td><!--구분-->
+            <td th:text="${u.busanHelp}"></td><!--구분-->
+            <td th:text="${u.busanBroken}"></td><!--구분-->
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>No.</th>
+            <th>장비타입</th>
+            <th>모델명</th>
+            <th>전체수량</th>
+            <th>출고(업무용)</th>
+            <th>출고(대여용)</th>
+            <th>출고(공용)</th>
+            <th>출고(기타)</th>
+            <th>본사재고(양호)</th>
+            <th>본사재고(불용)</th>
+            <th>부산재고(양호)</th>
+            <th>부산재고(불용)</th>
+        </tr>
+        </tfoot>
+    </table>
+</div> <!-- /container -->
+
+<script src="js/datatables/dataTables.responsive.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+    document.getElementById("myDiv").style.display = "block";
+    $('#myTable').DataTable( {initComplete: function () {
+            this.api()
+            .columns([1,2])
+            .every(function () {
+                let column = this;
+
+                // Create select element
+                let select = document.createElement('select');
+                select.add(new Option(''));
+                column.footer().replaceChildren(select);
+
+                // Apply listener for user change in value
+                select.addEventListener('change', function () {
+                    column
+                        .search(select.value, {exact: true})
+                        .draw();
+                });
+
+                // Add list of options
+                column
+                    .data()
+                    .unique()
+                    .sort()
+                    .each(function (d, j) {
+                        select.add(new Option(d));
+                    });
+            });
+        },
+        search: {
+                    // return: true
+                },
+        scrollCollapse: true,
+        scrollY: '700px',
+        dom: 'Bfrtip',
+        lengthMenu: [
+            [ 5, 10, 25, 50, 100, -1 ],
+            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
+        ],
+        iDisplayLength : 10 ,
+        buttons: [
+            'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        columnDefs: [
+            {
+            className: 'dtr-control',
+            orderable: false
+            },
+
+        ],
+
+        responsive: {
+                details: {
+                type: 'column'
+            }
+            }
+    } );
+} );
+</script>
+
+<!--검색 창 포커스 글씨 맨 뒤 위치-->
+<script>
+    var len = $('#search').val().length;
+    $('#search').focus();
+    $('#search')[0].setSelectionRange(len, len);
+</script>
+
+
+</body>
+</html>

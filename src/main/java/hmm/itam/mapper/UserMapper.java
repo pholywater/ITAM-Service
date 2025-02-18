@@ -13,6 +13,10 @@ public interface UserMapper {
 
     List<AssetVo> getChartTableList(); // 통계 차트 그리기 리스트
 
+    List<AssetVo> getTable1List(); // 통계 차트 그리기 리스트
+
+    List<AssetVo> getTable2List(); // 통계 차트 그리기 리스트
+
     List<ChartVo> getChartList(String search, String search1); // 통계 차트 그리기 리스트
 
     List<ChartVo> getChartCount(String search, String search1); // 통계 차트 그리기 리스트

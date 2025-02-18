@@ -24,6 +24,14 @@ public class UserService {
         return userMapper.getChartTableList();
     }
 
+    public List<AssetVo> getTable1List() {
+        return userMapper.getTable1List();
+    }
+
+    public List<AssetVo> getTable2List() {
+        return userMapper.getTable2List();
+    }
+
 
     public List<ChartVo> getChartList(String search, String search1) {
         return userMapper.getChartList(search, search1);

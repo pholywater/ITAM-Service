@@ -25,14 +25,109 @@
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
 </head>
 <div id="myDiv" class="container-fluid">
-    <div class="container">
+    <div class="container-fluid">
         <hr>
         <form th:action="@{/searchMemberList}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h4>장비 부서별 리스트 조회</h4>
+                    <h4>이력 등록 사용자 조회</h4>
+                    <div class="form-floating">
+                        <input type="search" list="memberName" class="form-control mb-1"
+                               th:field="*{searchMember}"/>
+                        <datalist id="memberName">
+                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
+                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} / ${m.memberDepartmentDetail}|">
+                        </datalist>
+                        <label th:for="searchMember">직원 검색(사번) </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-1" formaction="searchMemberList"
+                            formmethod="get">
+                        리스트 조회
+                    </button>
+
+                    <button type="submit" class="btn btn-success mb-1" formaction="searchMemberUpdate"
+                            formmethod="get">
+                        리스트 체크 후 업데이트
+                    </button>
                 </div>
                 <div class="col">
+                    <h4>필수 입력</h4>
+                    <div class="form-floating">
+                        <select class="form-control mb-1" th:field="*{historyType}">
+                            <option value="">클릭 후 선택</option>
+                            <option th:value="출고">출고</option>
+                            <option th:value="입고">입고</option>
+                            <option th:value="고장">고장</option>
+                            <option th:value="수리">수리</option>
+                            <option th:value="변경">변경</option>
+
+                        </select>
+                        <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
+                        <label th:for="historyAssetType">이력 관리(구분)</label>
+                    </div>
+                    <div class="form-floating">
+                        <select class="form-control mb-1" th:field="*{historyAssetType}">
+                            <option value="">클릭 후 선택</option>
+                            <option th:value="장비">장비</option>
+                            <option th:value="소모품">소모품</option>
+                            <option th:value="기타">기타</option>
+                        </select>
+                        <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
+                        <label th:for="historyAssetType">장비,소모품(구분)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequester}"/>
+                        <label th:for="historyRequester">요청자(이력관리)</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <h4>요청 정보</h4>
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1" th:field="*{historyCompletionDate}"
+                               th:value="${#dates.format(#calendars.createNow(), 'yyyy-MM-dd')}"/>
+                        <label th:for="historyCompletionDate">처리 일시</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"/>
+                        <label th:for="historyRequestDate">요청 일시</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequestDetails}"/>
+                        <label th:for="historyRequestDetails">이력 관리 등록 내용 : </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <h4>작업 정보</h4>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyWorker}"/>
+                        <label th:for="historyWorker">작업자(이력관리)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historyReqeustEtc}"/>
+                        <label th:for="historyReqeustEtc">비고 내용(소모품 or 위치)</label>
+                    </div>
+                    <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
+                    >뒤로가기
+                    </button>
+                    -->
+
+                </div>
+                <div class="col">
+                    <h4>기타 정보</h4>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historySpec1}"/>
+                        <label th:for="historySpec1">스펙1 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historySpec2}"/>
+                        <label th:for="historySpec2">스펙2 : </label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control mb-1" th:field="*{historySpec3}"/>
+                        <label th:for="historySpec3">스펙3 : </label>
+                    </div>
+                </div>
+                <!--<div class="col">
                     <div class="form-floating">
                         <input type="search" list="department" class="form-control mb-1"
                                th:field="*{searchDepart}"/>
@@ -42,90 +137,81 @@
                         </datalist>
                         <label th:for="searchDepart">부서 검색 </label>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-floating">
-                        <input type="search" list="memberName" class="form-control mb-1"
-                               th:field="*{searchMember}" autofocus/>
-                        <datalist id="memberName">
-                            <option th:each="m : ${memberList}" th:value="${m.memberId}"
-                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} / ${m.memberDepartmentDetail}|">
-                        </datalist>
-                        <label th:for="searchMember">직원 검색(사번) </label>
-                    </div>
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-primary mb-1" formaction="searchMemberList"
-                            formmethod="get">
-                        리스트 조회
-                    </button>
-                    <button type="submit" class="btn btn-outline-primary mb-1" formaction="searchPaymentList"
-                            formmethod="get">지급일 조회 바로가기
-                    </button>
-                </div>
+                </div>-->
+
             </div>
+
+
+            <hr>
+            <table id="myTable" class="display">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>구분</th>
+                    <th>장비상태</th>
+                    <th>사원번호</th>
+                    <th>위치</th>
+                    <th>지역</th>
+                    <th>층</th>
+                    <th>부서</th>
+                    <th>이름</th>
+                    <th>직급</th>
+                    <th>직원상태</th>
+                    <th>용도</th>
+                    <th>트리플</th>
+                    <th>장비번호</th>
+                    <th>타입</th>
+                    <th>제조사</th>
+                    <th>모델명</th>
+                    <th>SPEC</th>
+                    <th>MAC ADDRESS</th>
+                    <th>시리얼</th>
+                    <th>지급일</th>
+                    <th>최근실사</th>
+                    <th>용도상세</th>
+                    <th>지급기한</th>
+                    <th>업데이트</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u, stat :${list}">
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${u.statusType}"></td>
+                    <td th:text="${u.statusAssetStatus}"></td>
+                    <td th:text="${u.memberId}"></td>
+                    <td th:text="${u.departmentLocation}"></td>
+                    <td th:text="${u.departmentRegion}"></td>
+                    <td th:text="${u.departmentFloor}"></td>
+                    <td th:text="${u.departmentName}"></td>
+                    <td th:text="${u.memberName}"></td>
+                    <td th:text="${u.memberRank}"></td>
+                    <td th:text="${u.memberWorkingStatus}"></td>
+                    <td th:text="${u.statusAssetUsage}"></td>
+                    <td th:text="${u.statusAssetEtc1}"></td>
+                    <td th:text="${u.assetNumber}"></td>
+                    <td th:text="${u.modelType}"></td>
+                    <td th:text="${u.modelManufacturer}"></td>
+                    <td th:text="${u.assetModelName}"></td>
+                    <td th:text="|${u.statusAssetSpec1} / ${u.statusAssetSpec2}|">
+                    <td th:text="|${u.assetWiredMacAddress} / ${u.assetWirelessMacAddress}|">
+                    <td th:text="${u.assetSerialNumber}"></td>
+                    <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${u.assetLastUpdateDate}"></td>
+                    <td th:text="${u.statusAssetEtc2}"></td>
+                    <td th:text="${u.assetDuration}"></td>
+                    <td>
+                        <span class="form-check">
+                            <input type="checkbox" th:value="${u.assetNumber}">
+                            
+                            <!--<label class="form-check-label" for="updateCheck">"></label>-->
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
         </form>
     </div>
-
-    <hr>
-    <table id="myTable" class="display">
-        <thead>
-        <tr>
-            <th>No.</th>
-            <th>구분</th>
-            <th>장비상태</th>
-            <th>사원번호</th>
-            <th>위치</th>
-            <th>지역</th>
-            <th>층</th>
-            <th>부서</th>
-            <th>이름</th>
-            <th>직급</th>
-            <th>직원상태</th>
-            <th>용도</th>
-            <th>트리플</th>
-            <th>장비번호</th>
-            <th>타입</th>
-            <th>제조사</th>
-            <th>모델명</th>
-            <th>SPEC</th>
-            <th>MAC ADDRESS</th>
-            <th>시리얼</th>
-            <th>지급일</th>
-            <th>최근실사</th>
-            <th>용도상세</th>
-            <th>지급기한</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="u, stat :${list}">
-            <td th:text="${stat.count}"></td>
-            <td th:text="${u.statusType}"></td>
-            <td th:text="${u.statusAssetStatus}"></td>
-            <td th:text="${u.memberId}"></td>
-            <td th:text="${u.departmentLocation}"></td>
-            <td th:text="${u.departmentRegion}"></td>
-            <td th:text="${u.departmentFloor}"></td>
-            <td th:text="${u.departmentName}"></td>
-            <td th:text="${u.memberName}"></td>
-            <td th:text="${u.memberRank}"></td>
-            <td th:text="${u.memberWorkingStatus}"></td>
-            <td th:text="${u.statusAssetUsage}"></td>
-            <td th:text="${u.statusAssetEtc1}"></td>
-            <td th:text="${u.assetNumber}"></td>
-            <td th:text="${u.modelType}"></td>
-            <td th:text="${u.modelManufacturer}"></td>
-            <td th:text="${u.assetModelName}"></td>
-            <td th:text="|${u.statusAssetSpec1} / ${u.statusAssetSpec2}|">
-            <td th:text="|${u.assetWiredMacAddress} / ${u.assetWirelessMacAddress}|">
-            <td th:text="${u.assetSerialNumber}"></td>
-            <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${u.assetLastUpdateDate}"></td>
-            <td th:text="${u.statusAssetEtc2}"></td>
-            <td th:text="${u.assetDuration}"></td>
-        </tr>
-        </tbody>
-    </table>
 </div> <!-- /container -->
 
 <script src="js/datatables/dataTables.responsive.min.js"></script>
@@ -154,7 +240,21 @@
             {
             className: 'dtr-control',
             orderable: false
-            }
+            },
+            // 열 숨기기 설정
+            { targets: 3, visible: false }, //
+            { targets: 4, visible: false }, //
+            { targets: 5, visible: false }, // 지역
+            { targets: 6, visible: false }, //
+            { targets: 10, visible: false }, // 직원 상태
+            { targets: 12, visible: false }, // 트리플
+            { targets: 15, visible: false }, // 제조사
+            { targets: 18, visible: false }, // MAC
+            { targets: 19, visible: false }, //
+            { targets: 20, visible: false }, // 도입일
+            { targets: 21, visible: false }, // 최근실사
+            // { targets: 22, visible: false } // 용도상세
+
         ],
 
         responsive: {
