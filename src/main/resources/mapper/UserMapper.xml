@@ -233,12 +233,12 @@
         COUNT(case when model_type = 'D' then 1 end) as 'desktop',
         COUNT(case when model_type = 'L' then 1 end) as 'laptop',
         COUNT(case when model_type = 'M' then 1 end) as 'monitor'
-        from test1.asset_info
-        LEFT JOIN test1.hmm_member
+        from asset_info
+        LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
-        LEFT JOIN test1.hmm_department
+        LEFT JOIN hmm_department
         ON hmm_member.member_department=hmm_department.department_name
-        LEFT JOIN test1.asset_model
+        LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
         where
         asset_divestituer = '활성' and status_type = '출고' and status_asset_usage != '재고'
@@ -250,12 +250,12 @@
         COUNT(case when model_type = 'D' then 1 end) as 'desktop',
         COUNT(case when model_type = 'L' then 1 end) as 'laptop',
         COUNT(case when model_type = 'M' then 1 end) as 'monitor'
-        from test1.asset_info
-        LEFT JOIN test1.hmm_member
+        from asset_info
+        LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
-        LEFT JOIN test1.hmm_department
+        LEFT JOIN hmm_department
         ON hmm_member.member_department=hmm_department.department_name
-        LEFT JOIN test1.asset_model
+        LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
         where
         asset_divestituer = '활성' and status_type = '출고' and status_asset_usage != '재고'
@@ -284,12 +284,12 @@
         COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
         'busan_broken'<!--부산재고(불용)-->
 
-        FROM test1.asset_info
-        LEFT JOIN test1.hmm_member
+        FROM asset_info
+        LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
-        LEFT JOIN test1.hmm_department
+        LEFT JOIN hmm_department
         ON hmm_member.member_department=hmm_department.department_name
-        LEFT JOIN test1.asset_model
+        LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
         where
@@ -320,13 +320,13 @@
         COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
         'busan_broken'<!--부산재고(불용)-->
 
-        FROM test1.asset_info
+        FROM asset_info
 
-        LEFT JOIN test1.hmm_member
+        LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
-        LEFT JOIN test1.hmm_department
+        LEFT JOIN hmm_department
         ON hmm_member.member_department=hmm_department.department_name
-        LEFT JOIN test1.asset_model
+        LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
         where
@@ -357,13 +357,13 @@
         </choose>
 
 
-        FROM test1.asset_info
+        FROM asset_info
 
-        LEFT JOIN test1.hmm_member
+        LEFT JOIN hmm_member
         ON asset_info.status_member_id=hmm_member.member_id
-        LEFT JOIN test1.hmm_department
+        LEFT JOIN hmm_department
         ON hmm_member.member_department=hmm_department.department_name
-        LEFT JOIN test1.asset_model
+        LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
         where
@@ -393,12 +393,12 @@
             '부산재고(양호)',
             COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
             '부산재고(불용)'
-            from test1.asset_info
-            LEFT JOIN test1.hmm_member
+            from asset_info
+            LEFT JOIN hmm_member
             ON asset_info.status_member_id=hmm_member.member_id
-            LEFT JOIN test1.hmm_department
+            LEFT JOIN hmm_department
             ON hmm_member.member_department=hmm_department.department_name
-            LEFT JOIN test1.asset_model
+            LEFT JOIN asset_model
             ON asset_info.asset_model_name=asset_model.model_name
 
             where

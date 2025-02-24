@@ -103,7 +103,7 @@ public class AssetController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
-        return "/itam/asset/searchAssetList";
+        return "itam/asset/searchAssetList";
     }
 
     @GetMapping("/searchAssetList") // 장비 상세 조회(24.06.29)
@@ -131,7 +131,7 @@ public class AssetController {
             log.info("간편 이력 조회하기 : {}", navSearch);
             List<AssetVo> resultList = AssetService.historySearch(navSearch);
             model.addAttribute("list", resultList);
-            return "/itam/history/historySearch";
+            return "itam/history/historySearch";
         }
 
         /*상단 검색에서 백앤드 장비 조회 시*/
@@ -185,7 +185,7 @@ public class AssetController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
-        return "/itam/asset/searchMemberList";
+        return "itam/asset/searchMemberList";
     }
 
 
@@ -244,7 +244,7 @@ public class AssetController {
         List<AssetVo> assetPaymentList = AssetService.assetPaymentList(searchStart, searchEnd);
         model.addAttribute("list", assetPaymentList);
         if (Objects.equals(searchStart, "change")) {
-            return "/itam/asset/searchAssetChangeList";
+            return "itam/asset/searchAssetChangeList";
         }
         return "itam/asset/searchPaymentList"; //
     }
@@ -271,7 +271,7 @@ public class AssetController {
         List<AssetVo> assetList = AssetService.getAssetList();
         model.addAttribute("assetList", assetList);
         log.info("장비 등록 화면입니다.");
-        return "/itam/asset/assetAdd";
+        return "itam/asset/assetAdd";
     }
 
     @PostMapping("/assetAdd") // 자산 등록 입력 처리(간단하게 정리해야함)
@@ -280,18 +280,18 @@ public class AssetController {
             System.out.println("NullPointerException err : " + assetNumber); // null 값 입력 확인
             System.out.println("assetNumber.isEmpty() : " + assetNumber.isEmpty()); // "" 빈 값 입력
             System.out.println("assetNumber.isBlank() : " + assetNumber.isBlank()); // "   "공백 입력 체크
-            return "redirect:/assetAdd"; // null & 빈 값 처리 반환
+            return "redirect:assetAdd"; // null & 빈 값 처리 반환
         }
         try {
             AssetService.assetAdd(assetVo);
             System.out.println("controll.check.assetNumber.addComplete:" + assetNumber);
         } catch (DuplicateKeyException e) {
             System.out.println("DuplicateKeyException err : " + assetNumber); // 중복값 입력 확인
-            return "redirect:/assetAdd"; // 장비 추가 중복값 처리 반환
+            return "redirect:assetAdd"; // 장비 추가 중복값 처리 반환
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Exception err" + assetNumber); // 중복값 입력 확인
-            return "redirect:/assetAdd"; // assetadd?error_code=-99";
+            return "redirect:assetAdd"; // assetadd?error_code=-99";
         }
         model.addAttribute("asset", assetVo);
         return "itam/asset/assetResult"; // 자산 등록 후 보여질 화면
@@ -303,7 +303,7 @@ public class AssetController {
         /* datalist 장비번호 검색 자동완성 */
         List<AssetVo> assetList = AssetService.getAssetList();
         model.addAttribute("assetList", assetList);
-        return "/itam/asset/assetSearch";
+        return "itam/asset/assetSearch";
     }
 
     @PostMapping("/assetSearch") // 자산 내역 검색 및 수정 처리 화면

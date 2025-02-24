@@ -48,7 +48,7 @@ public class MemberController {
         List<MemberVo> departmentList = MemberService.getDepartmentList();
         model.addAttribute("departList", departmentList);
 
-        return "/itam/member/memberAdd";
+        return "itam/member/memberAdd";
     }
 
     @PostMapping("/memberAdd") // 멤버 등록 입력 처리
@@ -59,22 +59,22 @@ public class MemberController {
             System.out.println("memberId.isBlank() : " + memberId.isBlank()); // "   "공백 입력 체크
             */
             log.info("입력 값 없음 오류");
-            return "redirect:/memberAdd"; // null & 빈 값 처리 반환
+            return "redirect:memberAdd"; // null & 빈 값 처리 반환
         }
         try {
             MemberService.memberAdd(memberVo);
         } catch (DuplicateKeyException e) {
             log.info("중복 값 오류");
             /*return "redirect:/memberAdd?error_code=-1";*/
-            return "redirect:/memberAdd";
+            return "redirect:memberAdd";
         } catch (Exception e) {
             e.printStackTrace();
             log.info("기타 오류");
             /*return "redirect:/memberAdd?error_code=-99";*/
-            return "redirect:/memberAdd";
+            return "redirect:memberAdd";
         }
         model.addAttribute("member", memberVo);
-        return "/itam/member/memberResult"; // 자산 등록 후 보여질 화면
+        return "itam/member/memberResult"; // 자산 등록 후 보여질 화면
     }
 
     @GetMapping("/memberSearch") // 자산 등록 후 화면
@@ -84,7 +84,7 @@ public class MemberController {
         List<MemberVo> memberList = MemberService.getMemberList();
         model.addAttribute("memberSearch", memberList);
 
-        return "/itam/member/memberSearch";
+        return "itam/member/memberSearch";
     }
 
     @PostMapping("/memberSearch") // 자산 내역 검색 및 수정 처리 화면
