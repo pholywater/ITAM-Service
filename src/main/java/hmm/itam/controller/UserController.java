@@ -29,7 +29,7 @@ public class UserController {
 
     @GetMapping("/signup") // 회원가입 화면
     public String toSignupPage(UserVo userVo) {
-        return "/login/signup";
+        return "login/signup";
     }
 
     @PostMapping("/signup") // 회원가입 입력 처리
@@ -37,10 +37,10 @@ public class UserController {
         try {
             userService.signup(userVo);
         } catch (DuplicateKeyException e) {
-            return "redirect:/signup?error_code=-1";
+            return "redirect:signup?error_code=-1";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/signup?error_code=-99";
+            return "redirect:signup?error_code=-99";
         }
         return "redirect:login"; // 회원가입 후 보여질 화면
     }
@@ -51,7 +51,7 @@ public class UserController {
         if (id != null) { // 로그인 된 상태
             return "redirect:/";
         }
-        return "/login/login"; // 로그인되지 않은 상태
+        return "login/login"; // 로그인되지 않은 상태
     }
 
     @PostMapping("/login") // 아이디 패스워드 입력 후

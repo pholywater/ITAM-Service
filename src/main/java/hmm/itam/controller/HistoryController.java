@@ -51,7 +51,7 @@ public class HistoryController {
         List<HistoryVo> assetList = HistoryService.getAssetList();
         model.addAttribute("assetList", assetList);
 
-        return "/itam/history/historyAdd";
+        return "itam/history/historyAdd";
     }
 
     @PostMapping("/historyAdd") // 자산 입출고 관련 이력 입력 처리 // null 관련 처리 추가 해야함.
@@ -71,7 +71,7 @@ public class HistoryController {
             System.out.println("assetNumber.isEmpty() : " + historyMemberId.isEmpty()); // "" 빈 값 입력
             System.out.println("assetNumber.isBlank() : " + historyAssetNumber.isBlank()); // "   "공백 입력 체크
             System.out.println("assetNumber.isBlank() : " + historyMemberId.isBlank()); // "   "공백 입력 체크
-            return "redirect:/historyAdd"; // null & 빈 값 처리 반환
+            return "redirect:historyAdd"; // null & 빈 값 처리 반환
         }
         HistoryService.historyAdd(historyVo);
         System.out.println("historyAssetNumber : " + historyAssetNumber);
@@ -81,10 +81,10 @@ public class HistoryController {
         /*try { 입출력 이력 등록은 중복 값 체크 하지 않음
             HistoryService.historyAdd(historyVo);
         } catch (DuplicateKeyException e) {
-            return "redirect:/historyadd?error_code=-1";
+            return "redirect:historyadd?error_code=-1";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/historyadd?error_code=-99";
+            return "redirect:historyadd?error_code=-99";
         }*/
         return "itam/history/historyAdd"; // 자산 등록 후 보여질 화면
     }
@@ -97,7 +97,7 @@ public class HistoryController {
         List<HistoryVo> resultList = HistoryService.historySearch(search, searchType);
         model.addAttribute("list", resultList);
         log.info("간편 조회하기 : {}", search);
-        return "/itam/history/historySearch";
+        return "itam/history/historySearch";
     }
 
 }
