@@ -53,7 +53,6 @@
                 </div>
                 <div class="form-floating">
                     <select class="form-control mb-1" th:field="*{historyAssetType}">
-                        <option value="">클릭 후 선택</option>
                         <option th:value="장비">장비</option>
                         <option th:value="소모품">소모품</option>
                         <option th:value="기타">기타</option>
@@ -62,6 +61,23 @@
                     <label th:for="historyAssetType">장비,소모품(구분)</label>
                 </div>
                 <div class="form-floating">
+                    <input type="date"
+                           class="form-control mb-1"
+                           id="historyCompletionDate"
+                           name="historyCompletionDate"
+                           th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+                    <label for="historyCompletionDate">처리 일시</label>
+                </div>
+                <div class="form-floating">
+                    <input type="date"
+                           class="form-control mb-1"
+                           id="historyRequestDate"
+                           name="historyRequestDate"
+                           th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+                    <label for="historyRequestDate">요청 일시</label>
+                </div>
+                <!--
+                <div class="form-floating">
                     <input type="date" class="form-control mb-1" th:field="*{historyCompletionDate}"/>
                     <label th:for="historyCompletionDate">처리 일시</label>
                 </div>
@@ -69,6 +85,7 @@
                     <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"/>
                     <label th:for="historyRequestDate">요청 일시</label>
                 </div>
+                -->
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyRequester}"/>
                     <label th:for="historyRequester">요청자(이력관리)</label>

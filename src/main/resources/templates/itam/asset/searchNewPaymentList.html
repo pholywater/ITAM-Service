@@ -6,13 +6,9 @@
       layout:fragment="Content">
 <body>
 <head>
-    <title>ITAM Asset Search</title>
-
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
-    <!--datatables child-rows : https://datatables.net/extensions/responsive/examples/child-rows/column-control -->
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
-
     <link rel="stylesheet" type="text/css" href="css/datatables/jquery.dataTables.min-1.13.7.css"/>
     <link rel="stylesheet" type="text/css" href="css/datatables/buttons.dataTables.min-2.4.2.css"/>
     <script src="jquery/jquery-3.7.0.js"></script>
@@ -23,6 +19,8 @@
     <script src="js/datatables/vfs_fonts.js"></script>
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
+    <script src="js/datatables/dataTables.fixedColumns.min.js"></script>
+    <script src="js/datatables/dataTables.responsive.min.js"></script>
 </head>
 <div id="myDiv" class="container-fluid">
     <div class="container">
@@ -30,7 +28,7 @@
         <form th:action="@{/searchNewPaymentList}" th:object="${assetVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h4>신규 장비 지급 리스트 조회</h4>
+                    <h4>신규 장비 지급 리스트</h4>
                 </div>
                 <div class="col">
                     <div class="form-floating">
@@ -126,13 +124,6 @@
             }
     } );
 } );
-</script>
-
-<!--검색 창 포커스 글씨 맨 뒤 위치-->
-<script>
-    var len = $('#searchEnd').val().length;
-    $('#searchEnd').focus();
-    $('#searchEnd')[0].setSelectionRange(len, len);
 </script>
 </body>
 </html>

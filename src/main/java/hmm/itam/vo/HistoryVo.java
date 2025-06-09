@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Data
 public class HistoryVo {
+    private String assetSupplies;
     private String search;
     private String searchStart;
     private String searchEnd;

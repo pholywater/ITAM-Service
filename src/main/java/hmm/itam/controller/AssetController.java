@@ -61,6 +61,14 @@ public class AssetController {
         return "itam/asset/assetList";
     }
 
+    @GetMapping("/assetListRent") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)
+    public String getAssetListRent(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListRent();
+        log.info("대여장비 리스트 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
 
     @GetMapping("/headerSearch") // 해더 드롭다운 href Server-Side 검색
     public String HeaderSearch(AssetVo assetVo, HttpSession session, String navSearch, Model model) {
@@ -103,7 +111,7 @@ public class AssetController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
-        return "itam/asset/searchAssetList";
+        return "itam/asset/assetList";
     }
 
     @GetMapping("/searchAssetList") // 장비 상세 조회(24.06.29)
@@ -118,7 +126,7 @@ public class AssetController {
             log.info("장비 전체 리스트 조회");
             List<AssetVo> searchAssetList = AssetService.searchAssetList(search, searchType);
             model.addAttribute("list", searchAssetList);
-            return "itam/asset/searchAssetList"; //
+            return "itam/asset/assetList"; //
         }
         /*상단 검색에서 장비 조회 시*/
         if (Objects.equals(searchType, "realTime")) {
@@ -145,7 +153,7 @@ public class AssetController {
         /*빈 값 입력 시*/
         if (search == "") {
             log.info("검색 창 빈값 처리");
-            return "itam/asset/searchAssetList";
+            return "itam/asset/assetList";
         }
 
         /*조회 한 값 넘겨주기*/
@@ -159,7 +167,7 @@ public class AssetController {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
-        return "itam/asset/searchAssetList"; //
+        return "itam/asset/assetList"; //
     }
 
 
@@ -244,9 +252,10 @@ public class AssetController {
         List<AssetVo> assetPaymentList = AssetService.assetPaymentList(searchStart, searchEnd);
         model.addAttribute("list", assetPaymentList);
         if (Objects.equals(searchStart, "change")) {
-            return "itam/asset/searchAssetChangeList";
+            /*return "itam/asset/searchAssetChangeList";*/
+            return "itam/asset/searchPaymentList";
         }
-        return "itam/asset/searchPaymentList"; //
+        return "itam/asset/searchPaymentList";
     }
 
     @GetMapping("/searchNewPaymentList") // 신규 장비 출고 리스트 조회 화면(처리)
@@ -348,6 +357,10 @@ public class AssetController {
         return StatusAssetUsage.values();
     }
 
+    @ModelAttribute("AssetSupplies")
+    public AssetSupplies[] assetSupplies() { // enum은 values를 반환하면 value 값들을 배열로 넘겨준다.
+        return AssetSupplies.values();
+    }
 
     @PostMapping("/assetUpdate") // 장비 수정 작업 화면
     public String updatePage(AssetVo assetVo, String assetNumber, Model model) {

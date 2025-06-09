@@ -62,6 +62,7 @@
                                             <input type="text" class="form-control mb-1" th:field="*{historyMemberId}"/>
                                             <label th:for="historyMemberId">사번(실 사용자) : </label>
                                         </div>-->
+
                     <!--
 
                                         <div class="form-floating">
@@ -73,6 +74,8 @@
                                             <label th:for="historyCompletionDate">처리 일시 : </label>
                                         </div>
                     -->
+
+
                     <div class="form-floating">
                         <input type="date"
                                class="form-control mb-1"
@@ -92,7 +95,6 @@
                     <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">자산 이력
                         등록
                     </button>
-
                 </div>
 
                 <div class="col">
@@ -109,45 +111,28 @@
 
                     </div>
                     <div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{historyType}">
-                            <option value="">클릭 후 선택</option>
+                        <select class="form-control     mb-1" th:field="*{historyType}">
                             <option th:value="출고">출고</option>
-                            <option th:value="입고">입고</option>
-                            <option th:value="고장">고장</option>
-                            <option th:value="수리">수리</option>
-                            <option th:value="변경">변경</option>
                         </select>
-                        <label th:for="historyType">이력 관리 구분(고장, 수리, 변경) : </label>
+                        <label th:for="historyType">이력 관리 구분(소모품 출고) : </label>
                     </div>
                     <div class="form-floating">
                         <select class="form-control mb-1" th:field="*{historyAssetType}">
-                            <option value="">클릭 후 선택</option>
                             <option th:value="소모품">소모품</option>
-                            <option th:value="장비">장비</option>
-                            <option th:value="기타">기타</option>
                         </select>
                         <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
-                        <label th:for="historyAssetType">이력 등록 품목(장비,소모품) : </label>
+                        <label th:for="historyAssetType">이력 등록 품목(소모품) : </label>
                     </div>
                     <div class="form-floating">
                         <select class="form-control mb-1" th:field="*{historyRequestUsage}">
-                            <option value="">클릭 후 선택</option>
                             <option th:value="업무용">업무용</option>
-                            <option th:value="대여용">대여용</option>
-                            <option th:value="공용">공용</option>
-                            <option th:value="재고">재고</option>
-                            <option th:value="기타">기타</option>
-                            <option th:value="미반납장비">미반납장비</option>
                         </select>
                         <label th:for="historyRequestUsage">이력 관리 발생 용도 : </label>
                     </div>
-
-
                 </div>
 
                 <div class="col">
                     <h3>작업 정보</h3>
-
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1" th:field="*{historyWorker}"/>
                         <label th:for="historyWorker">작업자 : </label>
@@ -262,5 +247,4 @@
 } );
 </script>
 </body>
-</html>
 </html>

@@ -1,5 +1,6 @@
 package hmm.itam.controller;
 
+import hmm.itam.dto.AssetSupplies;
 import hmm.itam.service.HistoryService;
 import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.HistoryVo;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.text.BreakIterator;
@@ -54,6 +56,35 @@ public class HistoryController {
         return "itam/history/historyAdd";
     }
 
+    @GetMapping("/historyAddRepair") // 자산 이력 등록 화면
+    public String toHistoryAddRepairPage(HistoryVo historyVo, Model model) {
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<HistoryVo> memberList = HistoryService.getMemberList();
+        model.addAttribute("memberList", memberList);
+        /* datalist 장비번호 검색 자동완성 */
+        List<HistoryVo> assetList = HistoryService.getAssetList();
+        model.addAttribute("assetList", assetList);
+
+        return "itam/history/historyAddRepair";
+    }
+
+    @GetMapping("/historyAddSupplies") // 자산 이력 등록 화면
+    public String toHistoryAddSuppliesPage(HistoryVo historyVo, Model model) {
+        /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
+        List<HistoryVo> memberList = HistoryService.getMemberList();
+        model.addAttribute("memberList", memberList);
+        /* datalist 장비번호 검색 자동완성 */
+        List<HistoryVo> assetList = HistoryService.getAssetList();
+        model.addAttribute("assetList", assetList);
+
+        return "itam/history/historyAddSupplies";
+    }
+
+    @ModelAttribute("AssetSupplies")
+    public AssetSupplies[] assetSupplies() { // enum은 values를 반환하면 value 값들을 배열로 넘겨준다.
+        return AssetSupplies.values();
+    }
+    
     @PostMapping("/historyAdd") // 자산 입출고 관련 이력 입력 처리 // null 관련 처리 추가 해야함.
     public String historyAdd(HistoryVo historyVo, String historyAssetNumber, String historyMemberId, Model model) {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
