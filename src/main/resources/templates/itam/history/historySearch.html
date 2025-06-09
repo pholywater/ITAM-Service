@@ -5,7 +5,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:decorate="~{common/layouts/historyLayout}"
       layout:fragment="Content"
 >
 
@@ -32,44 +32,44 @@
 
 <body>
 <div id="myDiv" class="container-fluid">
-    <div class="container">
-        <hr>
-        <form th:action="@{/historySearch}" th:object="${historyVo}" method="get">
-            <div class="row align-items-start">
-                <div class="col">
-                    <h3>이력 간편 조회</h3>
-                </div>
-                <div class="col">
-                    <div class="form-floating">
-                        <select class="form-select mb-1" id="searchType" name="searchType">
-                            <option th:value="easySearch">간편 이력 조회</option>
-                            <option th:value="historyAssetNumber">장비 번호 조회</option>
-                            <option th:value="historyMemberName">이름 조회</option>
-                            <option th:value="historyMemberId">사번 조회</option>
-                        </select>
-                        <label th:for="searchType">검색 항목 선택 : </label>
+    <!--    <div class="container">
+            <hr>
+            <form th:action="@{/historySearch}" th:object="${historyVo}" method="get">
+                <div class="row align-items-start">
+                    <div class="col">
+                        <h3>이력 간편 조회</h3>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <select class="form-select mb-1" id="searchType" name="searchType">
+                                <option th:value="easySearch">간편 이력 조회</option>
+                                <option th:value="historyAssetNumber">장비 번호 조회</option>
+                                <option th:value="historyMemberName">이름 조회</option>
+                                <option th:value="historyMemberId">사번 조회</option>
+                            </select>
+                            <label th:for="searchType">검색 항목 선택 : </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="text" class="form-control mb-1" id="search" name="search" autofocus/>
+                            <label th:for="search">검색창 </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary mb-1" formaction="historySearch"
+                                formmethod="get">이력 조회
+                        </button>
+                        <button type="submit" class="btn btn-outline-primary mb-1" formaction="historyList"
+                                formmethod="get">날짜 조회 바로가기
+                        </button>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-floating">
-                        <input type="text" class="form-control mb-1" id="search" name="search" autofocus/>
-                        <label th:for="search">검색창 </label>
-                    </div>
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-primary mb-1" formaction="historySearch"
-                            formmethod="get">이력 조회
-                    </button>
-                    <button type="submit" class="btn btn-outline-primary mb-1" formaction="historyList"
-                            formmethod="get">날짜 조회 바로가기
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-
+            </form>
+        </div>-->
+    <h5 Style="text-align:center">HMM 전산 장비 및 소모품 이력 조회</h5>
     <hr>
-    <table id="myTable" class="display">
+    <table id="myTable" class="display nowrap" style="width:100%">
 
         <thead>
         <tr>
@@ -88,6 +88,7 @@
             <th>모델명</th>
             <th>요청 내용</th>
             <th>비고 내용</th>
+            <th>기타</th>
             <!--<th>스펙1</th>
             <th>스펙2</th>
             <th>스펙3</th>-->
@@ -111,6 +112,7 @@
             <td th:text="${u.assetModelName}"></td>
             <td th:text="${u.historyRequestDetails}"></td>
             <td th:text="${u.historyReqeustEtc}"></td>
+            <td th:text="${u.historyAssetEtc1}"></td>
             <!--<td th:text="${u.historySpec1}"></td>
             <td th:text="${u.historySpec2}"></td>
             <td th:text="${u.historySpec3}"></td>-->

@@ -172,7 +172,7 @@ div.dataTables_processing > div:last-child > div:nth-child(4) {
 table.dataTable.nowrap th, table.dataTable.nowrap td {
   white-space: nowrap;
 }
-table.dataTable th.dt-left,
+table.dataTable th.dt-center,
 table.dataTable td.dt-left {
   text-align: left;
 }
@@ -269,7 +269,6 @@ table.dataTable {
 table.dataTable thead th,
 table.dataTable tfoot th {
   font-weight: bold;
-
 }
 table.dataTable > thead > tr > th,
 table.dataTable > thead > tr > td {
@@ -308,7 +307,7 @@ table.dataTable tbody tr.selected a {
 }
 table.dataTable tbody th,
 table.dataTable tbody td {
-font-size: 13px; /*테이블 바디 폰트*/
+font-size: 12px; /*테이블 바디 폰트*/
   padding: 8px 10px;
 }
 table.dataTable.row-border > tbody > tr > th,

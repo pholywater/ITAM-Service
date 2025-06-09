@@ -25,6 +25,7 @@ public class AssetVo {
     private String HeaderSearchDto;
     private String assetNum;
     private int idx;
+    private int assetIdx;
     private String assetNumber;
     private String assetModelCode;
     private String assetModelName;
@@ -95,6 +96,7 @@ public class AssetVo {
     private String historySpec2;
     private String historySpec3;
     private String historyCheck;
+    private String historyAssetEtc1;
     private String updateCheck;
 
 

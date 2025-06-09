@@ -45,6 +45,11 @@ public class AssetService {
         return AssetMapper.getChart2List();
     }*/
 
+    /*장비 리스트 자동완성*/
+    public List<AssetVo> getAssetListRent() {
+        return AssetMapper.getAssetListRent();
+    }
+
     /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/
     public List<AssetVo> searchAssetList(String search, String searchType) {
         return AssetMapper.searchAssetList(search, searchType);

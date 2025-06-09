@@ -2,27 +2,24 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:decorate="~{common/layouts/historyLayout}"
       layout:fragment="Content">
-<head>
-    <title>ITAM History List</title>
-
-
+<head><!--클라이언트 조회-->
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
-    <!--datatables child-rows -->
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
-
     <link rel="stylesheet" type="text/css" href="css/datatables/jquery.dataTables.min-1.13.7.css"/>
     <link rel="stylesheet" type="text/css" href="css/datatables/buttons.dataTables.min-2.4.2.css"/>
     <script src="jquery/jquery-3.7.0.js"></script>
     <script src="js/datatables/dataTables-1.13.7.js"></script>
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
-    <script src="js/datatables/pdfmake.min-0.1.53.js"></script>
-    <script src="js/datatables/vfs_fonts-0.1.53.js"></script>
+    <script src="js/datatables/pdfmake.min.js"></script>
+    <script src="js/datatables/vfs_fonts.js"></script>
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
+    <script src="js/datatables/dataTables.fixedColumns.min.js"></script>
+    <script src="js/datatables/dataTables.responsive.min.js"></script>
 </head>
 
 <body>
@@ -61,7 +58,7 @@
         </form>
     </div>
     <hr>
-    <table id="myTable" class="display">
+    <table id="myTable" class="display nowrap" style="width:100%">
         <thead>
         <tr>
             <th>No.</th>
@@ -79,6 +76,7 @@
             <th>모델명</th>
             <th>요청 내용</th>
             <th>비고 내용</th>
+            <th>기타</th>
             <!--<th>스펙1</th>
             <th>스펙2</th>
             <th>스펙3</th>-->
@@ -102,6 +100,7 @@
             <td th:text="${u.assetModelName}"></td>
             <td th:text="${u.historyRequestDetails}"></td>
             <td th:text="${u.historyReqeustEtc}"></td>
+            <td th:text="${u.historyAssetEtc1}"></td>
             <!--<td th:text="${u.historySpec1}"></td>
             <td th:text="${u.historySpec2}"></td>
             <td th:text="${u.historySpec3}"></td>-->

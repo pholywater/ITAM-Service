@@ -21,6 +21,7 @@ public interface AssetMapper {
 
     List<AssetVo> getChart2List(); // 재고 장비 차트 리스트*/
 
+    List<AssetVo> getAssetListRent(); // 대여 장비 리스트
 
     List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
 
