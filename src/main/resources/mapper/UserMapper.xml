@@ -329,8 +329,17 @@
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
-        where
-        asset_divestituer = '활성' and model_type = #{search}
+        <choose>
+            <when test="search == 'LaptopOffice'">
+                where asset_divestituer = '활성' and model_type = 'L' and model_replacement_type = '사무용'
+            </when>
+            <when test="search == 'LaptopBusiness'">
+                where asset_divestituer = '활성' and model_type = 'L' and model_replacement_type = '영업용'
+            </when>
+            <otherwise>
+                where asset_divestituer = '활성' and model_type = #{search}
+            </otherwise>
+        </choose>
 
         group by
         asset_model_name
@@ -366,8 +375,17 @@
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
-        where
-        asset_divestituer = '활성' and model_type = #{search}
+        <choose>
+            <when test="search == 'LaptopOffice'">
+                where asset_divestituer = '활성' and model_type = 'L' and model_replacement_type = '사무용'
+            </when>
+            <when test="search == 'LaptopBusiness'">
+                where asset_divestituer = '활성' and model_type = 'L' and model_replacement_type = '영업용'
+            </when>
+            <otherwise>
+                where asset_divestituer = '활성' and model_type = #{search}
+            </otherwise>
+        </choose>
 
         group by
         asset_model_name

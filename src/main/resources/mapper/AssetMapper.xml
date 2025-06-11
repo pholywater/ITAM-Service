@@ -341,12 +341,51 @@
 
     </select>
 
-    <!-- 대여장비 리스트-->
+    <!-- 업무용 장비 리스트 -->
+    <select id="getAssetListWork" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_list_work
+    </select>
+    <!-- 대여 장비 리스트 -->
     <select id="getAssetListRent" resultType="hmm.itam.vo.AssetVo">
         SELECT *
-        FROM asset_list_rent_view
+        FROM asset_list_rent
     </select>
 
+    <!-- 공용 장비 리스트 -->
+    <select id="getAssetListPublic" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_list_public
+    </select>
+
+    <!-- 신규 장비 리스트 -->
+    <select id="getAssetListNew" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_list_new
+    </select>
+
+    <!-- 재고 장비 리스트 -->
+    <select id="getAssetListInput" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_list_input
+    </select>
+
+    <!-- 재고 장비 노트북 리스트 -->
+    <select id="getAssetListInputL" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_list_input_l
+    </select>
+    <!-- 재고 장비 모니터 리스트 -->
+    <select id="getAssetListInputM" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_list_input_m
+    </select>
+
+    <!-- 장비 리스트 부산 재고 -->
+    <select id="getAssetListBusanInventory" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_busan_inventory_equipment
+    </select>
 
     <!--재고장비 차트 리스트-->
     <select id="getChart1List" resultType="string">

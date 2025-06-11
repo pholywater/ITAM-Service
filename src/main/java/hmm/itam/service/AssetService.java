@@ -45,9 +45,44 @@ public class AssetService {
         return AssetMapper.getChart2List();
     }*/
 
-    /*장비 리스트 자동완성*/
+    /*장비 리스트 업무용 장비*/
+    public List<AssetVo> getAssetListWork() {
+        return AssetMapper.getAssetListWork();
+    }
+
+    /*장비 리스트 대여 장비*/
     public List<AssetVo> getAssetListRent() {
         return AssetMapper.getAssetListRent();
+    }
+
+    /*장비 리스트 공용 장비*/
+    public List<AssetVo> getAssetListPublic() {
+        return AssetMapper.getAssetListPublic();
+    }
+
+    /*장비 리스트 재고 장비*/
+    public List<AssetVo> getAssetListInput() {
+        return AssetMapper.getAssetListInput();
+    }
+
+    /*장비 리스트 재고 노트북 장비*/
+    public List<AssetVo> getAssetListInputL() {
+        return AssetMapper.getAssetListInputL();
+    }
+
+    /*장비 리스트 재고 장비*/
+    public List<AssetVo> getAssetListInputM() {
+        return AssetMapper.getAssetListInputM();
+    }
+
+    /*장비 리스트 신규 장비*/
+    public List<AssetVo> getAssetListNew() {
+        return AssetMapper.getAssetListNew();
+    }
+
+    /*장비 리스트 부산 재고*/
+    public List<AssetVo> getAssetListBusanInventory() {
+        return AssetMapper.getAssetListBusanInventory();
     }
 
     /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/

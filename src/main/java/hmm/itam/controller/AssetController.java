@@ -61,10 +61,66 @@ public class AssetController {
         return "itam/asset/assetList";
     }
 
-    @GetMapping("/assetListRent") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)
+    @GetMapping("/assetListWork") // 대여장비 리스트 검색(매각, 신규 제외)
+    public String getAssetListWork(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListWork();
+        log.info("장비 리스트 업무용 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
+    @GetMapping("/assetListRent") // 대여장비 리스트 검색(매각, 신규 제외)
     public String getAssetListRent(Model model) {
         List<AssetVo> assetList = AssetService.getAssetListRent();
-        log.info("대여장비 리스트 : DB VIEW TABLE 조회");
+        log.info("장비 리스트 대여 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
+    @GetMapping("/assetListPublic") // 공용장비 리스트 검색(매각, 신규 제외)
+    public String getAssetListPublic(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListPublic();
+        log.info("장비 리스트 공용 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
+    @GetMapping("/assetListInput") // 재고장비 리스트 검색(매각, 신규 제외)
+    public String getAssetListInput(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListInput();
+        log.info("장비 리스트 재고 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
+    @GetMapping("/assetListInputL") // 재고장비 리스트 검색(매각, 신규 제외)
+    public String getAssetListInputL(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListInputL();
+        log.info("장비 리스트 재고 모니터 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
+    @GetMapping("/assetListInputM") // 재고장비 리스트 검색(매각, 신규 제외)
+    public String getAssetListInputM(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListInputM();
+        log.info("장비 리스트 재고 모니터 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
+    @GetMapping("/assetListNew") // 신규장비 리스트 검색(매각, 신규 제외)
+    public String getAssetListNew(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListNew();
+        log.info("장비 리스트 신규 : DB VIEW TABLE 조회");
+        model.addAttribute("list", assetList);
+        return "itam/asset/assetList";
+    }
+
+    @GetMapping("/assetListBusanInventory") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)
+    public String getAssetListBusanInventory(Model model) {
+        List<AssetVo> assetList = AssetService.getAssetListBusanInventory();
+        log.info("장비 리스트 부산 재고 : DB VIEW TABLE 조회");
         model.addAttribute("list", assetList);
         return "itam/asset/assetList";
     }
