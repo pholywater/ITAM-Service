@@ -42,14 +42,27 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="form-floating">
+                    <!--<div class="form-floating">
                         <input type="search" list="departList" class="form-control mb-1" name="memberDepartment"/>
                         <datalist id="departList">
                             <option th:each="d : ${departList}" th:value="${d.memberDepartment}"
                                     th:label="| ${d.departmentDetail} / ${d.departmentLocation} / ${d.departmentRegion} / ${d.departmentFloor} |">
                         </datalist>
                         <label th:for="memberDepartment">부서(자동완성)</label>
+                    </div>-->
+
+                    <div class="form-floating">
+                        <select class="form-select mb-1" name="memberDepartment" id="memberDepartment" required>
+                            <option value="" disabled selected>부서를 선택하세요</option>
+                            <option th:each="d : ${departList}"
+                                    th:value="${d.memberDepartment}"
+                                    th:text="|${d.departmentLocation} // ${d.departmentRegion} // ${d.departmentFloor} // ${d.departmentDetail}|">
+                            </option>
+                        </select>
+                        <label for="memberDepartment">부서(선택)</label>
                     </div>
+
+
                     <div class="form-floating">
                         <input type="text" class="form-control mb-1" name="memberDepartmentDetail" disabled/>
                         <label th:for="memberDepartmentDetail">부서상세</label>

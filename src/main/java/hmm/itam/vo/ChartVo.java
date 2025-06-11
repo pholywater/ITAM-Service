@@ -11,6 +11,7 @@ public class ChartVo {
 
     private String modelType;
     private String assetModelName;
+    private String modelReplacementType;
     private int totalCount;
     private int hmmWork;
     private int hmmRent;

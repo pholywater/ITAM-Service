@@ -76,33 +76,30 @@
                         <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&navSearch=출고}">전체
                             출고 장비 리스트</a></li>
                         <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&navSearch=입고}">본사
-                            입고 장비 리스트</a></li>
+                            재고 장비 리스트</a></li>
+                        <li>
+                        <li><a class="dropdown-item" th:href="@{assetListBusanInventory}">부산
+                            재고 장비 리스트</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
                         <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&navSearch=업무용}">업무용 장비 리스트</a>
-                        </li>
+                               th:href="@{assetListWork}">업무용 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListRent}">대여용 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListPublic}">공용 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListInput}">재고 장비 리스트(전체)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListInputL}">재고 장비 리스트(노트북)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListInputM}">재고 장비 리스트(모니터)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListNew}">신규 장비 리스트</a></li>
+                        <!--
                         <li><a class="dropdown-item"
                                th:href="@{searchAssetList?searchType=statusAssetUsage&navSearch=대여용}">대여용 장비 리스트</a>
-                        </li>
-                        <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&navSearch=공용}">공용 장비 리스트</a></li>
-                        <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&navSearch=재고}">재고 장비 리스트</a></li>
-                        <!--
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" th:href="@{#}">신규 모델 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">모델 현황 조회</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" th:href="@{memberAdd}">멤버 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{memberList}">멤버 조회</a></li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{#}">Something else here</a>
                         </li>
                         -->
                     </ul>

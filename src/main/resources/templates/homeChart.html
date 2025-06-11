@@ -9,280 +9,149 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </head>
+
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
 <div id="myDiv1" class="container-fluid">
-    <h5 Style="text-align:center">HMM ITAM 실시간 전산 장비 현황</h5>
+    <h4 style="text-align:center">HMM ITAM 실시간 전산 장비 현황</h4>
 
-    <div class="d-flex justify-content-center">
-        <div class="chart-container-">
-            <canvas id="ChartLaptop" width="1800" height="380"></canvas>
+    <div id="chartSlider" class="d-flex justify-content-center" style="position: relative; width: 100%;">
+        <!--<div class="chart-slide" style="display: block;">
+            <canvas id="ChartLaptop" width="1800" height="500"></canvas>
+        </div>-->
+        <div class="chart-slide" style="display: block;">
+            <canvas id="ChartLaptopOffice" width="1600" height="500"></canvas>
         </div>
+        <div class="chart-slide" style="display: block;">
+            <canvas id="ChartLaptopBusiness" width="1600" height="500"></canvas>
+        </div>
+        <div class="chart-slide" style="display: none;">
+            <canvas id="ChartDesktop" width="1600" height="500"></canvas>
+        </div>
+        <div class="chart-slide" style="display: none;">
+            <canvas id="ChartMonitor" width="1600" height="500"></canvas>
+        </div>
+
     </div>
-    <div class="d-flex justify-content-center">
-        <div class="chart-container-">
-            <canvas id="ChartDesktop" width="800" height="380"></canvas>
-        </div>
-        <div class="chart-container-">
-            <canvas id="ChartMonitor" width="1000" height="380"></canvas>
-        </div>
+    <hr>
+    <!-- 슬라이드 버튼 -->
+    <div class="d-flex justify-content-center mb-3">
+        <button onclick="goToSlide(0)" class="btn btn-sm btn-primary mx-2">사무용 노트북</button>
+        <button onclick="goToSlide(1)" class="btn btn-sm btn-success mx-2">영업용 노트북</button>
+        <button onclick="goToSlide(2)" class="btn btn-sm btn-warning mx-2">데스크탑</button>
+        <button onclick="goToSlide(3)" class="btn btn-sm btn-danger mx-2">모니터</button>
     </div>
-
-    <!--<div class="chart-container" style="position: relative; height:40vh; width:80vw">
-        <canvas id="Chart2"></canvas>
-    </div>-->
-    <!--<canvas id="myChart2"></canvas>-->
-
 </div>
-</body>
-<script type="text/javascript" th:inline="javascript">
-
-    var colorList = ['red','blue','green','yellow','orange','purple','pink','brown','grey','black','white','violet']
-    var borderColorList = ['red','blue','green','yellow','orange','purple','pink','brown','grey','black','white','violet']
 
 
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.chart-slide');
+    const totalSlides = slides.length;
+   let slideInterval = setInterval(nextSlide, 5000);
 
-    var ctx = document.getElementById("ChartLaptop").getContext('2d');
-    var ChartDemo = new Chart(ctx, {
-
-        type: 'bar',
-        plugins: [ChartDataLabels],
-        data: {
-            labels: [[${chartLaptopList}]],
-            datasets: [
-                {
-                    label: "전체 현황", //
-                    borderColor: 'rgb(0, 0, 255)',
-                    backgroundColor: 'rgba(0, 99, 255, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartLaptopTotalCount}]],
-                    hidden: true,
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-                {
-                    label: "출고 수량", //
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartLaptopOutCount}]],
-                    hidden: true,
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-                {
-                    label: "입고 수량(불용 포함)", //
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartLaptopInCount}]],
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-
-            ]
-        },
-        options: {
-            responsive: false,
-            <!--indexAxis: 'y',-->
-            layout: {
-                padding: {
-                    top: 7,
-                    bottom: 7,
-                },
-            },
-            plugins: {
-                title: {
-                        display: true,
-                        text: 'HMM 노트북 현황',
-                    }
-            },
-            scales: {
-                y: {
-                    max: 400,
-                    min: 0
-                }
-            }
-        }
+    function showSlide(index) {
+    slides.forEach((slide, i) => {
+    slide.style.display = i === index ? 'block' : 'none';
     });
+    currentSlide = index;
+    }
 
+    function nextSlide() {
+   currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+    }
 
+    function goToSlide(index) {
+    clearInterval(slideInterval); // 자동 슬라이드 멈춤
+    showSlide(index);
+   slideInterval = setInterval(nextSlide, 15000); // 다시 자동 슬라이드 시작
+   }
 
-    var ctx = document.getElementById("ChartDesktop").getContext('2d');
-    var ChartDemo = new Chart(ctx, {
-
-        type: 'bar',
-        plugins: [ChartDataLabels],
-        data: {
-            labels: [[${chartDesktopList}]],
-            datasets: [
-                {
-                    label: "전체 수량", //
-                    borderColor: 'rgb(0, 0, 255)',
-                    backgroundColor: 'rgba(0, 99, 255, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartDesktopTotalCount}]],
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-                {
-                    label: "출고 수량", //
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartDesktopOutCount}]],
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-                {
-                    label: "입고 수량(불용 포함)", //
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartDesktopInCount}]],
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-
-
-            ]
-        },
-        options: {
-            responsive: false,
-            <!--indexAxis: 'y',-->
-            layout: {
-                padding: {
-                    top: 7,
-                    bottom: 7,
-                },
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'HMM 데스크탑 현황',
-                }
-            },
-            scales: {
-                y: {
-                    max: 80,
-                    min: 0
-                }
-            }
-        }
-    });
-
-
-
-
-
-
-    var ctx = document.getElementById("ChartMonitor").getContext('2d');
-    var ChartDemo = new Chart(ctx, {
-
-        type: 'bar',
-        plugins: [ChartDataLabels],
-        data: {
-            labels: [[${chartMonitorList}]],
-            datasets: [
-                {
-                    label: "전체 현황", //
-                    borderColor: 'rgb(0, 0, 255)',
-                    backgroundColor: 'rgba(0, 99, 255, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartMonitorTotalCount}]],
-                    hidden: true,
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-                {
-                    label: "출고 수량", //
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartMonitorOutCount}]],
-                    hidden: true,
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-                {
-                    label: "입고 수량(불용 포함)", //
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.6)',
-                    lineTension: 0,
-                    fill: true,
-                    data: [[${chartMonitorInCount}]],
-                    datalabels: {
-                        display: true,
-                        align: 'end',
-                        anchor: 'end',
-                    },
-                    borderWidth: 1,
-                },
-
-            ]
-        },
-        options: {
-            responsive: false,
-            <!--indexAxis: 'y',-->
-            layout: {
-                padding: {
-                    top: 7,
-                    bottom: 7,
-                },
-            },
-            plugins: {
-                title: {
-                        display: true,
-                        text: 'HMM 모니터 현황',
-                    }
-            },
-            scales: {
-                y: {
-                    max: 1000,
-                    min: 0
-                }
-            }
-        }
-    });
+   // 초기 슬라이드 표시
+    showSlide(currentSlide);
 </script>
+
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+    const createChart = (canvasId, titleText, labels, totalData, outData, inData, yMax) => {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            plugins: [ChartDataLabels],
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "전체 현황",
+                        borderColor: 'rgb(0, 0, 255)',
+                        backgroundColor: 'rgba(0, 99, 255, 0.6)',
+                        data: totalData,
+                        <!--hidden: true,-->
+                        datalabels: {
+                            display: true,
+                            align: 'end',
+                            anchor: 'end',
+                        },
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "출고 수량",
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        data: outData,
+                        datalabels: {
+                            display: true,
+                            align: 'end',
+                            anchor: 'end',
+                        },
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "입고 수량(불용 포함)",
+                        borderColor: 'rgb(255, 205, 86)',
+                        backgroundColor: 'rgba(255, 205, 86, 0.6)',
+                        data: inData,
+                        datalabels: {
+                            display: true,
+                            align: 'end',
+                            anchor: 'end',
+                        },
+                        borderWidth: 1,
+                    }
+                ]
+            },
+            options: {
+                responsive: false,
+                layout: {
+                    padding: {
+                        top: 7,
+                        bottom: 7,
+                    },
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: titleText,
+                    }
+                },
+                scales: {
+                    y: {
+                        max: yMax,
+                        min: 0
+                    }
+                }
+            }
+        });
+    };
+
+    // 차트 생성 호출
+    <!--createChart("ChartLaptop", "HMM 노트북 현황", [[${chartLaptopList}]], [[${chartLaptopTotalCount}]], [[${chartLaptopOutCount}]], [[${chartLaptopInCount}]], 400);-->
+    createChart("ChartLaptopOffice", "HMM 사무용 노트북 현황", [[${chartLaptopOfficeList}]], [[${chartLaptopOfficeTotalCount}]], [[${chartLaptopOfficeOutCount}]], [[${chartLaptopOfficeInCount}]], 400);
+    createChart("ChartLaptopBusiness", "HMM 영업용 노트북 현황", [[${chartLaptopBusinessList}]], [[${chartLaptopBusinessTotalCount}]], [[${chartLaptopBusinessOutCount}]], [[${chartLaptopBusinessInCount}]], 30);
+    createChart("ChartDesktop", "HMM 데스크탑 현황", [[${chartDesktopList}]], [[${chartDesktopTotalCount}]], [[${chartDesktopOutCount}]], [[${chartDesktopInCount}]], 70);
+    createChart("ChartMonitor", "HMM 모니터 현황", [[${chartMonitorList}]], [[${chartMonitorTotalCount}]], [[${chartMonitorOutCount}]], [[${chartMonitorInCount}]], 1000);
+</script>
+
 
 </html>

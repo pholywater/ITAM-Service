@@ -80,100 +80,46 @@ public class HomeController {
     }
 
 
-    @GetMapping("/homeChart") // 장비 운영 현황 차트
-    public String getHomeChart(ModelMap map, Model model, String search, String search1) {
+    @GetMapping("/homeChart")
+    public String getHomeChart(ModelMap map, Model model) {
         log.info("통계 차트 불러오기");
 
-        search = String.valueOf('D');
-        search1 = String.valueOf("totalCount");
+        String[] deviceCodes = {"D", "L", "LaptopOffice", "LaptopBusiness", "M"};
+        String[] deviceNames = {"Desktop", "Laptop", "LaptopOffice", "LaptopBusiness", "Monitor"};
+        String[] countTypes = {"totalCount", "outCount", "inCount"};
 
-        List<ChartVo> chartDesktopList = userService.getChartList(search, search1);
-        model.addAttribute("chartDesktopList", chartDesktopList);
-        /*log.info("chartDesktopList : {}", chartDesktopList);*/
+        for (int i = 0; i < deviceCodes.length; i++) {
+            String deviceCode = deviceCodes[i];
+            String deviceName = deviceNames[i];
 
-        search1 = String.valueOf("totalCount");
-        List<ChartVo> chartDesktopTotalCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopTotalCount", chartDesktopTotalCount);
-        /*log.info("chartDesktopTotalCount : {}", chartDesktopTotalCount);*/
+            // 장비 리스트
+            List<ChartVo> chartList = userService.getChartList(deviceCode, "totalCount");
+            model.addAttribute("chart" + deviceName + "List", chartList);
 
-        search1 = String.valueOf("outCount");
-        List<ChartVo> chartDesktopOutCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopOutCount", chartDesktopOutCount);
-        /*log.info("chartDesktopOutCount : {}", chartDesktopOutCount);*/
+            // 카운트 항목들
+            for (String countType : countTypes) {
+                List<ChartVo> chartCount = userService.getChartCount(deviceCode, countType);
+                model.addAttribute("chart" + deviceName + capitalize(countType), chartCount);
+            }
+        }
 
-        search1 = String.valueOf("inCount");
-        List<ChartVo> chartDesktopInCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopInCount", chartDesktopInCount);
-        /*log.info("chartDesktopInCount : {}", chartDesktopInCount);*/
+        // 필요 시 추가 항목 처리 (예: hmmWork, hmmRent 등)
+        String[] extraTypes = {
+                "hmmWork", "hmmRent", "hmmPublic", "hmmHelp", "hmmBroken",
+                "busanHelp", "busanBroken"
+        };
 
-        search = String.valueOf('L');
-        search1 = String.valueOf("totalCount");
+        for (String extraType : extraTypes) {
+            List<ChartVo> extraCount = userService.getChartCount("D", extraType);
+            model.addAttribute("chartDesktop" + capitalize(extraType), extraCount);
+        }
 
-        List<ChartVo> chartLaptopList = userService.getChartList(search, search1);
-        model.addAttribute("chartLaptopList", chartLaptopList);
-        /*log.info("chartLaptopList : {}", chartLaptopList);*/
-
-        search1 = String.valueOf("totalCount");
-        List<ChartVo> chartLaptopTotalCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartLaptopTotalCount", chartLaptopTotalCount);
-        /*log.info("chartLaptopTotalCount : {}", chartLaptopTotalCount);*/
-
-        search1 = String.valueOf("outCount");
-        List<ChartVo> chartLaptopOutCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartLaptopOutCount", chartLaptopOutCount);
-        /*log.info("chartLaptopOutCount : {}", chartLaptopOutCount);*/
-
-        search1 = String.valueOf("inCount");
-        List<ChartVo> chartLaptopInCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartLaptopInCount", chartLaptopInCount);
-        /*log.info("chartLaptopInCount : {}", chartLaptopInCount);*/
-
-        search = String.valueOf('M');
-        search1 = String.valueOf("totalCount");
-
-        List<ChartVo> chartMonitorList = userService.getChartList(search, search1);
-        model.addAttribute("chartMonitorList", chartMonitorList);
-        /*log.info("chartMonitorList : {}", chartMonitorList);*/
-
-        search1 = String.valueOf("totalCount");
-        List<ChartVo> chartMonitorTotalCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartMonitorTotalCount", chartMonitorTotalCount);
-        /*log.info("chartMonitorTotalCount : {}", chartMonitorTotalCount);*/
-
-        search1 = String.valueOf("outCount");
-        List<ChartVo> chartMonitorOutCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartMonitorOutCount", chartMonitorOutCount);
-        /*log.info("chartMonitorOutCount : {}", chartMonitorOutCount);*/
-
-        search1 = String.valueOf("inCount");
-        List<ChartVo> chartMonitorInCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartMonitorInCount", chartMonitorInCount);
-        /*log.info("chartMonitorInCount : {}", chartMonitorInCount);*/
-
-        /*search1 = String.valueOf("hmmWork");
-        List<ChartVo> chartDesktopHmmWorkCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopHmmWorkCount", chartDesktopHmmWorkCount);
-        search1 = String.valueOf("hmmRent");
-        List<ChartVo> chartDesktopHmmRentCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopHmmRentCount", chartDesktopHmmRentCount);
-        search1 = String.valueOf("hmmPublic");
-        List<ChartVo> chartDesktopHmmPublicCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopHmmPublicCount", chartDesktopHmmPublicCount);
-        search1 = String.valueOf("hmmHelp");
-        List<ChartVo> chartDesktopHmmHelpCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopHmmHelpCount", chartDesktopHmmHelpCount);
-        search1 = String.valueOf("hmmBroken");
-        List<ChartVo> chartDesktopHmmBrokenCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopHmmBrokenCount", chartDesktopHmmBrokenCount);
-        search1 = String.valueOf("busanHelp");
-        List<ChartVo> chartDesktopBusanHelpCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopBusanHelpCount", chartDesktopBusanHelpCount);
-        search1 = String.valueOf("busanBroken");
-        List<ChartVo> chartDesktopBusanBrokenCount = userService.getChartCount(search, search1);
-        model.addAttribute("chartDesktopBusanBrokenCount", chartDesktopBusanBrokenCount);*/
-
-
-        /*model.addAttribute("count", chartCount);*/
         return "homeChart";
     }
+
+    // 첫 글자 대문자로 변환하는 헬퍼 메서드
+    private String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
 }

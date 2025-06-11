@@ -21,7 +21,21 @@ public interface AssetMapper {
 
     List<AssetVo> getChart2List(); // 재고 장비 차트 리스트*/
 
+    List<AssetVo> getAssetListWork(); // 업무용 장비 리스트
+
     List<AssetVo> getAssetListRent(); // 대여 장비 리스트
+
+    List<AssetVo> getAssetListPublic(); // 공용 장비 리스트
+
+    List<AssetVo> getAssetListInput(); // 재고 장비 리스트
+
+    List<AssetVo> getAssetListInputL(); // 재고 노트북 장비 리스트
+
+    List<AssetVo> getAssetListInputM(); // 재고 모니터 장비 리스트
+
+    List<AssetVo> getAssetListNew(); // 신규 장비 리스트
+
+    List<AssetVo> getAssetListBusanInventory(); // 장비 리스트 부산 재고
 
     List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
 
