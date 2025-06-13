@@ -98,6 +98,7 @@ public class AssetVo {
     private String historyCheck;
     private String historyAssetEtc1;
     private String updateCheck;
+    private String combineSearch;
 
 
     private int totalCount;

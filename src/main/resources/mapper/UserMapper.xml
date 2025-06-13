@@ -227,8 +227,9 @@
         asset_model.model_code
     </select>
 
+    <!--본사 및 전국 장비 지급 현황 표-->
     <select id="getTable1List" resultType="hmm.itam.vo.TableVo">
-        select
+        select department_location,
         COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
         COUNT(case when model_type = 'D' then 1 end) as 'desktop',
         COUNT(case when model_type = 'L' then 1 end) as 'laptop',
@@ -242,8 +243,12 @@
         ON asset_info.asset_model_name=asset_model.model_name
         where
         asset_divestituer = '활성' and status_type = '출고' and status_asset_usage != '재고'
+        group by
+        department_location
+        order by field(department_location, '본사','부산','광양','마산','포항','해외')
     </select>
 
+    <!--용도별 장비 지급 현황 표-->
     <select id="getTable2List" resultType="hmm.itam.vo.TableVo">
         select status_asset_usage,
         COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
@@ -275,13 +280,17 @@
         'hmm_public',<!--출고(공용)-->
         COUNT(case when status_type = '출고' and status_asset_usage = '기타' and status_asset_status = '양호' then 1 end) as
         'hmm_etc',<!--출고(기타)-->
-        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '양호' and
+        department_region = '여의도' then 1 end) as
         'hmm_help',<!--본사재고(양호)-->
-        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '불량' and
+        department_region = '여의도' then 1 end) as
         'hmm_broken',<!--본사재고(불용)-->
-        COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '양호' then 1 end) as
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '양호' and
+        department_region = '초량동' then 1 end) as
         'busan_help',<!--부산재고(양호)-->
-        COUNT(case when status_type = '출고' and status_asset_usage = '재고' and status_asset_status = '불량' then 1 end) as
+        COUNT(case when status_type = '입고' and status_asset_usage = '재고' and status_asset_status = '불량' and
+        department_region = '초량동' then 1 end) as
         'busan_broken'<!--부산재고(불용)-->
 
         FROM asset_info
@@ -298,10 +307,10 @@
         group by
         asset_model_name
 
-        order by model_type, asset_model_name
+        order by model_type, asset_model_code
     </select>
 
-
+    <!--메인 화면 차트 리스트-->
     <select id="getChartList" resultType="string">
         select asset_model_name, model_type,
         COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
@@ -336,6 +345,15 @@
             <when test="search == 'LaptopBusiness'">
                 where asset_divestituer = '활성' and model_type = 'L' and model_replacement_type = '영업용'
             </when>
+            <when test="search == 'Seoul'">
+                where asset_divestituer = '활성' and department_region = '여의도'
+            </when>
+            <when test="search == 'Busan'">
+                where asset_divestituer = '활성' and department_region = '초량동'
+            </when>
+            <when test="search == 'HOS'">
+                where asset_divestituer = '활성' and department_region = '중앙동'
+            </when>
             <otherwise>
                 where asset_divestituer = '활성' and model_type = #{search}
             </otherwise>
@@ -344,10 +362,10 @@
         group by
         asset_model_name
 
-        order by model_type, asset_model_name
+        order by model_type, asset_number
     </select>
 
-
+    <!--메인 화면 차트 카운트-->
     <select id="getChartCount" resultType="int">
         select
         <choose>
@@ -382,6 +400,15 @@
             <when test="search == 'LaptopBusiness'">
                 where asset_divestituer = '활성' and model_type = 'L' and model_replacement_type = '영업용'
             </when>
+            <when test="search == 'Seoul'">
+                where asset_divestituer = '활성' and department_region = '여의도'
+            </when>
+            <when test="search == 'Busan'">
+                where asset_divestituer = '활성' and department_region = '초량동'
+            </when>
+            <when test="search == 'HOS'">
+                where asset_divestituer = '활성' and department_region = '중앙동'
+            </when>
             <otherwise>
                 where asset_divestituer = '활성' and model_type = #{search}
             </otherwise>
@@ -390,7 +417,7 @@
         group by
         asset_model_name
 
-        order by model_type, asset_model_name
+        order by model_type, asset_number
     </select>
 
     <!--

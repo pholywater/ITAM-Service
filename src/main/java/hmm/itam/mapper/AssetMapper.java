@@ -6,6 +6,7 @@ import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.HistoryVo;
 import hmm.itam.vo.MemberVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,9 +18,12 @@ public interface AssetMapper {
 
     List<AssetVo> getMemberList(); // datalist 자동완성 직원 이름 검색 리스트
 
-/*    List<AssetVo> getChart1List(); // 재고 장비 차트 리스트
+    /*    List<AssetVo> getChart1List(); // 재고 장비 차트 리스트
 
-    List<AssetVo> getChart2List(); // 재고 장비 차트 리스트*/
+        List<AssetVo> getChart2List(); // 재고 장비 차트 리스트*/
+    List<AssetVo> getAssetListAll(); // 전체 장비 리스트
+
+    List<AssetVo> getAssetListOutput(); // 출고 장비 리스트
 
     List<AssetVo> getAssetListWork(); // 업무용 장비 리스트
 
@@ -36,6 +40,8 @@ public interface AssetMapper {
     List<AssetVo> getAssetListNew(); // 신규 장비 리스트
 
     List<AssetVo> getAssetListBusanInventory(); // 장비 리스트 부산 재고
+
+    List<AssetVo> getAssetUpdateToday(); // 장비 리스트 부산 재고
 
     List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
 
@@ -57,9 +63,13 @@ public interface AssetMapper {
     void deleteAsset(AssetVo assetVo); // 장비 삭제
 
 
-    List<AssetVo> findAssetByPagination(int startNo, int length, String navSearch);
+    List<AssetVo> findAssetByPagination(@Param("startNo") int startNo,
+                                        @Param("length") int length,
+                                        @Param("search") String search);
 
-    int countTotalAsset(String navSearch);
+    int countTotalAsset(@Param("search") String search);
+
+    
 
 
 

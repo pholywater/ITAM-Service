@@ -30,6 +30,8 @@
         <thead>
         <tr>
             <th>No.</th>
+            <th>구분</th>
+            <th>장비상태</th>
             <th>사원번호</th>
             <th>위치</th>
             <th>지역</th>
@@ -37,19 +39,22 @@
             <th>부서</th>
             <th>이름</th>
             <th>직급</th>
+            <th>직원상태</th>
+            <th>용도</th>
+            <th>트리플</th>
             <th>장비번호</th>
             <th>타입</th>
             <th>제조사</th>
             <th>모델명</th>
+            <th>SPEC</th>
+            <th>MAC ADDRESS</th>
             <th>시리얼</th>
-            <th>Spec1</th>
-            <th>Spec2</th>
+            <th>도입일</th>
             <th>최초지급</th>
-            <th>구분</th>
-            <th>용도</th>
-            <th>장비상태</th>
             <th>업데이트</th>
             <th>용도상세</th>
+            <th>지급기한</th>
+            <th>상세조회</th>
         </tr>
         </thead>
 
@@ -58,17 +63,14 @@
     </table>
 </div><!-- /container -->
 
-<script src="js/datatables/dataTables.responsive.min.js"></script>
-
 <script>
     $(document).ready(function() {
         document.getElementById("myDiv").style.display = "block";
-
         $('#myTable').DataTable( {
-               searching: false , // 우측 상단 서치박스 활성화 false
+               searching: true, // 우측 상단 서치박스 활성화 false
                processing: true,
                search: {
-                         // return: true // 엔터 키 검색
+                         return: true // 엔터 키 검색
                          // regex : true
                          },
 
@@ -79,13 +81,14 @@
                      },
                scrollCollapse: true,
                scrollX: true, // 가로 스크롤바 생성
-               scrollY: '700px',
-               fixedColumns: {
+               scrollCollapse: true,
+                // 틀고정 설정
+                fixedColumns: {
                     leftColumns: 0, // 숫자 크기 만큼 고정
-                    rightColumns: 0
-               },
+                    rightColumns: 1
+                },
+               scrollY: '700px',
                dom: 'Bfrtip',
-               // 틀고정 설정
                lengthMenu: [
                                 [ 5, 10, 25, 50, 100, -1 ],
                                 [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
@@ -113,11 +116,7 @@
 
                order: [8, 'asc'], // 작동 안함
                colReorder: true,
-               responsive: {
-                               details: {
-                                           type: 'column'
-                                        }
-                            }
+               responsive: false
         } );
 });
 </script>
