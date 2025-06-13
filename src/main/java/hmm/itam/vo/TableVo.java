@@ -12,6 +12,8 @@ public class TableVo {
     private String assetModelName;
     private String statusAssetUsage;
     private String modelReplacementType;
+    private String departmentLocation;
+    private String departmentRegion;
     private int totalCount;
     private int hmmWork;
     private int hmmRent;

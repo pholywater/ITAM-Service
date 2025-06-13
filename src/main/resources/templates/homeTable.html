@@ -28,11 +28,12 @@
 <div id="myDiv" class="container">
     <h3 Style="text-align:center">전산장비 관리 현황</h3>
     <hr>
-    <div style="float:left; width:40%; height:270px;">
+    <div style="float:left; width:50%; height:270px;">
         <h5 Style="text-align:center">본사 및 전국 장비 지급 현황</h5>
         <table id="myTable" class="display" style="width:97%">
             <thead>
             <tr>
+                <th>지역</th>
                 <th>합계</th>
                 <th>데스크탑</th>
                 <th>노트북</th>
@@ -41,6 +42,7 @@
             </thead>
             <tbody>
             <tr th:each="u:${list1}">
+                <td th:text="${u.departmentLocation}"></td><!--구분-->
                 <td th:text="${u.totalCount}"></td><!--구분-->
                 <td th:text="${u.desktop}"></td><!--구분-->
                 <td th:text="${u.laptop}"></td><!--구분-->
@@ -49,7 +51,7 @@
             </tbody>
         </table>
     </div>
-    <div style="float:right; width:60%; height:270px;">
+    <div style="float:right; width:50%; height:270px;">
         <h5 Style="text-align:center">용도별 장비 지급 현황</h5>
         <table id="myTable1" class="display" style="width:97%">
             <thead>

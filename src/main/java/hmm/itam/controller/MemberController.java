@@ -74,7 +74,7 @@ public class MemberController {
             return "redirect:memberAdd";
         }
         model.addAttribute("member", memberVo);
-        return "itam/member/memberResult"; // 자산 등록 후 보여질 화면
+        return "itam/member/memberAdd"; // 자산 등록 후 보여질 화면
     }
 
     @GetMapping("/memberSearch") // 자산 등록 후 화면

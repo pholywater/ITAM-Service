@@ -20,5 +20,10 @@ public class PageDto<T> {
     private String navSearch;
     private String search;
 
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
     private List<T> data;
 }
+

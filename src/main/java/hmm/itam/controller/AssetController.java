@@ -15,10 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.SimpleTimeZone;
+import java.util.*;
 
 import static java.time.LocalTime.now;
 
@@ -52,75 +49,65 @@ public class AssetController {
         return "itam/asset/homeChart";
     }*/
 
-    @GetMapping("/assetList") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)
-    public String getAssetList(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetList();
-        /*System.out.println(assetList);*/
-        log.info("전체 자산 리스트 조회 : 출고,입고,기타");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
+    @GetMapping("/{type}")
+    public String getAssetListByType(@PathVariable String type, Model model) {
+        List<AssetVo> assetList;
 
-    @GetMapping("/assetListWork") // 대여장비 리스트 검색(매각, 신규 제외)
-    public String getAssetListWork(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListWork();
-        log.info("장비 리스트 업무용 : DB VIEW TABLE 조회");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
+        switch (type) {
+            case "assetList":
+                assetList = AssetService.getAssetList();
+                log.info("전체 자산 리스트 조회 : 출고,입고,기타");
+                break;
+            case "assetListAll":
+                assetList = AssetService.getAssetListAll();
+                log.info("장비 리스트 전체 : DB VIEW TABLE 조회");
+                break;
+            case "assetListOutput":
+                assetList = AssetService.getAssetListOutput();
+                log.info("장비 리스트 출고 : DB VIEW TABLE 조회");
+                break;
+            case "assetListWork":
+                assetList = AssetService.getAssetListWork();
+                log.info("장비 리스트 업무용 : DB VIEW TABLE 조회");
+                break;
+            case "assetListRent":
+                assetList = AssetService.getAssetListRent();
+                log.info("장비 리스트 대여 : DB VIEW TABLE 조회");
+                break;
+            case "assetListPublic":
+                assetList = AssetService.getAssetListPublic();
+                log.info("장비 리스트 공용 : DB VIEW TABLE 조회");
+                break;
+            case "assetListInput":
+                assetList = AssetService.getAssetListInput();
+                log.info("장비 리스트 재고 : DB VIEW TABLE 조회");
+                break;
+            case "assetListInputL":
+                assetList = AssetService.getAssetListInputL();
+                log.info("장비 리스트 재고 모니터(L) : DB VIEW TABLE 조회");
+                break;
+            case "assetListInputM":
+                assetList = AssetService.getAssetListInputM();
+                log.info("장비 리스트 재고 모니터(M) : DB VIEW TABLE 조회");
+                break;
+            case "assetListNew":
+                assetList = AssetService.getAssetListNew();
+                log.info("장비 리스트 신규 : DB VIEW TABLE 조회");
+                break;
+            case "assetListBusanInventory":
+                assetList = AssetService.getAssetListBusanInventory();
+                log.info("장비 리스트 부산 재고 : DB VIEW TABLE 조회");
+                break;
+            case "assetUpdateToday":
+                assetList = AssetService.getAssetUpdateToday();
+                log.info("오늘 업데이트 된 내역 : DB VIEW TABLE 조회");
+                break;
+            default:
+                log.warn("잘못된 자산 리스트 요청: {}", type);
+                assetList = Collections.emptyList();
+                break;
+        }
 
-    @GetMapping("/assetListRent") // 대여장비 리스트 검색(매각, 신규 제외)
-    public String getAssetListRent(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListRent();
-        log.info("장비 리스트 대여 : DB VIEW TABLE 조회");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
-
-    @GetMapping("/assetListPublic") // 공용장비 리스트 검색(매각, 신규 제외)
-    public String getAssetListPublic(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListPublic();
-        log.info("장비 리스트 공용 : DB VIEW TABLE 조회");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
-
-    @GetMapping("/assetListInput") // 재고장비 리스트 검색(매각, 신규 제외)
-    public String getAssetListInput(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListInput();
-        log.info("장비 리스트 재고 : DB VIEW TABLE 조회");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
-
-    @GetMapping("/assetListInputL") // 재고장비 리스트 검색(매각, 신규 제외)
-    public String getAssetListInputL(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListInputL();
-        log.info("장비 리스트 재고 모니터 : DB VIEW TABLE 조회");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
-
-    @GetMapping("/assetListInputM") // 재고장비 리스트 검색(매각, 신규 제외)
-    public String getAssetListInputM(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListInputM();
-        log.info("장비 리스트 재고 모니터 : DB VIEW TABLE 조회");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
-
-    @GetMapping("/assetListNew") // 신규장비 리스트 검색(매각, 신규 제외)
-    public String getAssetListNew(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListNew();
-        log.info("장비 리스트 신규 : DB VIEW TABLE 조회");
-        model.addAttribute("list", assetList);
-        return "itam/asset/assetList";
-    }
-
-    @GetMapping("/assetListBusanInventory") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)
-    public String getAssetListBusanInventory(Model model) {
-        List<AssetVo> assetList = AssetService.getAssetListBusanInventory();
-        log.info("장비 리스트 부산 재고 : DB VIEW TABLE 조회");
         model.addAttribute("list", assetList);
         return "itam/asset/assetList";
     }
@@ -139,22 +126,33 @@ public class AssetController {
     }
 
 
-    @ResponseBody // Data로 받아오는 선언
-    @PostMapping("/assets") // js ajax 호출로 Data로 들어갈 PageDto 값 정의
-    public PageDto getAsset(int draw, int length, int start, String search, HttpSession session) {
+    @PostMapping("/assets")
+    @ResponseBody
+    public PageDto getAsset(
+            @RequestParam("draw") int draw,
+            @RequestParam("length") int length,
+            @RequestParam("start") int start,
+            @RequestParam(value = "search[value]", required = false) String searchValue,
+            HttpSession session) {
+
         String navSearch = (String) session.getAttribute("navSearch");
+
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 draw 값 {} ", draw);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 start 값 {} ", start);
         log.info("ajax: '/assets' 실행 후 js에서 받아오는 length 값 {} ", length);
-        log.info("ajax: '/assets' 실행 후 js에서 받아오는 search 값 {} ", search);
+        log.info("ajax: '/assets' 실행 후 js에서 받아오는 searchValue 값 {} ", searchValue);
         log.info("해더에서 넘겨 받은 getNavSearch 값 {} ", navSearch);
+
         PageDto rs = new PageDto();
         rs.setDraw(draw);
         rs.setStart(start);
         rs.setLength(length);
+        rs.setSearch(searchValue); // 검색어 저장
         rs.setNavSearch(navSearch);
+
         return AssetService.findAssetByPagination(rs);
     }
+
 
     @GetMapping("/searchAssetPage") // 자산 등록 후 화면
     public String searchAssetDetailPage(AssetVo assetVo, Model model) {
@@ -184,15 +182,11 @@ public class AssetController {
             model.addAttribute("list", searchAssetList);
             return "itam/asset/assetList"; //
         }
-        /*상단 검색에서 장비 조회 시*/
-        if (Objects.equals(searchType, "realTime")) {
-            log.info("상단 간편검색 : {}", navSearch);
-            search = navSearch;
-        }
+
 
         /*상단 검색에서 이력 관리 조회 시*/
         if (Objects.equals(searchType, "history")) {
-            log.info("간편 이력 조회하기 : {}", navSearch);
+            log.info("이력 조회 : {}", navSearch);
             List<AssetVo> resultList = AssetService.historySearch(navSearch);
             model.addAttribute("list", resultList);
             return "itam/history/historySearch";
@@ -201,7 +195,7 @@ public class AssetController {
         /*상단 검색에서 백앤드 장비 조회 시*/
         if (Objects.equals(searchType, "serverSide")) {
             session.setAttribute("navSearch", navSearch);
-            log.info("상단 간편검색 : {}", navSearch);
+            log.info("백앤드 조회 : {}", navSearch);
 
             return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출
         }
@@ -209,12 +203,18 @@ public class AssetController {
         /*빈 값 입력 시*/
         if (search == "") {
             log.info("검색 창 빈값 처리");
-            return "itam/asset/assetList";
+            return "redirect:assetUpdateToday";
         }
 
-        /*조회 한 값 넘겨주기*/
-        List<AssetVo> searchAssetDetail = AssetService.searchAssetList(search, searchType);
-        model.addAttribute("list", searchAssetDetail);
+        /*상단 통합 검색에서 장비 조회 시*/
+        if (Objects.equals(searchType, "easySearch")) {
+            log.info("통합 조회 : {}", navSearch);
+            search = navSearch;
+            /*조회 한 값 넘겨주기*/
+            List<AssetVo> searchAssetDetail = AssetService.searchAssetList(search, searchType);
+            model.addAttribute("list", searchAssetDetail);
+        }
+
 
         /*상세조회 datalist 부서 검색 자동완성 작업*/
         List<AssetVo> departmentList = AssetService.getDepartmentList();
@@ -454,9 +454,6 @@ public class AssetController {
 
 
         return "itam/asset/assetSearch";
-        /*return "redirect:assetSearch";*/
-        /*return "redirect:/assetSearch";*/
-        /*return "itam/asset/assetResult";*/
     }
 
 

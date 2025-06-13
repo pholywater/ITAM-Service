@@ -71,30 +71,27 @@
 
                         <!--백엔드 조회-->
                         <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트(백엔드)</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=assetAll}">전체 장비 리스트</a>
-
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&navSearch=출고}">전체
-                            출고 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&navSearch=입고}">본사
-                            재고 장비 리스트</a></li>
-                        <li>
-                        <li><a class="dropdown-item" th:href="@{assetListBusanInventory}">부산
-                            재고 장비 리스트</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListAll}">전체 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListOutput}">출고 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListWork}">업무용 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListRent}">대여용 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListPublic}">공용 장비 리스트</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListInput}">재고 장비 리스트(전체)</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListInputL}">재고 장비 리스트(노트북)</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListInputM}">재고 장비 리스트(모니터)</a></li>
+                        <li><a class="dropdown-item" th:href="@{assetListBusanInventory}">부산
+                            재고 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListNew}">신규 장비 리스트</a></li>
                         <!--

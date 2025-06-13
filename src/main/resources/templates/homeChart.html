@@ -30,6 +30,15 @@
         <div class="chart-slide" style="display: none;">
             <canvas id="ChartMonitor" width="1600" height="500"></canvas>
         </div>
+        <!--<div class="chart-slide" style="display: none;">
+            <canvas id="ChartSeoul" width="1600" height="500"></canvas>
+        </div>-->
+        <div class="chart-slide" style="display: none;">
+            <canvas id="ChartBusan" width="1600" height="500"></canvas>
+        </div>
+        <div class="chart-slide" style="display: none;">
+            <canvas id="ChartHOS" width="1600" height="500"></canvas>
+        </div>
 
     </div>
     <hr>
@@ -39,6 +48,9 @@
         <button onclick="goToSlide(1)" class="btn btn-sm btn-success mx-2">영업용 노트북</button>
         <button onclick="goToSlide(2)" class="btn btn-sm btn-warning mx-2">데스크탑</button>
         <button onclick="goToSlide(3)" class="btn btn-sm btn-danger mx-2">모니터</button>
+        <!--    <button onclick="goToSlide(4)" class="btn btn-sm btn-light mx-2">본사 장비</button>-->
+        <button onclick="goToSlide(4)" class="btn btn-sm btn-info mx-2">부산 신사옥</button>
+        <button onclick="goToSlide(5)" class="btn btn-sm btn-secondary mx-2">부산 HOS</button>
     </div>
 </div>
 
@@ -47,7 +59,7 @@
     let currentSlide = 0;
     const slides = document.querySelectorAll('.chart-slide');
     const totalSlides = slides.length;
-   let slideInterval = setInterval(nextSlide, 5000);
+   let slideInterval = setInterval(nextSlide, 20000);
 
     function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -64,7 +76,7 @@
     function goToSlide(index) {
     clearInterval(slideInterval); // 자동 슬라이드 멈춤
     showSlide(index);
-   slideInterval = setInterval(nextSlide, 15000); // 다시 자동 슬라이드 시작
+   slideInterval = setInterval(nextSlide, 30000); // 다시 자동 슬라이드 시작
    }
 
    // 초기 슬라이드 표시
@@ -151,7 +163,9 @@
     createChart("ChartLaptopBusiness", "HMM 영업용 노트북 현황", [[${chartLaptopBusinessList}]], [[${chartLaptopBusinessTotalCount}]], [[${chartLaptopBusinessOutCount}]], [[${chartLaptopBusinessInCount}]], 30);
     createChart("ChartDesktop", "HMM 데스크탑 현황", [[${chartDesktopList}]], [[${chartDesktopTotalCount}]], [[${chartDesktopOutCount}]], [[${chartDesktopInCount}]], 70);
     createChart("ChartMonitor", "HMM 모니터 현황", [[${chartMonitorList}]], [[${chartMonitorTotalCount}]], [[${chartMonitorOutCount}]], [[${chartMonitorInCount}]], 1000);
+    <!--createChart("ChartSeoul", "HMM 본사 장비 현황", [[${chartSeoulList}]], [[${chartSeoulTotalCount}]], [[${chartSeoulOutCount}]], [[${chartSeoulInCount}]], 120);-->
+    createChart("ChartBusan", "HMM 부산 신사옥 현황", [[${chartBusanList}]], [[${chartBusanTotalCount}]], [[${chartBusanOutCount}]], [[${chartBusanInCount}]], 120);
+    createChart("ChartHOS", "HMM 부산 HOS 현황", [[${chartHOSList}]], [[${chartHOSTotalCount}]], [[${chartHOSOutCount}]], [[${chartHOSInCount}]], 120);
 </script>
-
 
 </html>

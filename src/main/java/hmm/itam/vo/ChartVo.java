@@ -11,7 +11,10 @@ public class ChartVo {
 
     private String modelType;
     private String assetModelName;
+    private String assetNumber;
     private String modelReplacementType;
+    private String departmentLocation;
+    private String departmentRegion;
     private int totalCount;
     private int hmmWork;
     private int hmmRent;
