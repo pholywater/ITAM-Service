@@ -4,13 +4,13 @@
     <!--로그인 가능 사용자 리스트 * 가져오기-->
     <select id="getUserList" resultType="hmm.itam.vo.UserVo">
         SELECT *
-        FROM User
+        FROM user
     </select>
 
 
     <!--회원가입 db 정보 추가 처리-->
     <insert id="insertUser" parameterType="hmm.itam.vo.UserVo">
-        INSERT INTO User
+        INSERT INTO user
         (
         hmm_id,
         name,
@@ -29,20 +29,20 @@
     <!--로그인 인증 시 사용자 정보 가져오기-->
     <select id="getUserByHmmId" resultType="hmm.itam.vo.UserVo">
         SELECT *
-        FROM User
+        FROM user
         WHERE hmm_id = #{hmmId}
     </select>
 
     <!--로그인 인증 후 홈 화면에서 idx 값을 통한 사용자 정보 뷰-->
     <select id="getUserById" resultType="hmm.itam.vo.UserVo">
         SELECT *
-        FROM User
+        FROM user
         WHERE idx = #{idx}
     </select>
 
     <!--회원정보 수정-->
     <update id="updateUser" parameterType="hmm.itam.vo.UserVo">
-        UPDATE User
+        UPDATE user
         SET
         name = #{name},
         hmm_id = #{hmmId},
@@ -54,7 +54,7 @@
     <!--탈퇴하기-->
     <delete id="deleteUser">
         DELETE
-        FROM User
+        FROM user
         WHERE idx = #{idx}
     </delete>
 
@@ -191,6 +191,7 @@
         asset_model.model_type,
         asset_model.model_code
     </select>
+    
     <select id="getChartCount2" resultType="int">
         SELECT COUNT(*)
 

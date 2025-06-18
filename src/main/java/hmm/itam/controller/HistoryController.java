@@ -1,25 +1,18 @@
 package hmm.itam.controller;
 
 import hmm.itam.dto.AssetSupplies;
+import hmm.itam.dto.PageDto;
+import hmm.itam.mapper.HistoryMapper;
 import hmm.itam.service.HistoryService;
-import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.HistoryVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.text.BreakIterator;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 import static java.time.LocalTime.now;
 
@@ -41,6 +34,67 @@ public class HistoryController {
         List<HistoryVo> historyList = HistoryService.getHistoryList(searchStart, searchEnd);
         model.addAttribute("list", historyList);
         return "itam/history/historyList"; // 실제 HTML 경로
+    }
+
+
+    @GetMapping("/historySearch")
+    public String historySearchList(HttpSession session,
+                                    @RequestParam(value = "navSearch", required = false) String navSearch,
+                                    Model model) {
+
+        // 검색어가 없거나 공백일 경우 홈으로 리다이렉트
+        if (navSearch == null || navSearch.trim().isEmpty()) {
+            return "redirect:/";
+        }
+
+        // 유효한 검색어일 경우 세션에 저장
+        session.setAttribute("navSearch", navSearch.trim());
+
+        log.info("히스토리 이력 조회 검색어(navSearch) 확인: {}", navSearch);
+
+        // 간편 조회: 검색어를 기준으로 이력 검색
+        List<HistoryVo> resultList = historyService.historySearch(navSearch, "간편조회");
+        model.addAttribute("list", resultList);
+
+        return "itam/history/historySearch"; // 결과를 보여줄 HTML
+    }
+
+
+    @Autowired
+    private HistoryService historyService;
+
+    @PostMapping("/api/historySearch")
+    @ResponseBody
+    public PageDto<List<String>> getHistoryList(
+            @RequestParam("draw") int draw,
+            @RequestParam("length") int length,
+            @RequestParam("start") int start,
+            @RequestParam(value = "search[value]", required = false) String searchValue,
+            @RequestParam(value = "order[0][column]", required = false) Integer orderColumn,
+            @RequestParam(value = "order[0][dir]", required = false) String orderDir,
+            @RequestParam(value = "searchStart", required = false) String searchStart,
+            @RequestParam(value = "searchEnd", required = false) String searchEnd,
+            HttpSession session) {
+
+        String navSearch = (String) session.getAttribute("navSearch");
+
+        PageDto<List<String>> rs = new PageDto<>();
+        rs.setDraw(draw);
+        rs.setStart(start);
+        rs.setLength(length);
+        rs.setSearchValue(searchValue);
+        rs.setSearch(searchValue);
+        rs.setNavSearch(navSearch);
+        rs.setSearchStart(searchStart);
+        rs.setSearchEnd(searchEnd);
+
+        if (orderColumn != null && orderDir != null && !orderDir.isBlank()) {
+            rs.setOrderColumn(orderColumn);
+            rs.setOrderDir(orderDir);
+        }
+
+        // 서비스 계층 호출
+        return historyService.findHistoryByPagination(rs);
     }
 
 
@@ -84,7 +138,7 @@ public class HistoryController {
     public AssetSupplies[] assetSupplies() { // enum은 values를 반환하면 value 값들을 배열로 넘겨준다.
         return AssetSupplies.values();
     }
-    
+
     @PostMapping("/historyAdd") // 자산 입출고 관련 이력 입력 처리 // null 관련 처리 추가 해야함.
     public String historyAdd(HistoryVo historyVo, String historyAssetNumber, String historyMemberId, Model model) {
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
@@ -120,7 +174,7 @@ public class HistoryController {
         return "itam/history/historyAdd"; // 자산 등록 후 보여질 화면
     }
 
-    @GetMapping("/historySearch") // 이력 조회 화면(기본 화면)
+  /*  @GetMapping("/historySearch") // 이력 조회 화면(기본 화면)
     public String historySearch(HistoryVo historyVo, Model model, String search, String searchType) {
         log.info("searchType : {}", searchType);
         log.info("search : {}", search);
@@ -129,6 +183,6 @@ public class HistoryController {
         model.addAttribute("list", resultList);
         log.info("간편 조회하기 : {}", search);
         return "itam/history/historySearch";
-    }
+    }*/
 
 }

@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:decorate="~{common/layouts/serverSideLayout}"
       layout:fragment="Content">
 <body>
 <head>
@@ -202,7 +202,7 @@
                     <td>
                         <span class="form-check">
                             <input type="checkbox" th:value="${u.assetNumber}">
-                            
+
                             <!--<label class="form-check-label" for="updateCheck">"></label>-->
                         </span>
                     </td>

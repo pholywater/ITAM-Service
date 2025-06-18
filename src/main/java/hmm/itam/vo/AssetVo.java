@@ -1,6 +1,5 @@
 package hmm.itam.vo;
 
-import hmm.itam.dto.HeaderSearchDto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -99,6 +98,7 @@ public class AssetVo {
     private String historyAssetEtc1;
     private String updateCheck;
     private String combineSearch;
+    private int assetGrant;
 
 
     private int totalCount;

@@ -4,7 +4,7 @@
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://10.20.14.19"> <!--href="http://10.20.14.19"-->
+        <a class="navbar-brand" th:href="@{/}"> <!--href="http://10.20.14.19"-->
             <img src="/img/logoWhite.png" width="90" height="40">
         </a>
         <button
@@ -52,46 +52,64 @@
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetPage}">장비 항목별 리스트 조회</a></li>
+                        <!--<li><a class="dropdown-item" th:href="@{searchAssetPage}">장비 항목별 리스트 조회</a></li>-->
+                        <li><a class="dropdown-item"
+                               th:href="@{searchNewPaymentList?searchStart=2025-01-01&searchEnd=}">신규 장비 지급
+                            리스트</a>
+                        </li>
                         <li><a class="dropdown-item" th:href="@{searchPaymentList}">장비 지급일 리스트 조회</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchMemberPage}">장비 부서별 리스트 조회</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{searchPaymentList?searchStart=change}">노후 전산 장비 교체 리스트</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
+                        <li><a class="dropdown-item" th:href="@{homeTable}">모델별 전산장비 지급 현황(표)</a></li>
+                        <li><a class="dropdown-item" th:href="@{homeChart}">모델별 전산장비 지급 현황(차트)</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li><a class="dropdown-item">Server-side 조회</a></li>
                         <!--백엔드 조회-->
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트(백엔드)</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=assetAll}">전체 장비 리스트</a>
-
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&search=출고}">전체
-                            출고 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&search=입고}">본사
-                            입고 장비 리스트</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=}">전체 장비
+                            리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=출고}">출고
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=업무용}">업무용
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=대여용}">대여용
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=공용}">공용
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=재고}">재고
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=신규}">신규
+                            장비 리스트</a></li>
+                        <!--<li><a class="dropdown-item"
+                               th:href="@{assetListAll}">전체 장비 리스트(필터)</a></li>
                         <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&search=업무용}">업무용 장비 리스트</a></li>
+                               th:href="@{assetListOutput}">출고 장비 리스트</a></li>
                         <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&search=대여용}">대여용 장비 리스트</a></li>
+                               th:href="@{assetListWork}">업무용 장비 리스트</a></li>
                         <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&search=공용}">공용 장비 리스트</a></li>
+                               th:href="@{assetListRent}">대여용 장비 리스트</a></li>
                         <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&search=재고}">재고 장비 리스트</a></li>
-                        <!--
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" th:href="@{#}">신규 모델 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">모델 현황 조회</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" th:href="@{memberAdd}">멤버 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{memberList}">멤버 조회</a></li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{#}">Something else here</a>
-                        </li>
+                               th:href="@{assetListPublic}">공용 장비 리스트</a></li>
                         -->
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li><a class="dropdown-item">Client-side 조회</a></li>
+
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListInput}">재고 장비 리스트(전체)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListInputL}">재고 장비 리스트(노트북)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListInputM}">재고 장비 리스트(모니터)</a></li>
+                        <li><a class="dropdown-item" th:href="@{assetListBusanInventory}">부산
+                            재고 장비 리스트</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListNew}">신규 장비 리스트</a></li>
                     </ul>
                 </li>
 
@@ -130,7 +148,10 @@
                         이력 관리
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{historyAdd}">소모품 및 수리 이력 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{historyAddSupplies}">소모품 이력 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{historyAddRepair}">수리 이력 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{historyAdd}">기타 이력 등록</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchMemberUpdatePage}">멤버 조회 입출고 등록</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -138,10 +159,6 @@
                         <li><a class="dropdown-item" th:href="@{historyList}">이력 관리 날짜 조회</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item"
-                               th:href="@{searchNewPaymentList?searchStart=2024-01-01&searchEnd=}">신규 장비 지급
-                            리스트</a>
                         </li>
                         <li><a class="dropdown-item"
                                th:href="@{historySearch?searchType=historyAssetType&search=소모품}">전산 소모품 지급 리스트</a>
@@ -230,16 +247,9 @@
                         Etc S/W
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{http://203.239.98.20:8014/1.HQ_SEP_64bit_setup.exe}"
-                               target="_blank">Symantec Endpoint Protection(본사)</a></li>
-                        <li><a class="dropdown-item" th:href="@{http://203.239.98.20:8014/2.BS_SEP_64bit_setup.exe}"
-                               target="_blank">Symantec Endpoint Protection(부산)</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{https://203.239.98.25/agentInstall/files/agentsetup/tgatedist.exe}"
                                target="_blank">Tgate 자산관리 솔루션</a></li>
-                        <li><a class="dropdown-item"
-                               th:href="@{http://10.20.14.119/UTIL/Sentinel_One/HMM_S1Installer_22.2_HQ.exe}"
-                               target="_blank">Sentinel One EDR</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{https://edm.hmm21.com/xedrm/json/downloadTicket?ticket=2021053118363883}"
                                target="_blank">XEDM 문서 중앙화 Agent</a></li>
@@ -334,7 +344,6 @@
                         <li><a class="dropdown-item"
                                th:href="@{https://itsm.hmm21.com/jira/secure/attachment/282405/HMM%20%EC%9C%A0%EB%AC%B4%EC%84%A0%20%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%20%EC%82%AC%EC%9A%A9%EC%9E%90%20%EA%B0%80%EC%9D%B4%EB%93%9C_%EC%9E%84%EC%A7%81%EC%9B%90%EC%9A%A9_%282023-09%29.pdf}">신사옥
                             네트워크</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">회의실 TV 연결</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -365,21 +374,35 @@
                 </li>
             </ul>
 
-            <form class="d-flex" role="search" th:action="@{/headerSearch}" method="get">
+            <form class="d-flex" role="search" th:action="@{/searchAssetList}" method="get">
 
                 <select class="form-select me-2" aria-label="Default select example" id="searchType" name="searchType"
                         style="width:10rem">
-                    <option th:value="navSearch">백앤드 조회</option>
+                    <option th:value="easySearch">통합 조회</option>
+                    <option th:value="serverSide">장비 조회</option>
+                    <option th:value="history">이력 조회</option>
+                    <!--
+                    <option th:value="easySearch">간편 조회(이름, 부서, 번호, 모델명)</option>
+                    <option th:value="memberName">이름 조회</option>
+                    <option th:value="memberId">사번 조회</option>
+                    <option th:value="memberDepartmentDetail">부서 조회</option>
+                    <option th:value="assetNumber">장비 번호 조회</option>
+                    <option th:value="modelType">장비 타입 조회</option>
+                    <option th:value="assetModelName">모델명 조회</option>
+                    <option th:value="statusType">입출고 조회</option>
+                    <option th:value="statusAssetUsage">용도별 조회</option>
+                    -->
                 </select>
 
                 <input
                         class="form-control me-2"
                         type="search"
-                        placeholder="간편 조회(이름, 부서, 장비)"
+                        placeholder="조회 항목별(이름, 부서 등)"
                         aria-label="navSearch"
                         size="30"
                         id="navSearch"
                         name="navSearch"
+                        autofocus
 
                 />
                 <button class="btn btn-outline-success" type="submit">
@@ -395,6 +418,5 @@
         </div>
     </div>
 </nav>
-
 </body>
 </html>

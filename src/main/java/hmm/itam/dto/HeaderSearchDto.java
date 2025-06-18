@@ -15,13 +15,4 @@ public class HeaderSearchDto {
     private String assetModelName;
     private String memberDepartmentName;
     private String navSearch;
-
-    /*public HeaderSearchDto(String navSearch) {
-        this.navSearch = navSearch;
-
-    }
-
-    public static HeaderSearchDto of(final String navSearch) {
-        return new HeaderSearchDto(navSearch);
-    }*/
 }

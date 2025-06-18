@@ -1,6 +1,5 @@
 package hmm.itam.service;
 
-
 import hmm.itam.dto.HeaderSearchDto;
 import hmm.itam.dto.PageDto;
 import hmm.itam.mapper.AssetMapper;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -148,7 +146,6 @@ public class AssetService {
     }
 
 
-    /*잘 안쓰는거 */
     /*DataTables Server-side 조회 설정*/
     private HeaderSearchDto HeaderSearchDto;
 
@@ -156,86 +153,114 @@ public class AssetService {
         return HeaderSearchDto;
     }
 
-    /*상단 해더 검색과 서버 사이드 서치 검색어 통합 로직*/
-    private String combineSearch(String navSearch, String search) {
-        if (navSearch != null && !navSearch.isEmpty() && search != null && !search.isEmpty()) {
-            return navSearch + " " + search;
-        } else if (navSearch != null && !navSearch.isEmpty()) {
-            return navSearch;
-        } else {
-            return search;
-        }
-    }
-
     public PageDto<List<String>> findAssetByPagination(PageDto pageDto) {
+        // 페이징 및 검색 파라미터 추출
         int startNo = pageDto.getStart();
         int length = pageDto.getLength();
         int rowNo = pageDto.getStart();
         String navSearch = pageDto.getNavSearch();
-        String search = pageDto.getSearch(); // DataTables 검색어
-        // 검색 조건 통합 (예: navSearch + search)
-        String combinedSearch = combineSearch(navSearch, search);
-        // 총 레코드 수 (검색 조건 포함)
-        int total = AssetMapper.countTotalAsset(combinedSearch);
-        pageDto.setRecordsTotal(total);
-        pageDto.setRecordsFiltered(total);
-        log.info("Draw 받은 숫자 : {}", pageDto.getDraw());
-        log.info("사용자한테 받은 페이지 Start : {}", pageDto.getStart());
-        log.info("디비에 넘기기 위해 계산한 시작 번호 startNo : {}", startNo);
-        log.info("디비에 넘기는 검색 조건 navSearch : {}", navSearch);
-        log.info("DataTables 검색어 search[value] : {}", search);
+        String searchValue = pageDto.getSearch();
 
-        List<AssetVo> data;
-        if (length == -1) {
-            data = AssetMapper.findAssetByPagination(0, total, combinedSearch);
-        } else {
-            data = AssetMapper.findAssetByPagination(startNo, length, combinedSearch);
+        // 정렬 파라미터 추출
+        Integer orderColumn = pageDto.getOrderColumn(); // DataTables 기준 (0번은 ROW 번호)
+        String orderDir = pageDto.getOrderDir();
+
+        // 서버 컬럼 인덱스는 DataTables 기준에서 1을 뺀 값으로 보정
+        String[] columnNames = {
+                "asset_info.status_type",               // index 0 → DataTables index 1
+                "asset_info.status_asset_status",       // index 1 → DataTables index 2
+                "hmm_member.member_id",                 // index 2 → DataTables index 3
+                "hmm_department.department_location",
+                "hmm_department.department_region",
+                "hmm_department.department_floor",
+                "hmm_department.department_name",
+                "hmm_member.member_name",
+                "hmm_member.member_rank",
+                "hmm_member.member_working_status",
+                "asset_info.status_asset_usage",
+                "asset_info.status_asset_etc1",
+                "asset_info.asset_number",
+                "asset_model.model_type",
+                "asset_model.model_manufacturer",
+                "asset_info.asset_model_name",
+                "asset_info.status_asset_spec1",
+                "asset_info.asset_wired_mac_address",
+                "asset_info.asset_serial_number",
+                "asset_info.asset_arrival_date",
+                "asset_info.asset_payment_date",
+                "asset_info.asset_last_update_date",
+                "asset_info.status_asset_etc2",
+                "asset_info.asset_duration"
+        };
+
+        // 정렬 컬럼 및 방향 설정
+        String orderByColumn = null;
+        String direction = null;
+
+        if (orderColumn != null && orderColumn > 0 && orderColumn - 1 < columnNames.length) {
+            orderByColumn = columnNames[orderColumn - 1]; // DataTables index → 서버 index 보정
+            direction = "ASC";
+            if ("desc".equalsIgnoreCase(orderDir)) {
+                direction = "DESC";
+            }
         }
 
+        log.info("정렬 컬럼: {}", orderByColumn);
+        log.info("정렬 방향: {}", direction);
+
+        // 총 레코드 수 조회
+        int total = AssetMapper.countTotalAsset(navSearch, searchValue);
+        pageDto.setRecordsTotal(total);
+        pageDto.setRecordsFiltered(total);
+
+        // 데이터 조회
+        List<AssetVo> data = (length == -1)
+                ? AssetMapper.findAssetByPagination(0, total, navSearch, searchValue, orderByColumn, direction)
+                : AssetMapper.findAssetByPagination(startNo, length, navSearch, searchValue, orderByColumn, direction);
+
+        // 결과 가공
         List<List<String>> result = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 
         for (AssetVo assetVo : data) {
             List<String> list = new ArrayList<>();
             rowNo++;
 
             list.add(String.valueOf(rowNo)); // No
-            list.add(assetVo.getStatusType()); // 구분
-            list.add(assetVo.getStatusAssetStatus()); // 장비상태
-            list.add(assetVo.getMemberId()); // 사원번호
-            list.add(assetVo.getDepartmentLocation()); // 위치
-            list.add(assetVo.getDepartmentRegion()); // 지역
-            list.add(assetVo.getDepartmentFloor()); // 층
-            list.add(assetVo.getDepartmentName()); // 부서
-            list.add(assetVo.getMemberName()); // 이름
-            list.add(assetVo.getMemberRank()); // 직급
-            list.add(assetVo.getMemberWorkingStatus()); // 직원상태
-            list.add(assetVo.getStatusAssetUsage()); // 장비용도
-            list.add(assetVo.getStatusAssetEtc1()); // 듀얼현황
-            list.add(assetVo.getAssetNumber()); // 장비번호
-            list.add(assetVo.getModelType()); // 장비타입
-            list.add(assetVo.getModelManufacturer()); // 장비제조사
-            list.add(assetVo.getAssetModelName()); // 모델명
-            list.add(assetVo.getStatusAssetSpec1() + " / " + assetVo.getStatusAssetSpec2()); // 스펙
-            list.add(assetVo.getAssetWiredMacAddress() + " / " + assetVo.getAssetWirelessMacAddress()); // MAC ADDRESS
-            list.add(assetVo.getAssetSerialNumber()); // 장비시리얼
-            list.add(assetVo.getAssetArrivalDate() != null ? sdf.format(assetVo.getAssetArrivalDate()) : ""); // 도입일
-            list.add(assetVo.getAssetPaymentDate() != null ? sdf.format(assetVo.getAssetPaymentDate()) : ""); // 최초지급일
-            list.add(assetVo.getAssetLastUpdateDate() != null ? sdf.format(assetVo.getAssetLastUpdateDate()) : ""); // 최근업데이트
-            list.add(assetVo.getStatusAssetEtc2()); // 용도상세
-            list.add(assetVo.getAssetDuration()); // 지급기한
-            String formHtml = "<form th:action='@{/assetSearch}' th:object='${assetVo}' method='post'>" +
-                    "<input type='hidden' id='assetNumber' name='assetNumber' th:value='${u.assetNumber}'/>" +
-                    "<button type='submit' class='btn btn-outline-primary btn-sm' " +
-                    "formaction='assetSearch' formmethod='post' formtarget='_blank'>Search</button>" +
-                    "</form>";
+            list.add(assetVo.getStatusType());
+            list.add(assetVo.getStatusAssetStatus());
+            list.add(assetVo.getMemberId());
+            list.add(assetVo.getDepartmentLocation());
+            list.add(assetVo.getDepartmentRegion());
+            list.add(assetVo.getDepartmentFloor());
+            list.add(assetVo.getDepartmentName());
+            list.add(assetVo.getMemberName());
+            list.add(assetVo.getMemberRank());
+            list.add(assetVo.getMemberWorkingStatus());
+            list.add(assetVo.getStatusAssetUsage());
+            list.add(assetVo.getStatusAssetEtc1());
+            list.add(assetVo.getAssetNumber());
+            list.add(assetVo.getModelType());
+            list.add(assetVo.getModelManufacturer());
+            list.add(assetVo.getAssetModelName());
+            list.add(assetVo.getStatusAssetSpec1() + " / " + assetVo.getStatusAssetSpec2());
+            list.add(assetVo.getAssetWiredMacAddress() + " / " + assetVo.getAssetWirelessMacAddress());
+            list.add(assetVo.getAssetSerialNumber());
+            list.add(assetVo.getAssetArrivalDate() != null ? sdf.format(assetVo.getAssetArrivalDate()) : "");
+            list.add(assetVo.getAssetPaymentDate() != null ? sdf.format(assetVo.getAssetPaymentDate()) : "");
+            list.add(assetVo.getAssetLastUpdateDate() != null ? sdf.format(assetVo.getAssetLastUpdateDate()) : "");
+            list.add(assetVo.getStatusAssetEtc2());
+            list.add(assetVo.getAssetDuration());
 
+            // 상세조회 버튼
+            String formHtml = "<form action='/assetSearch' method='post' target='_blank'>" +
+                    "<input type='hidden' name='assetNumber' value='" + assetVo.getAssetNumber() + "'/>" +
+                    "<button type='submit' class='btn btn-outline-primary btn-sm'>Search</button>" +
+                    "</form>";
             list.add(formHtml);
 
             result.add(list);
         }
-
 
         pageDto.setData(result);
         return pageDto;

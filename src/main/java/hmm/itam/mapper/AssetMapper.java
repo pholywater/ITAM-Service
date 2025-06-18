@@ -1,10 +1,6 @@
 package hmm.itam.mapper;
 
-import hmm.itam.dto.HeaderSearchDto;
-import hmm.itam.dto.PageDto;
 import hmm.itam.vo.AssetVo;
-import hmm.itam.vo.HistoryVo;
-import hmm.itam.vo.MemberVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,15 +8,13 @@ import java.util.List;
 
 @Mapper
 public interface AssetMapper {
-    List<AssetVo> getAssetList(); //  datalist 자동완성 장비 리스트
+
+    List<AssetVo> getAssetList(); // datalist 자동완성 장비 리스트
 
     List<AssetVo> getDepartmentList(); // datalist 자동완성 부서 검색 리스트
 
     List<AssetVo> getMemberList(); // datalist 자동완성 직원 이름 검색 리스트
 
-    /*    List<AssetVo> getChart1List(); // 재고 장비 차트 리스트
-
-        List<AssetVo> getChart2List(); // 재고 장비 차트 리스트*/
     List<AssetVo> getAssetListAll(); // 전체 장비 리스트
 
     List<AssetVo> getAssetListOutput(); // 출고 장비 리스트
@@ -41,16 +35,15 @@ public interface AssetMapper {
 
     List<AssetVo> getAssetListBusanInventory(); // 장비 리스트 부산 재고
 
-    List<AssetVo> getAssetUpdateToday(); // 장비 리스트 부산 재고
+    List<AssetVo> getAssetUpdateToday(); // 오늘 업데이트된 장비 리스트
 
     List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
 
-    List<AssetVo> searchMemberList(String searchMember); // 부서 및 직원 장비 리스트 조회 화면
+    List<AssetVo> searchMemberList(String searchMember); // 부서 및 직원 장비 리스트 조회
 
-    List<AssetVo> searchPaymentList(String searchStart, String searchEnd); // 신규 및 장비 지급일 리스트 조회
+    List<AssetVo> searchPaymentList(String searchStart, String searchEnd); // 장비 지급일 조회
 
     List<AssetVo> getHistorySearch(String navSearch); // 이력 관리 간편 검색
-
 
     AssetVo getAssetByAssetNumber(String assetNumber); // 관리번호로 검색
 
@@ -62,21 +55,19 @@ public interface AssetMapper {
 
     void deleteAsset(AssetVo assetVo); // 장비 삭제
 
-
+    /**
+     * 페이징, 검색, 정렬 조건에 따라 자산 목록을 조회합니다.
+     */
     List<AssetVo> findAssetByPagination(@Param("startNo") int startNo,
                                         @Param("length") int length,
-                                        @Param("search") String search);
+                                        @Param("navSearch") String navSearch,
+                                        @Param("searchValue") String searchValue,
+                                        @Param("orderByColumn") String orderByColumn,
+                                        @Param("direction") String direction);
 
-    int countTotalAsset(@Param("search") String search);
-
-    
-
-
-
-
-
-    /*List<AssetVo> assetHeaderSearch(String statusType, String statusAssetUsage);*/
-    //AssetVo assetHeaderSearch(HeaderSearchDto headerSearchDto);
-    //List<AssetVo> assetHeaderSearch(HeaderSearchDto headerSearchDto);
-
+    /**
+     * 검색 조건에 따라 전체 자산 개수를 조회합니다.
+     */
+    int countTotalAsset(@Param("navSearch") String navSearch,
+                        @Param("searchValue") String searchValue);
 }

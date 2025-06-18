@@ -4,7 +4,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/serverSideLayout}"
       layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
-
 <head><!--백앤드 조회-->
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
     <link rel="stylesheet" type="text/css"
@@ -24,7 +23,12 @@
 </head>
 <body>
 <div id="myDiv" class="container-fluid">
-    <h5 Style="text-align:center">HMM 실시간 전산 장비 리스트(백엔드)</h5>
+    <h5 style="text-align:center">HMM 실시간 전산 장비 리스트</h5>
+    <div style="text-align: right; margin-bottom: 10px;">
+        <span id="navSearchText" style="margin-right: 10px;"></span>
+        <span id="searchValueText"></span>
+    </div>
+
     <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
         <thead>
@@ -65,60 +69,56 @@
 
 <script>
     $(document).ready(function() {
-        document.getElementById("myDiv").style.display = "block";
-        $('#myTable').DataTable( {
-               searching: true, // 우측 상단 서치박스 활성화 false
-               processing: true,
-               search: {
-                         return: true // 엔터 키 검색
-                         // regex : true
-                         },
+    document.getElementById("myDiv").style.display = "block";
 
-               serverSide: true,
-               ajax: {
-                        url: '/assets',
-                        type: 'POST'
-                     },
-               scrollCollapse: true,
-               scrollX: true, // 가로 스크롤바 생성
-               scrollCollapse: true,
-                // 틀고정 설정
-                fixedColumns: {
-                    leftColumns: 0, // 숫자 크기 만큼 고정
-                    rightColumns: 1
-                },
-               scrollY: '700px',
-               dom: 'Bfrtip',
-               lengthMenu: [
-                                [ 5, 10, 25, 50, 100, -1 ],
-                                [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
-                            ],
-               iDisplayLength : 10,
-               buttons: [
-                           'pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'
-                         ],
-               columnDefs:
-                            [
-                                {
-                                className: 'dtr-control',
-                                orderable: false
+    $('#myTable').DataTable({
+        searching: true,
+        processing: true,
+        search: {
+            return: true
+        },
+        serverSide: true,
+        ajax: {
+            url: '/assets',
+            type: 'POST',
+            dataSrc: function(json) {
+                // 서버 응답에서 검색어 추출
+                const navSearch = json.navSearch || '';
+                const searchValue = json.search || '';
 
-                                },
-                                            // 열 숨기기 설정
-                                { targets: 3, visible: false }, // 지역
-                                { targets: 10, visible: false }, // 제조사
-                                { targets: 12, visible: false }, // 시리얼
-                                { targets: 13, visible: true }, // 스펙1
-                                { targets: 14, visible: true }, // 스펙2
-                                { targets: 20, visible: true }, // 용도 상세
-                            ],
+                // 검색어 표시 영역 업데이트
+                $('#navSearchText').html(navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : '');
+                $('#searchValueText').html(searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '');
 
-
-               order: [8, 'asc'], // 작동 안함
-               colReorder: true,
-               responsive: false
-        } );
+                return json.data;
+            }
+        },
+        scrollCollapse: true,
+        scrollX: true,
+        fixedColumns: {
+            leftColumns: 0,
+            rightColumns: 1
+        },
+        scrollY: '700px',
+        dom: 'Bfrtip',
+        lengthMenu: [
+            [5, 10, 25, 50, 100, -1],
+            ['5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
+        ],
+        iDisplayLength: 10,
+        buttons: ['pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'],
+        columnDefs: [
+            {
+                targets: [23, 24, 25],
+                orderable: false
+            }
+        ],
+        order: [], // 기본 정렬 제거 → 서버에서 설정한 정렬 사용
+        colReorder: true,
+        responsive: false
+    });
 });
+
 </script>
 </body>
 </html>
