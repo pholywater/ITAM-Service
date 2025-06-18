@@ -458,60 +458,132 @@
 
 
     <!--Pasination DataTables Server-Side 조건(DB LIMIT) 검색 처리-->
+    <!-- 자산 목록 조회: 페이징, 검색, 정렬 포함 -->
     <select id="findAssetByPagination" resultType="hmm.itam.vo.AssetVo">
         SELECT *
         FROM asset_info
+        -- 관련 테이블 조인
         LEFT JOIN hmm_member ON asset_info.status_member_id = hmm_member.member_id
         LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
         LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
         LEFT JOIN orderby_asset ON asset_info.status_type = orderby_asset.asset_status
         LEFT JOIN orderby_rank ON hmm_member.member_rank = orderby_rank.member_rank
-        WHERE (
-        asset_info.status_asset_usage LIKE CONCAT('%', #{search}, '%')
-        OR asset_info.status_type LIKE CONCAT('%', #{search}, '%')
-        OR hmm_member.member_id LIKE CONCAT('%', #{search}, '%')
-        OR hmm_member.member_rank LIKE CONCAT('%', #{search}, '%')
-        OR hmm_member.member_name LIKE CONCAT('%', #{search}, '%')
-        OR hmm_department.department_detail LIKE CONCAT('%', #{search}, '%')
-        OR asset_info.asset_model_name LIKE CONCAT('%', #{search}, '%')
-        OR asset_info.asset_number LIKE CONCAT('%', #{search}, '%')
-        )
-        AND asset_info.status_type NOT LIKE '%매각%'
-        ORDER BY
-        asset_info.status_type DESC,
-        hmm_department.department_location,
-        hmm_department.department_region,
-        hmm_department.department_floor,
-        hmm_department.department_detail,
-        hmm_member.member_working_status DESC,
-        orderby_asset.asset_grant,
-        orderby_rank.member_grant,
-        hmm_member.member_id,
-        asset_info.status_asset_usage DESC
+
+        <!-- 검색 조건 처리 -->
+        <where>
+            <if test="navSearch != null and navSearch != ''">
+                (
+                asset_info.status_asset_usage LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.status_type LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_id LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.asset_model_name LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.asset_number LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_rank LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_department.department_detail LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.asset_serial_number LIKE CONCAT('%', #{navSearch}, '%')
+                )
+            </if>
+
+            <if test="searchValue != null and searchValue != ''">
+                <if test="navSearch != null and navSearch != ''">
+                    AND
+                </if>
+                (
+                asset_info.status_asset_usage LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.status_type LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_id LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.asset_model_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.asset_number LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_rank LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_department.department_detail LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.asset_serial_number LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </if>
+
+            <!-- 항상 적용되는 조건 -->
+            AND asset_info.status_type NOT LIKE '%매각%'
+            AND asset_info.status_type NOT LIKE '%소모품%'
+        </where>
+
+
+        <!-- 정렬 처리: 동적 정렬 또는 기본 정렬 -->
+        <choose>
+            <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
+                ORDER BY ${orderByColumn} ${direction}
+            </when>
+            <otherwise>
+                ORDER BY
+                asset_info.status_type DESC,
+                hmm_department.department_location,
+                hmm_department.department_region,
+                hmm_department.department_floor,
+                hmm_department.department_detail,
+                hmm_member.member_working_status DESC,
+                orderby_asset.asset_grant,
+                orderby_rank.member_grant,
+                hmm_member.member_id,
+                asset_info.status_asset_usage DESC
+            </otherwise>
+        </choose>
+
+
+        <!-- 페이징 처리 -->
         LIMIT #{startNo}, #{length}
     </select>
 
 
     <!--Pasination DataTables Server-Side 조건(DB LIMIT) 검색 Total Page Count-->
+    <!-- 자산 총 개수 조회: 검색 조건 포함 -->
     <select id="countTotalAsset" resultType="int">
         SELECT COUNT(*)
         FROM asset_info
+        -- 관련 테이블 조인
         LEFT JOIN hmm_member ON asset_info.status_member_id = hmm_member.member_id
         LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
         LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
         LEFT JOIN orderby_asset ON asset_info.status_type = orderby_asset.asset_status
         LEFT JOIN orderby_rank ON hmm_member.member_rank = orderby_rank.member_rank
-        WHERE (
-        asset_info.status_asset_usage LIKE CONCAT('%', #{search}, '%')
-        OR asset_info.status_type LIKE CONCAT('%', #{search}, '%')
-        OR hmm_member.member_id LIKE CONCAT('%', #{search}, '%')
-        OR hmm_member.member_rank LIKE CONCAT('%', #{search}, '%')
-        OR hmm_member.member_name LIKE CONCAT('%', #{search}, '%')
-        OR hmm_department.department_detail LIKE CONCAT('%', #{search}, '%')
-        OR asset_info.asset_model_name LIKE CONCAT('%', #{search}, '%')
-        OR asset_info.asset_number LIKE CONCAT('%', #{search}, '%')
-        )
-        AND asset_info.status_type NOT LIKE '%매각%'
+
+        <!-- 검색 조건 처리 -->
+        <where>
+            <if test="navSearch != null and navSearch != ''">
+                (
+                asset_info.status_asset_usage LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.status_type LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_id LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.asset_model_name LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.asset_number LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_rank LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_department.department_detail LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_info.asset_serial_number LIKE CONCAT('%', #{navSearch}, '%')
+                )
+            </if>
+
+            <if test="searchValue != null and searchValue != ''">
+                <if test="navSearch != null and navSearch != ''">
+                    AND
+                </if>
+                (
+                asset_info.status_asset_usage LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.status_type LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_id LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.asset_model_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.asset_number LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_rank LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_department.department_detail LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_info.asset_serial_number LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </if>
+
+            <!-- 항상 적용되는 조건 -->
+            AND asset_info.status_type NOT LIKE '%매각%'
+            AND asset_info.status_type NOT LIKE '%소모품%'
+        </where>
+
     </select>
 
 

@@ -10,64 +10,31 @@
 >
 
 <head>
-    <title>History Search</title>
-
-
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
-    <!--datatables child-rows -->
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
-
     <link rel="stylesheet" type="text/css" href="css/datatables/jquery.dataTables.min-1.13.7.css"/>
     <link rel="stylesheet" type="text/css" href="css/datatables/buttons.dataTables.min-2.4.2.css"/>
     <script src="jquery/jquery-3.7.0.js"></script>
     <script src="js/datatables/dataTables-1.13.7.js"></script>
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
-    <script src="js/datatables/pdfmake.min-0.1.53.js"></script>
-    <script src="js/datatables/vfs_fonts-0.1.53.js"></script>
+    <script src="js/datatables/pdfmake.min.js"></script>
+    <script src="js/datatables/vfs_fonts.js"></script>
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
+    <script src="js/datatables/dataTables.fixedColumns.min.js"></script>
+    <script src="js/datatables/dataTables.responsive.min.js"></script>
 </head>
 
 <body>
 <div id="myDiv" class="container-fluid">
-    <!--    <div class="container">
-            <hr>
-            <form th:action="@{/historySearch}" th:object="${historyVo}" method="get">
-                <div class="row align-items-start">
-                    <div class="col">
-                        <h3>이력 간편 조회</h3>
-                    </div>
-                    <div class="col">
-                        <div class="form-floating">
-                            <select class="form-select mb-1" id="searchType" name="searchType">
-                                <option th:value="easySearch">간편 이력 조회</option>
-                                <option th:value="historyAssetNumber">장비 번호 조회</option>
-                                <option th:value="historyMemberName">이름 조회</option>
-                                <option th:value="historyMemberId">사번 조회</option>
-                            </select>
-                            <label th:for="searchType">검색 항목 선택 : </label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-floating">
-                            <input type="text" class="form-control mb-1" id="search" name="search" autofocus/>
-                            <label th:for="search">검색창 </label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary mb-1" formaction="historySearch"
-                                formmethod="get">이력 조회
-                        </button>
-                        <button type="submit" class="btn btn-outline-primary mb-1" formaction="historyList"
-                                formmethod="get">날짜 조회 바로가기
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>-->
+
     <h5 Style="text-align:center">HMM 전산 장비 및 소모품 이력 조회</h5>
+    <div style="text-align: right; margin-bottom: 10px;">
+        <span id="navSearchText" style="margin-right: 10px;"></span>
+        <span id="searchValueText"></span>
+    </div>
     <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
 
@@ -89,101 +56,93 @@
             <th>요청 내용</th>
             <th>비고 내용</th>
             <th>기타</th>
-            <!--<th>스펙1</th>
+            <th>스펙1</th>
             <th>스펙2</th>
-            <th>스펙3</th>-->
+            <th>스펙3</th>
 
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="u, stat :${list}">
-            <td th:text="${stat.count}"></td>
-            <td th:text="${#dates.format(u.historyCompletionDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#dates.format(u.historyRequestDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${u.historyAssetType}"></td>
-            <td th:text="${u.historyType}"></td>
-            <td th:text="${u.historyRequester}"></td>
-            <td th:text="${u.historyWorker}"></td>
-            <td th:text="${u.historyMemberId}"></td>
-            <td th:text="${u.departmentName}"></td>
-            <td th:text="${u.memberName}"></td>
-            <td th:text="${u.memberRank}"></td>
-            <td th:text="${u.historyAssetNumber}"></td>
-            <td th:text="${u.assetModelName}"></td>
-            <td th:text="${u.historyRequestDetails}"></td>
-            <td th:text="${u.historyReqeustEtc}"></td>
-            <td th:text="${u.historyAssetEtc1}"></td>
-            <!--<td th:text="${u.historySpec1}"></td>
-            <td th:text="${u.historySpec2}"></td>
-            <td th:text="${u.historySpec3}"></td>-->
-        </tr>
-        </tbody>
+
+        <tfoot>
+        </tfoot>
     </table>
-</div>
-<script src="js/datatables/dataTables.responsive.min.js"></script>
-
-<!--<script>
-    $(document).ready(function() {
-    document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {
-        dom: 'Bfrtip',
-        lengthMenu: [
-            [ 5, 10, 25, 50, 100, -1 ],
-            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
-        ],
-        iDisplayLength : 15,
-        buttons: [
-            'pageLength'
-        ],
-        columnDefs: [
-            {
-            className: 'dtr-control',
-            orderable: false,
-            targets: 0
-            }
-        ],
-
-        responsive: {
-                details: {
-                type: 'column'
-            }
-            }
-    } );
-} );
-</script>-->
+</div><!-- /container -->
 <script>
-    $(document).ready(function() {
-    document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {
-        search: {
-                    // return: true
-                },
-        scrollCollapse: true,
-        scrollY: '700px',
-        dom: 'Bfrtip',
-        lengthMenu: [
-            [ 5, 10, 25, 50, 100, -1 ],
-            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
-        ],
-        iDisplayLength : 10,
-        buttons: [
-            'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        columnDefs: [
-            {
-            className: 'dtr-control',
-            orderable: false
-            }
-        ],
+    $(document).ready(function () {
+        // 페이지 로딩 시 myDiv 표시
+        $("#myDiv").show();
 
-        responsive: {
-                details: {
-                type: 'column'
-            }
-            }
-    } );
-} );
+        // DataTables 초기화
+        $('#myTable').DataTable({
+            processing: true,
+            serverSide: true,
+            searching: true,
+            scrollCollapse: true,
+            scrollY: '700px',
+            scrollX: true,
+            fixedColumns: {
+                leftColumns: 0,
+                rightColumns: 1
+            },
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [5, 10, 25, 50, 100, -1],
+                ['5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
+            ],
+            iDisplayLength: 10,
+            buttons: ['pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'],
+            ajax: {
+                url: '/api/historySearch',
+                type: 'POST',
+                data: function (d) {
+                    // 날짜 필터 전달
+                    d.searchStart = $('input[name="searchStart"]').val();
+                    d.searchEnd = $('input[name="searchEnd"]').val();
+                },
+                dataSrc: function (json) {
+                    // 검색어 표시 영역 업데이트
+                    const navSearch = json.navSearch || '';
+                    const searchValue = json.search || '';
+
+                    $('#navSearchText').html(navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : '');
+                    $('#searchValueText').html(searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '');
+
+                    return json.data;
+                }
+            },
+            columnDefs: [
+                {
+                    targets: [15, 16, 17, 18], // 기타 및 스펙 컬럼 정렬 비활성화
+                    orderable: false
+                }
+            ],
+            order: [], // 기본 정렬 제거 → 서버에서 설정한 정렬 사용
+            colReorder: true,
+            responsive: false,
+            columns: [
+                { data: 0 },  // No.
+                { data: 1 },  // 처리 일시
+                { data: 2 },  // 요청 일시
+                { data: 3 },  // 구분
+                { data: 4 },  // 입출고
+                { data: 5 },  // 요청자
+                { data: 6 },  // 작업자
+                { data: 7 },  // 사번
+                { data: 8 },  // 부서
+                { data: 9 },  // 이름
+                { data: 10 }, // 직급
+                { data: 11 }, // 장비번호
+                { data: 12 }, // 모델명
+                { data: 13 }, // 요청 내용
+                { data: 14 }, // 비고 내용
+                { data: 15 }, // 기타
+                { data: 16 }, // 스펙1
+                { data: 17 }, // 스펙2
+                { data: 18 }  // 스펙3
+            ]
+        });
+    });
 </script>
+
 </body>
-</html>
 </html>

@@ -57,12 +57,10 @@ public class UserController {
     @PostMapping("/login") // 아이디 패스워드 입력 후
     public String login(String hmmId, String password, HttpSession session, UserVo userVo) {
         Long id = userService.login(hmmId, password);
-/*
         System.out.println("controll.check.hmmId :" + hmmId);
         System.out.println("controll.check.password :" + password);
         System.out.println("controll.check.getidx :" + id);
         System.out.println("controll.check.httpsession :" + session);
-*/
         if (id == null) { // 로그인 실패
             return "redirect:login";
         }

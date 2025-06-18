@@ -43,7 +43,6 @@ public class HomeController {
             UserVo userList = userService.getUserById(idx);
             model.addAttribute("user", userList);
 
-
             /*HEADER 화면 권한 체크*/
             /*th:if="${#strings.equals(user.authority, 'admin')}"*/
             /*authority = userList.getAuthority();

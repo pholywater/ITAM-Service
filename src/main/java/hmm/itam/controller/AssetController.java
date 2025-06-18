@@ -27,28 +27,6 @@ public class AssetController {
     private AssetService AssetService;
 
 
-    /*@GetMapping("/homeChart") // 전체 자산 리스트 검색 시 사용(매각, 신규 제외)*/
-    /*
-    public String getChart1List(Model model, AssetVo assetVo) {
-        List<AssetVo> chart1Label = AssetService.getChart1List();
-        model.addAttribute("label", chart1Label);
-        List<AssetVo> chart1Point = AssetService.getChart2List();
-        model.addAttribute("point", chart1Point);
-        log.info("label : {}", chart1Label);
-        log.info("point : {}", chart1Point);
-        model.addAttribute("point1", chart1Label);
-       search = "불량";
-        List<AssetVo> chart2Point = AssetService.getChart2List();
-        model.addAttribute("point2", chart2Point);
-
-        log.info("chart1Point: {}", chart1Point);
-        log.info("chart2Point: {}", chart2Point);
-        log.info("홈 화면");
-
-
-        return "itam/asset/homeChart";
-    }*/
-
     @GetMapping("/{type}")
     public String getAssetListByType(@PathVariable String type, Model model) {
         List<AssetVo> assetList;
@@ -115,13 +93,15 @@ public class AssetController {
 
     @GetMapping("/headerSearch") // 해더 드롭다운 href Server-Side 검색
     public String HeaderSearch(AssetVo assetVo, HttpSession session, String navSearch, Model model) {
-        session.setAttribute("navSearch", navSearch);
-
-        if (navSearch == "null") {
+        // 검색어가 없거나 공백일 경우 홈으로 리다이렉트
+        if (navSearch == null || navSearch.trim().isEmpty()) {
             return "redirect:/";
         }
-        log.info("드롭다운 해더 검색어 NavSearch Controller 체크 : {}", navSearch);
 
+        // 유효한 검색어일 경우 세션에 저장
+        session.setAttribute("navSearch", navSearch.trim());
+
+        log.info("드롭다운 해더 검색어 NavSearch Controller 체크 : {}", navSearch);
         return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출
     }
 
@@ -133,22 +113,33 @@ public class AssetController {
             @RequestParam("length") int length,
             @RequestParam("start") int start,
             @RequestParam(value = "search[value]", required = false) String searchValue,
+            @RequestParam(value = "order[0][column]", required = false) Integer orderColumn,
+            @RequestParam(value = "order[0][dir]", required = false) String orderDir,
             HttpSession session) {
 
         String navSearch = (String) session.getAttribute("navSearch");
 
-        log.info("ajax: '/assets' 실행 후 js에서 받아오는 draw 값 {} ", draw);
-        log.info("ajax: '/assets' 실행 후 js에서 받아오는 start 값 {} ", start);
-        log.info("ajax: '/assets' 실행 후 js에서 받아오는 length 값 {} ", length);
-        log.info("ajax: '/assets' 실행 후 js에서 받아오는 searchValue 값 {} ", searchValue);
-        log.info("해더에서 넘겨 받은 getNavSearch 값 {} ", navSearch);
+        log.info("draw: {}", draw);
+        log.info("start: {}", start);
+        log.info("length: {}", length);
+        log.info("searchValue: {}", searchValue);
+        log.info("navSearch: {}", navSearch);
+        log.info("orderColumn: {}", orderColumn);
+        log.info("orderDir: {}", orderDir);
 
         PageDto rs = new PageDto();
         rs.setDraw(draw);
         rs.setStart(start);
         rs.setLength(length);
-        rs.setSearch(searchValue); // 검색어 저장
+        rs.setSearchValue(searchValue);
+        rs.setSearch(searchValue); // 검색 처리용
         rs.setNavSearch(navSearch);
+
+        // 정렬 파라미터 유효성 검사
+        if (orderColumn != null && orderDir != null && !orderDir.isBlank()) {
+            rs.setOrderColumn(orderColumn);
+            rs.setOrderDir(orderDir);
+        }
 
         return AssetService.findAssetByPagination(rs);
     }
@@ -186,10 +177,12 @@ public class AssetController {
 
         /*상단 검색에서 이력 관리 조회 시*/
         if (Objects.equals(searchType, "history")) {
+            session.setAttribute("navSearch", navSearch);
             log.info("이력 조회 : {}", navSearch);
-            List<AssetVo> resultList = AssetService.historySearch(navSearch);
-            model.addAttribute("list", resultList);
+            /*List<AssetVo> resultList = AssetService.historySearch(navSearch);
+            model.addAttribute("list", resultList);*/
             return "itam/history/historySearch";
+            /*return "redirect:/historySearch";*/
         }
 
         /*상단 검색에서 백앤드 장비 조회 시*/

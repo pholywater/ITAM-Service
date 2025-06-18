@@ -68,40 +68,48 @@
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-
+                        <li><a class="dropdown-item">Server-side 조회</a></li>
                         <!--백엔드 조회-->
-                        <li><a class="dropdown-item" th:href="@{headerSearch?navSearch=}">전체 장비 리스트(백엔드)</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=assetAll}">전체 장비 리스트</a>
-
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&navSearch=출고}">전체
-                            출고 장비 리스트</a></li>
-                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=statusType&navSearch=입고}">본사
-                            재고 장비 리스트</a></li>
-                        <li>
-                        <li><a class="dropdown-item" th:href="@{assetListBusanInventory}">부산
-                            재고 장비 리스트</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=}">전체 장비
+                            리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=출고}">출고
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=업무용}">업무용
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=대여용}">대여용
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=공용}">공용
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=재고}">재고
+                            장비 리스트</a></li>
+                        <li><a class="dropdown-item" th:href="@{searchAssetList?searchType=serverSide&navSearch=신규}">신규
+                            장비 리스트</a></li>
+                        <!--<li><a class="dropdown-item"
+                               th:href="@{assetListAll}">전체 장비 리스트(필터)</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="@{assetListOutput}">출고 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListWork}">업무용 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListRent}">대여용 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListPublic}">공용 장비 리스트</a></li>
+                        -->
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li><a class="dropdown-item">Client-side 조회</a></li>
+
                         <li><a class="dropdown-item"
                                th:href="@{assetListInput}">재고 장비 리스트(전체)</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListInputL}">재고 장비 리스트(노트북)</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListInputM}">재고 장비 리스트(모니터)</a></li>
+                        <li><a class="dropdown-item" th:href="@{assetListBusanInventory}">부산
+                            재고 장비 리스트</a></li>
                         <li><a class="dropdown-item"
                                th:href="@{assetListNew}">신규 장비 리스트</a></li>
-                        <!--
-                        <li><a class="dropdown-item"
-                               th:href="@{searchAssetList?searchType=statusAssetUsage&navSearch=대여용}">대여용 장비 리스트</a>
-                        </li>
-                        -->
                     </ul>
                 </li>
 
@@ -370,20 +378,9 @@
 
                 <select class="form-select me-2" aria-label="Default select example" id="searchType" name="searchType"
                         style="width:10rem">
-                    <option th:value="serverSide">백앤드 조회</option>
-                    <option th:value="easySearch">통합 조회</option>
+                    <option th:value="serverSide">장비 조회</option>
                     <option th:value="history">이력 조회</option>
-                    <!--
-                    <option th:value="easySearch">간편 조회(이름, 부서, 번호, 모델명)</option>
-                    <option th:value="memberName">이름 조회</option>
-                    <option th:value="memberId">사번 조회</option>
-                    <option th:value="memberDepartmentDetail">부서 조회</option>
-                    <option th:value="assetNumber">장비 번호 조회</option>
-                    <option th:value="modelType">장비 타입 조회</option>
-                    <option th:value="assetModelName">모델명 조회</option>
-                    <option th:value="statusType">입출고 조회</option>
-                    <option th:value="statusAssetUsage">용도별 조회</option>
-                    -->
+                    <option th:value="easySearch">통합 조회</option>
                 </select>
 
                 <input

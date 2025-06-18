@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:decorate="~{common/layouts/serverSideLayout}"
       layout:fragment="Content">
 <head>
     <title>Asset Search</title>
@@ -37,7 +37,7 @@
                     <button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                     >뒤로가기
                     </button>
-                    
+
                     <!--<button type="submit" class="btn btn-success mb-1" formaction="assetUpdateResult" formmethod="post">수정하기</button>
                     <button type="submit" class="btn btn-danger mb-1" formaction="assetDelete" formmethod="post">삭제하기</button>-->
                 </div>
