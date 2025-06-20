@@ -90,7 +90,7 @@ public class AssetVo {
     private String historyMemberId;
     private String historyAssetNumber;
     private String historyRequestDetails;
-    private String historyReqeustEtc;
+    private String historyRequestEtc;
     private String historySpec1;
     private String historySpec2;
     private String historySpec3;
@@ -99,8 +99,6 @@ public class AssetVo {
     private String updateCheck;
     private String combineSearch;
     private int assetGrant;
-
-
     private int totalCount;
     private int hmmWork;
     private int hmmRent;

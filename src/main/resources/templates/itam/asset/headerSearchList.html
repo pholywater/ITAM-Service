@@ -15,7 +15,7 @@
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
     <script src="js/datatables/pdfmake.min.js"></script>
-    <script src="js/datatables/vfs_fonts.js"></script>
+    <!--<script src="js/datatables/vfs_fonts.js"></script>-->
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
     <script src="js/datatables/dataTables.fixedColumns.min.js"></script>
@@ -81,17 +81,19 @@
         ajax: {
             url: '/assets',
             type: 'POST',
-            dataSrc: function(json) {
-                // 서버 응답에서 검색어 추출
-                const navSearch = json.navSearch || '';
-                const searchValue = json.search || '';
+            dataSrc: function (json) {
+                    const navSearch = json.navSearch || '';
+                    const searchValue = json.search || '';
 
-                // 검색어 표시 영역 업데이트
-                $('#navSearchText').html(navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : '');
-                $('#searchValueText').html(searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '');
+                    // navSearch가 없으면 "전체 검색"으로 표시
+                    const navText = navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : `검색어 1 : <strong>전체 검색</strong>`;
+                    const searchText = searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '';
 
-                return json.data;
-            }
+                    $('#navSearchText').html(navText);
+                    $('#searchValueText').html(searchText);
+
+                    return json.data;
+                }
         },
         scrollCollapse: true,
         scrollX: true,

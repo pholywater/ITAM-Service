@@ -50,6 +50,7 @@
 
     </select>
 
+    <!--Ajax 이력 조회 검색-->
     <select id="findHistoryByPagination" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
@@ -73,13 +74,10 @@
                 asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_asset_type LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_requester LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_worker LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_member_id LIKE CONCAT('%', #{navSearch}, '%')
                 OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_asset_number LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_model.model_name LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_request_details LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_request_etc LIKE CONCAT('%', #{navSearch}, '%')
                 )
             </if>
 
@@ -117,7 +115,7 @@
         <!-- 페이징 처리 -->
         LIMIT #{start}, #{length}
     </select>
-
+    <!--Ajax 이력 조회 카운트-->
     <select id="countTotalHistory" resultType="int">
         SELECT COUNT(*)
         FROM asset_history
@@ -141,13 +139,10 @@
                 asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_asset_type LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_requester LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_worker LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_member_id LIKE CONCAT('%', #{navSearch}, '%')
                 OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_history.history_asset_number LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_model.model_name LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_request_details LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_request_etc LIKE CONCAT('%', #{navSearch}, '%')
                 )
             </if>
 
@@ -216,7 +211,7 @@
     </select>
 
     <!--이력 관리 상세 조회 동적 쿼리문으로 처리 완료-->
-    <select id="getHistorySearch" resultType="hmm.itam.vo.HistoryVo">
+    <!--<select id="getHistorySearch" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
 
@@ -232,7 +227,7 @@
         LEFT JOIN asset_model
         ON asset_info.asset_model_name=asset_model.model_name
 
-        <!--동적쿼리문 작성-->
+        &lt;!&ndash;동적쿼리문 작성&ndash;&gt;
         <choose>
             <when test="search == '' or search == null">
                 WHERE history_completion_date
@@ -274,8 +269,7 @@
         asset_history.history_member_id,
         asset_history.history_type,
         asset_history.history_asset_number
-    </select>
-
+    </select>-->
 
     <!--datalist 자동완성 이름 검색 리스트-->
     <select id="getMemberList" resultType="hmm.itam.vo.HistoryVo">
