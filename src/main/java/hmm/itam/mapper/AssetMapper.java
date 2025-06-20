@@ -35,7 +35,7 @@ public interface AssetMapper {
 
     List<AssetVo> getAssetListBusanInventory(); // 장비 리스트 부산 재고
 
-    List<AssetVo> getAssetUpdateToday(); // 오늘 업데이트된 장비 리스트
+    List<AssetVo> getAssetListUpdateToday(); // 오늘 업데이트된 장비 리스트
 
     List<AssetVo> searchAssetList(String search, String searchType); // 장비 리스트 조회
 

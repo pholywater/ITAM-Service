@@ -31,6 +31,7 @@
 <div id="myDiv" class="container-fluid">
 
     <h5 Style="text-align:center">HMM 전산 장비 및 소모품 이력 조회</h5>
+
     <div style="text-align: right; margin-bottom: 10px;">
         <span id="navSearchText" style="margin-right: 10px;"></span>
         <span id="searchValueText"></span>
@@ -77,12 +78,13 @@
             processing: true,
             serverSide: true,
             searching: true,
+            search : { return : true },
             scrollCollapse: true,
             scrollY: '700px',
             scrollX: true,
             fixedColumns: {
                 leftColumns: 0,
-                rightColumns: 1
+                rightColumns: 0
             },
             dom: 'Bfrtip',
             lengthMenu: [
@@ -100,19 +102,23 @@
                     d.searchEnd = $('input[name="searchEnd"]').val();
                 },
                 dataSrc: function (json) {
-                    // 검색어 표시 영역 업데이트
                     const navSearch = json.navSearch || '';
                     const searchValue = json.search || '';
 
-                    $('#navSearchText').html(navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : '');
-                    $('#searchValueText').html(searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '');
+                    // navSearch가 없으면 "전체 검색"으로 표시
+                    const navText = navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : `검색어 1 : <strong>전체 검색</strong>`;
+                    const searchText = searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '';
+
+                    $('#navSearchText').html(navText);
+                    $('#searchValueText').html(searchText);
 
                     return json.data;
                 }
+
             },
             columnDefs: [
                 {
-                    targets: [15, 16, 17, 18], // 기타 및 스펙 컬럼 정렬 비활성화
+                    targets: [0, 13, 14, 15, 16, 17, 18], // 기타 및 스펙 컬럼 정렬 비활성화
                     orderable: false
                 }
             ],

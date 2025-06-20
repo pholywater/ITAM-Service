@@ -223,14 +223,13 @@
             <td th:text="${u.assetModelName}"></td>
             <td th:text="${u.historyRequestDetails}"></td>
             <td th:text="${u.historyRequestEtc}"></td>
-            <!--<td th:text="${u.historySpec1}"></td>
+            <td th:text="${u.historySpec1}"></td>
             <td th:text="${u.historySpec2}"></td>
-            <td th:text="${u.historySpec3}"></td>-->
+            <td th:text="${u.historySpec3}"></td>
         </tr>
         </tbody>
     </table>
 </div>
-<script src="js/datatables/dataTables.responsive.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -251,13 +250,7 @@
             orderable: false,
             targets: 0
             }
-        ],
-
-        responsive: {
-                details: {
-                type: 'column'
-            }
-            }
+        ]
     } );
 } );
 </script>

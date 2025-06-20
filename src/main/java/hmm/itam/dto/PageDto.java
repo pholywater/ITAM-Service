@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -42,6 +43,9 @@ public class PageDto<T> {
     // 검색어 (추가적으로 사용할 수 있는 필드)
     private String searchValue;
 
+    // 검색 타입 (예: historyAssetNumber, historyType 등)
+    private String searchType;
+
     // 정렬할 컬럼 인덱스 (DataTables에서 전달됨)
     private Integer orderColumn;
 
@@ -56,6 +60,7 @@ public class PageDto<T> {
 
     // 실제 데이터 리스트
     private List<T> data;
+
 
     // 검색어 설정 메서드
     public void setSearch(String search) {

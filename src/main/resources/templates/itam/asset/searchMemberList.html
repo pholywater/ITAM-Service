@@ -103,8 +103,8 @@
                         <label th:for="historyWorker">작업자(이력관리)</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyReqeustEtc}"/>
-                        <label th:for="historyReqeustEtc">비고 내용(소모품 or 위치)</label>
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequestEtc}"/>
+                        <label th:for="historyRequestEtc">비고 내용(소모품 or 위치)</label>
                     </div>
                     <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
                     >뒤로가기
@@ -201,9 +201,7 @@
                     <td th:text="${u.assetDuration}"></td>
                     <td>
                         <span class="form-check">
-                            <input type="checkbox" th:value="${u.assetNumber}">
-
-                            <!--<label class="form-check-label" for="updateCheck">"></label>-->
+                            <input type="checkbox" name="selectedAssets" th:value="${u.assetNumber}">
                         </span>
                     </td>
                 </tr>

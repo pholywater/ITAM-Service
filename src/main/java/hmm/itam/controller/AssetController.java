@@ -2,11 +2,7 @@ package hmm.itam.controller;
 
 import hmm.itam.dto.*;
 import hmm.itam.service.AssetService;
-import hmm.itam.service.HistoryService;
 import hmm.itam.vo.AssetVo;
-import hmm.itam.vo.HistoryVo;
-import hmm.itam.vo.MemberVo;
-import hmm.itam.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -16,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
-
-import static java.time.LocalTime.now;
 
 @Controller
 @Slf4j
@@ -77,7 +71,7 @@ public class AssetController {
                 log.info("장비 리스트 부산 재고 : DB VIEW TABLE 조회");
                 break;
             case "assetUpdateToday":
-                assetList = AssetService.getAssetUpdateToday();
+                assetList = AssetService.getAssetListUpdateToday();
                 log.info("오늘 업데이트 된 내역 : DB VIEW TABLE 조회");
                 break;
             default:
@@ -85,11 +79,9 @@ public class AssetController {
                 assetList = Collections.emptyList();
                 break;
         }
-
         model.addAttribute("list", assetList);
         return "itam/asset/assetList";
     }
-
 
     @GetMapping("/headerSearch") // 해더 드롭다운 href Server-Side 검색
     public String HeaderSearch(AssetVo assetVo, HttpSession session, String navSearch, Model model) {
@@ -104,7 +96,6 @@ public class AssetController {
         log.info("드롭다운 해더 검색어 NavSearch Controller 체크 : {}", navSearch);
         return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출
     }
-
 
     @PostMapping("/assets")
     @ResponseBody
@@ -179,10 +170,7 @@ public class AssetController {
         if (Objects.equals(searchType, "history")) {
             session.setAttribute("navSearch", navSearch);
             log.info("이력 조회 : {}", navSearch);
-            /*List<AssetVo> resultList = AssetService.historySearch(navSearch);
-            model.addAttribute("list", resultList);*/
             return "itam/history/historySearch";
-            /*return "redirect:/historySearch";*/
         }
 
         /*상단 검색에서 백앤드 장비 조회 시*/
@@ -219,22 +207,6 @@ public class AssetController {
         return "itam/asset/assetList"; //
     }
 
-
-    /*
-    @PostMapping("/navbarSearch") // Navbar 우측 "Post" 검색(현재 미사용)
-    public String navHeaderSearch(String navSearch, Model model) {
-        List<AssetVo> navbarSearch = AssetService.navbarSearch(navSearch);
-        log.info("검색어 : {}", navSearch);
-        if (navbarSearch == null) { // 일치 항목 없을 경우 에러 처리
-            return "redirect:/";
-        }
-        System.out.println(navbarSearch);
-        model.addAttribute("list", navbarSearch);
-        return "itam/asset/searchAssetList"; //
-    }
-*/
-
-
     @GetMapping("/searchMemberUpdatePage") // 부서 및 직원 장비 리스트 조회 화면
     public String searchMemberListUpdatePage(AssetVo assetVo, Model model) {
         log.info("직원 장비 검색 조회 화면입니다.");
@@ -244,7 +216,6 @@ public class AssetController {
         model.addAttribute("memberList", memberList);
         return "itam/asset/searchMemberList";
     }
-
 
     @GetMapping("/searchMemberList") // 부서 및 직원 장비 리스트 조회 화면(처리)
     public String searchMemberList(AssetVo assetVo, String searchMember, Model model) {
@@ -257,15 +228,12 @@ public class AssetController {
         /*조회 한 값 넘겨주기*/
         List<AssetVo> searchMemberList = AssetService.searchMemberList(searchMember);
         model.addAttribute("list", searchMemberList);
-
-
         return "itam/asset/searchMemberList"; //
     }
 
     @GetMapping("/searchMemberUpdate") // 부서 및 직원 장비 리스트 조회 화면(처리)
     public String searchMemberUpdate(AssetVo assetVo, String searchMember, Model model, String updateCheck, String assetNumber) {
         log.info("searchMember : {}", searchMember);
-
         log.info("업데이트 체크박스 : {}", updateCheck);
         log.info("업데이트 장비번호 : {}", assetNumber);
         if (Objects.equals(updateCheck, "on")) {
@@ -278,7 +246,6 @@ public class AssetController {
             log.info("정보를 변경 하지 않았습니다.");
         }
 
-
         /*상세조회 datalist 직원(사번) 검색 자동완성 작업*/
         List<AssetVo> memberList = AssetService.getMemberList();
         model.addAttribute("memberList", memberList);
@@ -286,11 +253,8 @@ public class AssetController {
         /*조회 한 값 넘겨주기*/
         List<AssetVo> searchMemberList = AssetService.searchMemberList(searchMember);
         model.addAttribute("list", searchMemberList);
-
-
         return "itam/asset/searchMemberList"; //
     }
-
 
     @GetMapping("/searchPaymentList") // 장비 지급일 리스트 조회 화면(처리)
     public String searchPaymentList(AssetVo assetVo, String searchStart, String searchEnd, Model model) {
@@ -318,7 +282,6 @@ public class AssetController {
         model.addAttribute("list", assetPaymentList);
         return "itam/asset/searchNewPaymentList"; //
     }
-
 
     @GetMapping("/assetAdd") // 자산 등록 화면
     public String toAssetAddPage(AssetVo assetVo, Model model) {
@@ -463,4 +426,13 @@ public class AssetController {
         AssetService.withdraw(assetNum);
         return "redirect:assetSearch";
     }
+
+    @GetMapping("favicon.ico")
+    @ResponseBody
+    public void returnNoFavicon() {
+        // 아무것도 반환하지 않음 (404 방지)
+    }
+
 }
+
+

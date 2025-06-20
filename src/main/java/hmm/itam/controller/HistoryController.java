@@ -30,32 +30,27 @@ public class HistoryController {
         log.info("searchStart 초기 값 : {}", searchStart);
         log.info("searchEnd 초기 값 : {}", searchEnd);
 
-
         List<HistoryVo> historyList = HistoryService.getHistoryList(searchStart, searchEnd);
         model.addAttribute("list", historyList);
         return "itam/history/historyList"; // 실제 HTML 경로
     }
-
 
     @GetMapping("/historySearch")
     public String historySearchList(HttpSession session,
                                     @RequestParam(value = "navSearch", required = false) String navSearch,
                                     Model model) {
 
-        // 검색어가 없거나 공백일 경우 홈으로 리다이렉트
+        // 검색어가 없거나 공백일 경우 전체 검색으로 처리
         if (navSearch == null || navSearch.trim().isEmpty()) {
-            return "redirect:/";
+            navSearch = "";
         }
 
-        // 유효한 검색어일 경우 세션에 저장
+        // 세션에 검색어 저장
         session.setAttribute("navSearch", navSearch.trim());
 
         log.info("히스토리 이력 조회 검색어(navSearch) 확인: {}", navSearch);
 
-        // 간편 조회: 검색어를 기준으로 이력 검색
-        List<HistoryVo> resultList = historyService.historySearch(navSearch, "간편조회");
-        model.addAttribute("list", resultList);
-
+        // DataTables가 AJAX로 데이터를 가져오기 때문에 리스트 조회는 생략
         return "itam/history/historySearch"; // 결과를 보여줄 HTML
     }
 

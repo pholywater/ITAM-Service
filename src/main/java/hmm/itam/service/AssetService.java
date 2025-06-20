@@ -95,8 +95,8 @@ public class AssetService {
     }
 
     /*오늘 업데이트 내역 조회*/
-    public List<AssetVo> getAssetUpdateToday() {
-        return AssetMapper.getAssetUpdateToday();
+    public List<AssetVo> getAssetListUpdateToday() {
+        return AssetMapper.getAssetListUpdateToday();
     }
 
     /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/
@@ -154,22 +154,20 @@ public class AssetService {
     }
 
     public PageDto<List<String>> findAssetByPagination(PageDto pageDto) {
-        // 페이징 및 검색 파라미터 추출
         int startNo = pageDto.getStart();
         int length = pageDto.getLength();
         int rowNo = pageDto.getStart();
-        String navSearch = pageDto.getNavSearch();
-        String searchValue = pageDto.getSearch();
 
-        // 정렬 파라미터 추출
-        Integer orderColumn = pageDto.getOrderColumn(); // DataTables 기준 (0번은 ROW 번호)
+        String navSearch = pageDto.getNavSearch();         // 1차 검색어
+        String searchValue = pageDto.getSearch();          // 2차 검색어
+
+        Integer orderColumn = pageDto.getOrderColumn();
         String orderDir = pageDto.getOrderDir();
 
-        // 서버 컬럼 인덱스는 DataTables 기준에서 1을 뺀 값으로 보정
         String[] columnNames = {
-                "asset_info.status_type",               // index 0 → DataTables index 1
-                "asset_info.status_asset_status",       // index 1 → DataTables index 2
-                "hmm_member.member_id",                 // index 2 → DataTables index 3
+                "asset_info.status_type",
+                "asset_info.status_asset_status",
+                "hmm_member.member_id",
                 "hmm_department.department_location",
                 "hmm_department.department_region",
                 "hmm_department.department_floor",
@@ -193,12 +191,11 @@ public class AssetService {
                 "asset_info.asset_duration"
         };
 
-        // 정렬 컬럼 및 방향 설정
         String orderByColumn = null;
         String direction = null;
 
         if (orderColumn != null && orderColumn > 0 && orderColumn - 1 < columnNames.length) {
-            orderByColumn = columnNames[orderColumn - 1]; // DataTables index → 서버 index 보정
+            orderByColumn = columnNames[orderColumn - 1];
             direction = "ASC";
             if ("desc".equalsIgnoreCase(orderDir)) {
                 direction = "DESC";
@@ -207,6 +204,7 @@ public class AssetService {
 
         log.info("정렬 컬럼: {}", orderByColumn);
         log.info("정렬 방향: {}", direction);
+        log.info("검색 값: {}", searchValue);
 
         // 총 레코드 수 조회
         int total = AssetMapper.countTotalAsset(navSearch, searchValue);
@@ -218,7 +216,6 @@ public class AssetService {
                 ? AssetMapper.findAssetByPagination(0, total, navSearch, searchValue, orderByColumn, direction)
                 : AssetMapper.findAssetByPagination(startNo, length, navSearch, searchValue, orderByColumn, direction);
 
-        // 결과 가공
         List<List<String>> result = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -226,7 +223,7 @@ public class AssetService {
             List<String> list = new ArrayList<>();
             rowNo++;
 
-            list.add(String.valueOf(rowNo)); // No
+            list.add(String.valueOf(rowNo));
             list.add(assetVo.getStatusType());
             list.add(assetVo.getStatusAssetStatus());
             list.add(assetVo.getMemberId());
@@ -252,7 +249,6 @@ public class AssetService {
             list.add(assetVo.getStatusAssetEtc2());
             list.add(assetVo.getAssetDuration());
 
-            // 상세조회 버튼
             String formHtml = "<form action='/assetSearch' method='post' target='_blank'>" +
                     "<input type='hidden' name='assetNumber' value='" + assetVo.getAssetNumber() + "'/>" +
                     "<button type='submit' class='btn btn-outline-primary btn-sm'>Search</button>" +
