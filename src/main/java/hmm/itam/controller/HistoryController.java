@@ -2,7 +2,6 @@ package hmm.itam.controller;
 
 import hmm.itam.dto.AssetSupplies;
 import hmm.itam.dto.PageDto;
-import hmm.itam.mapper.HistoryMapper;
 import hmm.itam.service.HistoryService;
 import hmm.itam.vo.HistoryVo;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
-import static java.time.LocalTime.now;
 
 @Controller
 @Slf4j
@@ -33,6 +31,49 @@ public class HistoryController {
         List<HistoryVo> historyList = HistoryService.getHistoryList(searchStart, searchEnd);
         model.addAttribute("list", historyList);
         return "itam/history/historyList"; // 실제 HTML 경로
+    }
+
+    @GetMapping("/historyList{type}")// 클라이언트 사이드 방식 속도 느림
+    public String getHistoryListByType(@PathVariable String type, HistoryVo historyVo, Model model, String searchStart, String searchEnd) {
+        List<HistoryVo> historyList;
+
+        switch (type) {
+            case "All":
+                historyList = HistoryService.getHistoryListAll();
+                log.info("전체 이력 리스트 조회");
+                break;
+            case "Asset":
+                historyList = HistoryService.getHistoryListAsset();
+                log.info("장비 관련 이력 리스트 조회");
+                break;
+            case "Change":
+                historyList = HistoryService.getHistoryListChange();
+                log.info("변경 이력 리스트 조회");
+                break;
+            case "Consumables":
+                historyList = HistoryService.getHistoryListConsumables();
+                log.info("소모품 이력 리스트 조회");
+                break;
+            case "Input":
+                historyList = HistoryService.getHistoryListInput();
+                log.info("입고 이력 리스트 조회");
+                break;
+            case "Output":
+                historyList = HistoryService.getHistoryListOutput();
+                log.info("출고 이력 리스트 조회");
+                break;
+            case "Repair":
+                historyList = HistoryService.getHistoryListRepair();
+                log.info("수리 이력 리스트 조회");
+                break;
+            default:
+                log.warn("잘못된 이력 리스트 요청: {}", type);
+                historyList = Collections.emptyList();
+                break;
+        }
+
+        model.addAttribute("list", historyList);
+        return "itam/history/historyList";
     }
 
     @GetMapping("/historySearch")
@@ -54,9 +95,6 @@ public class HistoryController {
         return "itam/history/historySearch"; // 결과를 보여줄 HTML
     }
 
-
-    @Autowired
-    private HistoryService historyService;
 
     @PostMapping("/api/historySearch")
     @ResponseBody
@@ -89,7 +127,7 @@ public class HistoryController {
         }
 
         // 서비스 계층 호출
-        return historyService.findHistoryByPagination(rs);
+        return HistoryService.findHistoryByPagination(rs);
     }
 
 

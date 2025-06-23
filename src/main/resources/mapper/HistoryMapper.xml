@@ -47,7 +47,35 @@
         asset_history.history_member_id,
         asset_history.history_type,
         asset_history.history_asset_number
+    </select>
 
+    <select id="getHistoryListAll" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM history_list_all
+    </select>
+    <select id="getHistoryListAsset" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM history_list_asset
+    </select>
+    <select id="getHistoryListChange" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM history_list_change
+    </select>
+    <select id="getHistoryListConsumables" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM history_list_consumables
+    </select>
+    <select id="getHistoryListInput" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM history_list_input
+    </select>
+    <select id="getHistoryListOutput" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM history_list_output
+    </select>
+    <select id="getHistoryListRepair" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM history_list_repair
     </select>
 
     <!--Ajax 이력 조회 검색-->
