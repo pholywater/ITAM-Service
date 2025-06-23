@@ -29,6 +29,7 @@ public interface HistoryMapper {
     List<HistoryVo> getHistorySearch(@Param("search") String search,
                                      @Param("searchType") String searchType); // 이력 관리 상세 검색
 
+
     int countTotalHistory(@Param("navSearch") String navSearch,
                           @Param("searchValue") String searchValue,
                           @Param("searchStart") String searchStart,
@@ -45,4 +46,18 @@ public interface HistoryMapper {
                                             @Param("searchEnd") String searchEnd,
                                             @Param("orderByColumn") String orderByColumn,
                                             @Param("direction") String direction);
+
+    List<HistoryVo> getHistoryListAll();
+
+    List<HistoryVo> getHistoryListAsset();
+
+    List<HistoryVo> getHistoryListChange();
+
+    List<HistoryVo> getHistoryListConsumables();
+
+    List<HistoryVo> getHistoryListInput();
+
+    List<HistoryVo> getHistoryListOutput();
+
+    List<HistoryVo> getHistoryListRepair();
 }

@@ -21,56 +21,52 @@ public class AssetController {
     private AssetService AssetService;
 
 
-    @GetMapping("/{type}")
+    @GetMapping("/assetList{type}")
     public String getAssetListByType(@PathVariable String type, Model model) {
         List<AssetVo> assetList;
 
         switch (type) {
-            case "assetList":
-                assetList = AssetService.getAssetList();
-                log.info("전체 자산 리스트 조회 : 출고,입고,기타");
-                break;
-            case "assetListAll":
+            case "All":
                 assetList = AssetService.getAssetListAll();
                 log.info("장비 리스트 전체 : DB VIEW TABLE 조회");
                 break;
-            case "assetListOutput":
+            case "Output":
                 assetList = AssetService.getAssetListOutput();
                 log.info("장비 리스트 출고 : DB VIEW TABLE 조회");
                 break;
-            case "assetListWork":
+            case "Work":
                 assetList = AssetService.getAssetListWork();
                 log.info("장비 리스트 업무용 : DB VIEW TABLE 조회");
                 break;
-            case "assetListRent":
+            case "Rent":
                 assetList = AssetService.getAssetListRent();
                 log.info("장비 리스트 대여 : DB VIEW TABLE 조회");
                 break;
-            case "assetListPublic":
+            case "Public":
                 assetList = AssetService.getAssetListPublic();
                 log.info("장비 리스트 공용 : DB VIEW TABLE 조회");
                 break;
-            case "assetListInput":
+            case "Input":
                 assetList = AssetService.getAssetListInput();
                 log.info("장비 리스트 재고 : DB VIEW TABLE 조회");
                 break;
-            case "assetListInputL":
+            case "InputL":
                 assetList = AssetService.getAssetListInputL();
                 log.info("장비 리스트 재고 모니터(L) : DB VIEW TABLE 조회");
                 break;
-            case "assetListInputM":
+            case "InputM":
                 assetList = AssetService.getAssetListInputM();
                 log.info("장비 리스트 재고 모니터(M) : DB VIEW TABLE 조회");
                 break;
-            case "assetListNew":
+            case "New":
                 assetList = AssetService.getAssetListNew();
                 log.info("장비 리스트 신규 : DB VIEW TABLE 조회");
                 break;
-            case "assetListBusanInventory":
+            case "BusanInventory":
                 assetList = AssetService.getAssetListBusanInventory();
                 log.info("장비 리스트 부산 재고 : DB VIEW TABLE 조회");
                 break;
-            case "assetUpdateToday":
+            case "UpdateToday":
                 assetList = AssetService.getAssetListUpdateToday();
                 log.info("오늘 업데이트 된 내역 : DB VIEW TABLE 조회");
                 break;
@@ -217,7 +213,7 @@ public class AssetController {
         return "itam/asset/searchMemberList";
     }
 
-    @GetMapping("/searchMemberList") // 부서 및 직원 장비 리스트 조회 화면(처리)
+    @PostMapping("/searchMemberList") // 부서 및 직원 장비 리스트 조회 화면(처리)
     public String searchMemberList(AssetVo assetVo, String searchMember, Model model) {
         log.info("searchMember : {}", searchMember);
 

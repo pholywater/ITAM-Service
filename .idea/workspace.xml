@@ -4,38 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="서버사이드 히스토리 서치 수정">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/dropdown-submenu.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/datatables/dropdown-submenu.js" afterDir="false" />
+    <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="업데이트 및 히스토리의 request 오타 수정">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyListType.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/PageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/PageDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/AssetMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/AssetMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/AssetService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/AssetVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AssetMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/config.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/config.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/headerClientSide.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/headerClientSide.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/headerHistory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/headerHistory.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/headerServerSide.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/common/fragments/headerServerSide.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetSearch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/assetUpdate.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/headerSearchList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/headerSearchList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/searchMemberList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/asset/searchMemberList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyAdd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historySearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historySearch.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyList.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,24 +93,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main25.06.11-1&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/study/itam/src/main/resources/static/css&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main25.06.11-1",
+    "last_opened_file_path": "C:/study/itam/src/main/resources/templates/itam/history",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="hmm.itam.controller" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\study\itam\src\main\resources\templates\itam\history" />
       <recent name="C:\study\itam\src\main\resources\static\css" />
       <recent name="C:\study\itam\src\main\resources\static\js\datatables" />
-      <recent name="C:\study\itam\src\main\resources\templates\itam\history" />
       <recent name="C:\study\itam\src\main\resources\templates\common\layouts" />
       <recent name="C:\study\itam\src\main\resources\templates\common\fragments" />
     </key>
@@ -254,14 +248,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698040510174</updated>
-    </task>
-    <task id="LOCAL-00014" summary="itam">
-      <option name="closed" value="true" />
-      <created>1698651438624</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1698651438624</updated>
     </task>
     <task id="LOCAL-00015" summary="itam">
       <option name="closed" value="true" />
@@ -647,7 +633,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750212670960</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="업데이트 및 히스토리의 request 오타 수정">
+      <option name="closed" value="true" />
+      <created>1750396109893</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1750396109894</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -691,7 +685,8 @@
     <MESSAGE value="git ignore" />
     <MESSAGE value="서버사이드 검색 수정" />
     <MESSAGE value="서버사이드 히스토리 서치 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="서버사이드 히스토리 서치 수정" />
+    <MESSAGE value="업데이트 및 히스토리의 request 오타 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="업데이트 및 히스토리의 request 오타 수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

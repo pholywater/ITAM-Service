@@ -129,4 +129,32 @@ public class HistoryService {
     public List<HistoryVo> getAssetList() {
         return historyMapper.getAssetList();
     }
+
+    public List<HistoryVo> getHistoryListAll() {
+        return historyMapper.getHistoryListAll();
+    }
+
+    public List<HistoryVo> getHistoryListAsset() {
+        return historyMapper.getHistoryListAsset();
+    }
+
+    public List<HistoryVo> getHistoryListChange() {
+        return historyMapper.getHistoryListChange();
+    }
+
+    public List<HistoryVo> getHistoryListConsumables() {
+        return historyMapper.getHistoryListConsumables();
+    }
+
+    public List<HistoryVo> getHistoryListInput() {
+        return historyMapper.getHistoryListInput();
+    }
+
+    public List<HistoryVo> getHistoryListOutput() {
+        return historyMapper.getHistoryListOutput();
+    }
+
+    public List<HistoryVo> getHistoryListRepair() {
+        return historyMapper.getHistoryListRepair();
+    }
 }
