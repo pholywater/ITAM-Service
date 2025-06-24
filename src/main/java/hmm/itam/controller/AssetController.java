@@ -164,8 +164,13 @@ public class AssetController {
 
         /*상단 검색에서 이력 관리 조회 시*/
         if (Objects.equals(searchType, "history")) {
-            session.setAttribute("navSearch", navSearch);
-            log.info("이력 조회 : {}", navSearch);
+            /*session.setAttribute("navSearch", navSearch);
+            session.setAttribute("searchType", searchType);*/
+            model.addAttribute("navSearchHistory", navSearch.trim());
+            model.addAttribute("searchType", searchType.trim());
+            log.info("해더 검색창 navSearch : {}", navSearch);
+            log.info("해더 검색창 searchType : {}", searchType);
+            /*return "redirect:/historyList";*/
             return "itam/history/historySearch";
         }
 

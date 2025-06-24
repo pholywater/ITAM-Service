@@ -157,13 +157,15 @@ public class AssetService {
         int startNo = pageDto.getStart();
         int length = pageDto.getLength();
         int rowNo = pageDto.getStart();
-
+        // 해더 우측 상단 검색
         String navSearch = pageDto.getNavSearch();         // 1차 검색어
+        //dataTables Searching 창(2차 검색)
         String searchValue = pageDto.getSearch();          // 2차 검색어
-
-        Integer orderColumn = pageDto.getOrderColumn();
+        //컬럼 정렬
         String orderDir = pageDto.getOrderDir();
+        Integer orderColumn = pageDto.getOrderColumn();
 
+        // ✅ 정렬 컬럼 처리
         String[] columnNames = {
                 "asset_info.status_type",
                 "asset_info.status_asset_status",
@@ -191,6 +193,7 @@ public class AssetService {
                 "asset_info.asset_duration"
         };
 
+        // 컬럼 정렬 처리
         String orderByColumn = null;
         String direction = null;
 
@@ -202,20 +205,21 @@ public class AssetService {
             }
         }
 
-        log.info("정렬 컬럼: {}", orderByColumn);
-        log.info("정렬 방향: {}", direction);
-        log.info("검색 값: {}", searchValue);
+        log.info("(findHistoryByPagination) 정렬 컬럼 orderByColumn : {}", orderByColumn);
+        log.info("(findHistoryByPagination) 정렬 방향 direction : {}", direction);
+        log.info("(findHistoryByPagination) searchValue: {}", searchValue);
 
-        // 총 레코드 수 조회
+        // ✅ 총 레코드 수 조회
         int total = AssetMapper.countTotalAsset(navSearch, searchValue);
         pageDto.setRecordsTotal(total);
         pageDto.setRecordsFiltered(total);
 
-        // 데이터 조회
+        // ✅ 데이터 조회
         List<AssetVo> data = (length == -1)
                 ? AssetMapper.findAssetByPagination(0, total, navSearch, searchValue, orderByColumn, direction)
                 : AssetMapper.findAssetByPagination(startNo, length, navSearch, searchValue, orderByColumn, direction);
 
+        // ✅ 결과 포맷 변환
         List<List<String>> result = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

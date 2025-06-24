@@ -1,5 +1,6 @@
 package hmm.itam.mapper;
 
+import hmm.itam.dto.PageDto;
 import hmm.itam.vo.HistoryVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,8 +11,28 @@ import java.util.List;
 public interface HistoryMapper {
 
     // ✅ 기존 기능
-    List<HistoryVo> getHistoryList(@Param("searchStart") String searchStart,
-                                   @Param("searchEnd") String searchEnd); // 전체 이력 조회
+    List<HistoryVo> getHistoryListDate(@Param("searchStart") String searchStart,
+                                       @Param("searchEnd") String searchEnd); // 전체 이력 조회
+
+
+    List<HistoryVo> findHistoryByPagination(PageDto<?> pageDto);
+
+    List<HistoryVo> getHistoryList(@Param("tableName") String tableName,
+                                   @Param("start") int start,
+                                   @Param("length") int length,
+                                   @Param("searchType") String searchType,
+                                   @Param("navSearch") String navSearch,
+                                   @Param("searchValue") String searchValue,
+                                   @Param("searchStart") String searchStart,
+                                   @Param("searchEnd") String searchEnd,
+                                   @Param("orderByColumn") String orderByColumn,
+                                   @Param("direction") String direction);
+
+    int countHistoryList(@Param("navSearch") String searchType,
+                         @Param("navSearch") String navSearch,
+                         @Param("searchValue") String searchValue,
+                         @Param("searchStart") String searchStart,
+                         @Param("searchEnd") String searchEnd);
 
     void insertHistory(HistoryVo historyVo); // 히스토리 등록
 
@@ -30,22 +51,25 @@ public interface HistoryMapper {
                                      @Param("searchType") String searchType); // 이력 관리 상세 검색
 
 
-    int countTotalHistory(@Param("navSearch") String navSearch,
-                          @Param("searchValue") String searchValue,
-                          @Param("searchStart") String searchStart,
-                          @Param("searchEnd") String searchEnd);
-
     /**
      * 페이징 및 검색 조건에 따라 이력 데이터를 조회합니다.
      */
-    List<HistoryVo> findHistoryByPagination(@Param("start") int start,
-                                            @Param("length") int length,
-                                            @Param("navSearch") String navSearch,
-                                            @Param("searchValue") String searchValue,
-                                            @Param("searchStart") String searchStart,
-                                            @Param("searchEnd") String searchEnd,
-                                            @Param("orderByColumn") String orderByColumn,
-                                            @Param("direction") String direction);
+    List<HistoryVo> findHistoryByPagination(
+            @Param("pageDto") PageDto<?> pageDto,
+            @Param("start") int start,
+            @Param("length") int length,
+            @Param("navSearch") String navSearch,
+            @Param("orderByColumn") String orderByColumn,
+            @Param("direction") String direction);
+
+    int countTotalHistory(
+            @Param("pageDto") PageDto<?> pageDto,
+            @Param("navSearch") String navSearch,
+            @Param("searchType") String searchType,
+            @Param("viewType") String viewType,
+            @Param("tableName") String tableName,
+            @Param("searchStart") String searchStart,
+            @Param("searchEnd") String searchEnd);
 
     List<HistoryVo> getHistoryListAll();
 

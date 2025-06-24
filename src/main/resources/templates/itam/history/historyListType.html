@@ -1,10 +1,15 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!DOCTYPE HTML>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/historyLayout}"
-      layout:fragment="Content">
-<head><!--클라이언트 조회-->
+      layout:fragment="Content"
+>
+
+<head>
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
@@ -59,6 +64,7 @@
     </div>
     <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
+
         <thead>
         <tr>
             <th>No.</th>
@@ -83,65 +89,91 @@
 
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="u, stat :${list}">
-            <td th:text="${stat.count}"></td>
-            <td th:text="${#dates.format(u.historyCompletionDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#dates.format(u.historyRequestDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${u.historyAssetType}"></td>
-            <td th:text="${u.historyType}"></td>
-            <td th:text="${u.historyRequester}"></td>
-            <td th:text="${u.historyWorker}"></td>
-            <td th:text="${u.historyMemberId}"></td>
-            <td th:text="${u.departmentName}"></td>
-            <td th:text="${u.memberName}"></td>
-            <td th:text="${u.memberRank}"></td>
-            <td th:text="${u.historyAssetNumber}"></td>
-            <td th:text="${u.assetModelName}"></td>
-            <td th:text="${u.historyRequestDetails}"></td>
-            <td th:text="${u.historyRequestEtc}"></td>
-            <td th:text="${u.historyAssetEtc1}"></td>
-            <td th:text="${u.historySpec1}"></td>
-            <td th:text="${u.historySpec2}"></td>
-            <td th:text="${u.historySpec3}"></td>
-        </tr>
-        </tbody>
+
+        <tfoot>
+        </tfoot>
     </table>
-</div> <!-- /container -->
-
-
+</div><!-- /container -->
 <script>
-    $(document).ready(function() {
-    document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {
-        search: {
-                    // return: true
-                },
-        scrollCollapse: true,
-        scrollY: '700px',
-        dom: 'Bfrtip',
-        lengthMenu: [
-            [ 5, 10, 25, 50, 100, -1 ],
-            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
-        ],
-        iDisplayLength : 10,
-        buttons: [
-            'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        columnDefs: [
-            {
-            className: 'dtr-control',
-            orderable: false
-            }
-        ],
+    $(document).ready(function () {
+        // 페이지 로딩 시 myDiv 표시
+        $("#myDiv").show();
 
-        responsive: {
-                details: {
-                type: 'column'
-            }
-            }
-    } );
-} );
+        // DataTables 초기화
+        $('#myTable').DataTable({
+            processing: true,
+            serverSide: true,
+            searching: true,
+            search : { return : true },
+            scrollCollapse: true,
+            scrollY: '700px',
+            scrollX: true,
+            fixedColumns: {
+                leftColumns: 0,
+                rightColumns: 0
+            },
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [5, 10, 25, 50, 100, -1],
+                ['5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
+            ],
+            iDisplayLength: 10,
+            buttons: ['pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'],
+            ajax: {
+                url: '/api/historyList',
+                type: 'POST',
+                data: function (d) {
+                    // 날짜 필터 전달
+                    d.searchStart = $('input[name="searchStart"]').val();
+                    d.searchEnd = $('input[name="searchEnd"]').val();
+                },
+                dataSrc: function (json) {
+                    const navSearch = json.navSearch || '';
+                    const searchValue = json.search || '';
+
+                    // navSearch가 없으면 "전체 검색"으로 표시
+                    const navText = navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : `검색어 1 : <strong>전체 검색</strong>`;
+                    const searchText = searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '';
+
+                    $('#navSearchText').html(navText);
+                    $('#searchValueText').html(searchText);
+
+                    return json.data;
+                }
+
+            },
+            columnDefs: [
+                {
+                    targets: [0, 13, 14, 15, 16, 17, 18], // 기타 및 스펙 컬럼 정렬 비활성화
+                    orderable: false
+                }
+            ],
+            order: [], // 기본 정렬 제거 → 서버에서 설정한 정렬 사용
+            colReorder: true,
+            responsive: false,
+            columns: [
+                { data: 0 },  // No.
+                { data: 1 },  // 처리 일시
+                { data: 2 },  // 요청 일시
+                { data: 3 },  // 구분
+                { data: 4 },  // 입출고
+                { data: 5 },  // 요청자
+                { data: 6 },  // 작업자
+                { data: 7 },  // 사번
+                { data: 8 },  // 부서
+                { data: 9 },  // 이름
+                { data: 10 }, // 직급
+                { data: 11 }, // 장비번호
+                { data: 12 }, // 모델명
+                { data: 13 }, // 요청 내용
+                { data: 14 }, // 비고 내용
+                { data: 15 }, // 기타
+                { data: 16 }, // 스펙1
+                { data: 17 }, // 스펙2
+                { data: 18 }  // 스펙3
+            ]
+        });
+    });
 </script>
 
 </body>

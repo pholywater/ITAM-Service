@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/serverSideLayout}"
+      layout:decorate="~{common/layouts/ServerSideLayout}"
       layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
 <head><!--백앤드 조회-->
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
@@ -72,12 +72,24 @@
     document.getElementById("myDiv").style.display = "block";
 
     $('#myTable').DataTable({
-        searching: true,
         processing: true,
-        search: {
-            return: true
-        },
         serverSide: true,
+        searching: true,
+        search: { return: true },
+        scrollCollapse: true,
+        scrollX: true,
+        scrollY: '700px',
+        fixedColumns: {
+            leftColumns: 0,
+            rightColumns: 1
+        },
+        dom: 'Bfrtip',
+        lengthMenu: [
+            [5, 10, 25, 50, 100, -1],
+            ['5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
+        ],
+        iDisplayLength: 10,
+        buttons: ['pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'],
         ajax: {
             url: '/assets',
             type: 'POST',
@@ -95,20 +107,7 @@
                     return json.data;
                 }
         },
-        scrollCollapse: true,
-        scrollX: true,
-        fixedColumns: {
-            leftColumns: 0,
-            rightColumns: 1
-        },
-        scrollY: '700px',
-        dom: 'Bfrtip',
-        lengthMenu: [
-            [5, 10, 25, 50, 100, -1],
-            ['5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
-        ],
-        iDisplayLength: 10,
-        buttons: ['pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'],
+
         columnDefs: [
             {
                 targets: [23, 24, 25],
