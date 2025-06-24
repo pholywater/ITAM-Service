@@ -123,9 +123,9 @@
                     const viewType = json.viewType || '';
 
                     // navSearch가 없으면 "전체 검색"으로 표시
-                    const navText = navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : '';
+                    const navText = navSearch ? `이력 조회 : <strong>${navSearch}</strong>` : '';
                     const viewText = viewType ? `TYPE : <strong>${viewType}</strong>` : '';
-                    const searchText = search ? `검색어 2 : <strong>${search}</strong>` : '';
+                    const searchText = search ? `Search : <strong>${search}</strong>` : '';
 
                     $('#navSearchText').html(navText);
                     $('#viewTypeText').html(viewText);
