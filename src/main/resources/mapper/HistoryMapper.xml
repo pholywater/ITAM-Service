@@ -177,7 +177,14 @@
                 OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
             </if>
-            ORDER BY history_completion_date DESC
+            <choose>
+                <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
+                    ORDER BY ${orderByColumn} ${direction}
+                </when>
+                <otherwise>
+                    ORDER BY history_completion_date DESC
+                </otherwise>
+            </choose>
             LIMIT #{start}, #{length}
         </if>
 
@@ -207,7 +214,7 @@
                 OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_history.history_worker LIKE CONCAT('%', #{pageDto.search}, '%')
-                OR asset_history.history_member_id LIKE CONCAT('%', #{spageDto.search}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_model.model_name LIKE CONCAT('%', #{pageDto.search}, '%')
@@ -287,7 +294,7 @@
                 OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_history.history_worker LIKE CONCAT('%', #{pageDto.search}, '%')
-                OR asset_history.history_member_id LIKE CONCAT('%', #{spageDto.search}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_model.model_name LIKE CONCAT('%', #{pageDto.search}, '%')
