@@ -91,6 +91,7 @@ public class AssetVo {
     private String historyAssetNumber;
     private String historyRequestDetails;
     private String historyRequestEtc;
+    private String historyRequestEtc1;
     private String historySpec1;
     private String historySpec2;
     private String historySpec3;

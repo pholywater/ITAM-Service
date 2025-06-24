@@ -51,11 +51,12 @@ public class HistoryVo {
     private String memberName;
     private String memberRank;
 
-    private String assetModelName;
+    private String modelName;
     private String assetTypeCategory;
     private String assetLocation;
     private String assetStatus;
     private String statusAssetUsage;
+    private String statusAssetEtc;
     private String statusAssetEtc1;
     private String statusAssetSpec2;
     private String statusAssetSpec3;
@@ -66,4 +67,7 @@ public class HistoryVo {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date historyUpdateDate;
+    private String tableName;
+
+
 }

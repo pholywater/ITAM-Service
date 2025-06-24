@@ -1,15 +1,10 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<!DOCTYPE HTML>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/historyLayout}"
-      layout:fragment="Content"
->
-
-<head>
+      layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
+<head><!--백앤드 조회-->
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
@@ -20,24 +15,30 @@
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
     <script src="js/datatables/pdfmake.min.js"></script>
-    <script src="js/datatables/vfs_fonts.js"></script>
+    <!--<script src="js/datatables/vfs_fonts.js"></script>-->
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
     <script src="js/datatables/dataTables.fixedColumns.min.js"></script>
     <script src="js/datatables/dataTables.responsive.min.js"></script>
 </head>
-
 <body>
 <div id="myDiv" class="container-fluid">
-
     <h5 Style="text-align:center">HMM 전산 장비 및 소모품 이력 조회</h5>
-
     <div style="text-align: right; margin-bottom: 10px;">
         <span id="navSearchText" style="margin-right: 10px;"></span>
-        <span id="searchValueText"></span>
+        <span id="viewTypeText"></span>
+        <span id="searchText"></span>
     </div>
+
+    <input type="hidden" id="viewType" th:value="${viewType}">
+    <input type="hidden" id="tableName" th:value="${tableName}">
+    <input type="hidden" id="navSearchHistory" th:value="${navSearchHistory}">
+    <input type="hidden" id="searchType" th:value="${searchType}">
+
+
     <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
+
 
         <thead>
         <tr>
@@ -56,11 +57,10 @@
             <th>모델명</th>
             <th>요청 내용</th>
             <th>비고 내용</th>
-            <th>기타</th>
-            <th>스펙1</th>
+            <!--<th>스펙1</th>
             <th>스펙2</th>
             <th>스펙3</th>
-
+            <th>기타</th>-->
         </tr>
         </thead>
 
@@ -80,8 +80,8 @@
             searching: true,
             search : { return : true },
             scrollCollapse: true,
-            scrollY: '700px',
             scrollX: true,
+            scrollY: '700px',
             fixedColumns: {
                 leftColumns: 0,
                 rightColumns: 0
@@ -96,21 +96,40 @@
             ajax: {
                 url: '/api/historySearch',
                 type: 'POST',
+
+                contentType: 'application/json',
                 data: function (d) {
-                    // 날짜 필터 전달
-                    d.searchStart = $('input[name="searchStart"]').val();
-                    d.searchEnd = $('input[name="searchEnd"]').val();
+                    return JSON.stringify({
+                        draw: d.draw,
+                        start: d.start,
+                        length: d.length,
+                        search: d.search.value,
+                        orderColumn: d.order[0]?.column,
+                        orderDir: d.order[0]?.dir,
+                        navSearch: $('#navSearchHistory').val(),
+                        searchType: $('#searchType').val(),
+                        viewType: $('#viewType').val(),
+                        tableName: $('#tableName').val(),
+                        searchStart: $('#searchStart').val(),
+                        searchEnd: $('#searchEnd').val()
+                    });
                 },
+
+
+
                 dataSrc: function (json) {
                     const navSearch = json.navSearch || '';
-                    const searchValue = json.search || '';
+                    const search = json.search || '';
+                    const viewType = json.viewType || '';
 
                     // navSearch가 없으면 "전체 검색"으로 표시
-                    const navText = navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : `검색어 1 : <strong>전체 검색</strong>`;
-                    const searchText = searchValue ? `검색어 2 : <strong>${searchValue}</strong>` : '';
+                    const navText = navSearch ? `검색어 1 : <strong>${navSearch}</strong>` : '';
+                    const viewText = viewType ? `TYPE : <strong>${viewType}</strong>` : '';
+                    const searchText = search ? `검색어 2 : <strong>${search}</strong>` : '';
 
                     $('#navSearchText').html(navText);
-                    $('#searchValueText').html(searchText);
+                    $('#viewTypeText').html(viewText);
+                    $('#searchText').html(searchText);
 
                     return json.data;
                 }
@@ -118,7 +137,7 @@
             },
             columnDefs: [
                 {
-                    targets: [0, 13, 14, 15, 16, 17, 18], // 기타 및 스펙 컬럼 정렬 비활성화
+                    targets: [0, 13, 14], // 기타 및 스펙 컬럼 정렬 비활성화
                     orderable: false
                 }
             ],
@@ -140,11 +159,11 @@
                 { data: 11 }, // 장비번호
                 { data: 12 }, // 모델명
                 { data: 13 }, // 요청 내용
-                { data: 14 }, // 비고 내용
-                { data: 15 }, // 기타
-                { data: 16 }, // 스펙1
-                { data: 17 }, // 스펙2
-                { data: 18 }  // 스펙3
+                { data: 14 } // 비고 내용
+                // { data: 15 }, // 스펙1
+                // { data: 16 }, // 스펙2
+                // { data: 17 }, // 스펙3
+                // { data: 18 } // 기타
             ]
         });
     });

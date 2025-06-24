@@ -188,19 +188,22 @@
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">타입별 이력 조회</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{historySearch?navSearch=장비}">전산 장비 입출고 현황</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Asset}">전산 장비 입출고 현황</a>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historySearch?navSearch=소모품}">전산 소모품 지급 현황</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Output}">전산 장비 출고 이력</a>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historySearch?navSearch=고장}">전산 장비 고장 이력</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Input}">전산 장비 입고 이력</a>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historySearch?navSearch=수리}">전산 장비 수리 이력</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Change}">전산 장비 변경 이력</a>
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Repair}">장비 고장 및 수리 이력</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider"/>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historyListConsumables}">전산 장비 소모품 이력</a></li>
-                                <li><a class="dropdown-item" th:href="@{historyListRepair}">전산 장비 수리 이력</a></li>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Consumables}">전산 소모품 지급
+                                    현황</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

@@ -34,7 +34,7 @@ public class PageDto<T> {
     // 행 번호 (선택적으로 사용)
     private int rowNo;
 
-    // 네비게이션 검색어 (세션 기반 검색어)
+    // 해더 상단 조회 검색어 (세션 기반 검색어)
     private String navSearch;
 
     // 검색어 (DataTables에서 전달된 값)
@@ -52,6 +52,10 @@ public class PageDto<T> {
     // 정렬 방향 ("asc" 또는 "desc")
     private String orderDir;
 
+    // searchType 테이블 이름
+    private String viewType;
+    private String tableName;
+
     // 날짜 검색 시작일
     private String searchStart;
 
@@ -66,4 +70,5 @@ public class PageDto<T> {
     public void setSearch(String search) {
         this.search = search;
     }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import java.util.*;
 
 
@@ -22,7 +23,7 @@ public class HistoryController {
     private HistoryService HistoryService;
 
 
-    @GetMapping("/historyList") // 웹 URL 매핑(전체 리스트 시간 오래 걸리는 단점. 조회 기간 설정 필요)
+    /*@GetMapping("/historyList") // 웹 URL 매핑(전체 리스트 시간 오래 걸리는 단점. 조회 기간 설정 필요)
     public String getHistoryList(HistoryVo historyVo, String searchStart, String searchEnd, Model model) {
 
         log.info("searchStart 초기 값 : {}", searchStart);
@@ -31,9 +32,9 @@ public class HistoryController {
         List<HistoryVo> historyList = HistoryService.getHistoryList(searchStart, searchEnd);
         model.addAttribute("list", historyList);
         return "itam/history/historyList"; // 실제 HTML 경로
-    }
+    }*/
 
-    @GetMapping("/historyList{type}")// 클라이언트 사이드 방식 속도 느림
+    /*@GetMapping("/historyList{type}")// 클라이언트 사이드 방식 속도 느림
     public String getHistoryListByType(@PathVariable String type, HistoryVo historyVo, Model model, String searchStart, String searchEnd) {
         List<HistoryVo> historyList;
 
@@ -74,60 +75,202 @@ public class HistoryController {
 
         model.addAttribute("list", historyList);
         return "itam/history/historyList";
-    }
+    }*/
 
-    @GetMapping("/historySearch")
-    public String historySearchList(HttpSession session,
-                                    @RequestParam(value = "navSearch", required = false) String navSearch,
-                                    Model model) {
+    @GetMapping("/historyList")
+    public String getHistoryList(HttpSession session,
+                                 @RequestParam(value = "navSearch", required = false) String navSearch,
+                                 @RequestParam(value = "searchType", required = false) String searchType,
+                                 @RequestParam(value = "searchValue", required = false) String searchValue,
+                                 @RequestParam(value = "viewType", required = false) String viewType,
+                                 String search,
+                                 String searchStart,
+                                 String searchEnd,
+                                 Model model) {
 
-        // 검색어가 없거나 공백일 경우 전체 검색으로 처리
-        if (navSearch == null || navSearch.trim().isEmpty()) {
-            navSearch = "";
+
+        // 해더 파라미터로 테이블 이름 받기
+        if (viewType != null) {
+            String tableName;
+            switch (viewType) {
+                case "All":
+                    tableName = "history_list_all";
+                    break;
+                case "Asset":
+                    tableName = "history_list_asset";
+                    break;
+                case "Change":
+                    tableName = "history_list_change";
+                    break;
+                case "Consumables":
+                    tableName = "history_list_consumables";
+                    break;
+                case "Input":
+                    tableName = "history_list_input";
+                    break;
+                case "Output":
+                    tableName = "history_list_output";
+                    break;
+                case "Repair":
+                    tableName = "history_list_repair";
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid history viewType: " + viewType);
+
+            }
+            session.setAttribute("viewType", viewType.trim());
+            model.addAttribute("viewType", viewType.trim());
+            log.info("(getHistoryList) 히스토리 이력 조회 검색어(viewType) 확인: {}", viewType);
+            session.setAttribute("tableName", tableName.trim());
+            model.addAttribute("tableName", tableName.trim());
+            log.info("(getHistoryList) 히스토리 이력 조회 검색어(tableName) 확인: {}", tableName);
+        } else {
+            log.warn("(getHistoryList) viewType 값이 null입니다. 세션에 저장하지 않습니다.");
+            log.warn("(getHistoryList) tableName 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+        // 세션과 모델에 값 받기
+        if (navSearch != null) {
+            session.setAttribute("navSearch", navSearch.trim());
+            model.addAttribute("navSearch", navSearch.trim());
+            log.info("(getHistoryList) 히스토리 이력 조회 검색어(navSearch) 확인: {}", navSearch);
+        } else {
+            log.warn("(getHistoryList) navSearch 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+        if (searchType != null) {
+            session.setAttribute("searchType", searchType.trim());
+            model.addAttribute("searchType", searchType.trim());
+            log.info("(getHistoryList) 히스토리 이력 조회 검색어(searchType) 확인: {}", searchType);
+        } else {
+            log.warn("(getHistoryList) searchType 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+        if (searchValue != null) {
+            session.setAttribute("searchValue", searchValue.trim());
+            model.addAttribute("searchValue", searchValue.trim());
+            log.info("(getHistoryList) 히스토리 이력 조회 검색어(searchValue) 확인: {}", searchValue);
+        } else {
+            log.warn("(getHistoryList) searchValue 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+        if (search != null) {
+            session.setAttribute("search", search.trim());
+            model.addAttribute("search", search.trim());
+            log.info("(getHistoryList) 히스토리 이력 조회 검색어(search) 확인: {}", search);
+        } else {
+            log.warn("(getHistoryList) search 값이 null입니다. 세션에 저장하지 않습니다.");
         }
 
-        // 세션에 검색어 저장
-        session.setAttribute("navSearch", navSearch.trim());
 
-        log.info("히스토리 이력 조회 검색어(navSearch) 확인: {}", navSearch);
-
-        // DataTables가 AJAX로 데이터를 가져오기 때문에 리스트 조회는 생략
-        return "itam/history/historySearch"; // 결과를 보여줄 HTML
+        /*log.info("(getHistoryList) 이력 리스트 요청 수신: searchType = {}", searchType);
+        log.info("(getHistoryList) 이력 리스트 요청 수신: viewType = {}", viewType);
+        log.info("(getHistoryList) searchStart 초기 값 : {}", searchStart);
+        log.info("(getHistoryList) searchEnd 초기 값 : {}", searchEnd);*/
+        /*List<HistoryVo> historyList = HistoryService.getHistoryList(historyVo, searchStart, searchEnd); // 인스턴스 사용*/
+        /*model.addAttribute("list", historyList);*/
+        return "itam/history/historySearch";
     }
 
+    /*@GetMapping("/historySearch")
+    public String historySearchList(HttpSession session,
+                                    @RequestParam(value = "navSearch", required = false) String navSearch,
+                                    @RequestParam(value = "searchType", required = false) String searchType,
+                                    @RequestParam(value = "searchValue", required = false) String searchValue,
+                                    @RequestParam(value = "viewType", required = false) String viewType,
+                                    Model model) {
+        if (viewType != null) {
+            session.setAttribute("viewType", viewType.trim());
+            String tableName;
+            switch (viewType) {
+                case "All":
+                    tableName = "history_list_all";
+                    break;
+                case "Asset":
+                    tableName = "history_list_asset";
+                    break;
+                case "Change":
+                    tableName = "history_list_change";
+                    break;
+                case "Consumables":
+                    tableName = "history_list_consumables";
+                    break;
+                case "Input":
+                    tableName = "history_list_input";
+                    break;
+                case "Output":
+                    tableName = "history_list_output";
+                    break;
+                case "Repair":
+                    tableName = "history_list_repair";
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid history viewType: " + viewType);
+
+            }
+            session.setAttribute("tableName", tableName.trim());
+            model.addAttribute("tableName", tableName.trim());
+            log.info("(getHistorySearch) viewType: {}", viewType);
+            log.info("(getHistorySearch) tableName: {}", tableName);
+        } else {
+            log.warn("(getHistorySearch) viewType 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+
+        if (navSearch != null) {
+            session.setAttribute("navSearch", navSearch.trim());
+            model.addAttribute("navSearch", navSearch.trim());
+            log.info("(getHistorySearch) 히스토리 이력 조회 검색어(navSearch) 확인: {}", navSearch);
+        } else {
+            log.warn("(getHistorySearch) navSearch 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+
+        if (searchType != null) {
+            session.setAttribute("searchType", searchType.trim());
+            model.addAttribute("searchType", searchType.trim());
+            log.info("(getHistorySearch) 히스토리 이력 조회 검색어(searchType) 확인: {}", searchType);
+        } else {
+            log.warn("(getHistorySearch) searchType 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+
+        if (searchValue != null) {
+            session.setAttribute("searchValue", searchValue.trim());
+            model.addAttribute("searchValue", searchValue.trim());
+            log.info("(getHistorySearch) 히스토리 이력 조회 검색어(searchValue) 확인: {}", searchValue);
+        } else {
+            log.warn("(getHistorySearch) searchValue 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+
+        return "itam/history/historySearch"; // 결과를 보여줄 HTML
+    }*/
 
     @PostMapping("/api/historySearch")
     @ResponseBody
-    public PageDto<List<String>> getHistoryList(
-            @RequestParam("draw") int draw,
-            @RequestParam("length") int length,
-            @RequestParam("start") int start,
-            @RequestParam(value = "search[value]", required = false) String searchValue,
-            @RequestParam(value = "order[0][column]", required = false) Integer orderColumn,
-            @RequestParam(value = "order[0][dir]", required = false) String orderDir,
-            @RequestParam(value = "searchStart", required = false) String searchStart,
-            @RequestParam(value = "searchEnd", required = false) String searchEnd,
-            HttpSession session) {
+    public PageDto<List<String>> getHistorySearch(@RequestBody PageDto<?> dto,
+                                                  @RequestParam(value = "search[value]", required = false) String search,
+                                                  @RequestParam(value = "order[0][column]", required = false) Integer orderColumn,
+                                                  @RequestParam(value = "order[0][dir]", required = false) String orderDir, HttpSession session) {
 
-        String navSearch = (String) session.getAttribute("navSearch");
-
-        PageDto<List<String>> rs = new PageDto<>();
-        rs.setDraw(draw);
-        rs.setStart(start);
-        rs.setLength(length);
-        rs.setSearchValue(searchValue);
-        rs.setSearch(searchValue);
-        rs.setNavSearch(navSearch);
-        rs.setSearchStart(searchStart);
-        rs.setSearchEnd(searchEnd);
-
-        if (orderColumn != null && orderDir != null && !orderDir.isBlank()) {
-            rs.setOrderColumn(orderColumn);
-            rs.setOrderDir(orderDir);
+        if (dto.getNavSearch() == null || dto.getNavSearch().isEmpty()) {
+            dto.setNavSearch((String) session.getAttribute("navSearch"));
+        }
+        if (dto.getSearchType() == null || dto.getSearchType().isEmpty()) {
+            dto.setSearchType((String) session.getAttribute("searchType"));
         }
 
+        // 로그 출력
+        log.info("(/api/historySearch) 컨트롤러 최종 로그");
+        log.info("(/api/historySearch) draw: {}", dto.getDraw());
+        log.info("(/api/historySearch) start: {}", dto.getStart());
+        log.info("(/api/historySearch) length: {}", dto.getLength());
+        log.info("(/api/historySearch) search: {}", dto.getSearch());
+        log.info("(/api/historySearch) navSearch: {}", dto.getNavSearch());
+        log.info("(/api/historySearch) searchType: {}", dto.getSearchType());
+        log.info("(/api/historySearch) searchValue: {}", dto.getSearchValue());
+        log.info("(/api/historySearch) viewType: {}", dto.getViewType());
+        log.info("(/api/historySearch) tableName: {}", dto.getTableName());
+        log.info("(/api/historySearch) orderColumn: {}", dto.getOrderColumn());
+        log.info("(/api/historySearch) orderDir: {}", dto.getOrderDir());
+        log.info("(/api/historySearch) searchStart: {}", dto.getSearchStart());
+        log.info("(/api/historySearch) searchEnd: {}", dto.getSearchEnd());
+
         // 서비스 계층 호출
-        return HistoryService.findHistoryByPagination(rs);
+        return HistoryService.findHistoryByPagination(dto);
     }
 
 

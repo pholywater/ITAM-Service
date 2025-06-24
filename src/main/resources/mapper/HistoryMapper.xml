@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hmm.itam.mapper.HistoryMapper">
     <!--장비 이력 전체 조회-->
-    <select id="getHistoryList" resultType="hmm.itam.vo.HistoryVo">
+    <select id="getHistoryListDate" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
 
@@ -49,7 +49,87 @@
         asset_history.history_asset_number
     </select>
 
-    <select id="getHistoryListAll" resultType="hmm.itam.vo.HistoryVo">
+    <select id="getHistoryList" resultType="hmm.itam.vo.HistoryVo">
+        <!-- DB 뷰 테이블 조회 -->
+        SELECT *
+        FROM ${tableName}
+        <where>
+            <!-- 검색 조건 -->
+            <if test="navSearch != null and navSearch != ''">
+                AND (
+                asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{navSearch}, '%')
+                )
+            </if>
+
+            <if test="searchValue != null and searchValue != ''">
+                AND (
+                asset_history.history_type LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_worker LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_request_details LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_request_etc LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </if>
+        </where>
+        <!-- 정렬 처리 -->
+        <choose>
+            <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
+                ORDER BY ${orderByColumn} ${direction}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <!-- 페이징 처리 -->
+        LIMIT #{start}, #{length}
+    </select>
+    <select id="countHistoryList" resultType="int">
+        <!-- DB 뷰 테이블 조회 -->
+        SELECT COUNT(*)
+        FROM ${tableName}
+        <where>
+            <!-- 검색 조건 -->
+            <if test="navSearch != null and navSearch != ''">
+                AND (
+                asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{navSearch}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{navSearch}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{navSearch}, '%')
+                )
+            </if>
+
+            <if test="searchValue != null and searchValue != ''">
+                AND (
+                asset_history.history_type LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_worker LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{searchValue}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_request_details LIKE CONCAT('%', #{searchValue}, '%')
+                OR asset_history.history_request_etc LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </if>
+        </where>
+    </select>
+
+
+    <!--<select id="getHistoryListAll" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM history_list_all
     </select>
@@ -76,119 +156,152 @@
     <select id="getHistoryListRepair" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM history_list_repair
-    </select>
+    </select>-->
 
     <!--Ajax 이력 조회 검색-->
-    <select id="findHistoryByPagination" resultType="hmm.itam.vo.HistoryVo">
-        SELECT *
-        FROM asset_history
+    <select id="findHistoryByPagination" parameterType="hmm.itam.dto.PageDto" resultType="hmm.itam.vo.HistoryVo">
+        <!-- 1차 조건: tableName이 있는 경우 -->
+        <if test="pageDto.tableName != null and pageDto.tableName != ''">
+            SELECT * FROM ${pageDto.tableName}
+            <if test="pageDto.search != null and pageDto.search != ''">
+                WHERE
+                history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+            </if>
+            ORDER BY history_completion_date DESC
+            LIMIT #{start}, #{length}
+        </if>
 
-        LEFT JOIN hmm_member
-        ON asset_history.history_member_id = hmm_member.member_id
+        <!-- 1차 조건: navSearch가 있는 경우 -->
+        <if test="(pageDto.tableName == null or pageDto.tableName == '')">
+            SELECT *
+            FROM asset_history
+            LEFT JOIN hmm_member ON asset_history.history_member_id = hmm_member.member_id
+            LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
+            LEFT JOIN asset_info ON asset_history.history_asset_number = asset_info.asset_number
+            LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
 
-        LEFT JOIN hmm_department
-        ON hmm_member.member_department = hmm_department.department_name
-
-        LEFT JOIN asset_info
-        ON asset_history.history_asset_number = asset_info.asset_number
-
-        LEFT JOIN asset_model
-        ON asset_info.asset_model_name = asset_model.model_name
-
-        <where>
-            <!-- 검색 조건 -->
-            <if test="navSearch != null and navSearch != ''">
+            <if test="pageDto.navSearch != null and pageDto.navSearch != ''">
+                WHERE (
+                asset_history.history_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                )
+            </if>
+            <if test="pageDto.search != null and pageDto.search != ''">
                 AND (
-                asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_asset_type LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_requester LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_member_id LIKE CONCAT('%', #{navSearch}, '%')
-                OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_asset_number LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_model.model_name LIKE CONCAT('%', #{navSearch}, '%')
+                asset_history.history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_worker LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{spageDto.search}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
                 )
             </if>
 
-            <if test="searchValue != null and searchValue != ''">
-                AND (
-                asset_history.history_type LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_asset_type LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_requester LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_worker LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_member_id LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_asset_number LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_model.model_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_request_details LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_request_etc LIKE CONCAT('%', #{searchValue}, '%')
-                )
-            </if>
-        </where>
+            <choose>
+                <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
+                    ORDER BY ${orderByColumn} ${direction}
+                </when>
+                <otherwise>
+                    ORDER BY
+                    asset_history.history_completion_date DESC,
+                    hmm_member.member_department,
+                    asset_history.history_member_id,
+                    asset_history.history_type,
+                    asset_history.history_asset_number
+                </otherwise>
+            </choose>
+            LIMIT #{start}, #{length}
+        </if>
 
-        <!-- 정렬 처리 -->
-        <choose>
-            <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
-                ORDER BY ${orderByColumn} ${direction}
-            </when>
-            <otherwise>
-                ORDER BY
-                asset_history.history_completion_date DESC,
-                hmm_member.member_department,
-                asset_history.history_member_id,
-                asset_history.history_type,
-                asset_history.history_asset_number
-            </otherwise>
-        </choose>
+        <!-- 기본값 처리: 아무 조건도 없을 경우 -->
+        <!--<if test="(pageDto.tableName == null or pageDto.tableName == '') and (navSearch == null or navSearch == '')">
+            SELECT * FROM history_list_asset
+            LIMIT #{start}, #{length}
+        </if>-->
 
-        <!-- 페이징 처리 -->
-        LIMIT #{start}, #{length}
     </select>
+
+
     <!--Ajax 이력 조회 카운트-->
-    <select id="countTotalHistory" resultType="int">
-        SELECT COUNT(*)
-        FROM asset_history
+    <select id="countTotalHistory" parameterType="hmm.itam.dto.PageDto" resultType="int">
+        <!-- 1차 조건: tableName이 있는 경우 -->
+        <if test="pageDto.tableName != null and pageDto.tableName != ''">
+            SELECT COUNT(*) FROM ${pageDto.tableName}
+            <if test="pageDto.search != null and pageDto.search != ''">
+                WHERE
+                history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+            </if>
+        </if>
 
-        LEFT JOIN hmm_member
-        ON asset_history.history_member_id = hmm_member.member_id
-
-        LEFT JOIN hmm_department
-        ON hmm_member.member_department = hmm_department.department_name
-
-        LEFT JOIN asset_info
-        ON asset_history.history_asset_number = asset_info.asset_number
-
-        LEFT JOIN asset_model
-        ON asset_info.asset_model_name = asset_model.model_name
-
-        <where>
-            <!-- 검색 조건 -->
-            <if test="navSearch != null and navSearch != ''">
-                AND (
-                asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_asset_type LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_requester LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_member_id LIKE CONCAT('%', #{navSearch}, '%')
-                OR hmm_member.member_name LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_history.history_asset_number LIKE CONCAT('%', #{navSearch}, '%')
-                OR asset_model.model_name LIKE CONCAT('%', #{navSearch}, '%')
+        <!-- 1차 조건: navSearch가 있는 경우 -->
+        <if test="(pageDto.tableName == null or pageDto.tableName == '')">
+            SELECT COUNT(*)
+            FROM asset_history
+            LEFT JOIN hmm_member ON asset_history.history_member_id = hmm_member.member_id
+            LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
+            LEFT JOIN asset_info ON asset_history.history_asset_number = asset_info.asset_number
+            LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
+            <if test="pageDto.navSearch != null and pageDto.navSearch != ''">
+                WHERE (
+                asset_history.history_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
                 )
             </if>
-
-            <if test="searchValue != null and searchValue != ''">
+            <if test="pageDto.search != null and pageDto.search != ''">
                 AND (
-                asset_history.history_type LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_asset_type LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_requester LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_worker LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_member_id LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_asset_number LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_model.model_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_request_details LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_history.history_request_etc LIKE CONCAT('%', #{searchValue}, '%')
+                asset_history.history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_worker LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{spageDto.search}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
                 )
             </if>
-        </where>
+        </if>
+
+        <!-- 기본값 처리: 아무 조건도 없을 경우 -->
+        <!--<if test="(pageDto.tableName == null or pageDto.tableName == '') and (navSearch == null or navSearch == '')">
+            SELECT COUNT(*) FROM history_list_asset
+        </if>-->
+
     </select>
 
 
