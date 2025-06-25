@@ -3,6 +3,7 @@ package hmm.itam.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,9 @@ public class PageDto<T> {
 
     // 해더 상단 조회 검색어 (세션 기반 검색어)
     private String navSearch;
+
+    // 해더 상단 조회 변수 중복 처리
+    private String navSearchHistory;
 
     // 검색어 (DataTables에서 전달된 값)
     private String search;

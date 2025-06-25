@@ -164,14 +164,22 @@ public class AssetController {
 
         /*상단 검색에서 이력 관리 조회 시*/
         if (Objects.equals(searchType, "history")) {
-            /*session.setAttribute("navSearch", navSearch);
-            session.setAttribute("searchType", searchType);*/
+            /*상단 해더 조회의 경우 viewType 값 초기화 진행*/
+            String viewType = "";
+            session.setAttribute("viewType", viewType);
+            model.addAttribute("viewType", viewType);
+            session.setAttribute("navSearch", navSearch);
+            model.addAttribute("navSearch", navSearch);
+            session.setAttribute("navSearchHistory", navSearch);
             model.addAttribute("navSearchHistory", navSearch.trim());
             model.addAttribute("searchType", searchType.trim());
-            log.info("해더 검색창 navSearch : {}", navSearch);
-            log.info("해더 검색창 searchType : {}", searchType);
-            /*return "redirect:/historyList";*/
-            return "itam/history/historySearch";
+
+            log.info("Asset history 해더 검색창 viewType : {}", viewType);
+            log.info("Asset history 해더 검색창 navSearch : {}", navSearch);
+            log.info("Asset history 해더 검색창 searchType : {}", searchType);
+
+            return "redirect:/historyList";
+            /*return "itam/history/historySearch";*/
         }
 
         /*상단 검색에서 백앤드 장비 조회 시*/

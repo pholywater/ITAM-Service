@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -40,8 +41,10 @@ public class HistoryService {
         int startNo = pageDto.getStart();
         int length = pageDto.getLength();
         int rowNo = startNo;
+        String navSearchHistory = pageDto.getNavSearchHistory();
 
         // 해더 우측 상단 검색
+
         String navSearch = pageDto.getNavSearch();
         String searchType = pageDto.getSearchType();
         // 해더 파라미터 접근 검색
@@ -69,7 +72,7 @@ public class HistoryService {
         String[] columnNames = {
                 "history_completion_date", "history_request_date", "history_asset_type", "history_type",
                 "history_requester", "history_worker", "history_member_id", "department_name",
-                "member_name", "member_rank", "history_asset_number", "asset_model_name",
+                "member_name", "member_rank", "history_asset_number", "model_name",
                 "history_request_details", "history_request_etc"
                 /*"history_spec1", "history_spec2", "history_spec3", "history_asset_etc1"*/
         };
@@ -91,20 +94,25 @@ public class HistoryService {
 
         log.info("(findHistoryByPagination) 정렬 컬럼 orderColumn : {}", orderColumn);
         log.info("(findHistoryByPagination) 정렬 방향 orderDir : {}", orderDir);
+        log.info("(findHistoryByPagination) viewType: {}", viewType);
         log.info("(findHistoryByPagination) tableName: {}", tableName);
         log.info("(findHistoryByPagination) navSearch: {}", navSearch);
+        log.info("(findHistoryByPagination) navSearchHistory: {}", navSearchHistory);
         log.info("(findHistoryByPagination) searchType: {}", searchType);
         log.info("(findHistoryByPagination) search: {}", search);
+        log.info("(findHistoryByPagination) searchStart: {}", searchStart);
+        log.info("(findHistoryByPagination) searchEnd: {}", searchEnd);
 
         // ✅ 총 레코드 수 조회
-        int total = historyMapper.countTotalHistory(pageDto, navSearch, searchType, searchStart, searchEnd, viewType, tableName);
+        int total = historyMapper.countTotalHistory(pageDto, searchType, navSearch, search, viewType, tableName, searchStart, searchEnd);
         pageDto.setRecordsTotal(total);
         pageDto.setRecordsFiltered(total);
 
         // ✅ 데이터 조회
         List<HistoryVo> data = (length == -1)
-                ? historyMapper.findHistoryByPagination(pageDto, 0, total, navSearch, orderByColumn, direction)
-                : historyMapper.findHistoryByPagination(pageDto, startNo, length, navSearch, orderByColumn, direction);
+                ? historyMapper.findHistoryByPagination(pageDto, tableName, 0, total, searchType, navSearch, navSearchHistory, search, searchStart, searchEnd, orderByColumn, direction)
+                : historyMapper.findHistoryByPagination(pageDto, tableName, startNo, length, searchType, navSearch, navSearchHistory, search, searchStart, searchEnd, orderByColumn, direction);
+
 
         // ✅ 결과 포맷 변환
         List<List<String>> result = new ArrayList<>();

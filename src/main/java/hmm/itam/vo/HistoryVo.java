@@ -52,6 +52,7 @@ public class HistoryVo {
     private String memberRank;
 
     private String modelName;
+    private String AssetModelName;
     private String assetTypeCategory;
     private String assetLocation;
     private String assetStatus;

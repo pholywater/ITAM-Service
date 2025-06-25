@@ -49,12 +49,12 @@
         asset_history.history_asset_number
     </select>
 
-    <select id="getHistoryList" resultType="hmm.itam.vo.HistoryVo">
-        <!-- DB 뷰 테이블 조회 -->
+    <!--<select id="getHistoryList" resultType="hmm.itam.vo.HistoryVo">
+        &lt;!&ndash; DB 뷰 테이블 조회 &ndash;&gt;
         SELECT *
         FROM ${tableName}
         <where>
-            <!-- 검색 조건 -->
+            &lt;!&ndash; 검색 조건 &ndash;&gt;
             <if test="navSearch != null and navSearch != ''">
                 AND (
                 asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
@@ -82,7 +82,7 @@
                 )
             </if>
         </where>
-        <!-- 정렬 처리 -->
+        &lt;!&ndash; 정렬 처리 &ndash;&gt;
         <choose>
             <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
                 ORDER BY ${orderByColumn} ${direction}
@@ -90,15 +90,15 @@
             <otherwise>
             </otherwise>
         </choose>
-        <!-- 페이징 처리 -->
+        &lt;!&ndash; 페이징 처리 &ndash;&gt;
         LIMIT #{start}, #{length}
-    </select>
-    <select id="countHistoryList" resultType="int">
-        <!-- DB 뷰 테이블 조회 -->
+    </select>-->
+    <!--<select id="countHistoryList" resultType="int">
+        &lt;!&ndash; DB 뷰 테이블 조회 &ndash;&gt;
         SELECT COUNT(*)
         FROM ${tableName}
         <where>
-            <!-- 검색 조건 -->
+            &lt;!&ndash; 검색 조건 &ndash;&gt;
             <if test="navSearch != null and navSearch != ''">
                 AND (
                 asset_history.history_type LIKE CONCAT('%', #{navSearch}, '%')
@@ -126,7 +126,7 @@
                 )
             </if>
         </where>
-    </select>
+    </select>-->
 
 
     <!--<select id="getHistoryListAll" resultType="hmm.itam.vo.HistoryVo">
@@ -158,11 +158,44 @@
         FROM history_list_repair
     </select>-->
 
-    <!--Ajax 이력 조회 검색-->
+    <!--&lt;!&ndash;Ajax 이력 조회 검색&ndash;&gt;
     <select id="findHistoryByPagination" parameterType="hmm.itam.dto.PageDto" resultType="hmm.itam.vo.HistoryVo">
-        <!-- 1차 조건: tableName이 있는 경우 -->
+        &lt;!&ndash; 1차 조건: tableName이 있는 경우 &ndash;&gt;
         <if test="pageDto.tableName != null and pageDto.tableName != ''">
             SELECT * FROM ${pageDto.tableName}
+            <if test="(pageDto.searchStart != '' or pageDto.searchStart != null or pageDto.searchEnd != '' or pageDto.searchEnd != null)">
+                <if test="(pageDto.searchStart != '' or pageDto.searchStart != null)">
+                    <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                        WHERE (history_completion_date
+                        BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                    </if>
+                    <if test="(pageDto.searchEnd == '' and pageDto.searchEnd == null)">
+                        WHERE (history_completion_date
+                        BETWEEN #{pageDto.searchStart} AND NOW())
+                    </if>
+                </if>
+                <if test="(pageDto.searchStart == '' or pageDto.searchStart == null)">
+                    <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                        WHERE (history_completion_date
+                        BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                    </if>
+                </if>
+                <if test="pageDto.search != null and pageDto.search != ''">
+                    AND (
+                    history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                    OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+                    )
+                </if>
+            </if>
             <if test="pageDto.search != null and pageDto.search != ''">
                 WHERE
                 history_type LIKE CONCAT('%', #{pageDto.search}, '%')
@@ -185,10 +218,10 @@
                     ORDER BY history_completion_date DESC
                 </otherwise>
             </choose>
-            LIMIT #{start}, #{length}
+            LIMIT #{pageDto.start}, #{pageDto.length}
         </if>
 
-        <!-- 1차 조건: navSearch가 있는 경우 -->
+        &lt;!&ndash; 1차 조건: navSearch가 있는 경우 &ndash;&gt;
         <if test="(pageDto.tableName == null or pageDto.tableName == '')">
             SELECT *
             FROM asset_history
@@ -208,6 +241,22 @@
                 OR asset_model.model_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
                 )
             </if>
+            <if test="(pageDto.searchStart != '' or pageDto.searchStart != null)">
+                <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                    WHERE (history_completion_date
+                    BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                </if>
+                <if test="(pageDto.searchEnd == '' and pageDto.searchEnd == null)">
+                    WHERE (history_completion_date
+                    BETWEEN #{pageDto.searchStart} AND NOW())
+                </if>
+            </if>
+            <if test="(pageDto.searchStart == '' or pageDto.searchStart == null)">
+                <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                    WHERE (history_completion_date
+                    BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                </if>
+            </if>
             <if test="pageDto.search != null and pageDto.search != ''">
                 AND (
                 asset_history.history_type LIKE CONCAT('%', #{pageDto.search}, '%')
@@ -222,7 +271,20 @@
                 OR asset_history.history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
                 )
             </if>
-
+            <choose>
+                <when test="(pageDto.searchStart == '' or pageDto.searchStart == null) and (pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                    and history_completion_date
+                    BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+                </when>
+                <when test="(pageDto.searchStart != '' or pageDto.searchStart != null) and (pageDto.searchEnd == '' and pageDto.searchEnd == null)">
+                    and WHERE history_completion_date
+                    BETWEEN #{pageDto.searchStart} AND NOW()
+                </when>
+                <when test="(pageDto.searchStart != '' and pageDto.searchEnd != '') and (pageDto.searchStart != null and pageDto.searchEnd != null)">
+                    and WHERE history_completion_date
+                    BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+                </when>
+            </choose>
             <choose>
                 <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
                     ORDER BY ${orderByColumn} ${direction}
@@ -239,22 +301,36 @@
             LIMIT #{start}, #{length}
         </if>
 
-        <!-- 기본값 처리: 아무 조건도 없을 경우 -->
-        <!--<if test="(pageDto.tableName == null or pageDto.tableName == '') and (navSearch == null or navSearch == '')">
+        &lt;!&ndash; 기본값 처리: 아무 조건도 없을 경우 &ndash;&gt;
+        &lt;!&ndash;<if test="(pageDto.tableName == null or pageDto.tableName == '') and (navSearch == null or navSearch == '')">
             SELECT * FROM history_list_asset
             LIMIT #{start}, #{length}
-        </if>-->
+        </if>&ndash;&gt;
 
-    </select>
+    </select>-->
 
-
-    <!--Ajax 이력 조회 카운트-->
-    <select id="countTotalHistory" parameterType="hmm.itam.dto.PageDto" resultType="int">
-        <!-- 1차 조건: tableName이 있는 경우 -->
-        <if test="pageDto.tableName != null and pageDto.tableName != ''">
-            SELECT COUNT(*) FROM ${pageDto.tableName}
-            <if test="pageDto.search != null and pageDto.search != ''">
-                WHERE
+    <select id="findHistoryByPagination" parameterType="hmm.itam.dto.PageDto" resultType="hmm.itam.vo.HistoryVo">
+        <!-- 1차 조건: viewType이 있는 경우 -->
+        <if test="pageDto.viewType != null and !pageDto.viewType.isEmpty()">
+            SELECT * FROM ${pageDto.tableName}
+            WHERE 1=1
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
+                AND (
                 history_type LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
@@ -262,23 +338,32 @@
                 OR member_name LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR model_name LIKE CONCAT('%', #{pageDto.search}, '%')
-                OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
-                OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+                )
             </if>
+            <choose>
+                <when test="orderByColumn != null and !orderByColumn.isEmpty() and direction != null and !direction.isEmpty()">
+                    ORDER BY ${orderByColumn} ${direction}
+                </when>
+                <otherwise>
+                    ORDER BY history_completion_date DESC
+                </otherwise>
+            </choose>
+            LIMIT #{pageDto.start}, #{pageDto.length}
         </if>
 
-        <!-- 1차 조건: navSearch가 있는 경우 -->
-        <if test="(pageDto.tableName == null or pageDto.tableName == '')">
-            SELECT COUNT(*)
+        <!-- 2차 조건: viewType이 없는 경우 -->
+        <if test="pageDto.viewType == null or pageDto.viewType.isEmpty()">
+            SELECT *
             FROM asset_history
             LEFT JOIN hmm_member ON asset_history.history_member_id = hmm_member.member_id
             LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
             LEFT JOIN asset_info ON asset_history.history_asset_number = asset_info.asset_number
             LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
-            <if test="pageDto.navSearch != null and pageDto.navSearch != ''">
-                WHERE (
+            WHERE 1=1
+            <if test="pageDto.navSearch != null and !pageDto.navSearch.isEmpty()">
+                AND (
                 asset_history.history_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
                 OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
                 OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.navSearch}, '%')
@@ -288,7 +373,124 @@
                 OR asset_model.model_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
                 )
             </if>
-            <if test="pageDto.search != null and pageDto.search != ''">
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
+                AND (
+                asset_history.history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_worker LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR asset_history.history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+                )
+            </if>
+            <choose>
+                <when test="orderByColumn != null and !orderByColumn.isEmpty() and direction != null and !direction.isEmpty()">
+                    ORDER BY ${orderByColumn} ${direction}
+                </when>
+                <otherwise>
+                    ORDER BY
+                    asset_history.history_completion_date DESC,
+                    hmm_member.member_department,
+                    asset_history.history_member_id,
+                    asset_history.history_type,
+                    asset_history.history_asset_number
+                </otherwise>
+            </choose>
+            LIMIT #{start}, #{length}
+        </if>
+    </select>
+
+
+    <select id="countTotalHistory" parameterType="hmm.itam.dto.PageDto" resultType="int">
+        <!-- 1차 조건: viewType이 있는 경우 -->
+        <if test="pageDto.viewType != null and !pageDto.viewType.isEmpty()">
+            SELECT COUNT(*) FROM ${pageDto.tableName}
+            WHERE 1=1
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
+                AND (
+                history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+                )
+            </if>
+        </if>
+
+        <!-- 2차 조건: viewType이 없는 경우 -->
+        <if test="pageDto.viewType == null or pageDto.viewType.isEmpty()">
+            SELECT COUNT(*)
+            FROM asset_history
+            LEFT JOIN hmm_member ON asset_history.history_member_id = hmm_member.member_id
+            LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
+            LEFT JOIN asset_info ON asset_history.history_asset_number = asset_info.asset_number
+            LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
+            WHERE 1=1
+            <if test="pageDto.navSearch != null and !pageDto.navSearch.isEmpty()">
+                AND (
+                asset_history.history_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                OR asset_model.model_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                )
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND history_completion_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND history_completion_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
                 AND (
                 asset_history.history_type LIKE CONCAT('%', #{pageDto.search}, '%')
                 OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
@@ -303,13 +505,120 @@
                 )
             </if>
         </if>
-
-        <!-- 기본값 처리: 아무 조건도 없을 경우 -->
-        <!--<if test="(pageDto.tableName == null or pageDto.tableName == '') and (navSearch == null or navSearch == '')">
-            SELECT COUNT(*) FROM history_list_asset
-        </if>-->
-
     </select>
+
+
+    <!--Ajax 이력 조회 카운트-->
+    <!-- <select id="countTotalHistory" parameterType="hmm.itam.dto.PageDto" resultType="int">
+         &lt;!&ndash; 1차 조건: tableName이 있는 경우 &ndash;&gt;
+         <if test="pageDto.tableName != null and pageDto.tableName != ''">
+             SELECT COUNT(*) FROM ${pageDto.tableName}
+             <if test="(pageDto.searchStart != '' or pageDto.searchStart != null or pageDto.searchEnd != '' or pageDto.searchEnd != null)">
+                 <if test="(pageDto.searchStart != '' or pageDto.searchStart != null)">
+                     <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                         WHERE (history_completion_date
+                         BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                     </if>
+                     <if test="(pageDto.searchEnd == '' and pageDto.searchEnd == null)">
+                         WHERE (history_completion_date
+                         BETWEEN #{pageDto.searchStart} AND NOW())
+                     </if>
+                 </if>
+                 <if test="(pageDto.searchStart == '' or pageDto.searchStart == null)">
+                     <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                         WHERE (history_completion_date
+                         BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                     </if>
+                 </if>
+                 <if test="pageDto.search != null and pageDto.search != ''">
+                     AND (
+                     history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                     OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+                     )
+                 </if>
+             </if>
+             <if test="pageDto.search != null and pageDto.search != ''">
+                 WHERE
+                 history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+             </if>
+         </if>
+
+         &lt;!&ndash; 1차 조건: navSearch가 있는 경우 &ndash;&gt;
+         <if test="(pageDto.tableName == null or pageDto.tableName == '')">
+             SELECT COUNT(*)
+             FROM asset_history
+             LEFT JOIN hmm_member ON asset_history.history_member_id = hmm_member.member_id
+             LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
+             LEFT JOIN asset_info ON asset_history.history_asset_number = asset_info.asset_number
+             LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
+             <if test="pageDto.navSearch != null and pageDto.navSearch != ''">
+                 WHERE (
+                 asset_history.history_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                 OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                 OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                 OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                 OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                 OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                 OR asset_model.model_name LIKE CONCAT('%', #{pageDto.navSearch}, '%')
+                 )
+             </if>
+             <if test="(pageDto.searchStart != '' or pageDto.searchStart != null)">
+                 <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                     WHERE (history_completion_date
+                     BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                 </if>
+                 <if test="(pageDto.searchEnd == '' and pageDto.searchEnd == null)">
+                     WHERE (history_completion_date
+                     BETWEEN #{pageDto.searchStart} AND NOW())
+                 </if>
+             </if>
+             <if test="(pageDto.searchStart == '' or pageDto.searchStart == null)">
+                 <if test="(pageDto.searchEnd != '' and pageDto.searchEnd != null)">
+                     WHERE (history_completion_date
+                     BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd})
+                 </if>
+             </if>
+             <if test="pageDto.search != null and pageDto.search != ''">
+                 AND (
+                 asset_history.history_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_history.history_asset_type LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_history.history_requester LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_history.history_worker LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_history.history_member_id LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR hmm_member.member_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_history.history_asset_number LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_model.model_name LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_history.history_request_details LIKE CONCAT('%', #{pageDto.search}, '%')
+                 OR asset_history.history_request_etc LIKE CONCAT('%', #{pageDto.search}, '%')
+                 )
+             </if>
+         </if>
+
+         &lt;!&ndash; 기본값 처리: 아무 조건도 없을 경우 &ndash;&gt;
+         &lt;!&ndash;<if test="(pageDto.tableName == null or pageDto.tableName == '') and (navSearch == null or navSearch == '')">
+             SELECT COUNT(*) FROM history_list_asset
+         </if>&ndash;&gt;
+
+     </select>-->
 
 
     <!--이력 등록 하기-->
