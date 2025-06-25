@@ -5,6 +5,7 @@ import hmm.itam.vo.HistoryVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -15,24 +16,37 @@ public interface HistoryMapper {
                                        @Param("searchEnd") String searchEnd); // 전체 이력 조회
 
 
-    List<HistoryVo> findHistoryByPagination(PageDto<?> pageDto);
-
-    List<HistoryVo> getHistoryList(@Param("tableName") String tableName,
+/*    List<HistoryVo> getHistoryList(@Param("tableName") String tableName,
                                    @Param("start") int start,
                                    @Param("length") int length,
                                    @Param("searchType") String searchType,
                                    @Param("navSearch") String navSearch,
-                                   @Param("searchValue") String searchValue,
                                    @Param("searchStart") String searchStart,
                                    @Param("searchEnd") String searchEnd,
                                    @Param("orderByColumn") String orderByColumn,
-                                   @Param("direction") String direction);
+                                   @Param("direction") String direction);*/
 
-    int countHistoryList(@Param("navSearch") String searchType,
+
+/*    List<HistoryVo> findHistoryByPagination(PageDto<?> pageDto,
+                                            @Param("tableName") String tableName,
+                                            @Param("start") int start,
+                                            @Param("length") int length,
+                                            @Param("searchType") String searchType,
+                                            @Param("navSearch") String navSearch,
+                                            @Param("search") String search,
+                                            @Param("searchStart") String searchStart,
+                                            @Param("searchEnd") String searchEnd,
+                                            @Param("orderByColumn") String orderByColumn,
+                                            @Param("direction") String direction);*/
+
+/*    int countHistoryList(PageDto<?> pageDto,
+                         @Param("navSearch") String searchType,
                          @Param("navSearch") String navSearch,
-                         @Param("searchValue") String searchValue,
+                         @Param("search") String search,
+                         @Param("viewType") String viewType,
+                         @Param("tableName") String tableName,
                          @Param("searchStart") String searchStart,
-                         @Param("searchEnd") String searchEnd);
+                         @Param("searchEnd") String searchEnd);*/
 
     void insertHistory(HistoryVo historyVo); // 히스토리 등록
 
@@ -56,16 +70,24 @@ public interface HistoryMapper {
      */
     List<HistoryVo> findHistoryByPagination(
             @Param("pageDto") PageDto<?> pageDto,
+            @Param("tableName") String tableName,
             @Param("start") int start,
             @Param("length") int length,
+            @Param("searchType") String searchType,
             @Param("navSearch") String navSearch,
+            @Param("navSearchHistory") String navSearchHistory,
+            @Param("search") String search,
+            @Param("searchStart") String searchStart,
+            @Param("searchEnd") String searchEnd,
             @Param("orderByColumn") String orderByColumn,
-            @Param("direction") String direction);
+            @Param("direction") String direction
+    );
 
     int countTotalHistory(
             @Param("pageDto") PageDto<?> pageDto,
-            @Param("navSearch") String navSearch,
             @Param("searchType") String searchType,
+            @Param("navSearch") String navSearch,
+            @Param("search") String search,
             @Param("viewType") String viewType,
             @Param("tableName") String tableName,
             @Param("searchStart") String searchStart,

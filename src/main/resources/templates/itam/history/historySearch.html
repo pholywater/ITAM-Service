@@ -24,18 +24,55 @@
 <body>
 <div id="myDiv" class="container-fluid">
     <h5 Style="text-align:center">HMM 전산 장비 및 소모품 이력 조회</h5>
+    <div style="margin-top: 20px;">
+        <form th:action="@{/historyList}" th:object="${HistoryVo}" method="get">
+            <div class="row align-items-start">
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1"
+                               id="searchStart"
+                               name="searchStart"
+                               th:value="${searchStart}"/>
+                        <label for="searchStart">시작일</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1"
+                               id="searchEnd"
+                               name="searchEnd"
+                               th:value="${searchEnd}"/>
+                        <label for="searchEnd">종료일</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button type="submit" class="btn btn-primary mb-1" formaction="historyList"
+                            formmethod="get">이력 조회
+                    </button>
+                </div>
+                <div class="col">
+                    <input type="hidden" id="viewType" th:value="${viewType}">
+                    <input type="hidden" id="tableName" th:value="${tableName}">
+                    <!--해더에 navSearh 변수 사용 중복으로 js에 넘길 때 초기화 됨. navSearchHistory로 받아 js에서 처리-->
+                    <!--<input type="hidden" id="navSearch" th:value="${navSearchHistory}">-->
+                    <!--<input type="hidden" id="navSearchHistory" th:value="${navSearchHistory}">-->
+                    <input type="hidden" id="searchType" th:value="${searchType}">
+                </div>
+            </div>
+        </form>
+    </div>
     <div style="text-align: right; margin-bottom: 10px;">
-        <span id="navSearchText" style="margin-right: 10px;"></span>
-        <span id="viewTypeText"></span>
+        <span id="navSearchText" style="margin-right: 15px;"></span>
+        <span id="viewTypeText" style="margin-right: 15px;"></span>
+        <span id="startText" style="margin-right: 15px;"></span>
+        <span id="endText" style="margin-right: 15px;"></span>
         <span id="searchText"></span>
     </div>
-
-    <input type="hidden" id="viewType" th:value="${viewType}">
-    <input type="hidden" id="tableName" th:value="${tableName}">
-    <input type="hidden" id="navSearchHistory" th:value="${navSearchHistory}">
-    <input type="hidden" id="searchType" th:value="${searchType}">
-
-
     <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
 
@@ -107,6 +144,7 @@
                         orderColumn: d.order[0]?.column,
                         orderDir: d.order[0]?.dir,
                         navSearch: $('#navSearchHistory').val(),
+                        navSearchHistory: $('#navSearchHistory').val(),
                         searchType: $('#searchType').val(),
                         viewType: $('#viewType').val(),
                         tableName: $('#tableName').val(),
@@ -115,21 +153,39 @@
                     });
                 },
 
-
-
                 dataSrc: function (json) {
                     const navSearch = json.navSearch || '';
+                    const navSearchHistory = json.navSearchHistory || '';
                     const search = json.search || '';
                     const viewType = json.viewType || '';
+                    const searchStart = json.searchStart || '';
+                    const searchEnd = json.searchEnd || '';
+
+
+                    // viewType 한글 매핑
+                     const viewTypeMap = {
+                     'Input': '입고 내역',
+                     'Output': '출고 내역',
+                     'Repair': '고장 및 수리',
+                     'Asset': '장비 내역',
+                     'Change': '변경 내역',
+                     'Consumables': '소모품 내역'
+                     };
+                     const viewTypeKor = viewTypeMap[viewType] || viewType;
+
 
                     // navSearch가 없으면 "전체 검색"으로 표시
-                    const navText = navSearch ? `이력 조회 : <strong>${navSearch}</strong>` : '';
-                    const viewText = viewType ? `TYPE : <strong>${viewType}</strong>` : '';
-                    const searchText = search ? `Search : <strong>${search}</strong>` : '';
+                    const navText = navSearchHistory ? `이력 조회 : <strong>${navSearchHistory}</strong>` : '검색 대상 : <strong>전체 이력</strong>';
+                    const viewText = viewTypeKor ? `TYPE : <strong>${viewTypeKor}</strong>` : 'TYPE : ';
+                    const searchText = search ? `Search : <strong>${search}</strong>` : 'Search : ';
+                    const startText = searchStart ? `검색 시작일 : <strong>${searchStart}</strong>` : '검색 시작일 : ';
+                    const endText = searchEnd ? `검색 종료일 : <strong>${searchEnd}</strong>` : '검색 종료일 : ';
 
                     $('#navSearchText').html(navText);
                     $('#viewTypeText').html(viewText);
                     $('#searchText').html(searchText);
+                    $('#startText').html(startText);
+                    $('#endText').html(endText);
 
                     return json.data;
                 }

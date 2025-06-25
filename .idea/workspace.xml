@@ -4,16 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="이력관리 서버 사이드 조회 및 뷰테이블 조회 통합 1차 성공, 컬럼정렬 작업 예정">
+    <list default="true" id="5e1e3764-530e-4bc5-9c37-97f21d586700" name="Changes" comment="이력관리 서버 사이드 조회 및 뷰테이블 조회 통합 1차 성공, 컬럼정렬 작업 완료">
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/AssetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/controller/HistoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/PageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/dto/PageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/mapper/HistoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/service/HistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hmm/itam/vo/HistoryVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historyList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historySearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/itam/history/historySearch.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +67,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main25.06.11" />
+        <entry key="$PROJECT_DIR$" value="main25.06.11-1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,7 +93,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main25.06.11-1",
+    "git-widget-placeholder": "main25.06.25",
     "last_opened_file_path": "C:/study/itam/src/main/resources/templates/itam/history",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
@@ -114,7 +124,7 @@
       <recent name="hmm.itam.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="애플리케이션.ItamApplication">
+  <component name="RunManager" selected="Gradle.itam [bootJar]">
     <configuration name="ItamApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="hmm.itam.ItamApplication" />
       <module name="itam.main" />
@@ -233,14 +243,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698040510174</updated>
-    </task>
-    <task id="LOCAL-00017" summary="itam">
-      <option name="closed" value="true" />
-      <created>1698823845121</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1698823845121</updated>
     </task>
     <task id="LOCAL-00018" summary="itam">
       <option name="closed" value="true" />
@@ -626,7 +628,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750777068854</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="이력관리 서버 사이드 조회 및 뷰테이블 조회 통합 1차 성공, 컬럼정렬 작업 완료">
+      <option name="closed" value="true" />
+      <created>1750806714403</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1750806714403</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -672,7 +682,8 @@
     <MESSAGE value="서버사이드 히스토리 서치 수정" />
     <MESSAGE value="업데이트 및 히스토리의 request 오타 수정" />
     <MESSAGE value="이력관리 서버 사이드 조회 및 뷰테이블 조회 통합 1차 성공, 컬럼정렬 작업 예정" />
-    <option name="LAST_COMMIT_MESSAGE" value="이력관리 서버 사이드 조회 및 뷰테이블 조회 통합 1차 성공, 컬럼정렬 작업 예정" />
+    <MESSAGE value="이력관리 서버 사이드 조회 및 뷰테이블 조회 통합 1차 성공, 컬럼정렬 작업 완료" />
+    <option name="LAST_COMMIT_MESSAGE" value="이력관리 서버 사이드 조회 및 뷰테이블 조회 통합 1차 성공, 컬럼정렬 작업 완료" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
