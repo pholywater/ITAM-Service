@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -29,13 +28,7 @@ public class HistoryService {
         return headerSearchDto;
     }
 
-    // 이력 전체 조회 (기간 필터)
-/*    public List<HistoryVo> getHistoryList(String searchStart, String searchEnd) {
-        return historyMapper.getHistoryListDate(searchStart, searchEnd);
-    }*/
-
-
-    // 서버사이드 페이징 + 검색 + 정렬 처리
+    // ✅ 서버사이드 페이징 + 검색 + 정렬 처리
     public PageDto<List<String>> findHistoryByPagination(PageDto pageDto) {
         this.pageDto = pageDto;
         int startNo = pageDto.getStart();
@@ -43,19 +36,17 @@ public class HistoryService {
         int rowNo = startNo;
         String navSearchHistory = pageDto.getNavSearchHistory();
 
-        // 해더 우측 상단 검색
-
+        // ✅ 해더 우측 상단 검색
         String navSearch = pageDto.getNavSearch();
         String searchType = pageDto.getSearchType();
-        // 해더 파라미터 접근 검색
+        // ✅ 해더 파라미터 접근 검색
         String viewType = pageDto.getViewType();
         String tableName = pageDto.getTableName();
-        //dataTables Searching 창(2차 검색)
+        // ✅ dataTables Searching 창(2차 검색)
         String search = pageDto.getSearch();
-        //날짜별 추가 검색 변수
+        // ✅ 날짜별 추가 검색 변수
         String searchStart = pageDto.getSearchStart();
         String searchEnd = pageDto.getSearchEnd();
-
 
         // ✅ 테이블 이름 화이트리스트 검증
         Set<String> allowedTables = Set.of(
@@ -77,12 +68,11 @@ public class HistoryService {
                 /*"history_spec1", "history_spec2", "history_spec3", "history_asset_etc1"*/
         };
 
-        // 컬럼 정렬 처리
+        // ✅ 컬럼 정렬 처리
         String orderDir = pageDto.getOrderDir();
         Integer orderColumn = pageDto.getOrderColumn();
         String orderByColumn = null;
         String direction = null;
-
         if (orderColumn != null && orderColumn > 0 && orderColumn - 1 < columnNames.length) {
             orderByColumn = columnNames[orderColumn - 1];
             direction = "ASC";
@@ -90,7 +80,6 @@ public class HistoryService {
                 direction = "DESC";
             }
         }
-
 
         log.info("(findHistoryByPagination) 정렬 컬럼 orderColumn : {}", orderColumn);
         log.info("(findHistoryByPagination) 정렬 방향 orderDir : {}", orderDir);
@@ -108,11 +97,10 @@ public class HistoryService {
         pageDto.setRecordsTotal(total);
         pageDto.setRecordsFiltered(total);
 
-        // ✅ 데이터 조회
+        // ✅ 데이터 조회 패이징 처리시 LIMIT LENGTH 값 오류 나는 케이스 예외 처리(전체 보기)
         List<HistoryVo> data = (length == -1)
                 ? historyMapper.findHistoryByPagination(pageDto, tableName, 0, total, searchType, navSearch, navSearchHistory, search, searchStart, searchEnd, orderByColumn, direction)
                 : historyMapper.findHistoryByPagination(pageDto, tableName, startNo, length, searchType, navSearch, navSearchHistory, search, searchStart, searchEnd, orderByColumn, direction);
-
 
         // ✅ 결과 포맷 변환
         List<List<String>> result = new ArrayList<>();
@@ -146,7 +134,6 @@ public class HistoryService {
         pageDto.setData(result);
         return pageDto;
     }
-
 
     // 이력 등록
     public void historyAdd(HistoryVo historyVo) {

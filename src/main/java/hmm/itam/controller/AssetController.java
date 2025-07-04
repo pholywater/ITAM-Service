@@ -21,114 +21,162 @@ public class AssetController {
     private AssetService AssetService;
 
 
-    @GetMapping("/assetList{type}")
-    public String getAssetListByType(@PathVariable String type, Model model) {
-        List<AssetVo> assetList;
+    @GetMapping("/assetList")
+    public String getAssetList(HttpSession session,
+                               PageDto dto,
+                               @RequestParam(value = "navSearch", required = false) String navSearch,
+                               @RequestParam(value = "navSearchHistory", required = false) String navSearchHistory,
+                               @RequestParam(value = "searchType", required = false) String searchType,
+                               @RequestParam(value = "viewType", required = false) String viewType,
+                               String search,
+                               @RequestParam(value = "searchStart", required = false) String searchStart,
+                               @RequestParam(value = "searchEnd", required = false) String searchEnd,
+                               Model model) {
 
-        switch (type) {
-            case "All":
-                assetList = AssetService.getAssetListAll();
-                log.info("장비 리스트 전체 : DB VIEW TABLE 조회");
-                break;
-            case "Output":
-                assetList = AssetService.getAssetListOutput();
-                log.info("장비 리스트 출고 : DB VIEW TABLE 조회");
-                break;
-            case "Work":
-                assetList = AssetService.getAssetListWork();
-                log.info("장비 리스트 업무용 : DB VIEW TABLE 조회");
-                break;
-            case "Rent":
-                assetList = AssetService.getAssetListRent();
-                log.info("장비 리스트 대여 : DB VIEW TABLE 조회");
-                break;
-            case "Public":
-                assetList = AssetService.getAssetListPublic();
-                log.info("장비 리스트 공용 : DB VIEW TABLE 조회");
-                break;
-            case "Input":
-                assetList = AssetService.getAssetListInput();
-                log.info("장비 리스트 재고 : DB VIEW TABLE 조회");
-                break;
-            case "InputL":
-                assetList = AssetService.getAssetListInputL();
-                log.info("장비 리스트 재고 모니터(L) : DB VIEW TABLE 조회");
-                break;
-            case "InputM":
-                assetList = AssetService.getAssetListInputM();
-                log.info("장비 리스트 재고 모니터(M) : DB VIEW TABLE 조회");
-                break;
-            case "New":
-                assetList = AssetService.getAssetListNew();
-                log.info("장비 리스트 신규 : DB VIEW TABLE 조회");
-                break;
-            case "BusanInventory":
-                assetList = AssetService.getAssetListBusanInventory();
-                log.info("장비 리스트 부산 재고 : DB VIEW TABLE 조회");
-                break;
-            case "UpdateToday":
-                assetList = AssetService.getAssetListUpdateToday();
-                log.info("오늘 업데이트 된 내역 : DB VIEW TABLE 조회");
-                break;
-            default:
-                log.warn("잘못된 자산 리스트 요청: {}", type);
-                assetList = Collections.emptyList();
-                break;
+
+        if (viewType != null && !viewType.isEmpty()) {
+            session.setAttribute("navSearch", null); // 세션에서 초기화
+            session.setAttribute("navSearchHistory", null); // 세션에서 초기화
+            dto.setNavSearch(null); // DTO에서 초기화
+            dto.setNavSearchHistory(null); // DTO에서 초기화
+            log.info("(/assetList) 초기화 navSearch: {}", dto.getNavSearch());
+            log.info("(/assetList) 초기화 navSearchHistory: {}", dto.getNavSearch());
+            String tableName;
+            switch (viewType) {
+                case "All":
+                    tableName = "asset_list_all";
+                    break;
+                case "BusanInventory":
+                    tableName = "asset_list_busan_inventory";
+                    break;
+                case "Input":
+                    tableName = "asset_list_input";
+                    break;
+                case "InputL":
+                    tableName = "asset_list_input_l";
+                    break;
+                case "InputM":
+                    tableName = "asset_list_input_m";
+                    break;
+                case "New":
+                    tableName = "asset_list_new";
+                    break;
+                case "Output":
+                    tableName = "asset_list_output";
+                    break;
+                case "OutputWork":
+                    tableName = "asset_list_output_work";
+                    break;
+                case "Public":
+                    tableName = "asset_list_public";
+                    break;
+                case "Rent":
+                    tableName = "asset_list_rent";
+                    break;
+                case "UpdateToday":
+                    tableName = "asset_list_update_today";
+                    break;
+                case "Work":
+                    tableName = "asset_list_work";
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid history viewType: " + viewType);
+            }
+
+            session.setAttribute("viewType", viewType.trim());
+            model.addAttribute("viewType", viewType.trim());
+            log.info("(getAssetList) 장비 조회 검색어(viewType) 확인: {}", viewType);
+            session.setAttribute("tableName", tableName.trim());
+            model.addAttribute("tableName", tableName.trim());
+            log.info("(getAssetList) 장비 조회 검색어(tableName) 확인: {}", tableName);
+        } else {
+            log.warn("(getAssetList) viewType 값이 null입니다. 세션에 저장하지 않습니다.");
+            log.warn("(getAssetList) tableName 값이 null입니다. 세션에 저장하지 않습니다.");
         }
-        model.addAttribute("list", assetList);
+
+        if (searchType != null) {
+            session.setAttribute("searchType", searchType.trim());
+            model.addAttribute("searchType", searchType.trim());
+            log.info("(getAssetList) 장비 조회 검색어(searchType) 확인: {}", searchType);
+        } else {
+            log.warn("(getAssetList) searchType 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+
+        if (search != null) {
+            session.setAttribute("search", search.trim());
+            model.addAttribute("search", search.trim());
+            log.info("(getAssetList) 장비 조회 검색어(search) 확인: {}", search);
+        } else {
+            log.warn("(getAssetList) search 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+        if (searchStart != null) {
+            session.setAttribute("searchStart", searchStart.trim());
+            model.addAttribute("searchStart", searchStart.trim());
+            log.info("(getAssetList) 장비 조회 검색어(searchStart) 확인: {}", searchStart);
+        } else {
+            log.warn("(getAssetList) searchStart 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+
+        if (searchEnd != null) {
+            session.setAttribute("searchEnd", searchEnd.trim());
+            model.addAttribute("searchEnd", searchEnd.trim());
+            log.info("(getAssetList) 장비 조회 검색어(searchEnd) 확인: {}", searchEnd);
+        } else {
+            log.warn("(getAssetList) searchEnd 값이 null입니다. 세션에 저장하지 않습니다.");
+        }
+
         return "itam/asset/assetList";
-    }
-
-    @GetMapping("/headerSearch") // 해더 드롭다운 href Server-Side 검색
-    public String HeaderSearch(AssetVo assetVo, HttpSession session, String navSearch, Model model) {
-        // 검색어가 없거나 공백일 경우 홈으로 리다이렉트
-        if (navSearch == null || navSearch.trim().isEmpty()) {
-            return "redirect:/";
-        }
-
-        // 유효한 검색어일 경우 세션에 저장
-        session.setAttribute("navSearch", navSearch.trim());
-
-        log.info("드롭다운 해더 검색어 NavSearch Controller 체크 : {}", navSearch);
-        return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출
     }
 
     @PostMapping("/assets")
     @ResponseBody
-    public PageDto getAsset(
-            @RequestParam("draw") int draw,
-            @RequestParam("length") int length,
-            @RequestParam("start") int start,
-            @RequestParam(value = "search[value]", required = false) String searchValue,
-            @RequestParam(value = "order[0][column]", required = false) Integer orderColumn,
-            @RequestParam(value = "order[0][dir]", required = false) String orderDir,
-            HttpSession session) {
+    public PageDto<List<String>> getAssetSearch(@RequestBody PageDto<?> dto, HttpSession session) {
 
-        String navSearch = (String) session.getAttribute("navSearch");
-
-        log.info("draw: {}", draw);
-        log.info("start: {}", start);
-        log.info("length: {}", length);
-        log.info("searchValue: {}", searchValue);
-        log.info("navSearch: {}", navSearch);
-        log.info("orderColumn: {}", orderColumn);
-        log.info("orderDir: {}", orderDir);
-
-        PageDto rs = new PageDto();
-        rs.setDraw(draw);
-        rs.setStart(start);
-        rs.setLength(length);
-        rs.setSearchValue(searchValue);
-        rs.setSearch(searchValue); // 검색 처리용
-        rs.setNavSearch(navSearch);
-
-        // 정렬 파라미터 유효성 검사
-        if (orderColumn != null && orderDir != null && !orderDir.isBlank()) {
-            rs.setOrderColumn(orderColumn);
-            rs.setOrderDir(orderDir);
+        if (dto.getSearchType() == null || dto.getSearchType().isEmpty()) {
+            dto.setSearchType((String) session.getAttribute("searchType"));
         }
 
-        return AssetService.findAssetByPagination(rs);
+        if (dto.getViewType() == null || dto.getViewType().isEmpty()) {
+            dto.setViewType((String) session.getAttribute("viewType"));
+            if (dto.getNavSearchHistory() == null || dto.getNavSearchHistory().isEmpty()) {
+                dto.setNavSearch((String) session.getAttribute("navSearchHistory"));
+                dto.setNavSearchHistory((String) session.getAttribute("navSearchHistory"));
+                log.info("(/api/historySearch) viewType null navSearch: {}", dto.getNavSearch());
+            }
+        }
+
+        if (dto.getViewType() != null && !dto.getViewType().isEmpty()) {
+            // viewType이 null이 아니고 비어 있지 않을 때 실행
+            session.setAttribute("navSearch", null); // 세션에서 초기화
+            session.setAttribute("navSearchHistory", null); // 세션에서 초기화
+            dto.setNavSearch(null); // DTO에서 초기화
+            dto.setNavSearchHistory(null); // DTO에서 초기화
+            log.info("(/api/historySearch) 초기화 navSearch: {}", dto.getNavSearch());
+            log.info("(/api/historySearch) 초기화 navSearchHistory: {}", dto.getNavSearch());
+        }
+
+        if (dto.getTableName() == null || dto.getTableName().isEmpty()) {
+            dto.setTableName((String) session.getAttribute("tableName"));
+        }
+
+        // 로그 출력
+        log.info("(/api/historySearch) 컨트롤러 최종 로그");
+        log.info("(/api/historySearch) draw: {}", dto.getDraw());
+        log.info("(/api/historySearch) start: {}", dto.getStart());
+        log.info("(/api/historySearch) length: {}", dto.getLength());
+        log.info("(/api/historySearch) search: {}", dto.getSearch());
+        log.info("(/api/historySearch) navSearch: {}", dto.getNavSearch());
+        log.info("(/api/historySearch) navSearchHistory: {}", dto.getNavSearchHistory());
+        log.info("(/api/historySearch) searchType: {}", dto.getSearchType());
+        log.info("(/api/historySearch) viewType: {}", dto.getViewType());
+        log.info("(/api/historySearch) tableName: {}", dto.getTableName());
+        log.info("(/api/historySearch) orderColumn: {}", dto.getOrderColumn());
+        log.info("(/api/historySearch) orderDir: {}", dto.getOrderDir());
+        log.info("(/api/historySearch) searchStart: {}", dto.getSearchStart());
+        log.info("(/api/historySearch) searchEnd: {}", dto.getSearchEnd());
+
+        // 서비스 계층 호출
+        return AssetService.findAssetByPagination(dto);
     }
 
 
@@ -146,23 +194,23 @@ public class AssetController {
         return "itam/asset/assetList";
     }
 
-    @GetMapping("/searchAssetList") // 장비 상세 조회(24.06.29)
+    @PostMapping("/headerSearch") // 상단 해더 조회 (25.07.04)
     public String searchAssetDetail(AssetVo assetVo, HttpSession session, String searchType, String search, String navSearch, Model model) {
         log.info("searchType : {}", searchType);
         log.info("navSearch : {}", navSearch);
         log.info("search : {}", search);
         search = navSearch;
 
-        /*장비 전체 리스트 조회 할 경우 예외처리*/
-        if (Objects.equals(searchType, "assetAll")) {
+        /*상단 검색에서 장비 조회 시*/
+/*        if (Objects.equals(searchType, "assetAll")) {
             log.info("장비 전체 리스트 조회");
             List<AssetVo> searchAssetList = AssetService.searchAssetList(search, searchType);
             model.addAttribute("list", searchAssetList);
             return "itam/asset/assetList"; //
-        }
+        }*/
 
 
-        /*상단 검색에서 이력 관리 조회 시*/
+        /*상단 검색에서 history 이력 관리 조회 시*/
         if (Objects.equals(searchType, "history")) {
             /*상단 해더 조회의 경우 viewType 값 초기화 진행*/
             String viewType = "";
@@ -182,21 +230,34 @@ public class AssetController {
             /*return "itam/history/historySearch";*/
         }
 
-        /*상단 검색에서 백앤드 장비 조회 시*/
+        /*상단 검색에서 serverSide 백앤드 장비 조회 시*/
         if (Objects.equals(searchType, "serverSide")) {
+            /*상단 해더 조회의 경우 viewType 값 초기화 진행*/
+            String viewType = "";
+            session.setAttribute("viewType", viewType);
+            model.addAttribute("viewType", viewType);
             session.setAttribute("navSearch", navSearch);
-            log.info("백앤드 조회 : {}", navSearch);
+            model.addAttribute("navSearch", navSearch);
+            session.setAttribute("navSearchHistory", navSearch);
+            model.addAttribute("navSearchHistory", navSearch.trim());
+            model.addAttribute("searchType", searchType.trim());
 
-            return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출
+            log.info("Asset history 해더 검색창 viewType : {}", viewType);
+            log.info("Asset history 해더 검색창 navSearch : {}", navSearch);
+            log.info("Asset history 해더 검색창 searchType : {}", searchType);
+
+            return "redirect:/assetList";
+
+            /*return "itam/asset/headerSearchList"; // html 불러온 후 js ajax 호출*/
         }
 
         /*빈 값 입력 시*/
-        if (search == "") {
+/*        if (search == "") {
             log.info("검색 창 빈값 처리");
             return "redirect:assetUpdateToday";
-        }
+        }*/
 
-        /*상단 통합 검색에서 장비 조회 시*/
+        /*상단 통합 검색에서 Client 장비 조회 시*/
         if (Objects.equals(searchType, "easySearch")) {
             log.info("통합 조회 : {}", navSearch);
             search = navSearch;

@@ -1,4 +1,5 @@
 /* 해더 서브 메뉴 위치 조정 */
+/* 공통 위치 설정 */
 .dropdown-submenu {
     position: relative;
 }
@@ -7,7 +8,21 @@
     top: 0;
     left: 100%;
     margin-top: -1px;
+    display: none;
+    position: absolute;
 }
+
+/* 클릭 방식: JS에서 .show 클래스 토글 */
+.dropdown-submenu .dropdown-menu.show {
+    display: block;
+}
+
+/* 호버 방식: hover-submenu 클래스가 붙은 항목만 */
+.dropdown-submenu.hover-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+
 .navbar {
   position: fixed; /*navbar 상단 고정*/
   z-index : 10;

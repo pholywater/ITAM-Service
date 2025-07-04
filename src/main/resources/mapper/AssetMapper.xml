@@ -340,67 +340,7 @@
         hmm_member.idx desc
 
     </select>
-    <!-- 전체 장비 리스트 -->
-    <select id="getAssetListAll" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_All
-    </select>
-    <!-- 출고 장비 리스트 -->
-    <select id="getAssetListOutput" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_Output
-    </select>
-    <!-- 업무용 장비 리스트 -->
-    <select id="getAssetListWork" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_work
-    </select>
-    <!-- 대여 장비 리스트 -->
-    <select id="getAssetListRent" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_rent
-    </select>
 
-    <!-- 공용 장비 리스트 -->
-    <select id="getAssetListPublic" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_public
-    </select>
-
-    <!-- 신규 장비 리스트 -->
-    <select id="getAssetListNew" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_new
-    </select>
-
-    <!-- 재고 장비 리스트 -->
-    <select id="getAssetListInput" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_input
-    </select>
-
-    <!-- 재고 장비 노트북 리스트 -->
-    <select id="getAssetListInputL" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_input_l
-    </select>
-    <!-- 재고 장비 모니터 리스트 -->
-    <select id="getAssetListInputM" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_input_m
-    </select>
-
-    <!-- 장비 리스트 부산 재고 -->
-    <select id="getAssetListBusanInventory" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_busan_inventory
-    </select>
-
-    <!-- 오늘 업데이트 내역 장비 리스트 -->
-    <select id="getAssetListUpdateToday" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_list_update_today
-    </select>
 
     <!--재고장비 차트 리스트-->
     <select id="getChart1List" resultType="string">
@@ -459,19 +399,75 @@
 
     <!--Pasination DataTables Server-Side 조건(DB LIMIT) 검색 처리-->
     <!-- 자산 목록 조회: 페이징, 검색, 정렬 포함 -->
-    <select id="findAssetByPagination" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_info
-        LEFT JOIN hmm_member ON asset_info.status_member_id = hmm_member.member_id
-        LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
-        LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
-        LEFT JOIN orderby_asset ON asset_info.status_type = orderby_asset.asset_status
-        LEFT JOIN orderby_rank ON hmm_member.member_rank = orderby_rank.member_rank
+    <select id="findAssetByPagination" parameterType="hmm.itam.dto.PageDto" resultType="hmm.itam.vo.AssetVo">
+        <!-- 1차 조건: viewType이 있을 경우 -->
+        <if test="pageDto.viewType != null and !pageDto.viewType.isEmpty()">
+            SELECT * FROM ${pageDto.tableName}
+            WHERE 1=1
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
+                AND (
+                status_type LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_status LIKE CONCAT('%', #{search}, '%')
+                OR member_id LIKE CONCAT('%', #{search}, '%')
+                OR department_location LIKE CONCAT('%', #{search}, '%')
+                OR department_region LIKE CONCAT('%', #{search}, '%')
+                OR department_floor LIKE CONCAT('%', #{search}, '%')
+                OR department_name LIKE CONCAT('%', #{search}, '%')
+                OR member_name LIKE CONCAT('%', #{search}, '%')
+                OR member_working_status LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_usage LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_number LIKE CONCAT('%', #{search}, '%')
+                OR model_type LIKE CONCAT('%', #{search}, '%')
+                OR model_manufacturer LIKE CONCAT('%', #{search}, '%')
+                OR asset_model_name LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_spec1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_wired_mac_address LIKE CONCAT('%', #{search}, '%')
+                OR asset_serial_number LIKE CONCAT('%', #{search}, '%')
+                OR asset_arrival_date LIKE CONCAT('%', #{search}, '%')
+                OR asset_payment_date LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc2 LIKE CONCAT('%', #{search}, '%')
+                OR asset_duration LIKE CONCAT('%', #{search}, '%')
+                )
+            </if>
+            <choose>
+                <when test="orderByColumn != null and !orderByColumn.isEmpty() and direction != null and !direction.isEmpty()">
+                    ORDER BY ${orderByColumn} ${direction}
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIMIT #{start}, #{length}
+        </if>
 
-        <where>
-            <!-- 전체 검색어 navSearch -->
-            <if test="navSearch != null and navSearch != ''">
-                (
+
+        <!-- 2차 조건: viewType이 없는 경우 -->
+        <if test="pageDto.viewType == null or pageDto.viewType.isEmpty()">
+            SELECT *
+            FROM asset_info
+            LEFT JOIN hmm_member ON asset_info.status_member_id = hmm_member.member_id
+            LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
+            LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
+            LEFT JOIN orderby_asset ON asset_info.status_type = orderby_asset.asset_status
+            LEFT JOIN orderby_rank ON hmm_member.member_rank = orderby_rank.member_rank
+            WHERE 1=1
+            <if test="pageDto.navSearch != null and !pageDto.navSearch.isEmpty()">
+                AND (
                 asset_info.status_asset_usage LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_info.status_type LIKE CONCAT('%', #{navSearch}, '%')
                 OR hmm_member.member_id LIKE CONCAT('%', #{navSearch}, '%')
@@ -483,73 +479,151 @@
                 OR asset_info.asset_serial_number LIKE CONCAT('%', #{navSearch}, '%')
                 )
             </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
 
             <!-- 전체 검색어 searchValue -->
-            <if test="searchValue != null and searchValue != ''">
-                <if test="navSearch != null and navSearch != ''">
-                    AND
-                </if>
-                (
-                asset_info.status_asset_usage LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.status_type LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_id LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_department.department_region LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.asset_model_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.asset_number LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_rank LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_department.department_detail LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.asset_serial_number LIKE CONCAT('%', #{searchValue}, '%')
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
+                AND (
+                status_type LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_status LIKE CONCAT('%', #{search}, '%')
+                OR member_id LIKE CONCAT('%', #{search}, '%')
+                OR department_location LIKE CONCAT('%', #{search}, '%')
+                OR department_region LIKE CONCAT('%', #{search}, '%')
+                OR department_floor LIKE CONCAT('%', #{search}, '%')
+                OR department_name LIKE CONCAT('%', #{search}, '%')
+                OR member_name LIKE CONCAT('%', #{search}, '%')
+                OR member_working_status LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_usage LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_number LIKE CONCAT('%', #{search}, '%')
+                OR model_type LIKE CONCAT('%', #{search}, '%')
+                OR model_manufacturer LIKE CONCAT('%', #{search}, '%')
+                OR asset_model_name LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_spec1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_wired_mac_address LIKE CONCAT('%', #{search}, '%')
+                OR asset_serial_number LIKE CONCAT('%', #{search}, '%')
+                OR asset_arrival_date LIKE CONCAT('%', #{search}, '%')
+                OR asset_payment_date LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc2 LIKE CONCAT('%', #{search}, '%')
+                OR asset_duration LIKE CONCAT('%', #{search}, '%')
                 )
             </if>
 
             <!-- 항상 적용되는 조건 -->
             AND asset_info.status_type NOT LIKE '%매각%'
             AND asset_info.status_type NOT LIKE '%소모품%'
-        </where>
 
-        <!-- 정렬 처리 -->
-        <choose>
-            <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
-                ORDER BY ${orderByColumn} ${direction}
-            </when>
-            <otherwise>
-                ORDER BY
-                orderby_asset.asset_grant,
-                hmm_department.department_location,
-                hmm_department.department_region,
-                hmm_department.department_floor,
-                hmm_department.department_detail,
-                orderby_rank.member_grant,
-                hmm_member.member_id,
-                hmm_member.member_working_status DESC,
-                asset_info.status_asset_usage DESC,
-                asset_info.asset_number
-            </otherwise>
-        </choose>
 
-        <!-- 페이징 처리 -->
-        LIMIT #{startNo}, #{length}
+            <!-- 정렬 처리 -->
+            <choose>
+                <when test="orderByColumn != null and orderByColumn != '' and direction != null and direction != ''">
+                    ORDER BY ${orderByColumn} ${direction}
+                </when>
+                <otherwise>
+                    ORDER BY
+                    orderby_asset.asset_grant,
+                    CASE hmm_department.department_location
+                    WHEN '본사' THEN 1
+                    WHEN '부산' THEN 2
+                    WHEN '광양' THEN 3
+                    WHEN '마산' THEN 4
+                    WHEN '포항' THEN 5
+                    WHEN '서울' THEN 6
+                    WHEN '해외' THEN 7
+                    ELSE 8
+                    END,
+                    hmm_department.department_region,
+                    hmm_department.department_floor,
+                    hmm_department.department_detail,
+                    orderby_rank.member_grant,
+                    hmm_member.member_id,
+                    hmm_member.member_working_status DESC,
+                    asset_info.status_asset_usage DESC,
+                    asset_info.asset_number
+                </otherwise>
+            </choose>
+            <!-- 페이징 처리 -->
+            LIMIT #{start}, #{length}
+        </if>
     </select>
 
 
     <!--Pasination DataTables Server-Side 조건(DB LIMIT) 검색 Total Page Count-->
-    <!-- 자산 총 개수 조회: 검색 조건 포함 -->
-    <select id="countTotalAsset" resultType="int">
-        SELECT COUNT(*)
-        FROM asset_info
-        -- 관련 테이블 조인
-        LEFT JOIN hmm_member ON asset_info.status_member_id = hmm_member.member_id
-        LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
-        LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
-        LEFT JOIN orderby_asset ON asset_info.status_type = orderby_asset.asset_status
-        LEFT JOIN orderby_rank ON hmm_member.member_rank = orderby_rank.member_rank
+    <!-- 자산 총 개수 조회: 검색 조건 포함   COUNT(*)  -->
+    <select id="countTotalAsset" parameterType="hmm.itam.dto.PageDto" resultType="int">
+        <if test="pageDto.viewType != null and !pageDto.viewType.isEmpty()">
+            SELECT COUNT(*) FROM ${pageDto.tableName}
+            WHERE 1=1
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
+                AND (
+                status_type LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_status LIKE CONCAT('%', #{search}, '%')
+                OR member_id LIKE CONCAT('%', #{search}, '%')
+                OR department_location LIKE CONCAT('%', #{search}, '%')
+                OR department_region LIKE CONCAT('%', #{search}, '%')
+                OR department_floor LIKE CONCAT('%', #{search}, '%')
+                OR department_name LIKE CONCAT('%', #{search}, '%')
+                OR member_name LIKE CONCAT('%', #{search}, '%')
+                OR member_working_status LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_usage LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_number LIKE CONCAT('%', #{search}, '%')
+                OR model_type LIKE CONCAT('%', #{search}, '%')
+                OR model_manufacturer LIKE CONCAT('%', #{search}, '%')
+                OR asset_model_name LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_spec1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_wired_mac_address LIKE CONCAT('%', #{search}, '%')
+                OR asset_serial_number LIKE CONCAT('%', #{search}, '%')
+                OR asset_arrival_date LIKE CONCAT('%', #{search}, '%')
+                OR asset_payment_date LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc2 LIKE CONCAT('%', #{search}, '%')
+                OR asset_duration LIKE CONCAT('%', #{search}, '%')
+                )
+            </if>
 
-        <!-- 검색 조건 처리 -->
-        <where>
-            <!-- 전체 검색어 navSearch -->
-            <if test="navSearch != null and navSearch != ''">
-                (
+        </if>
+
+        <!-- 2차 조건: viewType이 없는 경우 -->
+        <if test="pageDto.viewType == null or pageDto.viewType.isEmpty()">
+            SELECT COUNT(*)
+            FROM asset_info
+            LEFT JOIN hmm_member ON asset_info.status_member_id = hmm_member.member_id
+            LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
+            LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
+            LEFT JOIN orderby_asset ON asset_info.status_type = orderby_asset.asset_status
+            LEFT JOIN orderby_rank ON hmm_member.member_rank = orderby_rank.member_rank
+            WHERE 1=1
+            <if test="pageDto.navSearch != null and !pageDto.navSearch.isEmpty()">
+                AND (
                 asset_info.status_asset_usage LIKE CONCAT('%', #{navSearch}, '%')
                 OR asset_info.status_type LIKE CONCAT('%', #{navSearch}, '%')
                 OR hmm_member.member_id LIKE CONCAT('%', #{navSearch}, '%')
@@ -561,31 +635,55 @@
                 OR asset_info.asset_serial_number LIKE CONCAT('%', #{navSearch}, '%')
                 )
             </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND NOW()
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 종료일만 있을 때-->
+                AND asset_payment_date BETWEEN #{pageDto.searchEnd} AND #{pageDto.searchEnd}
+            </if>
+            <if test="pageDto.searchStart != null and !pageDto.searchStart.isEmpty() and pageDto.searchEnd != null and !pageDto.searchEnd.isEmpty()">
+                <!--검색 시작일, 종료일 모두 검색-->
+                AND asset_payment_date BETWEEN #{pageDto.searchStart} AND #{pageDto.searchEnd}
+            </if>
+            <if test="(pageDto.searchStart == null or pageDto.searchStart.isEmpty()) and pageDto.searchEnd == null or pageDto.searchEnd.isEmpty()">
+                <!--검색 시작 및 종료일 모두 없을 때-->
+            </if>
 
             <!-- 전체 검색어 searchValue -->
-            <if test="searchValue != null and searchValue != ''">
-                <if test="navSearch != null and navSearch != ''">
-                    AND
-                </if>
-                (
-                asset_info.status_asset_usage LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.status_type LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_id LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_department.department_region LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.asset_model_name LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.asset_number LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_member.member_rank LIKE CONCAT('%', #{searchValue}, '%')
-                OR hmm_department.department_detail LIKE CONCAT('%', #{searchValue}, '%')
-                OR asset_info.asset_serial_number LIKE CONCAT('%', #{searchValue}, '%')
+            <if test="pageDto.search != null and !pageDto.search.isEmpty()">
+                AND (
+                status_type LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_status LIKE CONCAT('%', #{search}, '%')
+                OR member_id LIKE CONCAT('%', #{search}, '%')
+                OR department_location LIKE CONCAT('%', #{search}, '%')
+                OR department_region LIKE CONCAT('%', #{search}, '%')
+                OR department_floor LIKE CONCAT('%', #{search}, '%')
+                OR department_name LIKE CONCAT('%', #{search}, '%')
+                OR member_name LIKE CONCAT('%', #{search}, '%')
+                OR member_working_status LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_usage LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_number LIKE CONCAT('%', #{search}, '%')
+                OR model_type LIKE CONCAT('%', #{search}, '%')
+                OR model_manufacturer LIKE CONCAT('%', #{search}, '%')
+                OR asset_model_name LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_spec1 LIKE CONCAT('%', #{search}, '%')
+                OR asset_wired_mac_address LIKE CONCAT('%', #{search}, '%')
+                OR asset_serial_number LIKE CONCAT('%', #{search}, '%')
+                OR asset_arrival_date LIKE CONCAT('%', #{search}, '%')
+                OR asset_payment_date LIKE CONCAT('%', #{search}, '%')
+                OR status_asset_etc2 LIKE CONCAT('%', #{search}, '%')
+                OR asset_duration LIKE CONCAT('%', #{search}, '%')
                 )
             </if>
 
             <!-- 항상 적용되는 조건 -->
             AND asset_info.status_type NOT LIKE '%매각%'
             AND asset_info.status_type NOT LIKE '%소모품%'
-        </where>
 
+        </if>
     </select>
 
 
