@@ -108,6 +108,7 @@ public class AssetVo {
     private int hmmBroken;
     private int busanHelp;
     private int busanBroken;
+    private String tableName;
 
 
     public static class getAssetPaymentDate extends Date {

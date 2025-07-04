@@ -1,5 +1,6 @@
 package hmm.itam.mapper;
 
+import hmm.itam.dto.PageDto;
 import hmm.itam.vo.AssetVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -58,16 +59,28 @@ public interface AssetMapper {
     /**
      * 페이징, 검색, 정렬 조건에 따라 자산 목록을 조회합니다.
      */
-    List<AssetVo> findAssetByPagination(@Param("startNo") int startNo,
+    List<AssetVo> findAssetByPagination(@Param("pageDto") PageDto<?> pageDto,
+                                        @Param("tableName") String tableName,
+                                        @Param("start") int start,
                                         @Param("length") int length,
+                                        @Param("searchType") String searchType,
                                         @Param("navSearch") String navSearch,
-                                        @Param("searchValue") String searchValue,
+                                        @Param("navSearchHistory") String navSearchHistory,
+                                        @Param("search") String search,
+                                        @Param("searchStart") String searchStart,
+                                        @Param("searchEnd") String searchEnd,
                                         @Param("orderByColumn") String orderByColumn,
                                         @Param("direction") String direction);
 
     /**
      * 검색 조건에 따라 전체 자산 개수를 조회합니다.
      */
-    int countTotalAsset(@Param("navSearch") String navSearch,
-                        @Param("searchValue") String searchValue);
+    int countTotalAsset(@Param("pageDto") PageDto<?> pageDto,
+                        @Param("searchType") String searchType,
+                        @Param("navSearch") String navSearch,
+                        @Param("search") String search,
+                        @Param("viewType") String viewType,
+                        @Param("tableName") String tableName,
+                        @Param("searchStart") String searchStart,
+                        @Param("searchEnd") String searchEnd);
 }

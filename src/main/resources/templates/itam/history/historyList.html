@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/historyLayout}"
-      layout:fragment="Content">
-<head><!--클라이언트 조회-->
+      layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
+
+<head><!--백앤드 조회-->
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
@@ -15,48 +16,70 @@
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
     <script src="js/datatables/pdfmake.min.js"></script>
-    <script src="js/datatables/vfs_fonts.js"></script>
+    <!--<script src="js/datatables/vfs_fonts.js"></script>-->
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
     <script src="js/datatables/dataTables.fixedColumns.min.js"></script>
     <script src="js/datatables/dataTables.responsive.min.js"></script>
 </head>
-
 <body>
 <div id="myDiv" class="container-fluid">
-    <div class="container">
-        <hr>
-        <form th:action="@{/historyList}" th:object="${historyVo}" method="get">
+    <h5 Style="text-align:center">HMM 전산 장비 및 소모품 이력 조회</h5>
+    <div style="margin-top: 20px; margin-bottom: 10px;">
+        <form th:action="@{/historyList}" th:object="${HistoryVo}" method="get">
             <div class="row align-items-start">
                 <div class="col">
-                    <h3>이력 날짜 조회</h3>
+                </div>
+                <div class="col">
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="date" class="form-control mb-1" th:field="*{searchStart}"/>
-                        <label th:for="searchStart">시작일 </label>
+                        <input type="date" class="form-control mb-1"
+                               id="searchStart"
+                               name="searchStart"
+                               th:value="${searchStart}"/>
+                        <label for="searchStart">시작일</label>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="date" class="form-control mb-1" th:field="*{searchEnd}"/>
-                        <label th:for="searchEnd">종료일 </label>
+                        <input type="date" class="form-control mb-1"
+                               id="searchEnd"
+                               name="searchEnd"
+                               th:value="${searchEnd}"/>
+                        <label for="searchEnd">종료일</label>
                     </div>
                 </div>
 
                 <div class="col">
-                    <button type="submit" class="btn btn-primary mb-1" formaction="historyList"
-                            formmethod="get">이력 조회
+                    <button type="submit" class="btn btn-primary w-50 h-100 p-1 mb-1 rounded-2"
+                            formaction="historyList"
+                            formmethod="get">
+                        처리 일시 기준<br>이력 조회
                     </button>
-                    <button type="submit" class="btn btn-outline-primary mb-1" formaction="historySearch"
-                            formmethod="get">간편 조회 바로가기
-                    </button>
+                </div>
+                <div class="col">
+                    <input type="hidden" id="viewType" th:value="${viewType}">
+                    <input type="hidden" id="tableName" th:value="${tableName}">
+                    <!--해더에 navSearh 변수 사용 중복으로 js에 넘길 때 초기화 됨. navSearchHistory로 받아 js에서 처리-->
+                    <!--<input type="hidden" id="navSearch" th:value="${navSearchHistory}">-->
+                    <!--<input type="hidden" id="navSearchHistory" th:value="${navSearchHistory}">-->
+                    <input type="hidden" id="searchType" th:value="${searchType}">
                 </div>
             </div>
         </form>
     </div>
+    <div style="text-align: right;">
+        <span id="navSearchText" style="margin-right: 15px;"></span>
+        <span id="viewTypeText" style="margin-right: 15px;"></span>
+        <span id="startText" style="margin-right: 15px;"></span>
+        <span id="endText" style="margin-right: 15px;"></span>
+        <span id="searchText"></span>
+    </div>
     <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
+
+
         <thead>
         <tr>
             <th>No.</th>
@@ -74,73 +97,19 @@
             <th>모델명</th>
             <th>요청 내용</th>
             <th>비고 내용</th>
-            <th>기타</th>
-            <th>스펙1</th>
+            <!--<th>스펙1</th>
             <th>스펙2</th>
             <th>스펙3</th>
-
+            <th>기타</th>-->
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="u, stat :${list}">
-            <td th:text="${stat.count}"></td>
-            <td th:text="${#dates.format(u.historyCompletionDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#dates.format(u.historyRequestDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${u.historyAssetType}"></td>
-            <td th:text="${u.historyType}"></td>
-            <td th:text="${u.historyRequester}"></td>
-            <td th:text="${u.historyWorker}"></td>
-            <td th:text="${u.historyMemberId}"></td>
-            <td th:text="${u.departmentName}"></td>
-            <td th:text="${u.memberName}"></td>
-            <td th:text="${u.memberRank}"></td>
-            <td th:text="${u.historyAssetNumber}"></td>
-            <td th:text="${u.assetModelName}"></td>
-            <td th:text="${u.historyRequestDetails}"></td>
-            <td th:text="${u.historyRequestEtc}"></td>
-            <td th:text="${u.historyAssetEtc1}"></td>
-            <td th:text="${u.historySpec1}"></td>
-            <td th:text="${u.historySpec2}"></td>
-            <td th:text="${u.historySpec3}"></td>
-        </tr>
-        </tbody>
+
+        <tfoot>
+        </tfoot>
     </table>
-</div> <!-- /container -->
+</div><!-- /container -->
 
-
-<script>
-    $(document).ready(function() {
-    document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {
-        search: {
-                    // return: true
-                },
-        scrollCollapse: true,
-        scrollY: '700px',
-        dom: 'Bfrtip',
-        lengthMenu: [
-            [ 5, 10, 25, 50, 100, -1 ],
-            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
-        ],
-        iDisplayLength : 10,
-        buttons: [
-            'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        columnDefs: [
-            {
-            className: 'dtr-control',
-            orderable: false
-            }
-        ],
-
-        responsive: {
-                details: {
-                type: 'column'
-            }
-            }
-    } );
-} );
-</script>
+<script src="js/myTable/myHistoryScript.js"></script>
 
 </body>
 </html>

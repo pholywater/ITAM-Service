@@ -24,6 +24,50 @@
 <body>
 <div id="myDiv" class="container-fluid">
     <h5 style="text-align:center">HMM 실시간 전산 장비 리스트</h5>
+    <div style="margin-top: 20px; margin-bottom: 10px;">
+        <form th:action="@{/assetList}" th:object="${AssetVo}" method="get">
+            <div class="row align-items-start">
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1"
+                               id="searchStart"
+                               name="searchStart"
+                               th:value="${searchStart}"/>
+                        <label for="searchStart">시작일</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1"
+                               id="searchEnd"
+                               name="searchEnd"
+                               th:value="${searchEnd}"/>
+                        <label for="searchEnd">종료일</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button type="submit" class="btn btn-primary w-50 h-100 p-1 mb-1 rounded-2"
+                            formaction="assetList"
+                            formmethod="get">
+                        지급일 기준<br>이력 조회
+                    </button>
+                </div>
+                <div class="col">
+                    <input type="hidden" id="viewType" th:value="${viewType}">
+                    <input type="hidden" id="tableName" th:value="${tableName}">
+                    <!--해더에 navSearh 변수 사용 중복으로 js에 넘길 때 초기화 됨. navSearchHistory로 받아 js에서 처리-->
+                    <!--<input type="hidden" id="navSearch" th:value="${navSearchHistory}">-->
+                    <!--<input type="hidden" id="navSearchHistory" th:value="${navSearchHistory}">-->
+                    <input type="hidden" id="searchType" th:value="${searchType}">
+                </div>
+            </div>
+        </form>
+    </div>
     <div style="text-align: right; margin-bottom: 10px;">
         <span id="navSearchText" style="margin-right: 10px;"></span>
         <span id="searchValueText"></span>

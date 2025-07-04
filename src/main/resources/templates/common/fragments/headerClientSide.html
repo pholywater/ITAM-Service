@@ -148,6 +148,8 @@
                     </ul>
                 </li>
                 -->
+
+                <!--이력 관리-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
@@ -174,34 +176,34 @@
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">장비 이력 조회</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{historySearch?navSearch=}">이력 관리 상세 조회</a></li>
-                                <li><a class="dropdown-item" th:href="@{historyList}">이력 관리 날짜 조회</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-
-                        <!-- 타입별 이력 조회 서브 메뉴 -->
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">타입별 이력 조회</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Asset}">전산 장비 입출고 현황</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=All}">전체 이력 현황</a></li>
+                                <li>
+                                    <hr class="dropdown-divider"/>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Output}">전산 장비 출고 이력</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Asset}">장비 이력 현황</a>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Input}">전산 장비 입고 이력</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Output}">장비 출고 현황</a>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Change}">전산 장비 변경 이력</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Input}">장비 입고 현황</a>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Repair}">장비 고장 및 수리 이력</a>
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Change}">장비 변경 현황</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider"/>
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Consumables}">전산 소모품 지급
-                                    현황</a>
+
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Repair}">고장 및 수리 이력</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">소모품 이력 조회</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{historyList?viewType=Consumables}">소모품 이력 현황</a>
                                 </li>
                             </ul>
                         </li>
@@ -485,7 +487,9 @@
                         style="width:10rem">
                     <option th:value="easySearch">통합 조회</option>
                     <option th:value="serverSide">장비 조회</option>
+                    <!--
                     <option th:value="history">이력 조회</option>
+                    -->
                 </select>
 
                 <input

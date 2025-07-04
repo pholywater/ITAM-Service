@@ -2,10 +2,9 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/clientSideLayout}"
-      layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
-
-<head><!--클라이언트 조회-->
+      layout:decorate="~{common/layouts/serverSideLayout}"
+      layout:fragment="Content">
+<head><!--백앤드 조회-->
     <link rel="stylesheet" type="text/css" href="css/datatables/dataTables.css"/>
     <link rel="stylesheet" type="text/css"
           href="css/datatables/responsive.dataTables.min.css"/>
@@ -16,7 +15,7 @@
     <script src="js/datatables/dataTables.buttons.min.js"></script>
     <script src="js/datatables/jszip.min-3.10.1.js"></script>
     <script src="js/datatables/pdfmake.min.js"></script>
-    <script src="js/datatables/vfs_fonts.js"></script>
+    <!--<script src="js/datatables/vfs_fonts.js"></script>-->
     <script src="js/datatables/buttons.html5.min-2.4.2.js"></script>
     <script src="js/datatables/buttons.print.min-2.4.2.js"></script>
     <script src="js/datatables/dataTables.fixedColumns.min.js"></script>
@@ -24,7 +23,59 @@
 </head>
 <body>
 <div id="myDiv" class="container-fluid">
-    <h5 Style="text-align:center">HMM 실시간 전산 장비 리스트</h5>
+    <h5 style="text-align:center">HMM 실시간 전산 장비 리스트</h5>
+    <div style="margin-top: 20px; margin-bottom: 10px;">
+        <form th:action="@{/assetList}" th:object="${AssetVo}" method="get">
+            <div class="row align-items-start">
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1"
+                               id="searchStart"
+                               name="searchStart"
+                               th:value="${searchStart}"/>
+                        <label for="searchStart">시작일</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="date" class="form-control mb-1"
+                               id="searchEnd"
+                               name="searchEnd"
+                               th:value="${searchEnd}"/>
+                        <label for="searchEnd">종료일</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button type="submit" class="btn btn-primary w-50 h-100 p-1 mb-1 rounded-2"
+                            formaction="assetList"
+                            formmethod="get">
+                        지급일 기준<br>이력 조회
+                    </button>
+                </div>
+                <div class="col">
+                    <input type="hidden" id="viewType" th:value="${viewType}">
+                    <input type="hidden" id="tableName" th:value="${tableName}">
+                    <!--해더에 navSearh 변수 사용 중복으로 js에 넘길 때 초기화 됨. navSearchHistory로 받아 js에서 처리-->
+                    <!--<input type="hidden" id="navSearch" th:value="${navSearchHistory}">-->
+                    <!--<input type="hidden" id="navSearchHistory" th:value="${navSearchHistory}">-->
+                    <input type="hidden" id="searchType" th:value="${searchType}">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="text-align: right;">
+        <span id="navSearchText" style="margin-right: 15px;"></span>
+        <span id="viewTypeText" style="margin-right: 15px;"></span>
+        <span id="startText" style="margin-right: 15px;"></span>
+        <span id="endText" style="margin-right: 15px;"></span>
+        <span id="searchText"></span>
+    </div>
+
     <hr>
     <table id="myTable" class="display nowrap" style="width:100%">
         <thead>
@@ -57,148 +108,11 @@
             <th>상세조회</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="u, stat :${list}">
-            <td th:text="${stat.count}"></td><!--No-->
-            <td th:text="${u.statusType}"></td><!--구분-->
-            <td th:text="${u.statusAssetStatus}"></td><!--장비상태-->
-            <td th:text="${u.memberId}"></td><!--사원번호-->
-            <td th:text="${u.departmentLocation}"></td><!--위치-->
-            <td th:text="${u.departmentRegion}"></td><!--지역-->
-            <td th:text="${u.departmentFloor}"></td><!--층-->
-            <td th:text="${u.departmentName}"></td><!--부서-->
-            <td th:text="${u.memberName}"></td><!--이름-->
-            <td th:text="${u.memberRank}"></td><!--직급-->
-            <td th:text="${u.memberWorkingStatus}"></td><!--직원상태-->
-            <td th:text="${u.statusAssetUsage}"></td><!--장비용도-->
-            <td th:text="${u.statusAssetEtc1}"></td><!--듀얼현황-->
-            <td th:text="${u.assetNumber}"></td><!--장비번호-->
-            <td th:text="${u.modelType}"></td><!--장비타입-->
-            <td th:text="${u.modelManufacturer}"></td><!--장비제조사-->
-            <td th:text="${u.assetModelName}"></td><!--모델명-->
-            <td th:text="|${u.statusAssetSpec1} / ${u.statusAssetSpec2}|"></td><!--스펙-->
-            <td th:text="|${u.assetWiredMacAddress} / ${u.assetWirelessMacAddress}|"></td><!--MAC ADDRESS-->
-            <td th:text="${u.assetSerialNumber}"></td><!--장비시리얼-->
-            <td th:text="${#dates.format(u.assetArrivalDate, 'yyyy-MM-dd')}"></td><!--도입일-->
-            <td th:text="${#dates.format(u.assetPaymentDate, 'yyyy-MM-dd')}"></td><!--최초지급일-->
-            <td th:text="${#dates.format(u.assetLastUpdateDate, 'yyyy-MM-dd')}"></td><!--최근업데이트-->
-            <td th:text="${u.statusAssetEtc2}"></td><!--용도상세-->
-            <td th:text="${u.assetDuration}"></td><!--지급기한-->
-            <td>
-                <form th:action="@{/assetSearch}" th:object="${assetVo}" method="post">
-                    <input type="hidden" id="assetNumber" name="assetNumber" th:value="${u.assetNumber}"/>
-                    <button type="submit" class="btn btn-outline-primary btn-sm"
-                            formaction="assetSearch" formmethod="post" formtarget="_blank">Search
-                    </button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
+
         <tfoot>
-        <tr>
-            <th>No.</th>
-            <th>구분</th>
-            <th>장비상태</th>
-            <th>사원번호</th>
-            <th>위치</th>
-            <th>지역</th>
-            <th>층</th>
-            <th>부서</th>
-            <th>이름</th>
-            <th>직급</th>
-            <th>직원상태</th>
-            <th>용도</th>
-            <th>트리플</th>
-            <th>장비번호</th>
-            <th>타입</th>
-            <th>제조사</th>
-            <th>모델명</th>
-            <th>SPEC</th>
-            <th>MAC ADDRESS</th>
-            <th>시리얼</th>
-            <th>도입일</th>
-            <th>최초지급</th>
-            <th>업데이트</th>
-            <th>용도상세</th>
-            <th>지급기한</th>
-            <th>상세조회</th>
-        </tr>
         </tfoot>
     </table>
 </div><!-- /container -->
-
-<script>
-    $(document).ready(function() {
-    document.getElementById("myDiv").style.display = "block";
-    $('#myTable').DataTable( {initComplete: function () {
-            this.api()
-            .columns([1,2,4,5,6,7,10,11,12,14,16])
-            .every(function () {
-                let column = this;
-
-                // Create select element
-                let select = document.createElement('select');
-                select.add(new Option(''));
-                column.footer().replaceChildren(select);
-
-                // Apply listener for user change in value
-                select.addEventListener('change', function () {
-                    column
-                        .search(select.value, {exact: true})
-                        .draw();
-                });
-
-                // Add list of options
-                column
-                    .data()
-                    .unique()
-                    .sort()
-                    .each(function (d, j) {
-                        select.add(new Option(d));
-                    });
-            });
-            // 해더와 푸터 간격 불균형 해결
-            this.api().columns.adjust();
-        },
-        search: {
-                    // return: true
-                },
-        scrollX: true, // 가로 스크롤바 생성
-        scrollCollapse: true,
-        // 틀고정 설정
-        fixedColumns: {
-            leftColumns: 0, // 숫자 크기 만큼 고정
-            rightColumns: 1
-        },
-        scrollY: '700px',
-        dom: 'Bfrtip',
-        lengthMenu: [
-            [ 5, 10, 25, 50, 100, -1 ],
-            [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
-        ],
-        iDisplayLength : 10 ,
-        buttons: [
-            'pageLength' , 'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        columnDefs: [
-            {
-            className: 'dtr-control',
-            orderable: false
-            },
-
-            // 좌측 정렬
-            { targets:[23,24], className: 'dt-left' },
-
-            // 열 숨기기 설정
-            // {targets: [5,6,7,8,9],visible: false},
-
-            // 열 넓이 설정
-            //{ targets: [1,2,3,4], width: 10 },
-
-        ],
-        responsive: false
-    } );
-} );
-</script>
+<script src="js/myTable/myAssetScript.js"></script>
 </body>
 </html>
