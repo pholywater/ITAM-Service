@@ -7,6 +7,8 @@ import java.util.Date;
 
 @Data
 public class HistoryVo {
+    private String idx;
+    private String historyIdx;
     private String historyId;
     private String assetSupplies;
     private String search;

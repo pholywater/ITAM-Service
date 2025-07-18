@@ -5,69 +5,35 @@ import hmm.itam.vo.HistoryVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface HistoryMapper {
 
-    // ✅ 기존 기능
-    List<HistoryVo> getHistoryListDate(@Param("searchStart") String searchStart,
-                                       @Param("searchEnd") String searchEnd); // 전체 이력 조회
+    // ✅ 기본 CRUD
+    void insertHistory(HistoryVo historyVo);
 
+    void updateHistory(HistoryVo historyVo);
 
-/*    List<HistoryVo> getHistoryList(@Param("tableName") String tableName,
-                                   @Param("start") int start,
-                                   @Param("length") int length,
-                                   @Param("searchType") String searchType,
-                                   @Param("navSearch") String navSearch,
-                                   @Param("searchStart") String searchStart,
-                                   @Param("searchEnd") String searchEnd,
-                                   @Param("orderByColumn") String orderByColumn,
-                                   @Param("direction") String direction);*/
+    void deleteHistoryByIdx(@Param("idx") Long idx);
 
+    HistoryVo selectHistoryByIdx(@Param("idx") Long idx);
 
-/*    List<HistoryVo> findHistoryByPagination(PageDto<?> pageDto,
-                                            @Param("tableName") String tableName,
-                                            @Param("start") int start,
-                                            @Param("length") int length,
-                                            @Param("searchType") String searchType,
-                                            @Param("navSearch") String navSearch,
-                                            @Param("search") String search,
-                                            @Param("searchStart") String searchStart,
-                                            @Param("searchEnd") String searchEnd,
-                                            @Param("orderByColumn") String orderByColumn,
-                                            @Param("direction") String direction);*/
+    // ✅ 등록 후 관리번호로 조회
+    List<HistoryVo> selectByAssetNumber(@Param("assetNumber") String assetNumber);
 
-/*    int countHistoryList(PageDto<?> pageDto,
-                         @Param("navSearch") String searchType,
-                         @Param("navSearch") String navSearch,
-                         @Param("search") String search,
-                         @Param("viewType") String viewType,
-                         @Param("tableName") String tableName,
-                         @Param("searchStart") String searchStart,
-                         @Param("searchEnd") String searchEnd);*/
+    // ✅ 상세 검색
+    List<HistoryVo> searchHistory(
+            @Param("search") String search,
+            @Param("searchType") String searchType
+    );
 
-    void insertHistory(HistoryVo historyVo); // 히스토리 등록
+    // ✅ 자동완성용 리스트
+    List<HistoryVo> selectMemberList();
 
-    List<HistoryVo> getHistoryAssetNumber(@Param("search") String search); // 관리번호로 검색
+    List<HistoryVo> selectAssetList();
 
-    List<HistoryVo> getMemberList(); // datalist 자동완성 직원 이름 검색 리스트
-
-    List<HistoryVo> getAssetList(); // datalist 자동완성 장비 검색 리스트
-
-    // ✅ 서버사이드 DataTables용 추가 기능
-
-    /**
-     * 검색 조건에 따라 전체 이력 개수를 조회합니다.
-     */
-    List<HistoryVo> getHistorySearch(@Param("search") String search,
-                                     @Param("searchType") String searchType); // 이력 관리 상세 검색
-
-
-    /**
-     * 페이징 및 검색 조건에 따라 이력 데이터를 조회합니다.
-     */
+    // ✅ 서버사이드 페이징 + 검색 + 정렬
     List<HistoryVo> findHistoryByPagination(
             @Param("pageDto") PageDto<?> pageDto,
             @Param("tableName") String tableName,
@@ -91,8 +57,10 @@ public interface HistoryMapper {
             @Param("viewType") String viewType,
             @Param("tableName") String tableName,
             @Param("searchStart") String searchStart,
-            @Param("searchEnd") String searchEnd);
+            @Param("searchEnd") String searchEnd
+    );
 
+    // ✅ 뷰 타입별 이력 리스트
     List<HistoryVo> getHistoryListAll();
 
     List<HistoryVo> getHistoryListAsset();

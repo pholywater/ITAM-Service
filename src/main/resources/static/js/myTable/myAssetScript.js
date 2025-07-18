@@ -21,7 +21,7 @@
         iDisplayLength: 10,
         buttons: ['pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'],
         ajax: {
-            url: '/assets',
+            url: '/api/assetSearch',
             type: 'POST',
             contentType: 'application/json',
             data: function (d) {
@@ -52,12 +52,25 @@
 
                 // viewType 한글 매핑
                 const viewTypeMap = {
-                    'Input': '입고 내역',
-                    'Output': '출고 내역',
-                    'Repair': '고장 및 수리',
-                    'Asset': '장비 내역',
-                    'Change': '변경 내역',
-                    'Consumables': '소모품 내역'
+                    'All': '전체 장비',
+                    'Busan': '부산 출고 장비',
+                    'BusanInventory': '부산 재고 장비',
+                    'Input': '재고 장비',
+                    'InputLaptop': '재고 노트북',
+                    'InputDesktop': '재고 데스크탑',
+                    'InputMonitor': '재고 모니터',
+                    'New': '신규 장비',
+                    'Output': '출고 장비',
+                    'OutputLaptop': '출고 노트북',
+                    'OutputDesktop': '출고 데스크탑',
+                    'OutputMonitor': '출고 모니터',
+                    'Public': '공용 장비',
+                    'Rent': '대여 장비',
+                    'Work': '업무용',
+                    'WorkLaptop': '업무용 노트북',
+                    'WorkDesktop': '업무용 데스크탑',
+                    'WorkMonitor': '업무용 모니터',
+                    'UpdateToday': '오늘 변경 장비'
                 };
                 const viewTypeKor = viewTypeMap[viewType] || viewType;
 
@@ -79,8 +92,8 @@
                 let endText = '';
 
                 if (!searchStart && !searchEnd) {
-                    startText = '검색 시작일 : <strong>2017-07-01</strong>';
-                    endText = '검색 종료일 : <strong>Today</strong>';
+                    startText = '검색 시작일 : <strong></strong>';
+                    endText = '검색 종료일 : <strong></strong>';
                 } else if (!searchStart && searchEnd) {
                     startText = `검색 시작일 : <strong>${searchEnd}</strong>`;
                     endText = `검색 종료일 : <strong>${searchEnd}</strong>`;

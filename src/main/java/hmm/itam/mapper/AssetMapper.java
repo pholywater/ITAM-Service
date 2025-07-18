@@ -50,11 +50,19 @@ public interface AssetMapper {
 
     void insertAsset(AssetVo assetVo); // 장비 등록
 
-    void insertHistory(AssetVo assetVo); // 이력 관리 등록
+    void insertHistory(AssetVo assetVo); // 이력 관리 등록(장비 수정 화면에서)
 
     void updateAsset(AssetVo assetVo); // 장비 정보 수정
 
+
+    List<AssetVo> searchUpdateList(@Param("searchType") String searchType,
+                                   @Param("searchKeyword") String searchKeyword);
+
+    void updateSearchAsset(AssetVo assetVo); // 다중 처리 / 장비 리스트 조회 후 정보 수정
+
+
     void deleteAsset(AssetVo assetVo); // 장비 삭제
+
 
     /**
      * 페이징, 검색, 정렬 조건에 따라 자산 목록을 조회합니다.

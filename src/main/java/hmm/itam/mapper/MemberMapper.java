@@ -3,6 +3,7 @@ package hmm.itam.mapper;
 import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.MemberVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,9 @@ public interface MemberMapper {
     void updateMember(MemberVo memberVo); // 직원 정보 수정
 
     List<MemberVo> getHeaderDepartmentList();
+
+
+    int countByMemberId(@Param("memberId") String memberId); // 업데이트 시 직원 있는지 체크
+
+
 }

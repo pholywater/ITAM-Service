@@ -144,71 +144,6 @@
         <!--WHERE member_name LIKE CONCAT('%' #{search} '%')-->
     </select>
 
-    <!--부서 및 직원 장비 리스트 조회 클라이언트 (전체 조회 후 js 처리) 조건 검색-->
-    <select id="searchMemberList" resultType="hmm.itam.vo.AssetVo">
-        SELECT *
-        FROM asset_info
-
-        LEFT JOIN hmm_member
-        ON asset_info.status_member_id=hmm_member.member_id
-
-        LEFT JOIN hmm_department
-        ON hmm_member.member_department=hmm_department.department_name
-
-        LEFT JOIN asset_model
-        ON asset_info.asset_model_name=asset_model.model_name
-
-        LEFT JOIN orderby_rank
-        ON hmm_member.member_rank=orderby_rank.member_rank
-
-        LEFT JOIN orderby_asset
-        ON asset_info.status_type=orderby_asset.asset_status
-
-        LEFT JOIN orderby_model
-        ON asset_model.model_type=orderby_model.asset_model
-
-        <!--동적쿼리문 작성-->
-        <!--WHERE 조건문 정리-->
-        <choose>
-            <!--상단 간편 검색 및 상세 조회 리스트 검색의 간편 검색 처리-->
-            <!--            <when test="searchDepart != '' and searchMember != ''">
-                            WHERE
-                            hmm_department.department_detail LIKE CONCAT('%' #{searchDepart} '%') AND
-                            hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
-                            hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
-                        </when>-->
-            <when test="searchMember != ''">
-                WHERE
-                hmm_member.member_name LIKE CONCAT('%' #{searchMember} '%') OR
-                hmm_member.member_id LIKE CONCAT('%' #{searchMember} '%')
-            </when>
-            <when test="searchMember == ''">
-                WHERE
-                asset_info.status_type NOT LIKE CONCAT('%' '출고' '%') and
-                asset_info.status_type NOT LIKE CONCAT('%' '입고' '%') and
-                asset_info.status_type NOT LIKE CONCAT('%' '기타' '%')
-            </when>
-        </choose>
-
-        <!--WHERE 조건문 공통 처리 : 매각, 신규 예비 장비 검색 금지-->
-        AND
-        asset_info.status_type NOT LIKE CONCAT('%' '매각' '%')
-        AND
-        asset_info.status_type NOT LIKE CONCAT('%' '신규' '%')
-
-        ORDER BY
-        orderby_asset.asset_grant,
-        hmm_department.department_location,
-        hmm_department.department_region,
-        hmm_department.department_floor,
-        hmm_department.department_detail,
-        hmm_member.member_working_status desc,
-        orderby_rank.member_grant,
-        hmm_member.member_id,
-        asset_info.status_asset_usage DESC,
-        asset_info.asset_number
-    </select>
-
     <!--헤더 드롭다운 지급일 장비 리스트 조회 클라이언트 (전체 조회 후 js 처리) 조건 검색-->
     <select id="searchPaymentList" resultType="hmm.itam.vo.AssetVo">
         SELECT *
@@ -274,7 +209,6 @@
         asset_info.asset_number
 
     </select>
-
 
     <!--datalist 자동완성 장비번호 검색 리스트-->
     <select id="getAssetList" resultType="hmm.itam.vo.AssetVo">
@@ -814,6 +748,78 @@
 
         WHERE asset_number = #{assetNumber}
     </update>
+
+    <!--장비 멤버 조회 후 일괄 수정 장비 Client-Side 조회-->
+    <select id="searchUpdateList" resultType="hmm.itam.vo.AssetVo">
+        SELECT *
+        FROM asset_info
+        LEFT JOIN hmm_member ON asset_info.status_member_id = hmm_member.member_id
+        LEFT JOIN hmm_department ON hmm_member.member_department = hmm_department.department_name
+        LEFT JOIN asset_model ON asset_info.asset_model_name = asset_model.model_name
+        LEFT JOIN orderby_rank ON hmm_member.member_rank = orderby_rank.member_rank
+        LEFT JOIN orderby_asset ON asset_info.status_type = orderby_asset.asset_status
+        LEFT JOIN orderby_model ON asset_model.model_type = orderby_model.asset_model
+
+        <where>
+            <choose>
+                <!-- 직원 검색 -->
+                <when test="searchType == 'member' and searchKeyword != null and searchKeyword != ''">
+                    (hmm_member.member_name LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR hmm_member.member_id LIKE CONCAT('%', #{searchKeyword}, '%'))
+                </when>
+
+                <!-- 부서 검색 -->
+                <when test="searchType == 'department' and searchKeyword != null and searchKeyword != ''">
+                    hmm_department.department_name LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+
+                <!-- 장비 번호 검색 -->
+                <when test="searchType == 'asset' and searchKeyword != null and searchKeyword != ''">
+                    asset_info.asset_number LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+
+                <!-- 기본 조건: 검색어 없을 경우 -->
+                <otherwise>
+                    asset_info.status_type NOT LIKE '%출고%'
+                    AND asset_info.status_type NOT LIKE '%입고%'
+                    AND asset_info.status_type NOT LIKE '%기타%'
+                </otherwise>
+            </choose>
+
+            <!-- 공통 필터: 매각, 신규 제외 -->
+            AND asset_info.status_type NOT LIKE '%매각%'
+            <!--AND asset_info.status_type NOT LIKE '%신규%'-->
+        </where>
+
+        ORDER BY
+        orderby_asset.asset_grant,
+        hmm_department.department_location,
+        hmm_department.department_region,
+        hmm_department.department_floor,
+        hmm_department.department_detail,
+        hmm_member.member_working_status DESC,
+        orderby_rank.member_grant,
+        hmm_member.member_id,
+        asset_info.status_asset_usage DESC,
+        asset_info.asset_number
+    </select>
+
+    <!--장비 멤버 조회 후 일괄 수정 업데이트-->
+    <update id="updateSearchAsset" parameterType="hmm.itam.vo.AssetVo">
+        UPDATE Asset_info
+        SET
+        status_type = #{statusType},
+        status_asset_status = #{statusAssetStatus},
+        status_member_id = #{statusMemberId},
+        status_asset_usage = #{historyRequestUsage},
+        status_asset_etc1 = #{statusAssetEtc1},
+        status_asset_due_diligence = #{historyRequestEtc},
+        status_asset_etc2 = #{historyRequestDetails},
+        asset_last_update_date = NOW()
+
+        WHERE asset_number = #{assetNumber}
+    </update>
+
 
     <!--모델정보 수정-->
     <update id="updateModel" parameterType="hmm.itam.vo.AssetVo">
