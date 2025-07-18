@@ -13,12 +13,15 @@ public class AssetVo {
     private String headerSearch;
     private String navbarSearch;
     private String navSearch;
-    private String searchType;
     private String search;
+    private String searchType;     // "member", "department", "asset"
+    private String searchKeyword;  // 검색어 (이름, 부서명, 장비번호)
     private String searchStart;
     private String searchEnd;
     private String searchDepart;
+    private String searchDepartment;
     private String searchMember;
+    private String searchAssetNumber;
     private String searchName;
     private String navSelectBox;
     private String HeaderSearchDto;
@@ -85,6 +88,7 @@ public class AssetVo {
     private String historyAssetType;
     private String historyType;
     private String historyRequester;
+    private String historyRequestUsage;
     private String historyWorker;
     private String historyMemberName;
     private String historyMemberId;

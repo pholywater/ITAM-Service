@@ -25,7 +25,7 @@
 <div id="myDiv" class="container-fluid">
     <h5 style="text-align:center">HMM 실시간 전산 장비 리스트</h5>
     <div style="margin-top: 20px; margin-bottom: 10px;">
-        <form th:action="@{/assetList}" th:object="${AssetVo}" method="get">
+        <form th:action="@{/assetList}" th:object="${AssetVo}" method="post">
             <div class="row align-items-start">
                 <div class="col">
                 </div>
@@ -53,7 +53,7 @@
                 <div class="col">
                     <button type="submit" class="btn btn-primary w-50 h-100 p-1 mb-1 rounded-2"
                             formaction="assetList"
-                            formmethod="get">
+                            formmethod="post">
                         지급일 기준<br>이력 조회
                     </button>
                 </div>

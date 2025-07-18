@@ -45,4 +45,11 @@ public class MemberService {
     public List<MemberVo> getHeaderDepartmentList() {
         return MemberMapper.getHeaderDepartmentList();
     }
+
+
+    public boolean isValidMemberId(String memberId) {
+        return MemberMapper.countByMemberId(memberId) > 0;
+    }
+
+
 }

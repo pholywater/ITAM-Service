@@ -266,27 +266,20 @@
         )
     </insert>
 
-    <!--이력 관리 등록 후 장비 번호 히스토리 리스트 생성-->
-    <select id="getHistoryAssetNumber" resultType="hmm.itam.vo.HistoryVo">
+    <!-- 이력 관리 등록 후 장비 번호 히스토리 리스트 생성 -->
+    <select id="selectByAssetNumber" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_history
-
         LEFT JOIN hmm_member
-        ON asset_history.history_member_id=hmm_member.member_id
-
+        ON asset_history.history_member_id = hmm_member.member_id
         LEFT JOIN hmm_department
-        ON hmm_member.member_department=hmm_department.department_name
-
+        ON hmm_member.member_department = hmm_department.department_name
         LEFT JOIN asset_info
-        ON asset_history.history_asset_number=asset_info.asset_number
-
+        ON asset_history.history_asset_number = asset_info.asset_number
         LEFT JOIN asset_model
-        ON asset_info.asset_model_name=asset_model.model_name
-
-        WHERE
-        history_asset_number = #{search}
-
-        order by
+        ON asset_info.asset_model_name = asset_model.model_name
+        WHERE history_asset_number = #{assetNumber}
+        ORDER BY
         asset_history.history_completion_date DESC,
         hmm_member.member_department,
         asset_history.history_member_id,
@@ -294,8 +287,9 @@
         asset_history.history_asset_number
     </select>
 
+
     <!--datalist 자동완성 이름 검색 리스트-->
-    <select id="getMemberList" resultType="hmm.itam.vo.HistoryVo">
+    <select id="selectMemberList" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM hmm_member
 
@@ -308,7 +302,7 @@
     </select>
 
     <!--datalist 자동완성 장비번호 검색 리스트-->
-    <select id="getAssetList" resultType="hmm.itam.vo.HistoryVo">
+    <select id="selectAssetList" resultType="hmm.itam.vo.HistoryVo">
         SELECT *
         FROM asset_info
 
@@ -341,5 +335,41 @@
         asset_info.asset_number
 
     </select>
+
+    <!--단건 조회 (selectHistoryByIdx)-->
+    <select id="selectHistoryByIdx" resultType="hmm.itam.vo.HistoryVo">
+        SELECT *
+        FROM asset_history
+        WHERE idx = #{idx}
+    </select>
+
+    <!--삭제 (deleteHistoryByIdx)-->
+    <delete id="deleteHistoryByIdx">
+        DELETE FROM asset_history
+        WHERE idx = #{idx}
+    </delete>
+
+    <!--수정 (updateHistory)-->
+    <update id="updateHistory" parameterType="hmm.itam.vo.HistoryVo">
+        UPDATE asset_history
+        SET
+        history_completion_date = #{historyCompletionDate},
+        history_request_date = #{historyRequestDate},
+        history_asset_type = #{historyAssetType},
+        history_type = #{historyType},
+        history_requester = #{historyRequester},
+        history_worker = #{historyWorker},
+        history_member_id = #{historyMemberId},
+        history_asset_number = #{historyAssetNumber},
+        history_request_details = #{historyRequestDetails},
+        history_request_etc = #{historyRequestEtc},
+        history_spec1 = #{historySpec1},
+        history_spec2 = #{historySpec2},
+        history_spec3 = #{historySpec3},
+        history_request_usage = #{historyRequestUsage},
+        history_asset_etc1 = #{historyAssetEtc1}
+        WHERE idx = #{idx}
+    </update>
+
 
 </mapper>

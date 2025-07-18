@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/historyLayout}"
+      layout:decorate="~{common/layouts/serverSideLayout}"
       layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
 
 <head><!--백앤드 조회-->
@@ -26,7 +26,7 @@
 <div id="myDiv" class="container-fluid">
     <h5 Style="text-align:center">HMM 전산 장비 및 소모품 이력 조회</h5>
     <div style="margin-top: 20px; margin-bottom: 10px;">
-        <form th:action="@{/historyList}" th:object="${HistoryVo}" method="get">
+        <form th:action="@{/historyList}" th:object="${HistoryVo}" method="post">
             <div class="row align-items-start">
                 <div class="col">
                 </div>
@@ -54,7 +54,7 @@
                 <div class="col">
                     <button type="submit" class="btn btn-primary w-50 h-100 p-1 mb-1 rounded-2"
                             formaction="historyList"
-                            formmethod="get">
+                            formmethod="post">
                         처리 일시 기준<br>이력 조회
                     </button>
                 </div>
@@ -97,6 +97,9 @@
             <th>모델명</th>
             <th>요청 내용</th>
             <th>비고 내용</th>
+            <th>Code</th>
+            <th>수정</th>
+            <th>삭제</th>
             <!--<th>스펙1</th>
             <th>스펙2</th>
             <th>스펙3</th>

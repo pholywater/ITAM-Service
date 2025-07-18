@@ -87,4 +87,10 @@
         ON hmm_department.department_name=hmm_member.member_department
     </select>
 
+    <!--업데이트 시 직원 있는지 체크-->
+    <select id="countByMemberId" resultType="int">
+        SELECT COUNT(*) FROM hmm_member WHERE member_id = #{memberId}
+    </select>
+
+
 </mapper>

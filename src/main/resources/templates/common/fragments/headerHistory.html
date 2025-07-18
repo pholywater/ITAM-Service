@@ -23,12 +23,6 @@
                     class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
                     style="--bs-scroll-height: 100px"
             >
-                <!--<li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080">Home</a>
-                </li>-->
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>-->
 
 
                 <li class="nav-item dropdown">
@@ -50,43 +44,92 @@
                             <hr class="dropdown-divider"/>
                         </li>
                         <!-- Server-side 조회 -->
+                        <!-- 공통 POST 폼 -->
+                        <form id="assetPostForm" th:action="@{/assetList}" method="post" style="display: none;">
+                            <input type="hidden" name="viewType" id="viewTypeInput"/>
+                        </form>
+
+                        <script>
+                            function submitAssetForm(viewType) {
+                                document.getElementById('viewTypeInput').value = viewType;
+                                document.getElementById('assetPostForm').submit();
+                            }
+                        </script>
+
+                        <!-- 장비 조회 메뉴 -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">장비 조회 메뉴</a>
                             <ul class="dropdown-menu">
 
                                 <!-- 전체 장비 리스트 -->
-                                <li><a class="dropdown-item" th:href="@{assetList?viewType=All}">전체 장비 리스트</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="submitAssetForm('All')">전체 장비 리스트</a>
+                                </li>
 
-                                <!-- 출고 장비 리스트 서브 메뉴 -->
+                                <!-- 출고 장비 리스트 -->
                                 <li class="dropdown-submenu hover-submenu">
                                     <a class="dropdown-item dropdown-toggle" href="#">출고 장비 리스트</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" th:href="@{assetList?viewType=Output}">출고 장비
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('Output')">출고 장비
+                                            전체 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('OutputLaptop')">출고
+                                            장비 노트북 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#"
+                                               onclick="submitAssetForm('OutputDesktop')">출고 장비 데스크탑 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#"
+                                               onclick="submitAssetForm('OutputMonitor')">출고 장비 모니터 리스트</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider"/>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('Work')">업무용 장비
+                                            전체 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('WorkLaptop')">업무용
+                                            장비 노트북 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('WorkDesktop')">업무용
+                                            장비 데스크탑 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('WorkMonitor')">업무용
+                                            장비 모니터 리스트</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider"/>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('Rent')">대여용 장비
                                             리스트</a></li>
-                                        <li><a class="dropdown-item" th:href="@{assetList?viewType=Work}">업무용 장비 리스트</a>
-                                        </li>
-                                        <li><a class="dropdown-item" th:href="@{assetList?viewType=Rent}">대여용 장비 리스트</a>
-                                        </li>
-                                        <li><a class="dropdown-item" th:href="@{assetList?viewType=Public}">공용 장비
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('Public')">공용 장비
                                             리스트</a></li>
                                     </ul>
                                 </li>
 
+                                <!-- 재고 장비 리스트 -->
                                 <li class="dropdown-submenu hover-submenu">
                                     <a class="dropdown-item dropdown-toggle" href="#">재고 장비 리스트</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" th:href="@{assetList?viewType=Input}">재고 장비 리스트</a>
-                                        </li>
-                                        <li><a class="dropdown-item" th:href="@{assetList?viewType=InputL}">재고 노트북
-                                            리스트</a></li>
-                                        <li><a class="dropdown-item" th:href="@{assetList?viewType=InputM}">재고 모니터
-                                            리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('Input')">재고 장비
+                                            전체 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('InputLaptop')">재고
+                                            장비
+                                            노트북 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('InputDesktop')">재고
+                                            장비
+                                            데스크탑 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('InputMonitor')">재고
+                                            장비
+                                            모니터 리스트</a></li>
                                     </ul>
                                 </li>
 
+                                <!-- 부산 장비 리스트 -->
+                                <li class="dropdown-submenu hover-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">부산 장비 리스트</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('Busan')">부산 장비
+                                            지급 리스트</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('InputLaptop')">부산
+                                            장비 재고 리스트</a></li>
+                                    </ul>
+                                </li>
 
                                 <!-- 신규 장비 리스트 -->
-                                <li><a class="dropdown-item" th:href="@{assetList?viewType=New}">신규 장비 리스트</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="submitAssetForm('New')">신규 장비 리스트</a>
+                                </li>
                             </ul>
                         </li>
 
@@ -121,48 +164,24 @@
                         </li>
 
 
-                        <!-- Client-side 조회 -->
-                        <!--<li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">Client-side 조회</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{assetListInput}">재고 장비 리스트(전체)</a></li>
-                                <li><a class="dropdown-item" th:href="@{assetListInputL}">재고 장비 리스트(노트북)</a></li>
-                                <li><a class="dropdown-item" th:href="@{assetListInputM}">재고 장비 리스트(모니터)</a></li>
-                                <li><a class="dropdown-item" th:href="@{assetListBusanInventory}">부산 재고 장비 리스트</a></li>
-                                <li><a class="dropdown-item" th:href="@{assetListNew}">신규 장비 리스트</a></li>
-                            </ul>
-                        </li>-->
-
-
                     </ul>
                 </li>
 
-
-                <!--
-                <li class="nav-item dropdown">
-                    <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        소모품 관리
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{#}">소모품 발주</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">소모품 지급</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">소모품 지급 이력</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" th:href="@{#}">장비 고장 등록</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">장비 수리 이력</a></li>
-                    </ul>
-                </li>
-                -->
 
                 <!--이력 관리-->
+                <!-- 공통 POST 폼 -->
+                <form id="historyPostForm" th:action="@{/historyList}" method="post" style="display: none;">
+                    <input type="hidden" name="viewType" id="historyViewTypeInput"/>
+                </form>
+
+                <script>
+                    function submitHistoryForm(viewType) {
+                        document.getElementById('historyViewTypeInput').value = viewType;
+                        document.getElementById('historyPostForm').submit();
+                    }
+                </script>
+
+                <!-- 이력 관리 메뉴 -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
@@ -171,6 +190,81 @@
                     <ul class="dropdown-menu">
 
                         <!-- 장비 이력 관리 서브 메뉴 -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">장비 이력 관리</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/searchUpdatePage}">장비 이력 등록</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="submitAssetForm('UpdateToday')">오늘 장비 변경
+                                    내역</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <!-- 장비 이력 관리 서브 메뉴 -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">소모품 이력 관리</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/historyAddSupplies}">소모품 이력 등록</a></li>
+                                <li><a class="dropdown-item" th:href="@{/historyAddRepair}">수리 이력 등록</a></li>
+                                <li><a class="dropdown-item" th:href="@{/historyAdd}">기타 이력 등록</a></li>
+                                <li><a class="dropdown-item" th:href="@{/searchMemberUpdatePage}">멤버 조회 입출고 등록</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+
+                        <!-- 장비 이력 조회 서브 메뉴 -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">장비 이력 조회</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="submitHistoryForm('All')">전체 이력 현황</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider"/>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="submitHistoryForm('Asset')">장비 이력 현황</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="submitHistoryForm('Output')">장비 출고 현황</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="submitHistoryForm('Input')">장비 입고 현황</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="submitHistoryForm('Change')">장비 변경 현황</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider"/>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="submitHistoryForm('Repair')">고장 및 수리
+                                    이력</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+
+                        <!-- 소모품 이력 조회 -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">소모품 이력 조회</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="submitHistoryForm('Consumables')">소모품 이력
+                                    현황</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <!--<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        이력 관리
+                    </a>
+                    <ul class="dropdown-menu">
+
+                        &lt;!&ndash; 장비 이력 관리 서브 메뉴 &ndash;&gt;
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">장비 이력 관리</a>
                             <ul class="dropdown-menu">
@@ -185,7 +279,7 @@
                             <hr class="dropdown-divider"/>
                         </li>
 
-                        <!-- 장비 이력 조회 서브 메뉴 -->
+                        &lt;!&ndash; 장비 이력 조회 서브 메뉴 &ndash;&gt;
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">장비 이력 조회</a>
                             <ul class="dropdown-menu">
@@ -221,7 +315,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li>-->
 
                 <!-- 멤버 관리 -->
                 <li class="nav-item dropdown">

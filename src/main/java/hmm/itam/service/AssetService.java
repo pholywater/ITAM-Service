@@ -3,34 +3,115 @@ package hmm.itam.service;
 import hmm.itam.dto.HeaderSearchDto;
 import hmm.itam.dto.PageDto;
 import hmm.itam.mapper.AssetMapper;
+import hmm.itam.mapper.HistoryMapper;
 import hmm.itam.vo.AssetVo;
 import hmm.itam.vo.HistoryVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
+
+import java.time.ZoneId;
+
 
 @Service
 @Slf4j
 public class AssetService {
+
     @Autowired
     private AssetMapper assetMapper;
 
+    @Autowired
+    private HistoryMapper historyMapper;
 
-    /*부서 리스트 자동완성*/
+    /* 부서 리스트 자동완성 */
     public List<AssetVo> getDepartmentList() {
         return assetMapper.getDepartmentList();
     }
 
-    /*멤버 리스트 자동완성*/
     public List<AssetVo> getMemberList() {
         return assetMapper.getMemberList();
     }
 
+    /* 장비 리스트 자동완성 */
+    public List<AssetVo> getAssetList() {
+        return assetMapper.getAssetList();
+    }
+
+    /* 장비 상세 검색 */
+    public List<AssetVo> searchAssetList(String search, String searchType) {
+        return assetMapper.searchAssetList(search, searchType);
+    }
+
+
+    /* 부서 및 직원 장비 리스트 조회 */
+    public List<AssetVo> searchUpdateList(String searchType, String searchKeyword) {
+        if (searchType == null || searchKeyword == null || searchType.isBlank() || searchKeyword.isBlank()) {
+            return Collections.emptyList();
+        }
+        return assetMapper.searchUpdateList(searchType.toLowerCase(), searchKeyword);
+    }
+
+
+    /* 장비 지급일 기준 리스트 조회 */
+    public List<AssetVo> assetPaymentList(String searchStart, String searchEnd) {
+        return assetMapper.searchPaymentList(searchStart, searchEnd);
+    }
+
+    /* 자산 업데이트 및 이력 저장 */
+    @Transactional
+    public void processAssetUpdate(List<String> assetNumbers, AssetVo assetVo) {
+        for (String assetNumber : assetNumbers) {
+            saveAssetHistory(assetNumber, assetVo);
+            updateAssetInfo(assetNumber, assetVo);
+        }
+    }
+
+    /* 이력 저장 */
+    private void saveAssetHistory(String assetNumber, AssetVo assetVo) {
+        HistoryVo history = new HistoryVo();
+        history.setHistoryAssetNumber(assetNumber);
+        history.setHistoryMemberId(assetVo.getHistoryMemberId());
+        history.setHistoryRequestUsage(assetVo.getHistoryRequestUsage());
+        history.setHistoryType(assetVo.getHistoryType());
+        history.setHistoryAssetType(assetVo.getHistoryAssetType());
+        history.setHistoryRequester(assetVo.getHistoryRequester());
+        history.setHistoryCompletionDate(assetVo.getHistoryCompletionDate());
+        history.setHistoryRequestDate(assetVo.getHistoryRequestDate());
+        history.setHistoryRequestDetails(assetVo.getHistoryRequestDetails());
+        history.setHistoryWorker(assetVo.getHistoryWorker());
+        history.setHistoryRequestEtc(assetVo.getHistoryRequestEtc());
+        history.setHistorySpec1(assetVo.getHistorySpec1());
+        history.setHistorySpec2(assetVo.getHistorySpec2());
+        history.setHistorySpec3(assetVo.getHistorySpec3());
+
+        historyMapper.insertHistory(history);
+    }
+
+    /* 자산 정보 업데이트 */
+    private void updateAssetInfo(String assetNumber, AssetVo assetVo) {
+        LocalDate localDate = LocalDate.now();
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        assetVo.setAssetNumber(assetNumber);
+        assetVo.setAssetLastUpdateDate(date);
+
+        assetMapper.updateSearchAsset(assetVo);
+    }
+
+    /*
+     */
+    /*상단 간편검색 - 이력관리 조회*//*
+
+    public List<AssetVo> historySearch(String navSearch) {
+        return assetMapper.getHistorySearch(navSearch);
+    }
+
+*/
     /*재고장비 수량 차트 리스트*/
    /* public List<AssetVo> getChart1List() {
         return AssetMapper.getChart1List();
@@ -39,88 +120,6 @@ public class AssetService {
     public List<AssetVo> getChart2List() {
         return AssetMapper.getChart2List();
     }*/
-
-
-    /*장비 리스트 자동완성*/
-    public List<AssetVo> getAssetList() {
-        return assetMapper.getAssetList();
-    }
-
-    /*전체 장비 리스트 업무용 장비*/
-    public List<AssetVo> getAssetListAll() {
-        return assetMapper.getAssetListAll();
-    }
-
-    /*출고 0장비 리스트*/
-    public List<AssetVo> getAssetListOutput() {
-        return assetMapper.getAssetListOutput();
-    }
-
-    /*장비 리스트 업무용 장비*/
-    public List<AssetVo> getAssetListWork() {
-        return assetMapper.getAssetListWork();
-    }
-
-    /*장비 리스트 대여 장비*/
-    public List<AssetVo> getAssetListRent() {
-        return assetMapper.getAssetListRent();
-    }
-
-    /*장비 리스트 공용 장비*/
-    public List<AssetVo> getAssetListPublic() {
-        return assetMapper.getAssetListPublic();
-    }
-
-    /*장비 리스트 재고 장비*/
-    public List<AssetVo> getAssetListInput() {
-        return assetMapper.getAssetListInput();
-    }
-
-    /*장비 리스트 재고 노트북 장비*/
-    public List<AssetVo> getAssetListInputL() {
-        return assetMapper.getAssetListInputL();
-    }
-
-    /*장비 리스트 재고 장비*/
-    public List<AssetVo> getAssetListInputM() {
-        return assetMapper.getAssetListInputM();
-    }
-
-    /*장비 리스트 신규 장비*/
-    public List<AssetVo> getAssetListNew() {
-        return assetMapper.getAssetListNew();
-    }
-
-    /*장비 리스트 부산 재고*/
-    public List<AssetVo> getAssetListBusanInventory() {
-        return assetMapper.getAssetListBusanInventory();
-    }
-
-    /*오늘 업데이트 내역 조회*/
-    public List<AssetVo> getAssetListUpdateToday() {
-        return assetMapper.getAssetListUpdateToday();
-    }
-
-    /*searchAssetDetail 장비 리스트 조회 클라이언트 검색*/
-    public List<AssetVo> searchAssetList(String search, String searchType) {
-        return assetMapper.searchAssetList(search, searchType);
-    }
-
-    /*searchMemberList 부서 및 직원 장비 리스트 조회 클라이언트 검색*/
-    public List<AssetVo> searchMemberList(String searchMember) {
-        return assetMapper.searchMemberList(searchMember);
-    }
-
-    /*searchPaymentList 신규장비 및 전체 장비 지급일 리스트 조회 클라이언트 검색*/
-    public List<AssetVo> assetPaymentList(String searchStart, String searchEnd) {
-        return assetMapper.searchPaymentList(searchStart, searchEnd);
-    }
-
-    /*상단 간편검색 - 이력관리 조회*/
-    public List<AssetVo> historySearch(String navSearch) {
-        return assetMapper.getHistorySearch(navSearch);
-    }
-
 
     /*장비 정보 등록*/
     public void assetAdd(AssetVo assetVo) {
@@ -176,9 +175,12 @@ public class AssetService {
 
         // ✅ 테이블 이름 화이트리스트 검증
         Set<String> allowedTables = Set.of(
-                "asset_list_all", "asset_list_busan_inventory", "asset_list_input",
-                "asset_list_input_l", "asset_list_input_m", "asset_list_new", "asset_list_output",
-                "asset_list_output_work", "asset_list_public", "asset_list_rent", "asset_list_update_today", "asset_list_work"
+                "asset_list_all", "asset_list_busan", "asset_list_busan_inventory", "asset_list_input",
+                "asset_list_input_laptop", "asset_list_input_desktop", "asset_list_input_monitor",
+                "asset_list_new", "asset_list_output", "asset_list_output_laptop",
+                "asset_list_output_desktop", "asset_list_output_monitor", "asset_list_public",
+                "asset_list_rent", "asset_list_work", "asset_list_work_laptop",
+                "asset_list_work_desktop", "asset_list_work_monitor", "asset_list_update_today"
         );
 
         if (tableName == null || !allowedTables.contains(tableName)) {

@@ -34,42 +34,33 @@
 </head>
 
 <body>
-<div class="container-fluid" id="myDiv">
-    <div class="container-fluid" style="margin-top: 20px; margin-bottom: 10px;">
-        <div th:if="${message}" class="alert alert-success" role="alert">
-            <span th:text="${message}"></span>
-        </div>
-        <div th:if="${error}" class="alert alert-danger" role="alert">
-            <span th:text="${error}"></span>
-        </div>
+<div id="myDiv" class="container-fluid">
+    <div class="container">
+        <hr>
         <form th:action="@{/historyAdd}" th:object="${historyVo}" method="post">
             <div class="row align-items-start">
                 <div class="col">
-                    <h5>요청자 정보</h5>
-
+                    <h3>필수 입력 정보</h3>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyRequester}" required/>
-                        <label th:for="historyRequester">요청자(성명 기입) : </label>
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequester}"/>
+                        <label th:for="historyRequester">요청자(txt) : </label>
                     </div>
                     <div class="form-floating">
                         <input type="search" list="memberName" class="form-control mb-1"
-                               th:field="*{historyMemberId}" autofocus required/>
+                               th:field="*{historyMemberId}" autofocus/>
                         <datalist id="memberName">
                             <option th:each="m : ${memberList}" th:value="${m.memberId}"
-                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment}|">
+                                    th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} / ${m.memberDepartmentDetail}|">
                         </datalist>
                         <label th:for="historyMemberId">실 사용자(hmm####) </label>
                     </div>
-                </div>
-                <div class="col">
-                    <h5>요청 및 처리 일시</h5>
 
                     <div class="form-floating">
                         <input type="date"
                                class="form-control mb-1"
                                id="historyRequestDate"
                                name="historyRequestDate"
-                               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required/>
+                               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
                         <label for="historyRequestDate">요청 일시 :</label>
                     </div>
                     <div class="form-floating">
@@ -77,13 +68,32 @@
                                class="form-control mb-1"
                                id="historyCompletionDate"
                                name="historyCompletionDate"
-                               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required/>
+                               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
                         <label for="historyCompletionDate">처리 일시 :</label>
                     </div>
+                    <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">자산 이력
+                        등록
+                    </button>
+
+                </div>
+
+                <div class="col">
+                    <h3>요청 내용</h3>
+
                     <div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{historyType}" required>
-                            <option th:value="출고">출고</option>
+                        <select th:field="*{historyAssetNumber}" class="form-control mb-1">
                             <option value="">클릭 후 선택</option>
+                            <option th:each="type : ${T(hmm.itam.dto.AssetSupplies).values()}"
+                                    th:value="${type.code}"
+                                    th:text="${type.description}"></option>
+                        </select>
+                        <label class="form-check-label">소모품 선택</label>
+
+                    </div>
+                    <div class="form-floating">
+                        <select class="form-control mb-1" th:field="*{historyType}">
+                            <option value="">클릭 후 선택</option>
+                            <option th:value="출고">출고</option>
                             <option th:value="입고">입고</option>
                             <option th:value="고장">고장</option>
                             <option th:value="수리">수리</option>
@@ -91,25 +101,10 @@
                         </select>
                         <label th:for="historyType">이력 관리 구분(고장, 수리, 변경) : </label>
                     </div>
-                </div>
-
-                <div class="col">
-                    <h5>요청 내용</h5>
-
                     <div class="form-floating">
-                        <select th:field="*{historyAssetNumber}" class="form-control border-primary mb-1" required>
+                        <select class="form-control mb-1" th:field="*{historyAssetType}">
                             <option value="">클릭 후 선택</option>
-                            <option th:each="type : ${T(hmm.itam.dto.AssetSupplies).values()}"
-                                    th:value="${type.code}"
-                                    th:text="${type.description}"></option>
-                        </select>
-                        <label class="form-check-label">소모품 선택</label>
-                    </div>
-
-                    <div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{historyAssetType}" required>
                             <option th:value="소모품">소모품</option>
-                            <option value="">클릭 후 선택</option>
                             <option th:value="장비">장비</option>
                             <option th:value="기타">기타</option>
                         </select>
@@ -117,9 +112,9 @@
                         <label th:for="historyAssetType">이력 등록 품목(장비,소모품) : </label>
                     </div>
                     <div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{historyRequestUsage}" required>
-                            <option th:value="업무용">업무용</option>
+                        <select class="form-control mb-1" th:field="*{historyRequestUsage}">
                             <option value="">클릭 후 선택</option>
+                            <option th:value="업무용">업무용</option>
                             <option th:value="대여용">대여용</option>
                             <option th:value="공용">공용</option>
                             <option th:value="재고">재고</option>
@@ -128,16 +123,19 @@
                         </select>
                         <label th:for="historyRequestUsage">이력 관리 발생 용도 : </label>
                     </div>
+
+
                 </div>
+
                 <div class="col">
-                    <h5>작업 정보</h5>
+                    <h3>작업 정보</h3>
 
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyWorker}" required/>
+                        <input type="text" class="form-control mb-1" th:field="*{historyWorker}"/>
                         <label th:for="historyWorker">작업자 : </label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyRequestDetails}" required/>
+                        <input type="text" class="form-control mb-1" th:field="*{historyRequestDetails}"/>
                         <label th:for="historyRequestDetails">이력 관리 등록 내용 : </label>
                     </div>
                     <div class="form-floating">
@@ -145,15 +143,6 @@
                         <label th:for="historyRequestEtc">비고 내용(소모품 추가 지급) : </label>
                     </div>
                 </div>
-            </div>
-            <div class="mt-3">
-                <button type="submit" class="btn btn-primary mb-1" formaction="historyAdd" formmethod="post">자산 이력
-                    등록
-                </button>
-                <button type="submit" class="btn btn-secondary mb-1"
-                        formaction="/historyList" formmethod="post" formnovalidate>
-                    이력 관리 리스트 조회
-                </button>
             </div>
         </form>
     </div>
@@ -177,9 +166,6 @@
             <th>모델명</th>
             <th>요청 내용</th>
             <th>비고 내용</th>
-            <th>Code</th>
-            <th>수정</th>
-            <th>삭제</th>
         </tr>
         </thead>
         <tbody>
@@ -199,18 +185,6 @@
             <td th:text="${u.assetModelName}"></td>
             <td th:text="${u.historyRequestDetails}"></td>
             <td th:text="${u.historyRequestEtc}"></td>
-            <td th:text="${u.idx}"></td>
-            <td>
-                <a th:href="@{/historyEdit(idx=${u.idx})}" class="btn btn-sm btn-warning">수정</a>
-            </td>
-            <td>
-                <form th:action="@{/historyDelete}" method="post">
-                    <input type="hidden" name="idx" th:value="${u.idx}"/>
-                    <input type="hidden" name="historyAssetNumber" th:value="${u.historyAssetNumber}"/>
-                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제
-                    </button>
-                </form>
-            </td>
         </tr>
         </tbody>
     </table>

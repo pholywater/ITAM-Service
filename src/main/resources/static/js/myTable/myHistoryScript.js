@@ -82,8 +82,8 @@ $(document).ready(function () {
                     let endText = '';
 
                     if (!searchStart && !searchEnd) {
-                        startText = '검색 시작일 : <strong>2017-07-01</strong>';
-                        endText = '검색 종료일 : <strong>Today</strong>';
+                        startText = '검색 시작일 : <strong></strong>';
+                        endText = '검색 종료일 : <strong></strong>';
                     } else if (!searchStart && searchEnd) {
                         startText = `검색 시작일 : <strong>${searchEnd}</strong>`;
                         endText = `검색 종료일 : <strong>${searchEnd}</strong>`;
@@ -131,10 +131,10 @@ $(document).ready(function () {
                 { data: 11 }, // 장비번호
                 { data: 12 }, // 모델명
                 { data: 13 }, // 요청 내용
-                { data: 14 } // 비고 내용
-                // { data: 15 }, // 스펙1
-                // { data: 16 }, // 스펙2
-                // { data: 17 }, // 스펙3
+                { data: 14 }, // 비고 내용
+                { data: 15 }, // Code
+                { data: 16 }, // 수정
+                { data: 17 } // 삭제
                 // { data: 18 } // 기타
             ],
             responsive: false
