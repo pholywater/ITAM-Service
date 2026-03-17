@@ -30,7 +30,8 @@
                            th:value="${asset.assetNumber}" readonly/>
                     <label th:for="assetNumber">관리번호</label>
                 </div>
-                <div class="">
+                <!-- 장비 정보 수정 화면, 이력 등록 제거 -->
+                <!--<div class="">
                     <label class="form-check-label"></label>
                     <span class="form-check">
                         <input type="checkbox" name="historyCheck" id="historyCheck">
@@ -48,7 +49,7 @@
                         <option th:value="변경">변경</option>
 
                     </select>
-                    <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
+
                     <label th:for="historyAssetType">이력 관리(구분)</label>
                 </div>
                 <div class="form-floating">
@@ -57,7 +58,7 @@
                         <option th:value="소모품">소모품</option>
                         <option th:value="기타">기타</option>
                     </select>
-                    <!--<input type="text" class="form-control mb-1" th:field="*{historyAssetType}"/>-->
+
                     <label th:for="historyAssetType">장비,소모품(구분)</label>
                 </div>
                 <div class="form-floating">
@@ -76,16 +77,7 @@
                            th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
                     <label for="historyRequestDate">요청 일시</label>
                 </div>
-                <!--
-                <div class="form-floating">
-                    <input type="date" class="form-control mb-1" th:field="*{historyCompletionDate}"/>
-                    <label th:for="historyCompletionDate">처리 일시</label>
-                </div>
-                <div class="form-floating">
-                    <input type="date" class="form-control mb-1" th:field="*{historyRequestDate}"/>
-                    <label th:for="historyRequestDate">요청 일시</label>
-                </div>
-                -->
+
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyRequester}"/>
                     <label th:for="historyRequester">요청자(이력관리)</label>
@@ -108,11 +100,7 @@
                 <div class="form-floating">
                     <input type="text" class="form-control mb-1" th:field="*{historyRequestEtc}"/>
                     <label th:for="historyRequestEtc">비고 내용(소모품 or 위치)</label>
-                </div>
-                <!--<button type="button" class="btn btn-info mb-1" onClick="javascript:history.back(-1)"
-                >뒤로가기
-                </button>
-                -->
+                </div>-->
 
                 <button type="submit" class="btn btn-success mb-1" formaction="assetUpdateResult" formmethod="post">
                     업데이트

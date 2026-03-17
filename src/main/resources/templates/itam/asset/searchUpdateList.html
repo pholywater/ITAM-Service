@@ -31,9 +31,17 @@
             <div class="row">
                 <div class="col">
                     <h5>업데이트 장비 조회</h5>
-
+                    <!--<input type="hidden" th:field="*{historyAssetType}" value="장비">-->
+                    <div class="form-floating">
+                        <select class="form-control border-primary mb-1" th:field="*{historyAssetType}" required>
+                            <option th:value="장비">장비</option>
+                            <option th:value="소모품">소모품</option>
+                            <option th:value="기타">기타</option>
+                        </select>
+                        <label th:for="historyAssetType">장비,소모품(구분)</label>
+                    </div>
                     <!-- 검색 유형 선택 -->
-                    <div class="form-floating mb-2">
+                    <div class="form-floating mb-1">
                         <select id="searchType" name="searchType" class="form-control border-primary"
                                 th:field="*{searchType}">
                             <option value="member">직원 검색</option>
@@ -44,7 +52,7 @@
                     </div>
 
                     <!-- 키워드 검색 -->
-                    <div class="form-floating mb-2">
+                    <div class="form-floating mb-1">
                         <input type="search" list="memberName" class="form-control border-primary "
                                th:field="*{searchKeyword}"
                                id="searchKeyword"/>
@@ -54,39 +62,15 @@
                         </datalist>
                         <label for="searchKeyword">직원, 부서, 장비번호 검색</label>
                     </div>
-
-
-                    <!-- 버튼 -->
-                    <button type="submit" class="btn btn-primary mb-1" formnovalidate>검색 조회</button>
-                    <button type="submit" class="btn btn-secondary mb-1"
-                            formaction="/searchUpdatePage" formmethod="post" formnovalidate>
-                        재고 조회
-                    </button>
-
-
-                    <button type="submit" class="btn btn-success mb-1"
-                            formaction="searchAssetUpdate" formmethod="post">
-                        업데이트
-                    </button>
                 </div>
 
                 <div class="col">
                     <h5>필수 입력(장비 상태)</h5>
-                    <input type="hidden" th:field="*{historyAssetType}" value="장비">
-                    <!--<div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{historyAssetType}" required>
-                            <option th:value="장비">장비</option>
-                            <option th:value="소모품">소모품</option>
-                            <option th:value="기타">기타</option>
-                        </select>
-                        <label th:for="historyAssetType">장비,소모품(구분)</label>
-                    </div>-->
-
-                    <div class="form-floating">
-                        <select class="form-control border-primary mb-1" th:field="*{historyType}" required>
+                    <div class="form-floating mb-1">
+                        <select class="form-control border-primary" th:field="*{historyType}" required>
                             <option value="">클릭 후 선택</option>
                             <option value="출고">장비 출고</option>
-                            <option value="입고">장비 입고</option>
+                            <option value="입고">본사 입고</option>
                             <option value="변경">사용자 변경</option>
                             <option value="고장">장비 고장 입고</option>
                             <option value="수리">장비 유무상 수리</option>
@@ -95,8 +79,8 @@
                         <label th:for="historyType">이력 관리 등록</label>
                     </div>
 
-                    <div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{statusType}" required>
+                    <div class="form-floating mb-1">
+                        <select class="form-control" th:field="*{statusType}" required>
                             <option value="">클릭 후 선택</option>
                             <option value="출고">출고</option>
                             <option value="입고">입고</option>
@@ -109,44 +93,117 @@
 
 
                     <script>
-                        document.getElementById("historyType").addEventListener("change", function () {
-                            const historyValue = this.value;
-                            const statusSelect = document.getElementById("statusType");
-                            const statusAssetStatus = document.getElementById("statusAssetStatus");
-                            const historyRequestUsage = document.getElementById("historyRequestUsage");
-                            const historyMemberId = document.getElementById("historyMemberId");
+                        document.addEventListener('DOMContentLoaded', function () {
+                          // 요소 가져오기 (널 체크 방지용으로 존재 여부 확인)
+                          const historyType = document.getElementById("historyType");
+                          const statusSelect = document.getElementById("statusType");
+                          const statusAssetStatus = document.getElementById("statusAssetStatus");
+                          const historyRequestUsage = document.getElementById("historyRequestUsage");
+                          const historyMemberId = document.getElementById("historyMemberId");
+                          const statusMemberId = document.getElementById("statusMemberId"); // ⚠️ 기존 코드에 없던 변수 — 반드시 존재해야 함
+
+                          // 공통 로직을 함수로 분리
+                          function applyHistoryRules() {
+                            if (!historyType || !statusSelect || !statusAssetStatus || !historyRequestUsage) {
+                              // 필요한 요소가 없으면 중단
+                              return;
+                            }
+                            const historyValue = historyType.value || "";
 
                             if (historyValue === "출고" || historyValue === "변경") {
-                                statusSelect.value = "출고";
-                                statusAssetStatus.value = "양호";
-                                historyRequestUsage.value = "";
+                              statusSelect.value = "출고";
+                              statusAssetStatus.value = "양호";
+                              historyRequestUsage.value = "";
+                              if (statusMemberId && historyMemberId) {
+                                statusMemberId.value = historyMemberId.value; // 입력값을 상태의 사번에 반영
+                              }
+                            } else if (historyValue === "입고") {
+                              statusSelect.value = "입고";
+                              statusAssetStatus.value = "양호";
+                              historyRequestUsage.value = "재고";
+                              if (statusMemberId) {
+                                statusMemberId.value = "help14"; // 요구사항대로 고정값
+                              }
+                            } else if (historyValue === "고장") {
+                              statusSelect.value = "입고";
+                              statusAssetStatus.value = "불량";
+                              historyRequestUsage.value = "재고";
+                              // statusMemberId는 지정하지 않음(요구사항 유지)
+                            } else if (historyValue === "수리") {
+                              statusSelect.value = "입고";
+                              statusAssetStatus.value = "양호";
+                              historyRequestUsage.value = "재고";
+                            } else {
+                              // 초기화
+                              statusSelect.value = "";
+                              statusAssetStatus.value = "";
+                              historyRequestUsage.value = "";
+                              if (statusMemberId) statusMemberId.value = "";
                             }
-                            if (historyValue === "입고") {
-                                statusSelect.value = "입고";
-                                statusAssetStatus.value = "양호";
-                                historyRequestUsage.value = "재고";
-                            }
-                            if (historyValue === "고장") {
-                                statusSelect.value = "입고";
-                                statusAssetStatus.value = "불량";
-                                historyRequestUsage.value = "재고";
-                            }
-                            if (historyValue === "수리") {
-                                statusSelect.value = "입고";
-                                statusAssetStatus.value = "양호";
-                                historyRequestUsage.value = "재고";
-                            }
-                            if (historyValue === "") {
-                                statusSelect.value = "";
-                                statusAssetStatus.value = "";
-                                historyRequestUsage.value = "";
-                            }
+                          }
+
+                          // 1) historyType 변경 시 실행 (기존 동작 유지)
+                          if (historyType) {
+                            historyType.addEventListener("change", applyHistoryRules);
+                          }
+
+                          // 2) historyMemberId에 값을 입력/선택/삭제할 때마다 실행
+                          // datalist가 연결된 <input>은 'input' 이벤트로 모두 감지됩니다.
+                          if (historyMemberId) {
+                            historyMemberId.addEventListener("input", applyHistoryRules);
+                          }
+
+                          // (선택) 초기 로딩 시 한 번 적용하고 싶다면 아래 주석을 해제
+                          // applyHistoryRules();
                         });
+
                     </script>
 
 
-                    <div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{statusAssetStatus}" required>
+                    <!-- 아이디 사번 입력 input 이벤트 추가로 인한 비활성 주석처리
+                                        <script>
+                                            document.getElementById("historyType").addEventListener("change", function () {
+                                                const historyValue = this.value;
+                                                const statusSelect = document.getElementById("statusType");
+                                                const statusAssetStatus = document.getElementById("statusAssetStatus");
+                                                const historyRequestUsage = document.getElementById("historyRequestUsage");
+                                                const historyMemberId = document.getElementById("historyMemberId");
+                                                const statusMemberId = document.getElementById("statusMemberId");
+
+                                                if (historyValue === "출고" || historyValue === "변경") {
+                                                    statusSelect.value = "출고";
+                                                    statusAssetStatus.value = "양호";
+                                                    historyRequestUsage.value = "";
+                                                    statusMemberId.value = historyMemberId.value;
+                                                }
+                                                if (historyValue === "입고") {
+                                                    statusSelect.value = "입고";
+                                                    statusAssetStatus.value = "양호";
+                                                    historyRequestUsage.value = "재고";
+                                                    statusMemberId.value = "help14";
+                                                }
+                                                if (historyValue === "고장") {
+                                                    statusSelect.value = "입고";
+                                                    statusAssetStatus.value = "불량";
+                                                    historyRequestUsage.value = "재고";
+                                                }
+                                                if (historyValue === "수리") {
+                                                    statusSelect.value = "입고";
+                                                    statusAssetStatus.value = "양호";
+                                                    historyRequestUsage.value = "재고";
+                                                }
+                                                if (historyValue === "") {
+                                                    statusSelect.value = "";
+                                                    statusAssetStatus.value = "";
+                                                    historyRequestUsage.value = "";
+                                                }
+                                            });
+                                        </script>
+                    -->
+
+
+                    <div class="form-floating mb-1">
+                        <select class="form-control" th:field="*{statusAssetStatus}" required>
                             <option value="">클릭 후 선택</option>
                             <option th:value="양호">양호</option>
                             <option th:value="불량">불량</option>
@@ -160,8 +217,8 @@
                 </div>
                 <div class="col">
                     <h5>필수 입력(소유자 정보)</h5>
-                    <div class="form-floating">
-                        <select class="form-control mb-1" th:field="*{historyRequestUsage}" required>
+                    <div class="form-floating mb-1">
+                        <select class="form-control" th:field="*{historyRequestUsage}" required>
                             <option value="">클릭 후 선택</option>
                             <option th:value="업무용">업무용</option>
                             <option th:value="재고">재고</option>
@@ -173,50 +230,50 @@
                         <label th:for="historyRequestUsage">장비 용도</label>
                     </div>
 
-                    <div class="form-floating">
+                    <div class="form-floating mb-1">
                         <div class="form-floating">
-                            <input type="text" list="historyMemberName" class="form-control mb-1"
+                            <input type="text" list="historyMemberName" class="form-control"
                                    th:field="*{historyMemberId}" required/>
                             <datalist id="historyMemberName">
                                 <option th:each="m : ${memberList}" th:value="${m.memberId}"
                                         th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} |">
+                                </option>
                             </datalist>
                             <label th:for="historyMemberId">소유자(사원 번호 : 이력관리 기록용)</label>
                         </div>
                     </div>
 
-                    <div class="form-floating">
-                        <input type="text" list="statusMemberId" class="form-control mb-1"
+                    <div class="form-floating mb-1">
+                        <input type="text" list="statusMemberIdList" class="form-control"
                                th:field="*{statusMemberId}" required/>
-                        <datalist id="statusMemberId">
-                            <option value="help14" label="14층 / 헬프데스크">
+                        <datalist id="statusMemberIdList">
                             <option th:each="m : ${memberList}" th:value="${m.memberId}"
                                     th:label="|${m.memberName} / ${m.departmentFloor} / ${m.memberDepartment} |">
                         </datalist>
-                        <label th:for="statusMemberIdInput">소유자(사원 번호 : 실제 소유자 업데이트)</label>
+                        <label th:for="statusMemberId">소유자 자동입력(사원 번호 : 실제 소유자 업데이트)</label>
                     </div>
 
 
                 </div>
                 <div class="col">
                     <h5>필수 입력(요청 정보)</h5>
-                    <div class="form-floating">
+                    <div class="form-floating mb-1">
                         <input type="date"
-                               class="form-control mb-1"
+                               class="form-control"
                                id="historyRequestDate"
                                name="historyRequestDate"
                                th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
                         <label for="historyRequestDate">요청 일시</label>
                     </div>
-                    <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyRequester}"
+                    <div class="form-floating mb-1">
+                        <input type="text" class="form-control" th:field="*{historyRequester}"
                                required/>
                         <label th:for="historyRequester">요청자(이름 : 이력관리 기록용)</label>
                     </div>
 
 
-                    <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyRequestDetails}"
+                    <div class="form-floating mb-1">
+                        <input type="text" class="form-control" th:field="*{historyRequestDetails}"
                                required/>
                         <label th:for="historyRequestDetails">요청 내용</label>
                     </div>
@@ -225,23 +282,35 @@
                 <div class="col">
                     <h5>작업 정보</h5>
 
-                    <div class="form-floating">
+                    <div class="form-floating mb-1">
                         <input type="date"
-                               class="form-control mb-1"
+                               class="form-control"
                                id="historyCompletionDate"
                                name="historyCompletionDate"
                                th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
                         <label for="historyCompletionDate">처리 일시</label>
                     </div>
-                    <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyWorker}" required/>
+                    <div class="form-floating mb-1">
+                        <input type="text" class="form-control" th:field="*{historyWorker}" required/>
                         <label th:for="historyWorker">작업자(이력관리)</label>
                     </div>
-                    <div class="form-floating">
-                        <input type="text" class="form-control mb-1" th:field="*{historyRequestEtc}"/>
+                    <div class="form-floating mb-1">
+                        <input type="text" class="form-control" th:field="*{historyRequestEtc}"/>
                         <label th:for="historyRequestEtc">비고(기타 내용 or 대여 기간)</label>
                     </div>
                 </div>
+            </div>
+            <div class="form-floating mb-1">
+                <!-- 버튼 -->
+                <button type="submit" class="btn btn-primary" formnovalidate>검색 조회</button>
+                <button type="submit" class="btn btn-secondary"
+                        formaction="/searchUpdatePage" formmethod="post" formnovalidate>
+                    재고 조회
+                </button>
+                <button type="submit" class="btn btn-success"
+                        formaction="searchAssetUpdate" formmethod="post">
+                    업데이트
+                </button>
             </div>
 
             <hr/>

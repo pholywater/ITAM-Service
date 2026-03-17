@@ -59,15 +59,17 @@
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">장비 관리 메뉴</a>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/searchUpdatePage}">장비 입출고 관리(이력 포함)</a></li>
+
+                                <li>
+                                    <hr class="dropdown-divider"/>
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{assetSearch}">장비 정보 관리(조회 및 수정)</a></li>
+
+                                <li>
+                                    <hr class="dropdown-divider"/>
+                                </li>
                                 <li><a class="dropdown-item" th:href="@{assetAdd}">신규 장비 등록</a></li>
-                                <li><a class="dropdown-item" th:href="@{assetSearch}">장비 조회 및 수정</a></li>
-                                <li>
-                                    <hr class="dropdown-divider"/>
-                                </li>
-                                <li><a class="dropdown-item" th:href="@{/searchUpdatePage}">장비 입출고 등록</a></li>
-                                <li>
-                                    <hr class="dropdown-divider"/>
-                                </li>
                                 <li><a class="dropdown-item" th:href="@{/historyAddRepair}">수리 이력 등록</a></li>
                                 <li><a class="dropdown-item" th:href="@{/historyAdd}">기타 이력 등록</a></li>
                             </ul>
@@ -80,11 +82,16 @@
 
                         <!-- 장비 조회 메뉴 -->
                         <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">장비 조회 메뉴</a>
+                            <a class="dropdown-item dropdown-toggle" href="#">장비 현황 조회</a>
                             <ul class="dropdown-menu">
 
                                 <!-- 전체 장비 리스트 -->
                                 <li><a class="dropdown-item" href="#" onclick="submitAssetForm('All')">전체 장비 리스트</a>
+                                </li>
+                                <!-- 노후 장비 리스트 -->
+                                <li>
+                                    <a class="dropdown-item" th:href="@{searchPaymentList?searchStart=change}">노후
+                                        장비 리스트</a>
                                 </li>
 
                                 <!-- 출고 장비 리스트 -->
@@ -144,30 +151,59 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#" onclick="submitAssetForm('Busan')">부산 장비
                                             지급 리스트</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="submitAssetForm('InputLaptop')">부산
+                                        <li><a class="dropdown-item" href="#"
+                                               onclick="submitAssetForm('BusanInventory')">부산
                                             장비 재고 리스트</a></li>
                                     </ul>
                                 </li>
 
-                                <!-- 신규 장비 리스트 -->
+                                <!-- 연도별 신규 장비 지급 리스트 -->
 
+                                <li class="dropdown-submenu hover-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">신규 지급 리스트</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2026-01-01&searchEnd=2026-12-31}">신규
+                                            지급(2026)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2025-01-01&searchEnd=2025-12-31}">신규
+                                            지급(2025)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2024-01-01&searchEnd=2024-12-31}">신규
+                                            지급(2024)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2023-01-01&searchEnd=2023-12-31}">신규
+                                            지급(2023)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2022-01-01&searchEnd=2022-12-31}">신규
+                                            지급(2022)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2021-01-01&searchEnd=2021-12-31}">신규
+                                            지급(2021)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2020-01-01&searchEnd=2020-12-31}">신규
+                                            지급(2020)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2019-01-01&searchEnd=2019-12-31}">신규
+                                            지급(2019)</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{searchNewPaymentList?searchStart=2018-01-01&searchEnd=2018-12-31}">신규
+                                            지급(2018)</a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                                <!-- 기타 장비 리스트 -->
                                 <li class="dropdown-submenu hover-submenu">
                                     <a class="dropdown-item dropdown-toggle" href="#">기타 장비 리스트</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item"
-                                               th:href="@{searchNewPaymentList?searchStart=2025-01-01&searchEnd=}">신규 장비
-                                            지급
-                                            리스트(2025)</a></li>
-                                        <li><a class="dropdown-item" th:href="@{searchPaymentList?searchStart=change}">노후
-                                            장비 교체
-                                            리스트(2025)</a></li>
-
-                                        <!--
-                                        <li><a class="dropdown-item" th:href="@{searchPaymentList}">장비 지급일 리스트 조회</a>
-                                        </li>
-                                        -->
                                         <li><a class="dropdown-item" href="#" onclick="submitAssetForm('New')">신규 장비 미청구
                                             리스트</a>
                                         </li>

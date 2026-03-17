@@ -74,6 +74,15 @@ public class MemberController {
             return "redirect:memberAdd";
         }
         model.addAttribute("member", memberVo);
+
+        /*datalist 멤버 검색 자동완성*/
+        List<MemberVo> memberList = MemberService.getMemberList();
+        model.addAttribute("memberList", memberList);
+
+        /*datalist 부서 검색 자동완성*/
+        List<MemberVo> departmentList = MemberService.getDepartmentList();
+        model.addAttribute("departList", departmentList);
+
         return "itam/member/memberAdd"; // 자산 등록 후 보여질 화면
     }
 

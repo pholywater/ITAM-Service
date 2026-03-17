@@ -350,6 +350,7 @@
     </delete>
 
     <!--수정 (updateHistory)-->
+    <!--history_asset_etc1 = #{historyAssetEtc1} 듀얼 현황 삭제-->
     <update id="updateHistory" parameterType="hmm.itam.vo.HistoryVo">
         UPDATE asset_history
         SET
@@ -366,8 +367,7 @@
         history_spec1 = #{historySpec1},
         history_spec2 = #{historySpec2},
         history_spec3 = #{historySpec3},
-        history_request_usage = #{historyRequestUsage},
-        history_asset_etc1 = #{historyAssetEtc1}
+        history_request_usage = #{historyRequestUsage}
         WHERE idx = #{idx}
     </update>
 

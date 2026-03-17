@@ -191,7 +191,7 @@
         asset_model.model_type,
         asset_model.model_code
     </select>
-    
+
     <select id="getChartCount2" resultType="int">
         SELECT COUNT(*)
 
@@ -230,7 +230,8 @@
 
     <!--본사 및 전국 장비 지급 현황 표-->
     <select id="getTable1List" resultType="hmm.itam.vo.TableVo">
-        select department_location,
+        select department_region,
+        <!--select department_location,-->
         COUNT(case when asset_divestituer = '활성' then 1 end) as 'totalCount',
         COUNT(case when model_type = 'D' then 1 end) as 'desktop',
         COUNT(case when model_type = 'L' then 1 end) as 'laptop',
@@ -245,8 +246,13 @@
         where
         asset_divestituer = '활성' and status_type = '출고' and status_asset_usage != '재고'
         group by
+        department_region
+        order by field(department_region, '여의도','초량동','중앙동','마산','포항','압구정','브라질')
+        <!--
+        group by
         department_location
         order by field(department_location, '본사','부산','광양','마산','포항','해외')
+        -->
     </select>
 
     <!--용도별 장비 지급 현황 표-->
