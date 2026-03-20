@@ -1,5 +1,6 @@
 HELP.md
-.gradle
+git filter-repo --invert-paths --path .gradle/ --path .idea/
+
 src/main/resources/application.properties
 
 application.properties
